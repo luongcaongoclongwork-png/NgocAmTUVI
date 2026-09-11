@@ -11,7 +11,7 @@ const steps = [
 
 export default function ConsultationProcess() {
   return (
-    <section className="bg-ivory py-24 lg:py-32">
+    <section className="bg-parchment/60 py-24 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">

@@ -10,18 +10,18 @@ export default function Hero() {
       <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-20 pt-40 lg:px-10">
         <Reveal>
           <p className="tracking-label mb-6 text-[12px] font-medium uppercase text-parchment/90">
-            Ngọc Âm · Tử Vi · Phong Thuỷ
+            Hậu Nhân Khâm Thiên Giám Vua Minh Mạng · Triều Nguyễn
           </p>
         </Reveal>
         <Reveal delay={120}>
           <h1 className="max-w-3xl font-heading text-4xl leading-[1.15] text-ivory sm:text-5xl lg:text-6xl">
-            Hiểu mình. Thuận thế. Kiến tạo thịnh vượng.
+            Hiểu mình - Thuận thế - Vững bước.
           </h1>
         </Reveal>
         <Reveal delay={240}>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">
-            Từ sự quan sát, khai vấn và định hướng, tìm về sự hài hoà giữa
-            con người và hoàn cảnh.
+            Từ sự quan sát, khai vấn và định hướng. Tìm ra sự hài hoà giữa
+            con người và hoàn cảnh từ đó vượt qua những điều bất như ý.
           </p>
         </Reveal>
         <Reveal delay={360}>

@@ -45,7 +45,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="dich-vu" className="bg-parchment/60 py-24 lg:py-32">
+    <section id="dich-vu" className="bg-ivory py-24 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
@@ -61,7 +61,7 @@ export default function Services() {
         <div className="mt-14 grid gap-px overflow-hidden border border-walnut/15 bg-walnut/15 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, idx) => (
             <Reveal key={s.title} delay={(idx % 4) * 90} className="h-full">
-              <div className="flex h-full flex-col justify-between bg-ivory p-7">
+              <div className="flex h-full flex-col justify-between bg-parchment/40 p-7">
                 <div>
                   <h3 className="font-heading text-lg leading-snug text-ink">
                     {s.title}

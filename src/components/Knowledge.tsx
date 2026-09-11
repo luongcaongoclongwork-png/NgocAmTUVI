@@ -33,7 +33,7 @@ const articles = [
 
 export default function Knowledge() {
   return (
-    <section id="kien-thuc" className="bg-ivory py-24 lg:py-32">
+    <section id="kien-thuc" className="bg-parchment/60 py-24 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>

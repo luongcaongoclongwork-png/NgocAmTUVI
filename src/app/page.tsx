@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import CoreServices from "@/components/CoreServices";
+import Consultants from "@/components/Consultants";
 import Services from "@/components/Services";
 import ConsultationProcess from "@/components/ConsultationProcess";
 import About from "@/components/About";
@@ -17,6 +18,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <CoreServices />
+        <Consultants />
         <Services />
         <ConsultationProcess />
         <About />
