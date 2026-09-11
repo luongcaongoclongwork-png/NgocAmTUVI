@@ -1,27 +1,65 @@
-const columns = [
+import Link from "next/link";
+
+const columns: {
+  title: string;
+  href: string;
+  links: { label: string; href?: string }[];
+}[] = [
   {
     title: "Tử vi",
-    links: ["Lập lá số", "Khai vấn chuyên sâu", "Khai vấn toàn lá số", "Xem ngày giờ đẹp"],
+    href: "/tu-vi",
+    links: [
+      { label: "Lập lá số" },
+      { label: "Khai vấn chuyên sâu", href: "/tu-vi" },
+      { label: "Khai vấn toàn lá số", href: "/tu-vi" },
+      { label: "Xem ngày giờ đẹp", href: "/tu-vi" },
+    ],
   },
   {
     title: "Phong thuỷ",
-    links: ["Dương trạch", "Âm trạch", "Không gian sống", "Văn phòng / thương mại"],
+    href: "/phong-thuy",
+    links: [
+      { label: "Dương trạch", href: "/phong-thuy" },
+      { label: "Âm trạch", href: "/phong-thuy" },
+      { label: "Không gian sống", href: "/phong-thuy" },
+      { label: "Văn phòng / thương mại", href: "/phong-thuy" },
+    ],
   },
   {
     title: "Dịch vụ",
-    links: ["Bảng giá", "Đặt lịch tư vấn", "Câu hỏi thường gặp"],
+    href: "/dich-vu",
+    links: [
+      { label: "Bảng giá", href: "/dich-vu" },
+      { label: "Đặt lịch tư vấn", href: "/dich-vu" },
+    ],
   },
   {
     title: "Kiến thức",
-    links: ["Tử vi", "Phong thuỷ", "Phật học", "Văn hoá"],
+    href: "/kien-thuc",
+    links: [
+      { label: "Tử vi", href: "/kien-thuc" },
+      { label: "Phong thuỷ", href: "/kien-thuc" },
+      { label: "Phật học", href: "/phat-hoc" },
+      { label: "Văn hoá", href: "/kien-thuc" },
+    ],
   },
   {
     title: "Cửa hàng",
-    links: ["Ngọc phỉ thuý", "Ngọc hoà điền", "Đá phong thuỷ"],
+    href: "/cua-hang",
+    links: [
+      { label: "Ngọc phỉ thuý", href: "/cua-hang#ngoc-phi-thuy" },
+      { label: "Ngọc hoà điền", href: "/cua-hang#ngoc-hoa-dien" },
+      { label: "Đá phong thuỷ", href: "/cua-hang#da-phong-thuy" },
+    ],
   },
   {
     title: "Về Ngọc Âm",
-    links: ["Câu chuyện thương hiệu", "Đội ngũ khai vấn", "Liên hệ"],
+    href: "/ve-ngoc-am",
+    links: [
+      { label: "Câu chuyện thương hiệu", href: "/ve-ngoc-am" },
+      { label: "Đội ngũ khai vấn", href: "/ve-ngoc-am" },
+      { label: "Liên hệ", href: "/#lien-he" },
+    ],
   },
 ];
 
@@ -70,20 +108,32 @@ export default function Footer() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {columns.map((col) => (
               <div key={col.title}>
-                <h4 className="tracking-label text-[11px] font-semibold uppercase text-gold">
+                <Link
+                  href={col.href}
+                  className="tracking-label text-[11px] font-semibold uppercase text-gold transition-colors hover:text-ivory"
+                >
                   {col.title}
-                </h4>
+                </Link>
                 <ul className="mt-4 space-y-2.5">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-sm text-ivory/75 transition-colors hover:text-ivory"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
+                  {col.links.map((link) =>
+                    link.href ? (
+                      <li key={link.label}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-ivory/75 transition-colors hover:text-ivory"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ) : (
+                      <li key={link.label} className="text-sm text-ivory/40">
+                        {link.label}{" "}
+                        <span className="text-[10px] uppercase text-gold/60">
+                          sắp ra mắt
+                        </span>
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
             ))}

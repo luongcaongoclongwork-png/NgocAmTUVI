@@ -1,0 +1,35 @@
+import type { Metadata } from "next";
+import PageBanner from "@/components/PageBanner";
+import ArticleCard from "@/components/ArticleCard";
+import CtaBand from "@/components/CtaBand";
+import { articles } from "@/data/articles";
+
+export const metadata: Metadata = {
+  title: "Ngọc Âm Kiến Thức",
+  description:
+    "Tử Vi, Phong Thuỷ, Phật học, văn hoá và phát triển nội lực — tri thức phương Đông đọc theo nhịp sống hiện đại.",
+};
+
+export default function KienThucPage() {
+  return (
+    <>
+      <PageBanner
+        eyebrow="Ngọc Âm Kiến Thức"
+        heading="Tri thức phương Đông, đọc theo nhịp sống hiện đại."
+        description="Những bài viết ngắn gọn về Tử Vi, Phong Thuỷ, Phật học và văn hoá — không phải để tin ngay, mà để suy ngẫm."
+      />
+
+      <section className="bg-ivory py-20 lg:py-24">
+        <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {articles.map((a, idx) => (
+              <ArticleCard key={a.slug} article={a} delay={(idx % 3) * 90} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <CtaBand />
+    </>
+  );
+}

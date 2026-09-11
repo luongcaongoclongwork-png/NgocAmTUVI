@@ -6,9 +6,9 @@ const NAV_ITEMS: { label: string; href?: string }[] = [
   { label: "Tử vi", href: "/tu-vi" },
   { label: "Phong thuỷ", href: "/phong-thuy" },
   { label: "Dịch vụ", href: "/dich-vu" },
-  { label: "Phật học" },
-  { label: "Kiến thức" },
-  { label: "Cửa hàng" },
+  { label: "Phật học", href: "/phat-hoc" },
+  { label: "Kiến thức", href: "/kien-thuc" },
+  { label: "Cửa hàng", href: "/cua-hang" },
   { label: "Về Ngọc Âm", href: "/ve-ngoc-am" },
   { label: "Liên hệ", href: "/#lien-he" },
 ];
