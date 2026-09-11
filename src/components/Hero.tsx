@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { HeroMountainScape } from "./illustrations";
 import Reveal from "./Reveal";
 
@@ -26,18 +27,18 @@ export default function Hero() {
         </Reveal>
         <Reveal delay={360}>
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="#dich-vu"
+            <Link
+              href="/dich-vu"
               className="tracking-label bg-gold px-7 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
             >
               Khám phá tư vấn
-            </a>
-            <a
-              href="#ve-ngoc-am"
+            </Link>
+            <Link
+              href="/ve-ngoc-am"
               className="tracking-label border border-ivory/60 px-7 py-3.5 text-[11px] font-semibold uppercase text-ivory transition-colors hover:border-gold hover:text-gold"
             >
               Tìm hiểu Ngọc Âm
-            </a>
+            </Link>
           </div>
         </Reveal>
       </div>

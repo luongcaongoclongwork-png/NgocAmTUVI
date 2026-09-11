@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CourtyardScene, StudyDeskScene } from "./illustrations";
 import Reveal from "./Reveal";
 
@@ -7,6 +8,7 @@ const pillars = [
     eyebrow: "Tử Vi Xuyên Tam Diệm",
     words: ["Khai vấn", "Định hướng", "Phát triển nội lực", "Chuyển hoá điều bất như ý"],
     cta: "Tìm hiểu Khai vấn Tử Vi",
+    href: "/tu-vi",
     Art: StudyDeskScene,
   },
   {
@@ -14,6 +16,7 @@ const pillars = [
     eyebrow: "Phong Thuỷ Là Tịnh",
     words: ["Quan sát", "Tịnh hoá", "Hài hoà", "Tự chủ", "Thịnh vượng chân thật"],
     cta: "Tìm hiểu Tư vấn Phong Thuỷ",
+    href: "/phong-thuy",
     Art: CourtyardScene,
   },
 ];
@@ -52,13 +55,13 @@ export default function CoreServices() {
                   ))}
                 </ul>
 
-                <a
-                  href="#dich-vu"
+                <Link
+                  href={p.href}
                   className="tracking-label mt-8 inline-flex w-fit items-center gap-2 border-b border-gold pb-1 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
                 >
                   {p.cta}
                   <span aria-hidden="true">→</span>
-                </a>
+                </Link>
               </article>
             </Reveal>
           ))}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Reveal from "./Reveal";
 
 export default function CtaBand() {
@@ -23,18 +24,18 @@ export default function CtaBand() {
         </Reveal>
         <Reveal delay={120}>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#dich-vu"
+            <Link
+              href="/dich-vu"
               className="tracking-label bg-gold px-8 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
             >
               Đặt lịch tư vấn
-            </a>
-            <a
-              href="#dich-vu"
+            </Link>
+            <Link
+              href="/dich-vu"
               className="tracking-label border border-ivory/50 px-8 py-3.5 text-[11px] font-semibold uppercase text-ivory transition-colors hover:border-gold hover:text-gold"
             >
               Tìm hiểu dịch vụ
-            </a>
+            </Link>
           </div>
         </Reveal>
       </div>

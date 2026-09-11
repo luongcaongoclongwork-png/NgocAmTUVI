@@ -1,14 +1,16 @@
-const NAV_ITEMS = [
-  { label: "Trang chủ", href: "#" },
-  { label: "Lập lá số", href: "#lap-la-so" },
-  { label: "Tử vi", href: "#tu-vi" },
-  { label: "Phong thuỷ", href: "#phong-thuy" },
-  { label: "Dịch vụ", href: "#dich-vu" },
-  { label: "Phật học", href: "#phat-hoc" },
-  { label: "Kiến thức", href: "#kien-thuc" },
-  { label: "Cửa hàng", href: "#cua-hang" },
-  { label: "Về Ngọc Âm", href: "#ve-ngoc-am" },
-  { label: "Liên hệ", href: "#lien-he" },
+import Link from "next/link";
+
+const NAV_ITEMS: { label: string; href?: string }[] = [
+  { label: "Trang chủ", href: "/" },
+  { label: "Lập lá số" },
+  { label: "Tử vi", href: "/tu-vi" },
+  { label: "Phong thuỷ", href: "/phong-thuy" },
+  { label: "Dịch vụ", href: "/dich-vu" },
+  { label: "Phật học" },
+  { label: "Kiến thức" },
+  { label: "Cửa hàng" },
+  { label: "Về Ngọc Âm", href: "/ve-ngoc-am" },
+  { label: "Liên hệ", href: "/#lien-he" },
 ];
 
 function SearchIcon() {
@@ -33,7 +35,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-walnut/10 bg-ivory/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
-        <a href="#" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold text-gold">
             <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
               <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -44,18 +46,31 @@ export default function Header() {
           <span className="font-heading text-lg tracking-[0.2em] text-ink">
             NGỌC ÂM
           </span>
-        </a>
+        </Link>
 
-        <nav className="hidden flex-1 justify-center gap-6 xl:flex">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="tracking-label text-[11px] font-medium uppercase text-walnut/80 transition-colors hover:text-gold"
-            >
-              {item.label}
-            </a>
-          ))}
+        <nav className="hidden flex-1 justify-center gap-5 xl:flex">
+          {NAV_ITEMS.map((item) =>
+            item.href ? (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="tracking-label text-[11px] font-medium uppercase text-walnut/80 transition-colors hover:text-gold"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <span
+                key={item.label}
+                className="tracking-label flex items-center gap-1 text-[11px] font-medium uppercase text-walnut/35"
+                title="Sắp ra mắt"
+              >
+                {item.label}
+                <span className="text-[8px] normal-case text-gold/70">
+                  sắp ra mắt
+                </span>
+              </span>
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-4 text-walnut/80">
@@ -65,12 +80,12 @@ export default function Header() {
           <button aria-label="Tài khoản" className="hidden transition-colors hover:text-gold sm:block">
             <AccountIcon />
           </button>
-          <a
-            href="#dich-vu"
+          <Link
+            href="/dich-vu"
             className="tracking-label border border-walnut px-4 py-2 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold hover:text-gold"
           >
             Đặt lịch
-          </a>
+          </Link>
         </div>
       </div>
     </header>
