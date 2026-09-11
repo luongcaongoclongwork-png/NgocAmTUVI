@@ -1,6 +1,6 @@
 import Reveal from "./Reveal";
 
-const services = [
+const tuViServices = [
   {
     title: "Phiên khai vấn chuyên sâu một vấn đề",
     desc: "Đào sâu một chủ đề cụ thể trong lá số — sự nghiệp, tình duyên, sức khoẻ hoặc một quyết định bạn đang cân nhắc.",
@@ -16,6 +16,9 @@ const services = [
     desc: "Đối chiếu hai lá số trong cùng một giai đoạn — phù hợp cho vợ chồng, đối tác hoặc các quyết định chung.",
     price: "3.500.000",
   },
+];
+
+const phongThuyServices = [
   {
     title: "Tư vấn Phong Thuỷ văn phòng / thương mại",
     desc: "Quan sát và điều chỉnh không gian làm việc, kinh doanh để hài hoà dòng khí và nhịp vận hành.",
@@ -43,6 +46,50 @@ const services = [
   },
 ];
 
+function ServiceCard({
+  title,
+  desc,
+  price,
+  delay,
+}: {
+  title: string;
+  desc: string;
+  price: string;
+  delay: number;
+}) {
+  return (
+    <Reveal delay={delay}>
+      <div className="flex flex-col justify-between border-t border-walnut/15 py-7 first:border-t-0 sm:flex-row sm:items-start sm:gap-10">
+        <div className="sm:max-w-sm">
+          <h3 className="font-heading text-lg leading-snug text-ink">
+            {title}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-ink/70">{desc}</p>
+        </div>
+        <div className="mt-6 flex items-end justify-between gap-6 sm:mt-0 sm:flex-col sm:items-end sm:text-right">
+          <div>
+            <p className="tracking-label text-[10px] uppercase text-bronze">
+              Từ
+            </p>
+            <p className="font-heading text-lg text-walnut">
+              {price}
+              {price !== "Liên hệ" && (
+                <span className="ml-1 text-xs text-bronze"> đ</span>
+              )}
+            </p>
+          </div>
+          <a
+            href="#lien-he"
+            className="tracking-label border-b border-gold pb-0.5 text-[10px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
+          >
+            Đặt lịch
+          </a>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 export default function Services() {
   return (
     <section id="dich-vu" className="bg-ivory py-24 lg:py-32">
@@ -58,40 +105,32 @@ export default function Services() {
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden border border-walnut/15 bg-walnut/15 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((s, idx) => (
-            <Reveal key={s.title} delay={(idx % 4) * 90} className="h-full">
-              <div className="flex h-full flex-col justify-between bg-parchment/40 p-7">
-                <div>
-                  <h3 className="font-heading text-lg leading-snug text-ink">
-                    {s.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-ink/70">
-                    {s.desc}
-                  </p>
-                </div>
-                <div className="mt-8 flex items-end justify-between border-t border-walnut/10 pt-5">
-                  <div>
-                    <p className="tracking-label text-[10px] uppercase text-bronze">
-                      Từ
-                    </p>
-                    <p className="font-heading text-lg text-walnut">
-                      {s.price}
-                      {s.price !== "Liên hệ" && (
-                        <span className="ml-1 text-xs text-bronze"> đ</span>
-                      )}
-                    </p>
-                  </div>
-                  <a
-                    href="#lien-he"
-                    className="tracking-label border-b border-gold pb-0.5 text-[10px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
-                  >
-                    Đặt lịch
-                  </a>
-                </div>
-              </div>
+        <div className="mt-16 grid gap-x-16 gap-y-16 lg:grid-cols-2">
+          <div>
+            <Reveal>
+              <p className="tracking-label border-b border-walnut/20 pb-4 text-[13px] font-semibold uppercase text-walnut">
+                Khai vấn Tử Vi
+              </p>
             </Reveal>
-          ))}
+            <div>
+              {tuViServices.map((s, idx) => (
+                <ServiceCard key={s.title} {...s} delay={idx * 90} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <Reveal delay={60}>
+              <p className="tracking-label border-b border-walnut/20 pb-4 text-[13px] font-semibold uppercase text-walnut">
+                Tư vấn Phong Thuỷ
+              </p>
+            </Reveal>
+            <div>
+              {phongThuyServices.map((s, idx) => (
+                <ServiceCard key={s.title} {...s} delay={idx * 90} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
