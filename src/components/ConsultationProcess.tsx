@@ -19,8 +19,9 @@ export default function ConsultationProcess({
     <section className="relative overflow-hidden bg-parchment/60 py-24 lg:py-32">
       {backdrop && (
         <SectionBackdrop
-          image="/images/25-homepage-phong-thuy-son-thuy.webp"
+          image="/images/04-trai-nghiem-khai-van.png"
           tint="bg-parchment/78"
+          position="bottom"
         />
       )}
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">

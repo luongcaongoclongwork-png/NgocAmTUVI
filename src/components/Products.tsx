@@ -9,8 +9,9 @@ export default function Products() {
   return (
     <section id="cua-hang" className="relative overflow-hidden bg-walnut/5 py-24 lg:py-32">
       <SectionBackdrop
-        image="/images/18-tuyen-lam-tinh-suong-3d.webp"
-        tint="bg-ivory/80"
+        image="/images/08-vat-pham-ngoc-am.png"
+        tint="bg-ivory/85"
+        position="top"
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6">

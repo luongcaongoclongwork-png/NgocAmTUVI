@@ -6,24 +6,14 @@ export default function CtaBand() {
   return (
     <section id="lien-he" className="relative overflow-hidden bg-walnut py-24 lg:py-28">
       <Image
-        src="/images/14-song-huong-binh-minh-3d.webp"
+        src="/images/06-dat-lich-mac-tram.png"
         alt=""
         fill
         sizes="100vw"
-        className="object-cover"
+        className="pointer-events-none object-cover"
+        style={{ objectPosition: "bottom" }}
       />
-      <div className="absolute inset-0 bg-walnut/72" />
-      <svg
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full opacity-25"
-        viewBox="0 0 1440 200"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M0,150 L160,90 340,140 540,70 740,130 940,80 1140,140 1320,90 1440,120 L1440,200 L0,200 Z"
-          fill="#af8a50"
-        />
-      </svg>
+      <div className="pointer-events-none absolute inset-0 bg-walnut/20" />
 
       <div className="relative mx-auto max-w-[1000px] px-6 text-center lg:px-10">
         <Reveal>

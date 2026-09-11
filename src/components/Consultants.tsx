@@ -7,13 +7,14 @@ export default function Consultants() {
   return (
     <section className="relative overflow-hidden bg-parchment/60 py-24 lg:py-32">
       <SectionBackdrop
-        image="/images/01-hero-ngoc-am.webp"
+        image="/images/02-truyen-nhan-khai-van.png"
         tint="bg-parchment/78"
+        position="right bottom"
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
-            Đội ngũ khai vấn
+            Truyền nhân khai vấn
           </p>
         </Reveal>
         <Reveal delay={80}>

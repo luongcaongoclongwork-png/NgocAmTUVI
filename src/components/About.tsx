@@ -7,8 +7,9 @@ export default function About({ backdrop = false }: { backdrop?: boolean }) {
     <section id="ve-ngoc-am" className="relative overflow-hidden bg-ivory py-24 lg:py-32">
       {backdrop && (
         <SectionBackdrop
-          image="/images/04-phong-thuy-dia-the.webp"
-          tint="bg-ivory/78"
+          image="/images/07-hau-nhan-kham-thien-giam.png"
+          tint="bg-ivory/92"
+          position="top"
         />
       )}
       <div className="relative z-10 mx-auto grid max-w-[1280px] gap-12 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">

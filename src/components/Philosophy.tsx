@@ -11,8 +11,9 @@ export default function Philosophy() {
   return (
     <section className="relative overflow-hidden bg-ivory py-24 lg:py-32">
       <SectionBackdrop
-        image="/images/09-trang-an-son-thuy-3d.webp"
+        image="/images/05-tinh-than-ngoc-am.png"
         tint="bg-ivory/78"
+        position="bottom"
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 text-center lg:px-10">
         <Reveal>

@@ -10,18 +10,21 @@
   --na-paper: #f6eedf;
   --na-paper-light: #fbf7f0;
 
-  --na-ink: #302219;
-  --na-ink-soft: #5b4839;
+  --na-ink: #241a12;
+  --na-ink-soft: #4a3626;
 
   --na-cinnabar: #a34531;
-  --na-cinnabar-dark: #813425;
+  --na-cinnabar-dark: #7c2f1f;
 
-  --na-gold: #aa804a;
+  --na-gold: #93692f;
 
   --na-border: #c7b499;
   --na-border-dark: #92765a;
 
-  --na-muted: #897663;
+  /* Darkened from the original spec's muted tone — at 9-11px, the original
+     #897663 read as washed out against the paper background ("chim"
+     feedback 2026-09-13). Still clearly a tertiary tone next to --na-ink. */
+  --na-muted: #6f5c48;
 }
 
 /* ---------- Chart frame ---------- */
@@ -62,11 +65,11 @@
 
 .tuvi-palace {
   position: relative;
-  min-height: 180px;
+  min-height: 190px;
   height: 100%;
   width: 100%;
-  padding: 13px 15px 30px;
-  background: rgba(250, 245, 236, 0.4);
+  padding: 13px 16px 32px;
+  background: rgba(251, 247, 239, 0.62);
   border-right: 1px solid rgba(87, 62, 42, 0.38);
   border-bottom: 1px solid rgba(87, 62, 42, 0.38);
   color: var(--na-ink);
@@ -75,16 +78,16 @@
 }
 
 .tuvi-palace:hover {
-  background: rgba(250, 245, 236, 0.75);
+  background: rgba(251, 247, 239, 0.92);
 }
 
 .tuvi-palace--soul {
-  background: rgba(170, 128, 74, 0.1);
+  background: rgba(170, 128, 74, 0.16);
 }
 
 .tuvi-palace[data-selected="true"] {
   z-index: 5;
-  background: rgba(177, 128, 65, 0.065);
+  background: rgba(177, 128, 65, 0.14);
   box-shadow: inset 0 0 0 1.5px var(--na-gold);
 }
 
@@ -112,7 +115,7 @@
 
 .palace-branch {
   font-family: var(--font-heading);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--na-ink-soft);
@@ -120,8 +123,9 @@
 
 .palace-name {
   font-family: var(--font-heading);
-  font-size: 13px;
+  font-size: 15.5px;
   font-weight: 700;
+  letter-spacing: 0.015em;
   text-align: center;
   color: var(--na-cinnabar-dark);
   white-space: nowrap;
@@ -129,36 +133,37 @@
 
 .palace-index {
   text-align: right;
-  font-size: 11px;
+  font-size: 10.5px;
+  font-weight: 500;
   color: var(--na-muted);
 }
 
 .palace-main-stars {
-  margin-top: 12px;
+  margin-top: 13px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  min-height: 20px;
+  gap: 3px;
+  min-height: 22px;
 }
 
 .palace-main-stars--empty {
-  font-size: 12px;
+  font-size: 12.5px;
   font-style: italic;
-  color: rgba(137, 118, 99, 0.55);
+  color: var(--na-muted);
 }
 
 .main-star {
   font-family: var(--font-heading);
-  font-size: 14px;
-  line-height: 1.28;
-  font-weight: 600;
+  font-size: 17.5px;
+  line-height: 1.3;
+  font-weight: 700;
   color: var(--na-ink);
 }
 
 .main-star-tag {
   margin-left: 4px;
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   font-family: var(--font-body);
 }
 
@@ -167,33 +172,35 @@
 }
 
 .palace-minor-stars {
-  margin-top: 10px;
+  margin-top: 11px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 14px;
-  row-gap: 2px;
-  font-size: 10.5px;
-  line-height: 1.4;
+  row-gap: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
   color: var(--na-ink-soft);
 }
 
 .palace-adjective-stars {
-  margin-top: 6px;
-  font-size: 9px;
-  line-height: 1.5;
-  color: rgba(137, 118, 99, 0.75);
+  margin-top: 7px;
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--na-muted);
 }
 
 .palace-footer {
   position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 8px;
+  left: 16px;
+  right: 16px;
+  bottom: 9px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  font-size: 9.5px;
+  font-size: 10.5px;
+  font-weight: 500;
   color: var(--na-muted);
 }
 
@@ -204,7 +211,7 @@
   height: 100%;
   width: 100%;
   padding: 26px 36px 22px;
-  background: rgba(247, 239, 226, 0.54);
+  background: rgba(249, 243, 232, 0.72);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -260,19 +267,19 @@
 .chart-center-title {
   margin-top: 5px;
   font-family: var(--font-heading);
-  font-size: clamp(22px, 2vw, 28px);
+  font-size: clamp(24px, 2.2vw, 30px);
   line-height: 1.05;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--na-ink);
 }
 
 .chart-owner-name {
-  margin-top: 9px;
+  margin-top: 10px;
   text-align: center;
   font-family: var(--font-heading);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
-  color: var(--na-ink-soft);
+  color: var(--na-ink);
 }
 
 .center-divider {
@@ -295,24 +302,25 @@
 
 .center-info-row {
   display: grid;
-  grid-template-columns: 95px minmax(0, 1fr) minmax(90px, auto);
+  grid-template-columns: 100px minmax(0, 1fr) minmax(90px, auto);
   align-items: baseline;
   column-gap: 13px;
-  min-height: 22px;
-  padding: 2px 0;
+  min-height: 25px;
+  padding: 2.5px 0;
 }
 
 .center-info-label {
-  font-size: 9px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--na-muted);
 }
 
 .center-info-value {
   min-width: 0;
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--na-ink);
 }
 
@@ -320,22 +328,24 @@
   text-align: right;
   white-space: nowrap;
   font-family: var(--font-heading);
-  font-size: 11px;
-  color: var(--na-ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--na-cinnabar-dark);
 }
 
 .center-info-row--important .center-info-value {
   font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: var(--na-ink);
 }
 
 .center-relation {
-  margin: 3px 0 6px 108px;
-  font-size: 9.5px;
+  margin: 3px 0 6px 113px;
+  font-size: 10.5px;
   font-style: italic;
-  color: rgba(130, 105, 79, 0.9);
+  color: var(--na-ink-soft);
 }
 
 .center-tagline {
@@ -343,9 +353,9 @@
   padding-top: 12px;
   text-align: center;
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 11.5px;
   font-style: italic;
-  color: rgba(136, 113, 92, 0.85);
+  color: var(--na-muted);
 }
 
 /* ---------- Legend ---------- */
@@ -355,8 +365,9 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
-  padding: 10px 16px;
-  font-size: 10px;
+  padding: 11px 16px;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--na-muted);
   border-top: 1px solid rgba(88, 61, 38, 0.18);
 }

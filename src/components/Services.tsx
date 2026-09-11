@@ -8,8 +8,9 @@ export default function Services({ backdrop = false }: { backdrop?: boolean }) {
     <section id="dich-vu" className="relative overflow-hidden bg-ivory py-24 lg:py-32">
       {backdrop && (
         <SectionBackdrop
-          image="/images/27-homepage-phong-thuy-dia-the.webp"
+          image="/images/03-dich-vu-tu-van.png"
           tint="bg-ivory/78"
+          position="bottom"
         />
       )}
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">

@@ -10,15 +10,27 @@ export default function SectionBackdrop({
   image,
   alt = "",
   tint,
+  position = "center",
 }: {
   image: string;
   alt?: string;
   tint: string;
+  /** CSS object-position — bias the cover-crop toward whichever corner/edge holds the artwork's detail, so it survives narrow (mobile) crops. */
+  position?: string;
 }) {
   return (
     <>
-      <Image src={image} alt={alt} fill sizes="100vw" className="object-cover" />
-      <div className={`absolute inset-0 ${tint}`} />
+      <Image
+        src={image}
+        alt={alt}
+        fill
+        sizes="100vw"
+        className="pointer-events-none object-cover"
+        style={{ objectPosition: position }}
+      />
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div className={`absolute inset-0 ${tint}`} />
+      </div>
     </>
   );
 }
