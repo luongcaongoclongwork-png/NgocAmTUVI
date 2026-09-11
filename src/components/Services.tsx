@@ -16,6 +16,11 @@ const tuViServices = [
     desc: "Đối chiếu hai lá số trong cùng một giai đoạn — phù hợp cho vợ chồng, đối tác hoặc các quyết định chung.",
     price: "3.500.000",
   },
+  {
+    title: "Khai vấn Ngày / Giờ Hoàng Đạo",
+    desc: "Chọn ngày và giờ tốt cho các việc hệ trọng — khai trương, cưới hỏi, nhập trạch, xuất hành hoặc ký kết.",
+    price: "500.000",
+  },
 ];
 
 const phongThuyServices = [
