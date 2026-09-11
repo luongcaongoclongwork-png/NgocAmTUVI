@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
+import SectionBackdrop from "./SectionBackdrop";
 
 const pillars = [
   {
@@ -25,8 +26,12 @@ const pillars = [
 
 export default function CoreServices() {
   return (
-    <section className="bg-ivory py-24 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+    <section className="relative overflow-hidden bg-ivory py-24 lg:py-32">
+      <SectionBackdrop
+        image="/images/29-homepage-thuy-mac-song-huong.webp"
+        tint="bg-ivory/78"
+      />
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
             Hai trụ cột triết học

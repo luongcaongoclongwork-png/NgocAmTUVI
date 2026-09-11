@@ -26,9 +26,9 @@ export default function PageBanner({
             alt={imageAlt ?? ""}
             fill
             sizes="100vw"
-            className="object-cover opacity-[0.16]"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/75 to-parchment/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/80 to-parchment/45" />
         </>
       )}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-10">

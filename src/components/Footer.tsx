@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const columns: {
@@ -65,16 +66,6 @@ const columns: {
 
 const social = ["TikTok", "Facebook", "Instagram", "Email"];
 
-function SealMark() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden="true">
-      <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" strokeWidth="1" />
-      <line x1="7" y1="1.4" x2="7" y2="12.6" stroke="currentColor" strokeWidth="0.8" />
-      <line x1="1.4" y1="7" x2="12.6" y2="7" stroke="currentColor" strokeWidth="0.8" />
-    </svg>
-  );
-}
-
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-earth-brown text-ivory">
@@ -93,8 +84,14 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold text-gold">
-                <SealMark />
+              <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-ivory ring-1 ring-gold/50">
+                <Image
+                  src="/images/logo-mark.png"
+                  alt="Ngọc Âm"
+                  width={32}
+                  height={32}
+                  className="h-full w-full object-cover"
+                />
               </span>
               <span className="font-heading text-lg tracking-[0.2em]">NGỌC ÂM</span>
             </div>

@@ -10,9 +10,9 @@ export default function CtaBand() {
         alt=""
         fill
         sizes="100vw"
-        className="object-cover opacity-[0.14]"
+        className="object-cover"
       />
-      <div className="absolute inset-0 bg-walnut/70" />
+      <div className="absolute inset-0 bg-walnut/72" />
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full opacity-25"
         viewBox="0 0 1440 200"

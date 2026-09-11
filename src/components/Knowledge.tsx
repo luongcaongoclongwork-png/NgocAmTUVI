@@ -1,14 +1,19 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
 import ArticleCard from "./ArticleCard";
+import SectionBackdrop from "./SectionBackdrop";
 import { articles } from "@/data/articles";
 
 export default function Knowledge() {
   const featured = articles.slice(0, 4);
 
   return (
-    <section id="kien-thuc" className="bg-parchment/60 py-24 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+    <section id="kien-thuc" className="relative overflow-hidden bg-parchment/60 py-24 lg:py-32">
+      <SectionBackdrop
+        image="/images/06-thuy-mac-song-huong.webp"
+        tint="bg-parchment/78"
+      />
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <Reveal>

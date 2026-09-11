@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import SectionBackdrop from "./SectionBackdrop";
 
 const spirit = [
   { word: "Khương", desc: "Vững vàng để nuôi dưỡng chí hướng dài lâu." },
@@ -8,8 +9,12 @@ const spirit = [
 
 export default function Philosophy() {
   return (
-    <section className="bg-ivory py-24 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 text-center lg:px-10">
+    <section className="relative overflow-hidden bg-ivory py-24 lg:py-32">
+      <SectionBackdrop
+        image="/images/09-trang-an-son-thuy-3d.webp"
+        tint="bg-ivory/78"
+      />
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 text-center lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
             Tinh thần Ngọc Âm

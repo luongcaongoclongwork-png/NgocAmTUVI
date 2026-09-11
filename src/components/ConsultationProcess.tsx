@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import SectionBackdrop from "./SectionBackdrop";
 
 const steps = [
   { n: "01", label: "Lắng nghe", desc: "Thấu hiểu hoàn cảnh, mối bận tâm và câu hỏi thật sự của bạn." },
@@ -9,10 +10,20 @@ const steps = [
   { n: "06", label: "Chuyển hoá", desc: "Nhìn lại và điều chỉnh theo thời gian, để điều bất như ý trở thành bài học." },
 ];
 
-export default function ConsultationProcess() {
+export default function ConsultationProcess({
+  backdrop = false,
+}: {
+  backdrop?: boolean;
+}) {
   return (
-    <section className="bg-parchment/60 py-24 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+    <section className="relative overflow-hidden bg-parchment/60 py-24 lg:py-32">
+      {backdrop && (
+        <SectionBackdrop
+          image="/images/25-homepage-phong-thuy-son-thuy.webp"
+          tint="bg-parchment/78"
+        />
+      )}
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
             Trải nghiệm khai vấn

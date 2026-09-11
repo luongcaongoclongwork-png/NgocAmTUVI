@@ -2,12 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { StillLifeStone } from "./illustrations";
 import Reveal from "./Reveal";
+import SectionBackdrop from "./SectionBackdrop";
 import { productCategories } from "@/data/products";
 
 export default function Products() {
   return (
-    <section id="cua-hang" className="bg-walnut/5 py-24 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+    <section id="cua-hang" className="relative overflow-hidden bg-walnut/5 py-24 lg:py-32">
+      <SectionBackdrop
+        image="/images/18-tuyen-lam-tinh-suong-3d.webp"
+        tint="bg-ivory/80"
+      />
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <Reveal>

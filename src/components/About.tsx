@@ -1,10 +1,17 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
+import SectionBackdrop from "./SectionBackdrop";
 
-export default function About() {
+export default function About({ backdrop = false }: { backdrop?: boolean }) {
   return (
-    <section id="ve-ngoc-am" className="bg-ivory py-24 lg:py-32">
-      <div className="mx-auto grid max-w-[1280px] gap-12 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">
+    <section id="ve-ngoc-am" className="relative overflow-hidden bg-ivory py-24 lg:py-32">
+      {backdrop && (
+        <SectionBackdrop
+          image="/images/04-phong-thuy-dia-the.webp"
+          tint="bg-ivory/78"
+        />
+      )}
+      <div className="relative z-10 mx-auto grid max-w-[1280px] gap-12 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">
         <Reveal>
           <div className="relative h-[420px] w-full overflow-hidden border border-walnut/15">
             <Image

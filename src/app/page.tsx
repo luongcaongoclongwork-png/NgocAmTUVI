@@ -15,9 +15,9 @@ export default function Home() {
       <Hero />
       <CoreServices />
       <Consultants />
-      <Services />
-      <ConsultationProcess />
-      <About />
+      <Services backdrop />
+      <ConsultationProcess backdrop />
+      <About backdrop />
       <Knowledge />
       <Products />
       <Philosophy />

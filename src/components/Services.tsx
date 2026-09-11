@@ -1,11 +1,18 @@
 import Reveal from "./Reveal";
 import ServiceCard from "./ServiceCard";
+import SectionBackdrop from "./SectionBackdrop";
 import { tuViServices, phongThuyServices } from "@/data/services";
 
-export default function Services() {
+export default function Services({ backdrop = false }: { backdrop?: boolean }) {
   return (
-    <section id="dich-vu" className="bg-ivory py-24 lg:py-32">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+    <section id="dich-vu" className="relative overflow-hidden bg-ivory py-24 lg:py-32">
+      {backdrop && (
+        <SectionBackdrop
+          image="/images/27-homepage-phong-thuy-dia-the.webp"
+          tint="bg-ivory/78"
+        />
+      )}
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
             Dịch vụ tư vấn

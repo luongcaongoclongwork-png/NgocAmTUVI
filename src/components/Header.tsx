@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const NAV_ITEMS: { label: string; href?: string }[] = [
@@ -36,13 +37,13 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-walnut/10 bg-ivory/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
         <Link href="/" className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-gold text-gold">
-            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
-              <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" strokeWidth="1" />
-              <line x1="7" y1="1.4" x2="7" y2="12.6" stroke="currentColor" strokeWidth="0.8" />
-              <line x1="1.4" y1="7" x2="12.6" y2="7" stroke="currentColor" strokeWidth="0.8" />
-            </svg>
-          </span>
+          <Image
+            src="/images/logo-mark.png"
+            alt="Ngọc Âm"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+          />
           <span className="font-heading text-lg tracking-[0.2em] text-ink">
             NGỌC ÂM
           </span>
