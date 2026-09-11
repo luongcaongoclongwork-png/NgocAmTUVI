@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --ivory: #f4ebdd;
+  --parchment: #e8d7b9;
+  --beige: #d7c19c;
+  --earth-brown: #795a3a;
+  --walnut: #3e2b1e;
+  --ink: #25211b;
+  --gold: #af8a50;
+  --bronze: #80633e;
+  --sage: #7a8068;
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-parchment: var(--parchment);
+  --color-beige: var(--beige);
+  --color-earth-brown: var(--earth-brown);
+  --color-walnut: var(--walnut);
+  --color-ink: var(--ink);
+  --color-gold: var(--gold);
+  --color-bronze: var(--bronze);
+  --color-sage: var(--sage);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--ink);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.tracking-label {
+  letter-spacing: 0.18em;
+}

@@ -1,0 +1,43 @@
+import { StillLifeStone } from "./illustrations";
+import Reveal from "./Reveal";
+
+const categories = ["Ngọc Phỉ Thuý", "Ngọc Hoà Điền", "Đá Phong Thuỷ", "Đồ Phong Thuỷ"];
+
+export default function Products() {
+  return (
+    <section id="cua-hang" className="bg-walnut/5 py-24 lg:py-32">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+        <Reveal>
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+            Vật phẩm Ngọc Âm
+          </p>
+        </Reveal>
+        <Reveal delay={80}>
+          <h2 className="mt-3 max-w-xl font-heading text-3xl leading-tight text-ink sm:text-4xl">
+            Vật phẩm đồng hành, không phải trọng tâm.
+          </h2>
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/70">
+            Ngọc phỉ thuý, đá phong thuỷ và đồ phong thuỷ được Ngọc Âm tuyển
+            chọn như một phần mở rộng của hành trình tư vấn — không phải một
+            gian hàng.
+          </p>
+        </Reveal>
+
+        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((c, idx) => (
+            <Reveal key={c} delay={idx * 100}>
+              <a href="#cua-hang" className="group block">
+                <div className="aspect-square w-full overflow-hidden border border-walnut/15">
+                  <StillLifeStone className="h-full w-full transition-transform duration-700 group-hover:scale-105" />
+                </div>
+                <h3 className="tracking-label mt-5 text-[12px] font-semibold uppercase text-ink">
+                  {c}
+                </h3>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
