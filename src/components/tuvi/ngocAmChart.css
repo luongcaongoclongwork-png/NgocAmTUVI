@@ -1,0 +1,367 @@
+/**
+ * Presentation-only styling for the Tu Vi chart (frame, palace cells, Trung
+ * Cung owner panel). Scoped entirely under .ngoc-am-chart-root so these new
+ * tokens never bleed into the rest of the site's existing design system.
+ * No data, no calculation — see src/lib/tuvi/presentation/ownerViewModel.ts
+ * for where the (read-only) field mapping lives.
+ */
+
+.ngoc-am-chart-root {
+  --na-paper: #f6eedf;
+  --na-paper-light: #fbf7f0;
+
+  --na-ink: #302219;
+  --na-ink-soft: #5b4839;
+
+  --na-cinnabar: #a34531;
+  --na-cinnabar-dark: #813425;
+
+  --na-gold: #aa804a;
+
+  --na-border: #c7b499;
+  --na-border-dark: #92765a;
+
+  --na-muted: #897663;
+}
+
+/* ---------- Chart frame ---------- */
+
+.ngoc-am-chart-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.ngoc-am-chart {
+  position: relative;
+  min-width: 980px;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(rgba(248, 242, 231, 0.9), rgba(248, 242, 231, 0.9)), var(--na-paper);
+  border: 1px solid rgba(88, 61, 38, 0.58);
+  box-shadow: 0 10px 30px rgba(49, 34, 21, 0.06);
+}
+
+.ngoc-am-chart::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  pointer-events: none;
+  border: 1px solid rgba(170, 127, 70, 0.42);
+  z-index: 20;
+}
+
+.ngoc-am-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(180px, 1fr));
+}
+
+/* ---------- Palace cell ---------- */
+
+.tuvi-palace {
+  position: relative;
+  min-height: 180px;
+  height: 100%;
+  width: 100%;
+  padding: 13px 15px 30px;
+  background: rgba(250, 245, 236, 0.4);
+  border-right: 1px solid rgba(87, 62, 42, 0.38);
+  border-bottom: 1px solid rgba(87, 62, 42, 0.38);
+  color: var(--na-ink);
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.tuvi-palace:hover {
+  background: rgba(250, 245, 236, 0.75);
+}
+
+.tuvi-palace--soul {
+  background: rgba(170, 128, 74, 0.1);
+}
+
+.tuvi-palace[data-selected="true"] {
+  z-index: 5;
+  background: rgba(177, 128, 65, 0.065);
+  box-shadow: inset 0 0 0 1.5px var(--na-gold);
+}
+
+.tuvi-palace[data-emphasis="tam-hop"] {
+  z-index: 4;
+  box-shadow: inset 0 0 0 1.5px rgba(170, 128, 74, 0.55);
+}
+
+.tuvi-palace[data-emphasis="xung-chieu"] {
+  z-index: 4;
+  box-shadow: inset 0 0 0 1.5px var(--na-cinnabar);
+}
+
+.tuvi-palace[data-emphasis="giap-cung"] {
+  z-index: 4;
+  box-shadow: inset 0 0 0 1.5px rgba(69, 104, 76, 0.5);
+}
+
+.palace-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.palace-branch {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--na-ink-soft);
+}
+
+.palace-name {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--na-cinnabar-dark);
+  white-space: nowrap;
+}
+
+.palace-index {
+  text-align: right;
+  font-size: 11px;
+  color: var(--na-muted);
+}
+
+.palace-main-stars {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 20px;
+}
+
+.palace-main-stars--empty {
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(137, 118, 99, 0.55);
+}
+
+.main-star {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  line-height: 1.28;
+  font-weight: 600;
+  color: var(--na-ink);
+}
+
+.main-star-tag {
+  margin-left: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+
+.main-star-tag--brightness {
+  color: var(--na-muted);
+}
+
+.palace-minor-stars {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 14px;
+  row-gap: 2px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--na-ink-soft);
+}
+
+.palace-adjective-stars {
+  margin-top: 6px;
+  font-size: 9px;
+  line-height: 1.5;
+  color: rgba(137, 118, 99, 0.75);
+}
+
+.palace-footer {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 9.5px;
+  color: var(--na-muted);
+}
+
+/* ---------- Trung Cung (owner profile) ---------- */
+
+.center-palace {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 26px 36px 22px;
+  background: rgba(247, 239, 226, 0.54);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.035;
+}
+
+.center-watermark img {
+  width: 62%;
+  height: auto;
+}
+
+.center-seal {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  width: 30px;
+  height: 30px;
+  border: 1.4px solid var(--na-cinnabar);
+  color: var(--na-cinnabar);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.82;
+  transform: rotate(-3deg);
+}
+
+.chart-center-header {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.chart-center-brand {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--na-gold);
+}
+
+.chart-center-title {
+  margin-top: 5px;
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.05;
+  font-weight: 600;
+  color: var(--na-ink);
+}
+
+.chart-owner-name {
+  margin-top: 9px;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--na-ink-soft);
+}
+
+.center-divider {
+  height: 1px;
+  margin: 12px 0 10px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(137, 100, 63, 0.24) 12%,
+    rgba(137, 100, 63, 0.24) 88%,
+    transparent
+  );
+  flex-shrink: 0;
+}
+
+.center-info-group {
+  position: relative;
+  z-index: 1;
+}
+
+.center-info-row {
+  display: grid;
+  grid-template-columns: 95px minmax(0, 1fr) minmax(90px, auto);
+  align-items: baseline;
+  column-gap: 13px;
+  min-height: 22px;
+  padding: 2px 0;
+}
+
+.center-info-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na-muted);
+}
+
+.center-info-value {
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--na-ink);
+}
+
+.center-info-secondary {
+  text-align: right;
+  white-space: nowrap;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  color: var(--na-ink-soft);
+}
+
+.center-info-row--important .center-info-value {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--na-ink);
+}
+
+.center-relation {
+  margin: 3px 0 6px 108px;
+  font-size: 9.5px;
+  font-style: italic;
+  color: rgba(130, 105, 79, 0.9);
+}
+
+.center-tagline {
+  margin-top: auto;
+  padding-top: 12px;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(136, 113, 92, 0.85);
+}
+
+/* ---------- Legend ---------- */
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  font-size: 10px;
+  color: var(--na-muted);
+  border-top: 1px solid rgba(88, 61, 38, 0.18);
+}
+
+.chart-legend b {
+  color: var(--na-ink-soft);
+  font-weight: 600;
+}

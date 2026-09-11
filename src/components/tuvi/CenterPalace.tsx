@@ -1,36 +1,68 @@
+import Image from "next/image";
 import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
+import { getOwnerChartViewModel } from "@/lib/tuvi/presentation/ownerViewModel";
+import { InfoRow } from "./InfoRow";
+import "./ngocAmChart.css";
 
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-walnut/10 py-1 last:border-0">
-      <span className="tracking-label text-[9px] font-medium uppercase text-walnut/45">{label}</span>
-      <span className="text-right text-[12px] text-ink">{value}</span>
-    </div>
-  );
-}
+export default function CenterPalace({ chart, birthTime }: { chart: VietnameseChartDTO; birthTime?: string }) {
+  const vm = getOwnerChartViewModel(chart, birthTime);
 
-export default function CenterPalace({ chart }: { chart: VietnameseChartDTO }) {
   return (
-    <div className="flex h-full w-full flex-col justify-center gap-1 border border-walnut/20 bg-parchment/40 p-3 sm:p-4">
-      <div className="mb-1 text-center">
-        <p className="font-heading text-lg text-ink sm:text-xl">{chart.name || "Lá số Tử Vi"}</p>
-        <p className="tracking-label text-[10px] uppercase text-gold">{chart.gender}</p>
+    <div className="center-palace">
+      <div className="center-watermark" aria-hidden="true">
+        <Image src="/images/logo-mark.png" alt="" width={200} height={200} />
       </div>
 
-      <Row label="Dương lịch" value={chart.solarDate} />
-      <Row label="Âm lịch" value={chart.lunarDate} />
-      <Row
-        label="Tứ trụ"
-        value={`${chart.yearStem} ${chart.yearBranch}  ${chart.monthStem} ${chart.monthBranch}  ${chart.dayStem} ${chart.dayBranch}  ${chart.hourStem} ${chart.hourBranch}`}
-      />
-      <Row label="Ngũ Hành Cục" value={chart.fiveElementsClass} />
-      <Row label="Mệnh Chủ" value={chart.menhChu} />
-      <Row label="Thân Chủ" value={chart.thanChu} />
-      <Row label="Cung Mệnh" value={chart.soulPalaceBranch} />
-      <Row label="Cung Thân" value={chart.bodyPalaceBranch} />
-      {chart.laiNhanCung && <Row label="Lai Nhân Cung" value={chart.laiNhanCung} />}
-      <Row label="Tuần" value={`${chart.tuan.branches[0]} – ${chart.tuan.branches[1]}`} />
-      <Row label="Triệt" value={`${chart.triet.branches[0]} – ${chart.triet.branches[1]}`} />
+      <div className="center-seal" aria-hidden="true">
+        NA
+      </div>
+
+      <header className="chart-center-header">
+        <div className="chart-center-brand">NGỌC ÂM</div>
+        <h2 className="chart-center-title">LÁ SỐ TỬ VI</h2>
+        {vm.name && <div className="chart-owner-name">{vm.name}</div>}
+      </header>
+
+      <div className="center-divider" />
+
+      <div className="center-info-group">
+        <InfoRow label="Năm" value={vm.solarYear} secondary={vm.yearGanzhi} />
+        <InfoRow
+          label="Tháng"
+          value={vm.solarMonth !== undefined ? `${vm.solarMonth}${vm.lunarMonth !== undefined ? ` (${vm.lunarMonth}${vm.lunarIsLeap ? " nhuận" : ""})` : ""}` : undefined}
+          secondary={vm.monthGanzhi}
+        />
+        <InfoRow
+          label="Ngày"
+          value={vm.solarDay !== undefined ? `${vm.solarDay}${vm.lunarDay !== undefined ? ` (${vm.lunarDay})` : ""}` : undefined}
+          secondary={vm.dayGanzhi}
+        />
+        <InfoRow label="Giờ" value={vm.birthTime} secondary={vm.hourGanzhi} />
+      </div>
+
+      <div className="center-divider" />
+
+      <div className="center-info-group">
+        <InfoRow label="Cục" value={vm.bureau} emphasized />
+      </div>
+
+      <div className="center-divider" />
+
+      <div className="center-info-group">
+        <InfoRow label="Chủ mệnh" value={vm.destinyMaster} emphasized />
+        <InfoRow label="Chủ thân" value={vm.bodyMaster} emphasized />
+      </div>
+
+      <div className="center-divider" />
+
+      <div className="center-info-group">
+        <InfoRow label="Lai nhân cung" value={vm.originPalace} emphasized />
+        <InfoRow label="Cung Mệnh" value={vm.destinyPalace} />
+        <InfoRow label="Cung Thân" value={vm.bodyPalace} />
+        <InfoRow label="Thân cư" value={vm.bodyResidence} />
+      </div>
+
+      <p className="center-tagline">&ldquo;Mệnh do trời định, vận do tâm sinh.&rdquo;</p>
     </div>
   );
 }
