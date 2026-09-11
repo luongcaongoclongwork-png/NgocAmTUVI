@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import PageBanner from "@/components/PageBanner";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
@@ -68,12 +69,12 @@ export default function CuaHangPage() {
                     <p className="mt-2 text-sm leading-relaxed text-ink/65">
                       {item.desc}
                     </p>
-                    <a
+                    <Link
                       href="/#lien-he"
                       className="tracking-label mt-4 inline-block border-b border-gold pb-0.5 text-[10px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
                     >
                       Liên hệ để đặt
-                    </a>
+                    </Link>
                   </div>
                 </Reveal>
               ))}

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const NAV_ITEMS: { label: string; href?: string }[] = [
   { label: "Trang chủ", href: "/" },
-  { label: "Lập lá số" },
+  { label: "Lập lá số", href: "/lap-la-so" },
   { label: "Tử vi", href: "/tu-vi" },
   { label: "Phong thuỷ", href: "/phong-thuy" },
   { label: "Dịch vụ", href: "/dich-vu" },

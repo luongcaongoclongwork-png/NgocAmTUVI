@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Reveal from "./Reveal";
 import type { ServiceItem } from "@/data/services";
 
@@ -28,12 +29,12 @@ export default function ServiceCard({
               )}
             </p>
           </div>
-          <a
+          <Link
             href="/#lien-he"
             className="tracking-label border-b border-gold pb-0.5 text-[10px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
           >
             Đặt lịch
-          </a>
+          </Link>
         </div>
       </div>
     </Reveal>

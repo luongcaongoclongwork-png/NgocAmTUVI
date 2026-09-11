@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Reveal from "./Reveal";
 import { ROLE_TAGLINE, type Consultant } from "@/data/consultants";
 
@@ -45,13 +46,13 @@ export default function ConsultantProfile({
           <p className="mt-6 text-[15px] leading-relaxed text-ink/80">
             {consultant.bio}
           </p>
-          <a
+          <Link
             href="/#lien-he"
             className="tracking-label mt-8 inline-flex w-fit items-center gap-2 border-b border-gold pb-1 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
           >
             Đặt lịch khai vấn cùng {consultant.name}
             <span aria-hidden="true">→</span>
-          </a>
+          </Link>
         </Reveal>
       </div>
     </section>

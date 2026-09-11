@@ -10,6 +10,7 @@
   --gold: #af8a50;
   --bronze: #80633e;
   --sage: #7a8068;
+  --lacquer: #a13a2f;
 }
 
 @theme inline {
@@ -22,6 +23,7 @@
   --color-gold: var(--gold);
   --color-bronze: var(--bronze);
   --color-sage: var(--sage);
+  --color-lacquer: var(--lacquer);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
 }

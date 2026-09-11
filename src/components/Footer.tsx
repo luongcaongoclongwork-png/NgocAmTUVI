@@ -10,7 +10,7 @@ const columns: {
     title: "Tử vi",
     href: "/tu-vi",
     links: [
-      { label: "Lập lá số" },
+      { label: "Lập lá số", href: "/lap-la-so" },
       { label: "Khai vấn chuyên sâu", href: "/tu-vi" },
       { label: "Khai vấn toàn lá số", href: "/tu-vi" },
       { label: "Xem ngày giờ đẹp", href: "/tu-vi" },
