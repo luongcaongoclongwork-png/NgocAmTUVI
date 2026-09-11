@@ -1,9 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
 
 export default function CtaBand() {
   return (
     <section id="lien-he" className="relative overflow-hidden bg-walnut py-24 lg:py-28">
+      <Image
+        src="/images/14-song-huong-binh-minh-3d.webp"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover opacity-[0.14]"
+      />
+      <div className="absolute inset-0 bg-walnut/70" />
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 w-full opacity-25"
         viewBox="0 0 1440 200"

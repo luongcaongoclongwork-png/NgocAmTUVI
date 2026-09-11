@@ -1,14 +1,16 @@
-import type { ComponentType } from "react";
+import Image from "next/image";
 import Reveal from "./Reveal";
 import { ROLE_TAGLINE, type Consultant } from "@/data/consultants";
 
 export default function ConsultantProfile({
   consultant,
-  Art,
+  image,
+  imageAlt,
   reverse = false,
 }: {
   consultant: Consultant;
-  Art: ComponentType<{ className?: string }>;
+  image: string;
+  imageAlt: string;
   reverse?: boolean;
 }) {
   return (
@@ -19,8 +21,14 @@ export default function ConsultantProfile({
         }`}
       >
         <Reveal>
-          <div className="overflow-hidden border border-walnut/15">
-            <Art className="h-[420px] w-full" />
+          <div className="relative h-[420px] w-full overflow-hidden border border-walnut/15">
+            <Image
+              src={image}
+              alt={imageAlt}
+              fill
+              sizes="(min-width: 1024px) 560px, 100vw"
+              className="object-cover"
+            />
           </div>
         </Reveal>
 

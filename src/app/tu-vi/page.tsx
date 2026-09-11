@@ -5,7 +5,6 @@ import ConsultantProfile from "@/components/ConsultantProfile";
 import ServiceList from "@/components/ServiceList";
 import ConsultationProcess from "@/components/ConsultationProcess";
 import CtaBand from "@/components/CtaBand";
-import { StudyDeskScene } from "@/components/illustrations";
 import { tuViServices } from "@/data/services";
 import { consultants } from "@/data/consultants";
 
@@ -43,13 +42,19 @@ export default function TuViPage() {
         eyebrow="Tử Vi Xuyên Tam Diệm"
         heading="Không phải để biết trước, mà để hiểu rõ hơn."
         description="Tử Vi tại Ngọc Âm không dừng ở việc dự đoán. Đó là một công cụ khai vấn — giúp bạn nhìn rõ bản thân, hoàn cảnh và những chu kỳ đang vận hành, để chủ động hơn trên hành trình của chính mình."
+        image="/images/01-hero-ngoc-am.webp"
+        imageAlt="Phong cảnh núi non Việt Nam trong sương sớm"
       />
       <PhilosophyPillars
         eyebrow="Triết lý"
         heading="Bốn giai đoạn của một phiên khai vấn Tử Vi."
         pillars={pillars}
       />
-      <ConsultantProfile consultant={trang} Art={StudyDeskScene} />
+      <ConsultantProfile
+        consultant={trang}
+        image="/images/21-homepage-tu-vi-manuscript.webp"
+        imageAlt="Lá số Tử Vi viết tay trên bàn gỗ cổ"
+      />
       <ServiceList
         eyebrow="Dịch vụ"
         heading="Khai vấn Tử Vi"

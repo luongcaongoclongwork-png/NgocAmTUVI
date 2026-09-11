@@ -17,6 +17,8 @@ export default function DichVuPage() {
         eyebrow="Dịch vụ tư vấn"
         heading="Chọn phiên khai vấn phù hợp với điều bạn đang tìm kiếm."
         description="Mỗi phiên khai vấn tại Ngọc Âm được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn — không có câu trả lời soạn sẵn."
+        image="/images/27-homepage-phong-thuy-dia-the.webp"
+        imageAlt="Phong cảnh núi sông Việt Nam trong sương sớm"
       />
       <Services />
       <ConsultationProcess />

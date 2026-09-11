@@ -1,11 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
-import { HeroMountainScape } from "./illustrations";
 import Reveal from "./Reveal";
 
 export default function Hero() {
   return (
     <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-parchment">
-      <HeroMountainScape />
+      <Image
+        src="/images/20-homepage-hero-hue.webp"
+        alt="Pavilion cổ nhìn ra sông trong sương sớm"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
 
       <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-20 pt-40 lg:px-10">

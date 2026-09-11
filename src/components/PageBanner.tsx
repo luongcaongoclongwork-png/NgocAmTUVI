@@ -1,20 +1,37 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Reveal from "./Reveal";
 
 export default function PageBanner({
   eyebrow,
   heading,
   description,
+  image,
+  imageAlt,
   children,
 }: {
   eyebrow: string;
   heading: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
   children?: ReactNode;
 }) {
   return (
-    <section className="border-b border-walnut/10 bg-parchment/50 pb-16 pt-36 lg:pb-20 lg:pt-44">
-      <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
+    <section className="relative overflow-hidden border-b border-walnut/10 bg-parchment/50 pb-16 pt-36 lg:pb-20 lg:pt-44">
+      {image && (
+        <>
+          <Image
+            src={image}
+            alt={imageAlt ?? ""}
+            fill
+            sizes="100vw"
+            className="object-cover opacity-[0.16]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/75 to-parchment/40" />
+        </>
+      )}
+      <div className="relative mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
             {eyebrow}

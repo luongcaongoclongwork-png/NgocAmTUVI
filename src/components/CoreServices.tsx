@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { CourtyardScene, StudyDeskScene } from "./illustrations";
 import Reveal from "./Reveal";
 
 const pillars = [
@@ -9,7 +9,8 @@ const pillars = [
     words: ["Khai vấn", "Định hướng", "Phát triển nội lực", "Chuyển hoá điều bất như ý"],
     cta: "Tìm hiểu Khai vấn Tử Vi",
     href: "/tu-vi",
-    Art: StudyDeskScene,
+    image: "/images/21-homepage-tu-vi-manuscript.webp",
+    alt: "Lá số Tử Vi viết tay trên bàn gỗ cổ",
   },
   {
     id: "phong-thuy",
@@ -17,7 +18,8 @@ const pillars = [
     words: ["Quan sát", "Tịnh hoá", "Hài hoà", "Tự chủ", "Thịnh vượng chân thật"],
     cta: "Tìm hiểu Tư vấn Phong Thuỷ",
     href: "/phong-thuy",
-    Art: CourtyardScene,
+    image: "/images/26-homepage-phong-thuy-thuy-khi.webp",
+    alt: "Hành lang gỗ bên hồ nước trong sân nhà cổ",
   },
 ];
 
@@ -40,8 +42,14 @@ export default function CoreServices() {
           {pillars.map((p, idx) => (
             <Reveal key={p.id} delay={idx * 140}>
               <article id={p.id} className="flex h-full flex-col">
-                <div className="overflow-hidden border border-walnut/10">
-                  <p.Art className="h-64 w-full object-cover" />
+                <div className="relative h-64 w-full overflow-hidden border border-walnut/10">
+                  <Image
+                    src={p.image}
+                    alt={p.alt}
+                    fill
+                    sizes="(min-width: 1024px) 620px, 100vw"
+                    className="object-cover"
+                  />
                 </div>
                 <h3 className="mt-8 font-heading text-2xl text-ink">
                   {p.eyebrow}

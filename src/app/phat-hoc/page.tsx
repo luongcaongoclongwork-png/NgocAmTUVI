@@ -40,6 +40,8 @@ export default function PhatHocPage() {
         eyebrow="Phật học"
         heading="Một tinh thần nền, không phải một giáo lý áp đặt."
         description="Ngọc Âm không truyền đạo. Nhưng tinh thần Phật học — nhìn vạn sự vô thường, tôn trọng nhân quả, giữ sự tỉnh thức — là nền tảng cho cách chúng tôi khai vấn Tử Vi và tư vấn Phong Thuỷ."
+        image="/images/18-tuyen-lam-tinh-suong-3d.webp"
+        imageAlt="Hồ Tuyền Lâm tĩnh lặng trong sương sớm"
       />
       <PhilosophyPillars
         eyebrow="Tinh thần"

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
 import type { Article } from "@/data/articles";
@@ -12,7 +13,15 @@ export default function ArticleCard({
   return (
     <Reveal delay={delay}>
       <Link href={`/kien-thuc/${article.slug}`} className="group block">
-        <div className="aspect-[4/5] w-full overflow-hidden border border-walnut/10 bg-gradient-to-br from-beige to-parchment" />
+        <div className="relative aspect-[4/5] w-full overflow-hidden border border-walnut/10">
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            sizes="(min-width: 1024px) 300px, 50vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
         <p className="tracking-label mt-5 text-[10px] font-semibold uppercase text-gold">
           {article.category}
         </p>

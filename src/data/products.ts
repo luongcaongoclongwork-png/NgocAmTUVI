@@ -7,6 +7,8 @@ export type ProductCategory = {
   id: string;
   name: string;
   intro: string;
+  image?: string;
+  imageAlt?: string;
   items: Product[];
 };
 
@@ -16,6 +18,8 @@ export const productCategories: ProductCategory[] = [
     name: "Ngọc Phỉ Thuý",
     intro:
       "Tuyển chọn theo màu sắc và độ trong, phù hợp đeo hằng ngày hoặc lưu giữ lâu dài.",
+    image: "/images/24-homepage-jade-still-life.webp",
+    imageAlt: "Vòng tay và mặt Phỉ Thuý cùng lư hương đồng trên bàn gỗ",
     items: [
       { name: "Mặt Phỉ Thuý tròn", desc: "Dáng tròn cổ điển, phù hợp cả nam và nữ." },
       { name: "Vòng tay Phỉ Thuý", desc: "Đường kính theo số đo cổ tay, đánh bóng thủ công." },

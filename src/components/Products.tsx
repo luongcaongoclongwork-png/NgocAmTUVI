@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { StillLifeStone } from "./illustrations";
 import Reveal from "./Reveal";
@@ -39,8 +40,18 @@ export default function Products() {
           {productCategories.map((c, idx) => (
             <Reveal key={c.id} delay={idx * 100}>
               <Link href="/cua-hang" className="group block">
-                <div className="aspect-square w-full overflow-hidden border border-walnut/15">
-                  <StillLifeStone className="h-full w-full transition-transform duration-700 group-hover:scale-105" />
+                <div className="relative aspect-square w-full overflow-hidden border border-walnut/15">
+                  {c.image ? (
+                    <Image
+                      src={c.image}
+                      alt={c.imageAlt ?? c.name}
+                      fill
+                      sizes="(min-width: 1024px) 300px, 50vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <StillLifeStone className="h-full w-full transition-transform duration-700 group-hover:scale-105" />
+                  )}
                 </div>
                 <h3 className="tracking-label mt-5 text-[12px] font-semibold uppercase text-ink">
                   {c.name}

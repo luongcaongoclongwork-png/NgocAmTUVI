@@ -17,6 +17,8 @@ export default function KienThucPage() {
         eyebrow="Ngọc Âm Kiến Thức"
         heading="Tri thức phương Đông, đọc theo nhịp sống hiện đại."
         description="Những bài viết ngắn gọn về Tử Vi, Phong Thuỷ, Phật học và văn hoá — không phải để tin ngay, mà để suy ngẫm."
+        image="/images/09-trang-an-son-thuy-3d.webp"
+        imageAlt="Sông núi Tràng An trong sương sớm"
       />
 
       <section className="bg-ivory py-20 lg:py-24">

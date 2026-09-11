@@ -5,7 +5,6 @@ import PhilosophyPillars from "@/components/PhilosophyPillars";
 import ConsultantProfile from "@/components/ConsultantProfile";
 import ServiceList from "@/components/ServiceList";
 import CtaBand from "@/components/CtaBand";
-import { CourtyardScene } from "@/components/illustrations";
 import { phongThuyServices } from "@/data/services";
 import { consultants } from "@/data/consultants";
 
@@ -46,6 +45,8 @@ export default function PhongThuyPage() {
       <PageBanner
         eyebrow="Phong Thuỷ Là Tịnh"
         heading="Một nghệ thuật quan sát, không phải phép thuật."
+        image="/images/25-homepage-phong-thuy-son-thuy.webp"
+        imageAlt="Nhà cổ bên sông nhìn ra núi trong sương sớm"
       >
         <Reveal delay={220}>
           <blockquote className="mt-8 max-w-2xl border-l-2 border-gold pl-6 text-[15px] italic leading-relaxed text-bronze">
@@ -61,7 +62,12 @@ export default function PhongThuyPage() {
         heading="Năm nguyên lý của Phong Thuỷ Là Tịnh."
         pillars={pillars}
       />
-      <ConsultantProfile consultant={tinh} Art={CourtyardScene} reverse />
+      <ConsultantProfile
+        consultant={tinh}
+        image="/images/26-homepage-phong-thuy-thuy-khi.webp"
+        imageAlt="Hành lang gỗ bên hồ nước trong sân nhà cổ"
+        reverse
+      />
       <ServiceList
         eyebrow="Dịch vụ"
         heading="Tư vấn Phong Thuỷ"

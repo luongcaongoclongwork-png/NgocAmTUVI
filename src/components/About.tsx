@@ -1,4 +1,4 @@
-import { StudyDeskScene } from "./illustrations";
+import Image from "next/image";
 import Reveal from "./Reveal";
 
 export default function About() {
@@ -6,8 +6,14 @@ export default function About() {
     <section id="ve-ngoc-am" className="bg-ivory py-24 lg:py-32">
       <div className="mx-auto grid max-w-[1280px] gap-12 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">
         <Reveal>
-          <div className="overflow-hidden border border-walnut/15">
-            <StudyDeskScene className="h-[420px] w-full" />
+          <div className="relative h-[420px] w-full overflow-hidden border border-walnut/15">
+            <Image
+              src="/images/23-homepage-heritage-study.webp"
+              alt="Thư phòng cổ Việt Nam nhìn ra sân nhà"
+              fill
+              sizes="(min-width: 1024px) 560px, 100vw"
+              className="object-cover"
+            />
           </div>
         </Reveal>
 

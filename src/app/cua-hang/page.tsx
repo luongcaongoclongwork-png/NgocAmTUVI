@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PageBanner from "@/components/PageBanner";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
@@ -18,6 +19,8 @@ export default function CuaHangPage() {
         eyebrow="Vật phẩm Ngọc Âm"
         heading="Vật phẩm đồng hành, không phải trọng tâm."
         description="Mỗi vật phẩm tại Ngọc Âm đều đi kèm tư vấn trực tiếp — về chất liệu, ý nghĩa và cách sử dụng phù hợp với bản mệnh hoặc không gian của bạn. Đây không phải một gian hàng để chọn mua nhanh."
+        image="/images/06-thuy-mac-song-huong.webp"
+        imageAlt="Tranh thuỷ mặc sông núi Việt Nam"
       />
 
       {productCategories.map((cat, catIdx) => (
@@ -37,6 +40,20 @@ export default function CuaHangPage() {
                 {cat.intro}
               </p>
             </Reveal>
+
+            {cat.image && (
+              <Reveal delay={90}>
+                <div className="relative mt-8 h-64 w-full overflow-hidden border border-walnut/15 sm:h-80 lg:h-96">
+                  <Image
+                    src={cat.image}
+                    alt={cat.imageAlt ?? cat.name}
+                    fill
+                    sizes="(min-width: 1024px) 1200px, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+              </Reveal>
+            )}
 
             <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {cat.items.map((item, idx) => (
