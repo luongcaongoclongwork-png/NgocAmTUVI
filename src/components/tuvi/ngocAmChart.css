@@ -52,9 +52,18 @@
   /* Single blend layer only (see SectionBackdrop.tsx note on the site):
      the ink-wash backdrop sits at full opacity and the paper-colored
      gradient on top is the only thing controlling how much of it shows —
-     never fade both, it compounds and the art disappears. */
-  background-image: linear-gradient(rgba(248, 242, 231, 0.88), rgba(248, 242, 231, 0.88)), url("/images/parchment-bg.png");
-  background-size: auto, cover;
+     never fade both, it compounds and the art disappears.
+     - contain (not cover): the source art is a wide 2:1 landscape scene
+       (branch + lotus on the left, temple + sun on the right); cover would
+       crop a square chart down to the blank middle strip and lose exactly
+       the decorative parts. contain keeps the whole scene, letterboxed
+       into the paper color above/below.
+     - tint eased to 0.60 (was 0.88): palace cells sit on top with their
+       own ~0.5 paper wash (see .tuvi-palace below), so whatever survives
+       here gets faded a second time by design — needed real headroom or
+       the art reads as "chim" (sunk / barely there) once cells are on. */
+  background-image: linear-gradient(rgba(248, 242, 231, 0.6), rgba(248, 242, 231, 0.6)), url("/images/parchment-bg.png");
+  background-size: auto, contain;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
   background-color: var(--na-paper);
@@ -87,7 +96,11 @@
   height: 100%;
   width: 100%;
   padding: 13px 16px 32px;
-  background: rgba(251, 247, 239, 0.62);
+  /* Eased from 0.62 — this wash sits on top of .ngoc-am-chart's own
+     backdrop art and was the second half of why it read as "chim"; text
+     legibility is carried by --na-ink's contrast + color-mix on stars, not
+     by this wash being near-opaque. */
+  background: rgba(251, 247, 239, 0.48);
   border-right: 1px solid rgba(87, 62, 42, 0.38);
   border-bottom: 1px solid rgba(87, 62, 42, 0.38);
   color: var(--na-ink);
@@ -96,7 +109,7 @@
 }
 
 .tuvi-palace:hover {
-  background: rgba(251, 247, 239, 0.92);
+  background: rgba(251, 247, 239, 0.85);
 }
 
 .tuvi-palace--soul {
@@ -293,7 +306,9 @@
   height: 100%;
   width: 100%;
   padding: 26px 36px 22px;
-  background: rgba(249, 243, 232, 0.72);
+  /* Eased from 0.72 for the same reason as .tuvi-palace — kept higher than
+     the palace cells since this panel is denser, small-text info rows. */
+  background: rgba(249, 243, 232, 0.62);
   overflow: hidden;
   display: flex;
   flex-direction: column;
