@@ -11,7 +11,16 @@ const inputClass =
   "w-full border border-walnut/25 bg-ivory px-3 py-2.5 text-[14px] text-ink outline-none transition-colors focus:border-gold";
 const labelClass = "tracking-label mb-1.5 block text-[10px] font-medium uppercase text-walnut/60";
 
-export default function BirthForm({ onSubmit }: { onSubmit: (input: BirthInput) => void }) {
+export default function BirthForm({
+  onSubmit,
+  targetYear,
+  onTargetYearChange,
+}: {
+  onSubmit: (input: BirthInput) => void;
+  /** "Năm xem" (Luu Nien viewing year) — lives here so it sits in the same info card, but is independent of birth-data submission: changing it re-renders the already-generated chart immediately, no resubmit needed. */
+  targetYear?: number;
+  onTargetYearChange?: (year: number) => void;
+}) {
   const [name, setName] = useState("");
   const [gender, setGender] = useState<"Nam" | "Nữ">("Nam");
   const [calendarType, setCalendarType] = useState<CalendarType>("solar");
@@ -137,6 +146,29 @@ export default function BirthForm({ onSubmit }: { onSubmit: (input: BirthInput) 
         />
         <TuViHourPicker time={time} onChange={setTime} />
       </div>
+
+      {targetYear !== undefined && onTargetYearChange && (
+        <div className="flex items-center justify-center gap-2 text-[11px] tracking-[0.08em] text-walnut/70 uppercase">
+          <span>Năm xem</span>
+          <button
+            type="button"
+            onClick={() => onTargetYearChange(targetYear - 1)}
+            className="h-7 w-7 border border-walnut/30 text-walnut hover:border-gold hover:text-gold"
+            aria-label="Lùi một năm"
+          >
+            −
+          </button>
+          <span className="min-w-[3.5em] text-center font-medium normal-case text-ink">{targetYear}</span>
+          <button
+            type="button"
+            onClick={() => onTargetYearChange(targetYear + 1)}
+            className="h-7 w-7 border border-walnut/30 text-walnut hover:border-gold hover:text-gold"
+            aria-label="Tiến một năm"
+          >
+            +
+          </button>
+        </div>
+      )}
 
       {error && <p className="text-[13px] text-lacquer/80">{error}</p>}
 

@@ -15,7 +15,6 @@ import "./ngocAmChart.css";
 
 const ZOOM_STEPS = [0.6, 0.8, 1, 1.25, 1.5];
 const BASE_WIDTH = 980;
-const CURRENT_YEAR = new Date().getFullYear();
 
 function exportFileBaseName(chart: VietnameseChartDTO): string {
   const namePart = chart.name?.trim().replace(/\s+/g, "-") || "la-so";
@@ -27,20 +26,22 @@ export default function TuViChart({
   chart,
   birthTime,
   birthInput,
+  targetYear,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
-  /** When provided, enables the Luu Nien (annual transit) overlay — see engine/horoscopeAdapter.ts. */
+  /** When provided (together with `targetYear`), enables the Luu Nien (annual transit) overlay — see engine/horoscopeAdapter.ts. */
   birthInput?: BirthInput;
+  /** "Năm xem" — the stepper for this lives in BirthForm's "Thông tin lá số" card, not here. */
+  targetYear?: number;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [zoomStep, setZoomStep] = useState(2); // index into ZOOM_STEPS, default 1x
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
-  const [targetYear, setTargetYear] = useState(CURRENT_YEAR);
   const exportRef = useRef<HTMLDivElement>(null);
 
   const horoscope = useMemo(() => {
-    if (!birthInput) return null;
+    if (!birthInput || targetYear === undefined) return null;
     try {
       return generateHoroscope(birthInput, targetYear, chart.profile);
     } catch (err) {
@@ -86,28 +87,6 @@ export default function TuViChart({
           Chạm vào một cung để xem tam hợp (viền vàng đứt), xung chiếu (viền đỏ liền) và giáp cung (viền lục).
         </p>
         <div className="flex flex-wrap items-center gap-3">
-          {birthInput && (
-            <div className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-walnut/70 uppercase">
-              <span>Năm xem</span>
-              <button
-                type="button"
-                onClick={() => setTargetYear((y) => y - 1)}
-                className="h-7 w-7 border border-walnut/30 text-walnut hover:border-gold hover:text-gold"
-                aria-label="Lùi một năm"
-              >
-                −
-              </button>
-              <span className="min-w-[3.5em] text-center font-medium normal-case text-ink">{targetYear}</span>
-              <button
-                type="button"
-                onClick={() => setTargetYear((y) => y + 1)}
-                className="h-7 w-7 border border-walnut/30 text-walnut hover:border-gold hover:text-gold"
-                aria-label="Tiến một năm"
-              >
-                +
-              </button>
-            </div>
-          )}
           <div className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-walnut/70 uppercase">
             <button
               type="button"
