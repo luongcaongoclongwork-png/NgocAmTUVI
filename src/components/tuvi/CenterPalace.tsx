@@ -14,7 +14,7 @@ export default function CenterPalace({ chart, birthTime }: { chart: VietnameseCh
       </div>
 
       <div className="center-seal" aria-hidden="true">
-        NA
+        <Image src="/images/ngoc-am-seal.png" alt="" width={44} height={30} className="h-full w-full object-contain" />
       </div>
 
       <header className="chart-center-header">
