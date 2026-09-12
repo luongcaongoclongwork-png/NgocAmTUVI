@@ -1,11 +1,18 @@
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
-import { tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
+import { tamHopIndices, xungChieuIndex, giapCungIndices } from "@/lib/tuvi/rules/aspects";
 import type { VietnamesePalace } from "@/lib/tuvi/types/VietnameseChart";
 
-/** Design tokens for the two relation-line styles (spec section M) — very light so they read as a quiet indicator, not a graphic element. */
+/**
+ * Design tokens for the three relation-line styles (spec section M) — very
+ * light so they read as a quiet indicator, not a graphic element. Each
+ * relation gets its own dash PATTERN, not just its own color, so the
+ * distinction still reads for colorblind viewers: tam hợp = long dashes,
+ * xung chiếu = solid, giáp cung = dots.
+ */
 const LINE_STYLE = {
   tamHop: { stroke: "var(--color-gold)", dasharray: "0.035 0.045", width: 0.007 },
   xungChieu: { stroke: "var(--color-lacquer)", dasharray: undefined, width: 0.008 },
+  giapCung: { stroke: "#45684c", dasharray: "0.006 0.02", width: 0.007 },
 };
 
 interface Point {
@@ -62,6 +69,7 @@ export default function AspectOverlay({
 
   const [tamHopA, tamHopB] = tamHopIndices(selectedIndex);
   const xungChieu = xungChieuIndex(selectedIndex);
+  const [giapA, giapB] = giapCungIndices(selectedIndex);
 
   // A single shared origin for every ray (rule: "cac tia chieu bat dau tu 1 diem").
   const origin = centerAnchor(rectOf(selected));
@@ -70,6 +78,8 @@ export default function AspectOverlay({
     { to: palaces.find((p) => p.index === tamHopA), style: LINE_STYLE.tamHop },
     { to: palaces.find((p) => p.index === tamHopB), style: LINE_STYLE.tamHop },
     { to: palaces.find((p) => p.index === xungChieu), style: LINE_STYLE.xungChieu },
+    { to: palaces.find((p) => p.index === giapA), style: LINE_STYLE.giapCung },
+    { to: palaces.find((p) => p.index === giapB), style: LINE_STYLE.giapCung },
   ];
 
   return (

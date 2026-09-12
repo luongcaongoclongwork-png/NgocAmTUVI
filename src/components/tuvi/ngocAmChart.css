@@ -119,22 +119,29 @@
 .tuvi-palace[data-selected="true"] {
   z-index: 5;
   background: rgba(177, 128, 65, 0.14);
-  box-shadow: inset 0 0 0 1.5px var(--na-gold);
+  outline: 2px solid var(--na-gold);
+  outline-offset: -2px;
 }
 
+/* Each relation gets its own outline STYLE, not just its own color, so the
+   distinction still reads without relying on color perception (matches the
+   dash patterns used for the same 3 relations in AspectOverlay.tsx). */
 .tuvi-palace[data-emphasis="tam-hop"] {
   z-index: 4;
-  box-shadow: inset 0 0 0 1.5px rgba(170, 128, 74, 0.55);
+  outline: 2px dashed rgba(170, 128, 74, 0.75);
+  outline-offset: -2px;
 }
 
 .tuvi-palace[data-emphasis="xung-chieu"] {
   z-index: 4;
-  box-shadow: inset 0 0 0 1.5px var(--na-cinnabar);
+  outline: 2px solid var(--na-cinnabar);
+  outline-offset: -2px;
 }
 
 .tuvi-palace[data-emphasis="giap-cung"] {
   z-index: 4;
-  box-shadow: inset 0 0 0 1.5px rgba(69, 104, 76, 0.5);
+  outline: 2px dotted rgba(69, 104, 76, 0.8);
+  outline-offset: -2px;
 }
 
 .palace-header {

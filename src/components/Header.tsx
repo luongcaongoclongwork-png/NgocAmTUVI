@@ -1,18 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-
-const NAV_ITEMS: { label: string; href?: string }[] = [
-  { label: "Trang chủ", href: "/" },
-  { label: "Lập lá số", href: "/lap-la-so" },
-  { label: "Tử vi", href: "/tu-vi" },
-  { label: "Phong thuỷ", href: "/phong-thuy" },
-  { label: "Dịch vụ", href: "/dich-vu" },
-  { label: "Phật học", href: "/phat-hoc" },
-  { label: "Kiến thức", href: "/kien-thuc" },
-  { label: "Cửa hàng", href: "/cua-hang" },
-  { label: "Về Ngọc Âm", href: "/ve-ngoc-am" },
-  { label: "Liên hệ", href: "/#lien-he" },
-];
+import { usePathname } from "next/navigation";
+import { PRIMARY_NAV_ITEMS, isNavItemActive } from "./nav/navItems";
+import ExploreMenu from "./nav/ExploreMenu";
+import MobileNav from "./nav/MobileNav";
 
 function SearchIcon() {
   return (
@@ -33,60 +26,55 @@ function AccountIcon() {
 }
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-50 border-b border-walnut/10 bg-ivory/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/images/logo-mark.png"
-            alt="Ngọc Âm"
-            width={32}
-            height={32}
-            className="h-8 w-8"
-          />
-          <span className="font-heading text-lg tracking-[0.2em] text-ink">
-            NGỌC ÂM
-          </span>
+        <Link href="/" className="flex min-h-11 items-center gap-3">
+          <Image src="/images/logo-mark.png" alt="Ngọc Âm" width={32} height={32} className="h-8 w-8" />
+          <span className="font-heading text-lg tracking-[0.2em] text-ink">NGỌC ÂM</span>
         </Link>
 
-        <nav className="hidden flex-1 justify-center gap-5 xl:flex">
-          {NAV_ITEMS.map((item) =>
-            item.href ? (
+        <nav aria-label="Chính" className="hidden flex-1 items-center justify-center gap-5 xl:flex">
+          {PRIMARY_NAV_ITEMS.map((item) => {
+            const active = isNavItemActive(pathname, item.href);
+            return (
               <Link
                 key={item.label}
                 href={item.href}
-                className="tracking-label text-[11px] font-medium uppercase text-walnut/80 transition-colors hover:text-gold"
+                aria-current={active ? "page" : undefined}
+                className={`tracking-label text-[11px] font-medium uppercase transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
+                  active ? "text-gold" : "text-walnut/80"
+                }`}
               >
                 {item.label}
               </Link>
-            ) : (
-              <span
-                key={item.label}
-                className="tracking-label flex items-center gap-1 text-[11px] font-medium uppercase text-walnut/35"
-                title="Sắp ra mắt"
-              >
-                {item.label}
-                <span className="text-[8px] normal-case text-gold/70">
-                  sắp ra mắt
-                </span>
-              </span>
-            )
-          )}
+            );
+          })}
+          <ExploreMenu />
         </nav>
 
-        <div className="flex items-center gap-4 text-walnut/80">
-          <button aria-label="Tìm kiếm" className="hidden transition-colors hover:text-gold sm:block">
+        <div className="flex items-center gap-2 text-walnut/80 sm:gap-4">
+          <button
+            aria-label="Tìm kiếm"
+            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:flex"
+          >
             <SearchIcon />
           </button>
-          <button aria-label="Tài khoản" className="hidden transition-colors hover:text-gold sm:block">
+          <button
+            aria-label="Tài khoản"
+            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:flex"
+          >
             <AccountIcon />
           </button>
           <Link
             href="/dich-vu"
-            className="tracking-label border border-walnut px-4 py-2 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold hover:text-gold"
+            className="tracking-label flex h-11 items-center border border-walnut px-4 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
           >
             Đặt lịch
           </Link>
+          <MobileNav />
         </div>
       </div>
     </header>

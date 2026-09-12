@@ -40,7 +40,7 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
 .reveal.is-visible {

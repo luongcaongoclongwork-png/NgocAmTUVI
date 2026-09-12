@@ -1,28 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import BirthForm from "./BirthForm";
 import TuViChart from "./TuViChart";
 import { generateChart } from "@/lib/tuvi/engine/chartEngine";
 import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 
+export type GenerationStatus = "idle" | "validating" | "generating" | "success" | "error";
+
+/** Header is `sticky top-0`; its rendered height (logo row) is ~76px — keep the focus/scroll target clear of it. */
+const HEADER_SCROLL_OFFSET = 88;
+
 export default function LapLaSoClient() {
   const [chart, setChart] = useState<VietnameseChartDTO | null>(null);
   const [birthInput, setBirthInput] = useState<BirthInput | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<GenerationStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [targetYear, setTargetYear] = useState(() => new Date().getFullYear());
+  const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
   function handleSubmit(input: BirthInput) {
-    try {
-      setChart(generateChart(input, "ngoc-am"));
-      setBirthInput(input);
-      setError(null);
-    } catch {
-      setError("Không thể lập lá số với thông tin đã nhập. Vui lòng kiểm tra lại ngày giờ sinh.");
-      setChart(null);
-      setBirthInput(null);
-    }
+    setStatus("validating");
+
+    // Synchronous today, but still routed through a "generating" tick (not an
+    // artificial delay — see brief) so the disabled/"Đang an sao…" state
+    // actually paints for at least one frame before flipping to success.
+    // `setTimeout`, not `requestAnimationFrame`: rAF callbacks are paused (not
+    // just throttled) in a backgrounded/hidden tab, which would leave the
+    // button stuck on "Đang an sao…" forever if the user switches away mid-submit.
+    setTimeout(() => {
+      setStatus("generating");
+      setTimeout(() => {
+        try {
+          const nextChart = generateChart(input, "ngoc-am");
+          setChart(nextChart);
+          setBirthInput(input);
+          setErrorMessage(null);
+          setStatus("success");
+          setTimeout(() => {
+            resultHeadingRef.current?.scrollIntoView({
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+              block: "start",
+            });
+            resultHeadingRef.current?.focus();
+          }, 0);
+        } catch {
+          setErrorMessage("Không thể lập lá số với thông tin đã nhập. Vui lòng kiểm tra lại ngày giờ sinh và thử lại.");
+          setChart(null);
+          setBirthInput(null);
+          setStatus("error");
+        }
+      }, 0);
+    }, 0);
   }
 
   return (
@@ -83,14 +113,40 @@ export default function LapLaSoClient() {
         </div>
 
         <div className="relative">
-          <BirthForm onSubmit={handleSubmit} targetYear={targetYear} onTargetYearChange={setTargetYear} />
-          {error && <p className="mt-4 text-[13px] text-lacquer">{error}</p>}
+          <BirthForm
+            onSubmit={handleSubmit}
+            status={status}
+            targetYear={targetYear}
+            onTargetYearChange={setTargetYear}
+          />
+
+          {/* Generation feedback: role="alert" interrupts for the error case; the
+              success line is a quieter aria-live="polite" announcement (the real
+              "you're done" signal is the scroll + focus move below). */}
+          {status === "error" && errorMessage && (
+            <p role="alert" className="mt-4 text-[14px] font-medium text-lacquer">
+              {errorMessage}
+            </p>
+          )}
+          <p aria-live="polite" className="sr-only">
+            {status === "success" ? "Lá số đã được lập." : ""}
+          </p>
         </div>
       </div>
 
       {chart && birthInput && (
         <div className="mt-12">
-          <TuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear} />
+          <h2
+            ref={resultHeadingRef}
+            tabIndex={-1}
+            style={{ scrollMarginTop: HEADER_SCROLL_OFFSET }}
+            className="tracking-label text-center text-[13px] font-medium uppercase text-gold outline-none"
+          >
+            Lá số Tử Vi
+          </h2>
+          <div className="mt-6">
+            <TuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear} />
+          </div>
         </div>
       )}
     </div>

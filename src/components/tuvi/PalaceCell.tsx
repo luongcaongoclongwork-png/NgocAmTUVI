@@ -50,7 +50,10 @@ export default function PalaceCell({
   selected,
   emphasis,
   horoscope,
+  tabIndex,
+  cellRef,
   onSelect,
+  onKeyDown,
 }: {
   palace: VietnamesePalace;
   selected: boolean;
@@ -58,7 +61,11 @@ export default function PalaceCell({
   emphasis?: "tam-hop" | "xung-chieu" | "giap-cung" | "nhi-hop";
   /** This palace's Luu Nien overlay slice for the currently selected "nam xem", if any. */
   horoscope?: PalaceHoroscopeView;
+  /** Roving tabindex (spec section on 12-palace keyboard navigation) — only one palace is ever `0`, set by TuViChart. */
+  tabIndex: 0 | -1;
+  cellRef?: (el: HTMLButtonElement | null) => void;
   onSelect: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 }) {
   const minorStars = [...palace.supportStars, ...palace.maleficStars];
   const luuExtraCount = horoscope ? horoscope.luuStars.length + 2 : 0; // +2 for suiQian/jiangQian
@@ -70,8 +77,14 @@ export default function PalaceCell({
 
   return (
     <button
+      ref={cellRef}
       type="button"
       onClick={onSelect}
+      onKeyDown={onKeyDown}
+      tabIndex={tabIndex}
+      aria-pressed={selected}
+      aria-label={`Cung ${palace.name}, ${palace.heavenlyStem} ${palace.branch}, cung số ${palace.index + 1}${selected ? ", đang chọn" : ""}`}
+      aria-describedby={`palace-detail-${palace.index}`}
       data-selected={selected || undefined}
       data-emphasis={!selected ? emphasis : undefined}
       data-density={density}
@@ -89,7 +102,10 @@ export default function PalaceCell({
         <span className="palace-index">{palace.index + 1}</span>
       </header>
 
-      <div className={`palace-main-stars${palace.majorStars.length === 0 ? " palace-main-stars--empty" : ""}`}>
+      <div
+        id={`palace-detail-${palace.index}`}
+        className={`palace-main-stars${palace.majorStars.length === 0 ? " palace-main-stars--empty" : ""}`}
+      >
         {palace.majorStars.length === 0 ? (
           <span>Vô Chính Diệu</span>
         ) : (
