@@ -1,5 +1,7 @@
 import type { FourTransformation, VietnamesePalace, VietnameseStar } from "@/lib/tuvi/types/VietnameseChart";
 import { BRIGHTNESS_LABEL } from "@/lib/tuvi/types/VietnameseChart";
+import { starColorVar } from "./starElementColor";
+import { getPalaceVisualDensity } from "./paletteDensity";
 import "./ngocAmChart.css";
 
 const TRANSFORMATION_CLASS: Record<FourTransformation, string> = {
@@ -11,7 +13,7 @@ const TRANSFORMATION_CLASS: Record<FourTransformation, string> = {
 
 function MinorStarLabel({ star }: { star: VietnameseStar }) {
   return (
-    <span>
+    <span className="palace-minor-star" style={starColorVar(star)}>
       {star.name}
       {star.transformation && (
         <span className={`main-star-tag ${TRANSFORMATION_CLASS[star.transformation]}`}>{star.transformation}</span>
@@ -32,12 +34,20 @@ export default function PalaceCell({
   emphasis?: "tam-hop" | "xung-chieu" | "giap-cung" | "nhi-hop";
   onSelect: () => void;
 }) {
+  const minorStars = [...palace.supportStars, ...palace.maleficStars];
+  const density = getPalaceVisualDensity({
+    majorCount: palace.majorStars.length,
+    minorCount: minorStars.length,
+    extraCount: palace.adjectiveStars.length,
+  });
+
   return (
     <button
       type="button"
       onClick={onSelect}
       data-selected={selected || undefined}
       data-emphasis={!selected ? emphasis : undefined}
+      data-density={density}
       className={`tuvi-palace${palace.isSoulPalace ? " tuvi-palace--soul" : ""}`}
     >
       <header className="palace-header">
@@ -56,7 +66,7 @@ export default function PalaceCell({
           <span>Vô Chính Diệu</span>
         ) : (
           palace.majorStars.map((s) => (
-            <span key={s.id} className="main-star">
+            <span key={s.id} className="main-star" style={starColorVar(s)}>
               {s.name}
               {s.brightness && <span className="main-star-tag main-star-tag--brightness">{BRIGHTNESS_LABEL[s.brightness]}</span>}
               {s.transformation && (
@@ -67,9 +77,9 @@ export default function PalaceCell({
         )}
       </div>
 
-      {(palace.supportStars.length > 0 || palace.maleficStars.length > 0) && (
+      {minorStars.length > 0 && (
         <div className="palace-minor-stars">
-          {[...palace.supportStars, ...palace.maleficStars].map((s) => (
+          {minorStars.map((s) => (
             <MinorStarLabel key={s.id} star={s} />
           ))}
         </div>
@@ -80,12 +90,9 @@ export default function PalaceCell({
       )}
 
       <footer className="palace-footer">
+        <span>{palace.daiVan ? `${palace.daiVan.startAge}–${palace.daiVan.endAge}` : ""}</span>
         <span>{palace.changSinh}</span>
-        {palace.daiVan && (
-          <span>
-            {palace.daiVan.startAge}–{palace.daiVan.endAge}
-          </span>
-        )}
+        <span>{palace.boshi}</span>
       </footer>
     </button>
   );
