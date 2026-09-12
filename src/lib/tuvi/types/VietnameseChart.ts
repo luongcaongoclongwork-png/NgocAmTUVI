@@ -108,6 +108,46 @@ export interface TieuHanEntry {
   age: number;
 }
 
+/** A Lưu (annual-flow) star instance — position-only, never carries a natal transformation of its own (see horoscopeAdapter.ts). */
+export interface HoroscopeStar {
+  /** iztro's own zh-CN string for this star — stable across a session, but not a cross-star registry key like VietnameseStar.id. */
+  id: string;
+  name: string;
+}
+
+export interface DecadalHoroscope {
+  heavenlyStem: HeavenlyStemVi;
+  branch: EarthlyBranchVi;
+  /** Inclusive age range (tuổi ta) this decade covers. */
+  ageRange: [number, number];
+  /** This decade's 12 palace names, indexed like VietnamesePalace.index (i.e. palaceNameByIndex[p.index] is what this decade calls palace p). */
+  palaceNameByIndex: PalaceNameVi[];
+}
+
+export interface YearlyHoroscope {
+  year: number;
+  heavenlyStem: HeavenlyStemVi;
+  branch: EarthlyBranchVi;
+  /** This year's 12 palace names, indexed like VietnamesePalace.index. */
+  palaceNameByIndex: PalaceNameVi[];
+  /** This year's Tứ Hóa (from rules/fourTransformations.ts, keyed by the SAME star ids as VietnameseStar.id — apply to natal stars at render time, never to the flow stars below). */
+  mutagenByStarId: Partial<Record<string, FourTransformation>>;
+  /** The 10 Luu flow stars (Khoi/Viet/Xuong/Khuc/Loc Ton/Kinh Duong/Da La/Thien Ma/Hong Loan/Thien Hy) + Luu Nien Giai, indexed like VietnamesePalace.index. */
+  starsByIndex: HoroscopeStar[][];
+  /** Luu Thai Tue vong (suiqian12) for this year, indexed like VietnamesePalace.index. */
+  suiQianByIndex: string[];
+  /** Luu Tuong Tinh vong (jiangqian12) for this year, indexed like VietnamesePalace.index. */
+  jiangQianByIndex: string[];
+}
+
+export interface VietnameseHoroscopeDTO {
+  targetYear: number;
+  /** Nominal age (tuổi ta) at the target year. */
+  age: number;
+  decadal: DecadalHoroscope;
+  yearly: YearlyHoroscope;
+}
+
 export interface VietnamesePalace {
   index: number;
   branch: EarthlyBranchVi;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import PalaceCell from "./PalaceCell";
 import CenterPalace from "./CenterPalace";
 import AspectOverlay from "./AspectOverlay";
@@ -8,11 +8,14 @@ import TuanTrietOverlay from "./TuanTrietOverlay";
 import { BRANCH_GRID_POSITION, CENTER_GRID_AREA } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExport";
-import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
+import { generateHoroscope } from "@/lib/tuvi/engine/chartEngine";
+import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
+import type { PalaceHoroscopeView } from "./PalaceCell";
 import "./ngocAmChart.css";
 
 const ZOOM_STEPS = [0.6, 0.8, 1, 1.25, 1.5];
 const BASE_WIDTH = 980;
+const CURRENT_YEAR = new Date().getFullYear();
 
 function exportFileBaseName(chart: VietnameseChartDTO): string {
   const namePart = chart.name?.trim().replace(/\s+/g, "-") || "la-so";
@@ -20,11 +23,31 @@ function exportFileBaseName(chart: VietnameseChartDTO): string {
   return `ngoc-am-${namePart}-${datePart}`;
 }
 
-export default function TuViChart({ chart, birthTime }: { chart: VietnameseChartDTO; birthTime?: string }) {
+export default function TuViChart({
+  chart,
+  birthTime,
+  birthInput,
+}: {
+  chart: VietnameseChartDTO;
+  birthTime?: string;
+  /** When provided, enables the Luu Nien (annual transit) overlay — see engine/horoscopeAdapter.ts. */
+  birthInput?: BirthInput;
+}) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [zoomStep, setZoomStep] = useState(2); // index into ZOOM_STEPS, default 1x
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
+  const [targetYear, setTargetYear] = useState(CURRENT_YEAR);
   const exportRef = useRef<HTMLDivElement>(null);
+
+  const horoscope = useMemo(() => {
+    if (!birthInput) return null;
+    try {
+      return generateHoroscope(birthInput, targetYear, chart.profile);
+    } catch (err) {
+      console.error("Horoscope overlay failed:", err);
+      return null;
+    }
+  }, [birthInput, targetYear, chart.profile]);
 
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
@@ -62,7 +85,29 @@ export default function TuViChart({ chart, birthTime }: { chart: VietnameseChart
         <p className="text-[12px] text-walnut/60">
           Chạm vào một cung để xem tam hợp (viền vàng đứt), xung chiếu (viền đỏ liền) và giáp cung (viền lục).
         </p>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {birthInput && (
+            <div className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-walnut/70 uppercase">
+              <span>Năm xem</span>
+              <button
+                type="button"
+                onClick={() => setTargetYear((y) => y - 1)}
+                className="h-7 w-7 border border-walnut/30 text-walnut hover:border-gold hover:text-gold"
+                aria-label="Lùi một năm"
+              >
+                −
+              </button>
+              <span className="min-w-[3.5em] text-center font-medium normal-case text-ink">{targetYear}</span>
+              <button
+                type="button"
+                onClick={() => setTargetYear((y) => y + 1)}
+                className="h-7 w-7 border border-walnut/30 text-walnut hover:border-gold hover:text-gold"
+                aria-label="Tiến một năm"
+              >
+                +
+              </button>
+            </div>
+          )}
           <div className="flex items-center gap-2 text-[11px] tracking-[0.08em] text-walnut/70 uppercase">
             <button
               type="button"
@@ -110,19 +155,32 @@ export default function TuViChart({ chart, birthTime }: { chart: VietnameseChart
         >
           <section className="ngoc-am-chart">
             <div className="ngoc-am-grid">
-              {chart.palaces.map((p) => (
-                <div key={p.index} style={{ gridArea: `${BRANCH_GRID_POSITION[p.branch].row} / ${BRANCH_GRID_POSITION[p.branch].col} / span 1 / span 1` }}>
-                  <PalaceCell
-                    palace={p}
-                    selected={selectedIndex === p.index}
-                    emphasis={emphasisFor(p.index)}
-                    onSelect={() => setSelectedIndex((cur) => (cur === p.index ? null : p.index))}
-                  />
-                </div>
-              ))}
+              {chart.palaces.map((p) => {
+                const palaceHoroscope: PalaceHoroscopeView | undefined = horoscope
+                  ? {
+                      daiVanPalaceName: horoscope.decadal.palaceNameByIndex[p.index],
+                      luuNienPalaceName: horoscope.yearly.palaceNameByIndex[p.index],
+                      luuStars: horoscope.yearly.starsByIndex[p.index],
+                      suiQian: horoscope.yearly.suiQianByIndex[p.index],
+                      jiangQian: horoscope.yearly.jiangQianByIndex[p.index],
+                      mutagenByStarId: horoscope.yearly.mutagenByStarId,
+                    }
+                  : undefined;
+                return (
+                  <div key={p.index} style={{ gridArea: `${BRANCH_GRID_POSITION[p.branch].row} / ${BRANCH_GRID_POSITION[p.branch].col} / span 1 / span 1` }}>
+                    <PalaceCell
+                      palace={p}
+                      selected={selectedIndex === p.index}
+                      emphasis={emphasisFor(p.index)}
+                      horoscope={palaceHoroscope}
+                      onSelect={() => setSelectedIndex((cur) => (cur === p.index ? null : p.index))}
+                    />
+                  </div>
+                );
+              })}
 
               <div style={{ gridArea: CENTER_GRID_AREA }}>
-                <CenterPalace chart={chart} birthTime={birthTime} />
+                <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} />
               </div>
             </div>
 

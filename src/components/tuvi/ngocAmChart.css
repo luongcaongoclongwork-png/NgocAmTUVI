@@ -257,6 +257,26 @@
   text-align: right;
 }
 
+/* ---------- Luu Nien (annual transit) overlay — see PalaceHoroscopeView ---------- */
+
+.tuvi-palace[data-has-horoscope="true"] {
+  padding-bottom: 50px;
+}
+
+.palace-luu-stars {
+  margin-top: 5px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--lacquer) 58%, var(--na-muted) 42%);
+}
+
+.palace-footer--horoscope {
+  bottom: 27px;
+  font-size: 10px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--lacquer) 62%, var(--na-muted) 38%);
+}
+
 /* ---------- Auto density (presentation-only; see paletteDensity.ts) ---------- */
 
 .tuvi-palace[data-density="airy"] {

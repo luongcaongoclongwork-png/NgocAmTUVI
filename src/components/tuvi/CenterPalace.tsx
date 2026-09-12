@@ -1,11 +1,19 @@
 import Image from "next/image";
-import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
+import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 import { getOwnerChartViewModel } from "@/lib/tuvi/presentation/ownerViewModel";
 import { InfoRow } from "./InfoRow";
 import "./ngocAmChart.css";
 
-export default function CenterPalace({ chart, birthTime }: { chart: VietnameseChartDTO; birthTime?: string }) {
-  const vm = getOwnerChartViewModel(chart, birthTime);
+export default function CenterPalace({
+  chart,
+  birthTime,
+  horoscope,
+}: {
+  chart: VietnameseChartDTO;
+  birthTime?: string;
+  horoscope?: VietnameseHoroscopeDTO;
+}) {
+  const vm = getOwnerChartViewModel(chart, birthTime, horoscope);
 
   return (
     <div className="center-palace">
@@ -61,6 +69,15 @@ export default function CenterPalace({ chart, birthTime }: { chart: VietnameseCh
         <InfoRow label="Cung Thân" value={vm.bodyPalace} />
         <InfoRow label="Thân cư" value={vm.bodyResidence} />
       </div>
+
+      {vm.viewingYear !== undefined && (
+        <>
+          <div className="center-divider" />
+          <div className="center-info-group">
+            <InfoRow label="Năm xem" value={`${vm.viewingYearGanzhi} (${vm.viewingYear})`} secondary={`${vm.viewingAge} tuổi`} emphasized />
+          </div>
+        </>
+      )}
 
       <p className="center-tagline">&ldquo;Mệnh do trời định, vận do tâm sinh.&rdquo;</p>
     </div>

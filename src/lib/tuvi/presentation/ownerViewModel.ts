@@ -1,15 +1,15 @@
-import type { VietnameseChartDTO } from "../types/VietnameseChart";
+import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "../types/VietnameseChart";
 
 /**
  * READ-ONLY view model for the Trung Cung "owner profile" panel.
  *
  * This file does not calculate any astrology — it only renames, formats, and
- * groups fields that engine/vietnameseAdapter.ts already computed. Every
- * value here traces back to an existing `VietnameseChartDTO` field; nothing
- * is derived, guessed, or hardcoded. Fields the engine does not currently
- * expose (viewing year / age, Am Duong, Ban Menh nap am, Menh/Cuc relation,
- * Can Luong) are intentionally left out — see docs/tuvi-engine-audit.md and
- * the 2026-09-13 "Trung Cung" redesign notes.
+ * groups fields that engine/vietnameseAdapter.ts (and, for the "Năm xem" row,
+ * engine/horoscopeAdapter.ts) already computed. Every value here traces back
+ * to an existing DTO field; nothing is derived, guessed, or hardcoded. Fields
+ * the engine does not currently expose (Am Duong, Ban Menh nap am, Menh/Cuc
+ * relation, Can Luong) are intentionally left out — see
+ * docs/tuvi-engine-audit.md and the 2026-09-13 "Trung Cung" redesign notes.
  */
 export interface OwnerChartViewModel {
   name?: string;
@@ -37,6 +37,11 @@ export interface OwnerChartViewModel {
   destinyPalace: string;
   bodyPalace: string;
   bodyResidence?: string;
+
+  /** Only set when a Luu Nien overlay (a selected "nam xem") is active. */
+  viewingYear?: number;
+  viewingYearGanzhi?: string;
+  viewingAge?: number;
 }
 
 function parseSolarDate(solarDate: string): { year?: number; month?: number; day?: number } {
@@ -51,7 +56,11 @@ function parseLunarDate(lunarDate: string): { day?: number; month?: number; isLe
   return { day: Number(match[1]), month: Number(match[2]), isLeap: lunarDate.includes("nhuận") };
 }
 
-export function getOwnerChartViewModel(chart: VietnameseChartDTO, birthTime?: string): OwnerChartViewModel {
+export function getOwnerChartViewModel(
+  chart: VietnameseChartDTO,
+  birthTime?: string,
+  horoscope?: VietnameseHoroscopeDTO,
+): OwnerChartViewModel {
   const solar = parseSolarDate(chart.solarDate);
   const lunar = parseLunarDate(chart.lunarDate);
   const bodyPalace = chart.palaces.find((p) => p.isBodyPalace);
@@ -81,5 +90,9 @@ export function getOwnerChartViewModel(chart: VietnameseChartDTO, birthTime?: st
     destinyPalace: chart.soulPalaceBranch,
     bodyPalace: chart.bodyPalaceBranch,
     bodyResidence: bodyPalace?.name,
+
+    viewingYear: horoscope?.targetYear,
+    viewingYearGanzhi: horoscope ? `${horoscope.yearly.heavenlyStem} ${horoscope.yearly.branch}` : undefined,
+    viewingAge: horoscope?.age,
   };
 }

@@ -1,8 +1,9 @@
 import { generateVietnameseChart } from "./vietnameseAdapter";
+import { generateVietnameseHoroscope } from "./horoscopeAdapter";
 import { ngocAmProfile } from "../profiles/ngocAm";
 import { vietnamTanBienProfile } from "../profiles/vietnamTanBien";
 import { iztroDefaultProfile } from "../profiles/iztroDefault";
-import type { BirthInput, VietnameseChartDTO } from "../types/VietnameseChart";
+import type { BirthInput, VietnameseChartDTO, VietnameseHoroscopeDTO } from "../types/VietnameseChart";
 
 const PROFILES = {
   "ngoc-am": ngocAmProfile,
@@ -20,4 +21,17 @@ export function generateChart(
   profileId: keyof typeof PROFILES = "ngoc-am",
 ): VietnameseChartDTO {
   return generateVietnameseChart(input, PROFILES[profileId]);
+}
+
+/**
+ * Lưu Niên (annual transit) overlay for a chart already produced by
+ * `generateChart` — must be called with the SAME `profileId` or the
+ * overlay will silently desync from the chart (see horoscopeAdapter.ts).
+ */
+export function generateHoroscope(
+  input: BirthInput,
+  targetYear: number,
+  profileId: keyof typeof PROFILES = "ngoc-am",
+): VietnameseHoroscopeDTO {
+  return generateVietnameseHoroscope(input, PROFILES[profileId], targetYear);
 }

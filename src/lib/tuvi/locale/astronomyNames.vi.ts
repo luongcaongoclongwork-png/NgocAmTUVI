@@ -119,6 +119,32 @@ export const SUI_QIAN_VI: Record<string, string> = {
   "岁破": "Tuế Phá",
 };
 
+/**
+ * Annual ("luu nien") flow-star translations for horoscopeAdapter.ts.
+ * iztro emits these under DISTINCT zh-CN strings from their natal
+ * counterparts — prefixed "流" (Luu) rather than the natal 天魁/天钺/文昌/
+ * 文曲/禄存/擎羊/陀罗/天马/红鸾/天喜 forms — verified against
+ * node_modules/iztro@2.6.1/lib/i18n/locales/zh-CN/star.js (`liukui`,
+ * `liuyue`, `liuchang`, `liuqu`, `liulu`, `liuyang`, `liutuo`, `liuma`,
+ * `liuluan`, `liuxi`). "年解" (nianjie) reuses the same zh-CN string as the
+ * natal "Niên Giải" star (STAR_NAMES_VI) but is relabeled "Lưu Niên Giải"
+ * here since iztro re-emits it as part of the yearly flow-star set too.
+ * Never used by the natal chart — only engine/horoscopeAdapter.ts.
+ */
+export const YEARLY_FLOW_STAR_VI: Record<string, string> = {
+  "流魁": "Lưu Thiên Khôi",
+  "流钺": "Lưu Thiên Việt",
+  "流昌": "Lưu Văn Xương",
+  "流曲": "Lưu Văn Khúc",
+  "流禄": "Lưu Lộc Tồn",
+  "流羊": "Lưu Kình Dương",
+  "流陀": "Lưu Đà La",
+  "流马": "Lưu Thiên Mã",
+  "流鸾": "Lưu Hồng Loan",
+  "流喜": "Lưu Thiên Hỷ",
+  "年解": "Lưu Niên Giải",
+};
+
 function invert<T extends string>(map: Record<string, T>): Record<string, string> {
   const out: Record<string, string> = {};
   for (const [zh, vi] of Object.entries(map)) out[vi] = zh;

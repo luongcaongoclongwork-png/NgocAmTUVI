@@ -8,17 +8,18 @@ import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/Vietnamese
 
 export default function LapLaSoClient() {
   const [chart, setChart] = useState<VietnameseChartDTO | null>(null);
-  const [birthTime, setBirthTime] = useState<string | undefined>(undefined);
+  const [birthInput, setBirthInput] = useState<BirthInput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(input: BirthInput) {
     try {
       setChart(generateChart(input, "ngoc-am"));
-      setBirthTime(input.time);
+      setBirthInput(input);
       setError(null);
     } catch {
       setError("Không thể lập lá số với thông tin đã nhập. Vui lòng kiểm tra lại ngày giờ sinh.");
       setChart(null);
+      setBirthInput(null);
     }
   }
 
@@ -29,9 +30,9 @@ export default function LapLaSoClient() {
         {error && <p className="mt-4 text-[13px] text-lacquer">{error}</p>}
       </div>
 
-      {chart && (
+      {chart && birthInput && (
         <div className="mt-12">
-          <TuViChart chart={chart} birthTime={birthTime} />
+          <TuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} />
         </div>
       )}
     </div>
