@@ -270,7 +270,19 @@ export default function TuViChart({
           <div
             ref={exportRef}
             className="relative mx-auto origin-top transition-[width]"
-            style={{ width: `${ZOOM_STEPS[zoomStep] * 100}%`, minWidth: `${BASE_WIDTH * ZOOM_STEPS[zoomStep]}px` }}
+            style={{
+              width: `${ZOOM_STEPS[zoomStep] * 100}%`,
+              minWidth: `${BASE_WIDTH * ZOOM_STEPS[zoomStep]}px`,
+              // Without this cap, "width: 100%" fills the whole page column
+              // (often 1200px+) while the chart itself only ever needs
+              // BASE_WIDTH px — the wrapper (and the legend row inside it)
+              // then sits far wider than the chart it holds, reading as
+              // loose/oversized at 100% even though not a single star or
+              // label actually grew. Capping it here makes 100% hug the
+              // chart the same way 80% already happened to (its 80% of a
+              // typical page column landed close to BASE_WIDTH by coincidence).
+              maxWidth: `${BASE_WIDTH * ZOOM_STEPS[zoomStep]}px`,
+            }}
           >
             <section className="ngoc-am-chart">
               <div className="ngoc-am-grid">
