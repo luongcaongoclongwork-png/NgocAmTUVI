@@ -27,7 +27,7 @@ export default function CenterPalace({
 
       <header className="chart-center-header">
         <div className="chart-center-brand">NGỌC ÂM</div>
-        <h2 className="chart-center-title">LÁ SỐ TỬ VI</h2>
+        <h2 className="chart-center-title">TỬ VI XUYÊN TAM DIỆM</h2>
         {vm.name && <div className="chart-owner-name">{vm.name}</div>}
       </header>
 

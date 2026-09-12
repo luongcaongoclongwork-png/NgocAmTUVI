@@ -13,8 +13,8 @@ export default function LapLaSoPage() {
     <>
       <PageBanner
         eyebrow="Lập Lá Số"
-        heading="Lá số Tử Vi theo đúng hệ Việt Nam."
-        description="An sao, độ sáng Miếu Vượng Đắc Bình Hãm, Khôi Việt, Tứ Hóa và Tuần Triệt được tính theo Tử Vi Đẩu Số Tân Biên — không dùng nguyên bảng mặc định của engine gốc."
+        heading="Tử Vi Xuyên Tam Diệm"
+        description="Khai vấn, định hướng, phát triển nội lực, chuyển hoá điều bất như ý"
         image="/images/21-homepage-tu-vi-manuscript.webp"
         imageAlt="Lá số Tử Vi viết tay trên bàn gỗ cổ"
       />
