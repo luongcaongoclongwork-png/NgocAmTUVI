@@ -16,8 +16,6 @@ import type { BirthInput, VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/l
 import type { PalaceHoroscopeView } from "./PalaceCell";
 import "./ngocAmChart.css";
 
-const ZOOM_STEPS = [0.6, 0.8, 1, 1.25, 1.5];
-const FIT_ZOOM_STEP = 2; // 100% — see handleFitToScreen
 const BASE_WIDTH = 980;
 
 export type MobileChartView = "overview" | "details";
@@ -57,7 +55,6 @@ export default function TuViChart({
   targetYear?: number;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [zoomStep, setZoomStep] = useState(FIT_ZOOM_STEP);
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
   const [mobileView, setMobileView] = useState<MobileChartView>("overview");
   const [mobileSelectedIndex, setMobileSelectedIndex] = useState<number | null>(null);
@@ -180,39 +177,6 @@ export default function TuViChart({
               {exporting === "pdf" ? "Đang xuất…" : "Xuất PDF"}
             </button>
           </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <button
-              type="button"
-              title="Thu nhỏ"
-              aria-label="Thu nhỏ"
-              disabled={zoomStep === 0}
-              onClick={() => setZoomStep((z) => Math.max(0, z - 1))}
-              className="flex h-11 w-11 items-center justify-center border border-walnut/30 text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-30"
-            >
-              −
-            </button>
-            <span className="min-w-[3.2em] text-center text-[13px] text-walnut/70">
-              {Math.round(ZOOM_STEPS[zoomStep] * 100)}%
-            </span>
-            <button
-              type="button"
-              title="Phóng to"
-              aria-label="Phóng to"
-              disabled={zoomStep === ZOOM_STEPS.length - 1}
-              onClick={() => setZoomStep((z) => Math.min(ZOOM_STEPS.length - 1, z + 1))}
-              className="flex h-11 w-11 items-center justify-center border border-walnut/30 text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-30"
-            >
-              +
-            </button>
-            <button
-              type="button"
-              title="Vừa màn hình"
-              onClick={() => setZoomStep(FIT_ZOOM_STEP)}
-              className="flex min-h-11 items-center border border-walnut/30 px-3 text-[13px] uppercase tracking-[0.08em] text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
-            >
-              Vừa màn hình
-            </button>
-          </div>
         </div>
       </div>
 
@@ -269,19 +233,13 @@ export default function TuViChart({
         <div className="ngoc-am-chart-scroll">
           <div
             ref={exportRef}
-            className="relative mx-auto origin-top transition-[width]"
+            className="relative mx-auto"
             style={{
-              width: `${ZOOM_STEPS[zoomStep] * 100}%`,
-              minWidth: `${BASE_WIDTH * ZOOM_STEPS[zoomStep]}px`,
-              // Without this cap, "width: 100%" fills the whole page column
-              // (often 1200px+) while the chart itself only ever needs
-              // BASE_WIDTH px — the wrapper (and the legend row inside it)
-              // then sits far wider than the chart it holds, reading as
-              // loose/oversized at 100% even though not a single star or
-              // label actually grew. Capping it here makes 100% hug the
-              // chart the same way 80% already happened to (its 80% of a
-              // typical page column landed close to BASE_WIDTH by coincidence).
-              maxWidth: `${BASE_WIDTH * ZOOM_STEPS[zoomStep]}px`,
+              // Fixed at BASE_WIDTH — no zoom control anymore (removed per
+              // user request); the chart always renders at its natural
+              // 980x980 size, letting .ngoc-am-chart-scroll's overflow-x
+              // handle any viewport narrower than that.
+              width: `${BASE_WIDTH}px`,
             }}
           >
             <section className="ngoc-am-chart">
