@@ -18,7 +18,12 @@ export function getPalaceDensity({
   adjectiveCount: number;
   annualCount: number;
 }): PalaceDensity {
-  const score = majorCount * 2.4 + minorCount + adjectiveCount * 0.55 + annualCount * 0.65;
+  // adjectiveCount weight raised from 0.55 — every palace now always carries
+  // 2 more items here (natal suiQian/jiangQian, see PalaceCell.tsx), so the
+  // old weight under-counted real crowding on cells that were already
+  // adjective-heavy (e.g. No Boc content touching the Dai Van footer,
+  // "chạm đại vận" feedback 2026-09-13).
+  const score = majorCount * 2.4 + minorCount + adjectiveCount * 0.7 + annualCount * 0.65;
 
   if (score <= 8) return "airy";
   if (score <= 13) return "normal";

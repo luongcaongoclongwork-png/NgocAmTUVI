@@ -1,0 +1,85 @@
+import type { EarthlyBranchVi, HeavenlyStemVi } from "../types/VietnameseChart";
+
+/**
+ * Auxiliary stars from the classical "Nam Phai" (Vietnamese southern-school)
+ * catalog that iztro's own star set never computes at all — verified by
+ * grepping node_modules/iztro for every hanzi/pinyin spelling before writing
+ * this file. Quoc An, Duong Phu, Thien Giai, Dia Giai, Luu Ha live here;
+ * Thien Y is NOT here — it always shares Thien Dieu's palace, which iztro
+ * already places correctly, so vietnameseAdapter.ts just reuses that
+ * palace's branch instead of recomputing anything.
+ *
+ * Every formula below was cross-checked against either a real tuvi.vn chart
+ * or at least two independent, mutually-agreeing sources before being
+ * trusted (2026-09-14) — see the git commit message for the citations and
+ * the specific case that disproved the once-considered alternate formulas.
+ */
+
+const TY_ANCHORED_BRANCHES: EarthlyBranchVi[] = [
+  "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi",
+];
+
+function offsetBranch(from: EarthlyBranchVi, offset: number): EarthlyBranchVi {
+  const idx = TY_ANCHORED_BRANCHES.indexOf(from);
+  return TY_ANCHORED_BRANCHES[((idx + offset) % 12 + 12) % 12];
+}
+
+/**
+ * Quoc An / Duong Phu — both counted forward (thuan) from Loc Ton's own
+ * palace, no gender dependency. Verified against a real tuvi.vn chart (Loc
+ * Ton at Ngo -> Duong Phu landed at Hoi/Tai Bach, Quoc An at Dan/Huynh De,
+ * both exact matches). A web-article description claiming Duong Phu goes
+ * nghich (backward) with gender dependency was checked and REJECTED — it
+ * predicted Tuat instead of the tuvi.vn chart's actual Hoi.
+ */
+export function getQuocAn(locTonBranch: EarthlyBranchVi): EarthlyBranchVi {
+  return offsetBranch(locTonBranch, 8);
+}
+
+export function getDuongPhu(locTonBranch: EarthlyBranchVi): EarthlyBranchVi {
+  return offsetBranch(locTonBranch, 5);
+}
+
+/**
+ * Thien Giai / Dia Giai — by lunar birth month, month 1 anchored at Than /
+ * Mui respectively, exactly one palace forward (thuan) per month. Two
+ * independent sources (hocvienlyso.org's "an cac sao theo thang sinh"
+ * lesson, tracuutuvi.com) agree on this simple rule. A third source (an
+ * open-source lasotuvi implementation on GitHub) used a more complex
+ * 2-palaces-per-month formula for Thien Giai and a Ta Phu-relative formula
+ * for Dia Giai — checked and REJECTED for Thien Giai (lone outlier against
+ * two agreeing sources); its Dia Giai answer happened to coincide with this
+ * formula's for the one chart tested, which is what made the cross-check
+ * possible at all.
+ */
+export function getThienGiai(lunarMonth: number): EarthlyBranchVi {
+  return offsetBranch("Thân", lunarMonth - 1);
+}
+
+export function getDiaGiai(lunarMonth: number): EarthlyBranchVi {
+  return offsetBranch("Mùi", lunarMonth - 1);
+}
+
+/**
+ * Luu Ha — fixed by year heavenly stem only (no month/day/gender). Table
+ * agreed on by multiple independent Vietnamese tu-vi sources; further
+ * cross-checked indirectly via a same-input paired formula (Thien Tru) in
+ * the lasotuvi reference implementation, whose answer for stem Ky matched
+ * this chart's own already-correct (iztro-sourced) Thien Tru placement.
+ */
+const LUU_HA_BY_STEM: Record<HeavenlyStemVi, EarthlyBranchVi> = {
+  "Giáp": "Dậu",
+  "Ất": "Tuất",
+  "Bính": "Mùi",
+  "Đinh": "Thân",
+  "Mậu": "Tý",
+  "Kỷ": "Ngọ",
+  "Canh": "Mão",
+  "Tân": "Thìn",
+  "Nhâm": "Hợi",
+  "Quý": "Dần",
+};
+
+export function getLuuHa(yearStem: HeavenlyStemVi): EarthlyBranchVi {
+  return LUU_HA_BY_STEM[yearStem];
+}

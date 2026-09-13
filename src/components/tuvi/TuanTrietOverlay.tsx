@@ -37,7 +37,7 @@ export default function TuanTrietOverlay({ tuan, triet }: { tuan: TuanTrietZone;
   if (sameZone(tuan, triet)) {
     const { xPct, yPct } = midpoint(tuan.branches[0], tuan.branches[1]);
     return (
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 z-10">
         <span
           className="tracking-label pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-sm border border-walnut/40 bg-ivory px-1 text-[9px] font-semibold uppercase"
           style={{ left: `${xPct}%`, top: `${yPct}%` }}
@@ -51,7 +51,7 @@ export default function TuanTrietOverlay({ tuan, triet }: { tuan: TuanTrietZone;
   }
 
   return (
-    <div className="pointer-events-none absolute inset-0">
+    <div className="pointer-events-none absolute inset-0 z-10">
       <ZoneLabel label="Tuần" zone={tuan} className="border-sage/50 bg-ivory text-sage" />
       <ZoneLabel label="Triệt" zone={triet} className="border-lacquer/50 bg-ivory text-lacquer" />
     </div>

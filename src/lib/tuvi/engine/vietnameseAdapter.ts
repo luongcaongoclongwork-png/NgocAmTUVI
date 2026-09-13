@@ -18,6 +18,8 @@ import {
 import { lookupBrightness } from "../rules/brightness";
 import { getTuan, getTriet } from "../rules/tuanTriet";
 import { FOUR_TRANSFORMATIONS_VI } from "../rules/fourTransformations";
+import { getQuocAn, getDuongPhu, getThienGiai, getDiaGiai, getLuuHa } from "../rules/namPhaiStars";
+import { getVietnameseLunarOverride, getVietnameseMonthGanZhi } from "../rules/vietnamChinaCalendarOverride";
 import type {
   BirthInput,
   EarthlyBranchVi,
@@ -68,9 +70,16 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
 
   const { yearly, monthly, daily, hourly } = astrolabe.rawDates.chineseDate;
   const year = stemBranchFromZh(yearly[0], yearly[1]);
-  const month = stemBranchFromZh(monthly[0], monthly[1]);
   const day = stemBranchFromZh(daily[0], daily[1]);
   const hour = stemBranchFromZh(hourly[0], hourly[1]);
+
+  // The month's own can-chi comes from a separate iztro/lunar-typescript
+  // call path than lunarDate above (month ganzhi by solar term, not via
+  // solar2lunar) — the Vietnam/China calendar-divergence patch in
+  // iztroAdapter.ts doesn't reach it, so it's corrected here directly. See
+  // rules/vietnamChinaCalendarOverride.ts for the verified formula.
+  const monthOverride = input.calendarType === "solar" ? getVietnameseLunarOverride(input.year, input.month, input.day) : undefined;
+  const month = monthOverride ? getVietnameseMonthGanZhi(year.stem, monthOverride.lunarMonth) : stemBranchFromZh(monthly[0], monthly[1]);
 
   const tuan = getTuan(year.stem, year.branch);
   const triet = getTriet(year.stem);
@@ -180,6 +189,46 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
         palace.supportStars.push({ id: "tianyueMin", name: vietEntry.name, category: "support" });
       }
     }
+  }
+
+  // Nam Phai auxiliary stars iztro never computes on its own — see
+  // rules/namPhaiStars.ts for the formulas and their verification. Derived
+  // from wherever iztro already placed Loc Ton / Thien Dieu (never
+  // recomputed here), then merged into adjectiveStars like any other
+  // tap tinh — same shape iztro's own stars already take.
+  function findPalaceByStarId(starId: string): VietnamesePalace | undefined {
+    return palaces.find(
+      (p) =>
+        p.majorStars.some((s) => s.id === starId) ||
+        p.supportStars.some((s) => s.id === starId) ||
+        p.maleficStars.some((s) => s.id === starId) ||
+        p.adjectiveStars.some((s) => s.id === starId),
+    );
+  }
+
+  const locTonPalace = findPalaceByStarId("lucunMin");
+  const thienDieuPalace = findPalaceByStarId("tianyao");
+
+  const namPhaiStars: { id: string; name: string; branch: EarthlyBranchVi }[] = [
+    { id: "thienGiaiNamPhai", name: "Thiên Giải", branch: getThienGiai(lunarMonth) },
+    { id: "diaGiaiNamPhai", name: "Địa Giải", branch: getDiaGiai(lunarMonth) },
+    { id: "luuHaNamPhai", name: "Lưu Hà", branch: getLuuHa(year.stem) },
+  ];
+  if (locTonPalace) {
+    namPhaiStars.push(
+      { id: "quocAnNamPhai", name: "Quốc Ấn", branch: getQuocAn(locTonPalace.branch) },
+      { id: "duongPhuNamPhai", name: "Đường Phù", branch: getDuongPhu(locTonPalace.branch) },
+    );
+  }
+
+  for (const { id, name, branch } of namPhaiStars) {
+    const palace = palaces.find((p) => p.branch === branch);
+    if (palace) palace.adjectiveStars.push({ id, name, category: "auxiliary" });
+  }
+
+  // Thien Y always shares Thien Dieu's palace (never computed independently).
+  if (thienDieuPalace) {
+    thienDieuPalace.adjectiveStars.push({ id: "thienYNamPhai", name: "Thiên Y", category: "auxiliary" });
   }
 
   const laiNhanCungRaw = astrolabe.palaces.find((p) => p.isOriginalPalace);

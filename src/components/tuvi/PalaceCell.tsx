@@ -85,10 +85,17 @@ export default function PalaceCell({
 }) {
   const minorStars = [...palace.supportStars, ...palace.maleficStars];
   const annualCount = horoscope ? horoscope.luuStars.length + (horoscope.suiQian ? 1 : 0) + (horoscope.jiangQian ? 1 : 0) : 0;
+  // Natal Thai Tue / Tuong Tinh 12-star cycles (vong Thai Tue, vong Tuong
+  // Tinh) — always exactly one member per palace, fixed by birth year
+  // (unlike horoscope.suiQian/jiangQian above, which are the *annual*
+  // members for whatever "nam xem" is selected). Already computed by
+  // vietnameseAdapter.ts onto every VietnamesePalace; just never rendered
+  // until now ("Bach Ho missing" feedback 2026-09-13).
+  const natalCycleStars = [palace.suiQian, palace.jiangQian].filter(Boolean);
   const density = getPalaceDensity({
     majorCount: palace.majorStars.length,
     minorCount: minorStars.length,
-    adjectiveCount: palace.adjectiveStars.length,
+    adjectiveCount: palace.adjectiveStars.length + natalCycleStars.length,
     annualCount,
   });
   const hasLuuContent = Boolean(horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian));
@@ -139,11 +146,16 @@ export default function PalaceCell({
         </div>
       )}
 
-      {palace.adjectiveStars.length > 0 && (
+      {(palace.adjectiveStars.length > 0 || natalCycleStars.length > 0) && (
         <div className="palace-adjective-stars">
           {palace.adjectiveStars.map((s) => (
             <span key={s.id} className="palace-adjective-star">
               {s.name}
+            </span>
+          ))}
+          {natalCycleStars.map((name) => (
+            <span key={name} className="palace-adjective-star">
+              {name}
             </span>
           ))}
         </div>

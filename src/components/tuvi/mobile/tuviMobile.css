@@ -45,12 +45,9 @@
   position: relative;
   width: 747px;
   height: 1032px;
-  background-image: linear-gradient(rgba(248, 242, 231, 0.6), rgba(248, 242, 231, 0.6)), url("/images/parchment-bg.png");
-  background-size: auto, contain;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
+  /* No background-image — outer edge owned solely by StructuralGridSVG's
+     frame rect, same as desktop's .ngoc-am-chart. */
   background-color: var(--na-paper);
-  border: 1px solid rgba(88, 61, 38, 0.55);
   box-shadow: 0 8px 22px rgba(49, 34, 21, 0.05);
 }
 

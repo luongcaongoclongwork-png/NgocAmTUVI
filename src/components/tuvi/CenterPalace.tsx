@@ -21,10 +21,6 @@ export default function CenterPalace({
         <Image src="/images/logo-mark.png" alt="" width={200} height={200} />
       </div>
 
-      <div className="center-seal" aria-hidden="true">
-        <Image src="/images/ngoc-am-seal.png" alt="" width={44} height={30} className="h-full w-full object-contain" />
-      </div>
-
       <header className="chart-center-header">
         <div className="chart-center-brand">NGỌC ÂM</div>
         <h2 className="chart-center-title">LÁ SỐ TỬ VI</h2>
