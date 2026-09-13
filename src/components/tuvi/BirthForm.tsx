@@ -7,6 +7,7 @@ import { CalendarSwitch, type CalendarType } from "./CalendarSwitch";
 import { BirthDateFields } from "./BirthDateFields";
 import { TuViHourPicker } from "./TuViHourPicker";
 import { TimeSelect } from "./TimeSelect";
+import TargetYearStepper from "./TargetYearStepper";
 import { daysInSolarMonth, daysInLunarMonth, convertOnCalendarSwitch } from "@/lib/tuvi/calendar/lunarPreview";
 
 const inputClass =
@@ -24,8 +25,6 @@ function CheckIcon() {
 const SUBMIT_LABEL: Record<GenerationStatus, string> = {
   idle: "Lập lá số ngay",
   validating: "Đang kiểm tra…",
-  generating: "Đang an sao…",
-  success: "Lập lá số ngay",
   error: "Lập lá số ngay",
 };
 
@@ -34,25 +33,28 @@ export default function BirthForm({
   status,
   targetYear,
   onTargetYearChange,
+  initialValue,
 }: {
   onSubmit: (input: BirthInput) => void;
   status: GenerationStatus;
   /** "Năm xem" (Luu Nien viewing year) — lives here so it sits in the same info card, but is independent of birth-data submission: changing it re-renders the already-generated chart immediately, no resubmit needed. */
   targetYear?: number;
   onTargetYearChange?: (year: number) => void;
+  /** Seeds the form fields (e.g. when returning from /la-so via "Chỉnh thông tin") — read once at mount, per field, via each useState initializer below. */
+  initialValue?: BirthInput;
 }) {
-  const [name, setName] = useState("");
-  const [gender, setGender] = useState<"Nam" | "Nữ">("Nam");
-  const [calendarType, setCalendarType] = useState<CalendarType>("solar");
-  const [day, setDay] = useState(1);
-  const [month, setMonth] = useState(1);
-  const [year, setYear] = useState(2000);
-  const [isLeapMonth, setIsLeapMonth] = useState(false);
-  const [time, setTime] = useState("12:00");
+  const [name, setName] = useState(initialValue?.name ?? "");
+  const [gender, setGender] = useState<"Nam" | "Nữ">(initialValue?.gender ?? "Nam");
+  const [calendarType, setCalendarType] = useState<CalendarType>(initialValue?.calendarType ?? "solar");
+  const [day, setDay] = useState(initialValue?.day ?? 1);
+  const [month, setMonth] = useState(initialValue?.month ?? 1);
+  const [year, setYear] = useState(initialValue?.year ?? 2000);
+  const [isLeapMonth, setIsLeapMonth] = useState(initialValue?.isLeapMonth ?? false);
+  const [time, setTime] = useState(initialValue?.time ?? "12:00");
   const [dateError, setDateError] = useState<string | null>(null);
   const dateErrorId = useId();
   const dateFieldsRef = useRef<HTMLDivElement>(null);
-  const busy = status === "validating" || status === "generating";
+  const busy = status === "validating";
 
   // Keep `day` in range whenever the selected month/year/leap-month no longer supports it,
   // rather than letting an invalid combination (e.g. 31/2) sit in state until submit.
@@ -177,26 +179,7 @@ export default function BirthForm({
       </div>
 
       {targetYear !== undefined && onTargetYearChange && (
-        <div className="flex items-center justify-center gap-3 text-[11px] tracking-[0.08em] text-walnut/70 uppercase">
-          <span>Năm xem</span>
-          <button
-            type="button"
-            onClick={() => onTargetYearChange(targetYear - 1)}
-            className="flex h-11 w-11 items-center justify-center border border-walnut/30 text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
-            aria-label="Lùi một năm"
-          >
-            −
-          </button>
-          <span className="min-w-[3.5em] text-center font-medium normal-case text-ink">{targetYear}</span>
-          <button
-            type="button"
-            onClick={() => onTargetYearChange(targetYear + 1)}
-            className="flex h-11 w-11 items-center justify-center border border-walnut/30 text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
-            aria-label="Tiến một năm"
-          >
-            +
-          </button>
-        </div>
+        <TargetYearStepper targetYear={targetYear} onTargetYearChange={onTargetYearChange} />
       )}
 
       <button
