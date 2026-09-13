@@ -7,7 +7,7 @@ import type {
 } from "@/lib/tuvi/types/VietnameseChart";
 import { BRIGHTNESS_LABEL } from "@/lib/tuvi/types/VietnameseChart";
 import { starColorVar } from "./starElementColor";
-import { getPalaceVisualDensity } from "./paletteDensity";
+import { getPalaceDensity } from "./paletteDensity";
 import "./ngocAmChart.css";
 
 const TRANSFORMATION_CLASS: Record<FourTransformation, string> = {
@@ -27,21 +27,37 @@ export interface PalaceHoroscopeView {
   mutagenByStarId: Partial<Record<string, FourTransformation>>;
 }
 
-function LuuMutagenTag({ starId, horoscope }: { starId: string; horoscope?: PalaceHoroscopeView }) {
-  const transformation = horoscope?.mutagenByStarId[starId];
-  if (!transformation) return null;
-  return <span className={`main-star-tag ${TRANSFORMATION_CLASS[transformation]}`}>L.{transformation}</span>;
-}
-
 function MinorStarLabel({ star, horoscope }: { star: VietnameseStar; horoscope?: PalaceHoroscopeView }) {
+  const annualMutagen = horoscope?.mutagenByStarId[star.id];
   return (
     <span className="palace-minor-star" style={starColorVar(star)}>
       {star.name}
       {star.transformation && (
-        <span className={`main-star-tag ${TRANSFORMATION_CLASS[star.transformation]}`}>{star.transformation}</span>
+        <span className={`palace-minor-star__tag ${TRANSFORMATION_CLASS[star.transformation]}`}>{star.transformation}</span>
       )}
-      <LuuMutagenTag starId={star.id} horoscope={horoscope} />
+      {annualMutagen && <span className="palace-minor-star__tag palace-minor-star__tag--annual">L.{annualMutagen}</span>}
     </span>
+  );
+}
+
+function MajorStarBlock({ star, horoscope }: { star: VietnameseStar; horoscope?: PalaceHoroscopeView }) {
+  const annualMutagen = horoscope?.mutagenByStarId[star.id];
+  const hasMeta = Boolean(star.brightness || star.transformation || annualMutagen);
+  return (
+    <div className="palace-major-star">
+      <div className="palace-major-star__name-row">
+        <span className="palace-major-star__name" style={starColorVar(star)}>
+          {star.name}
+        </span>
+      </div>
+      {hasMeta && (
+        <div className="palace-major-star__meta">
+          {star.brightness && <span className="palace-major-star__state">{BRIGHTNESS_LABEL[star.brightness]}</span>}
+          {star.transformation && <span className="palace-major-star__mutagen">{star.transformation}</span>}
+          {annualMutagen && <span className="palace-major-star__annual-mutagen">L.{annualMutagen}</span>}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -68,12 +84,14 @@ export default function PalaceCell({
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 }) {
   const minorStars = [...palace.supportStars, ...palace.maleficStars];
-  const luuExtraCount = horoscope ? horoscope.luuStars.length + 2 : 0; // +2 for suiQian/jiangQian
-  const density = getPalaceVisualDensity({
+  const annualCount = horoscope ? horoscope.luuStars.length + (horoscope.suiQian ? 1 : 0) + (horoscope.jiangQian ? 1 : 0) : 0;
+  const density = getPalaceDensity({
     majorCount: palace.majorStars.length,
     minorCount: minorStars.length,
-    extraCount: palace.adjectiveStars.length + luuExtraCount,
+    adjectiveCount: palace.adjectiveStars.length,
+    annualCount,
   });
+  const hasLuuContent = Boolean(horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian));
 
   return (
     <button
@@ -89,7 +107,7 @@ export default function PalaceCell({
       data-emphasis={!selected ? emphasis : undefined}
       data-density={density}
       data-has-horoscope={horoscope ? "true" : undefined}
-      className={`tuvi-palace${palace.isSoulPalace ? " tuvi-palace--soul" : ""}`}
+      className={`tuvi-palace${palace.isSoulPalace ? " tuvi-palace--soul" : ""}${palace.isBodyPalace ? " tuvi-palace--body" : ""}`}
     >
       <header className="palace-header">
         <span className="palace-branch">
@@ -102,23 +120,14 @@ export default function PalaceCell({
         <span className="palace-index">{palace.index + 1}</span>
       </header>
 
-      <div
-        id={`palace-detail-${palace.index}`}
-        className={`palace-main-stars${palace.majorStars.length === 0 ? " palace-main-stars--empty" : ""}`}
-      >
+      {/* Main stars: the ONLY centered section — see palace-main-stars. Never used to center the whole cell. */}
+      <div id={`palace-detail-${palace.index}`} className="palace-main-stars">
         {palace.majorStars.length === 0 ? (
-          <span>Vô Chính Diệu</span>
+          <div className="palace-major-star">
+            <span className="palace-major-star__name palace-major-star__name--empty">Vô Chính Diệu</span>
+          </div>
         ) : (
-          palace.majorStars.map((s) => (
-            <span key={s.id} className="main-star" style={starColorVar(s)}>
-              {s.name}
-              {s.brightness && <span className="main-star-tag main-star-tag--brightness">{BRIGHTNESS_LABEL[s.brightness]}</span>}
-              {s.transformation && (
-                <span className={`main-star-tag ${TRANSFORMATION_CLASS[s.transformation]}`}>{s.transformation}</span>
-              )}
-              <LuuMutagenTag starId={s.id} horoscope={horoscope} />
-            </span>
-          ))
+          palace.majorStars.map((s) => <MajorStarBlock key={s.id} star={s} horoscope={horoscope} />)
         )}
       </div>
 
@@ -131,28 +140,39 @@ export default function PalaceCell({
       )}
 
       {palace.adjectiveStars.length > 0 && (
-        <div className="palace-adjective-stars">{palace.adjectiveStars.map((s) => s.name).join(" · ")}</div>
-      )}
-
-      {horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian) && (
-        <div className="palace-luu-stars">
-          {[...horoscope.luuStars.map((s) => s.name), horoscope.suiQian, horoscope.jiangQian].filter(Boolean).join(" · ")}
+        <div className="palace-adjective-stars">
+          {palace.adjectiveStars.map((s) => (
+            <span key={s.id} className="palace-adjective-star">
+              {s.name}
+            </span>
+          ))}
         </div>
       )}
 
-      <footer className="palace-footer">
-        <span>{palace.daiVan ? `${palace.daiVan.startAge}–${palace.daiVan.endAge}` : ""}</span>
-        <span>{palace.changSinh}</span>
-        <span>{palace.boshi}</span>
-      </footer>
-
-      {horoscope && (
-        <footer className="palace-footer palace-footer--horoscope">
-          <span>ĐV {horoscope.daiVanPalaceName}</span>
-          <span />
-          <span>LN {horoscope.luuNienPalaceName}</span>
-        </footer>
+      {hasLuuContent && horoscope && (
+        <div className="palace-luu-section">
+          <div className="palace-luu-label">Lưu</div>
+          <div className="palace-luu-stars">
+            {[...horoscope.luuStars.map((s) => s.name), horoscope.suiQian, horoscope.jiangQian].filter(Boolean).join(" · ")}
+          </div>
+        </div>
       )}
+
+      <div className="palace-footer-zone">
+        <footer className="palace-footer">
+          <span>{palace.daiVan ? `${palace.daiVan.startAge}–${palace.daiVan.endAge}` : ""}</span>
+          <span>{palace.changSinh}</span>
+          <span>{palace.boshi}</span>
+        </footer>
+
+        {horoscope && (
+          <footer className="palace-footer palace-footer--horoscope">
+            <span>ĐV {horoscope.daiVanPalaceName}</span>
+            <span />
+            <span>LN {horoscope.luuNienPalaceName}</span>
+          </footer>
+        )}
+      </div>
     </button>
   );
 }

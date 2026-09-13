@@ -1,0 +1,318 @@
+/**
+ * Mobile-only chart presentation (<768px). Everything here is scoped under
+ * .mobile-tuvi-canvas (the 747x1032 virtual canvas TuViChartGrid renders
+ * into — see MobileTuViOverview.tsx) or under standalone .mobile-* classes
+ * that only ever render inside MobileTuViExperience. None of this can leak
+ * onto the desktop chart: desktop's wrapper is .ngoc-am-chart, never
+ * .mobile-tuvi-canvas, so these selectors simply never match there.
+ * Reuses the SAME --na-* tokens / var(--font-heading) as ngocAmChart.css —
+ * no parallel token system.
+ */
+
+/* ---------- Scale viewport (MobileScaleViewport.tsx) ---------- */
+
+.mobile-chart-viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.mobile-chart-scale-layer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.mobile-chart-placeholder {
+  width: 100%;
+  aspect-ratio: 747 / 1032;
+  background: rgba(244, 235, 221, 0.5);
+}
+
+.mobile-chart-hint {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--na-muted);
+}
+
+/* ---------- Virtual canvas ---------- */
+
+.mobile-tuvi-canvas {
+  position: relative;
+  width: 747px;
+  height: 1032px;
+  background-image: linear-gradient(rgba(248, 242, 231, 0.6), rgba(248, 242, 231, 0.6)), url("/images/parchment-bg.png");
+  background-size: auto, contain;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-color: var(--na-paper);
+  border: 1px solid rgba(88, 61, 38, 0.55);
+  box-shadow: 0 8px 22px rgba(49, 34, 21, 0.05);
+}
+
+.mobile-tuvi-canvas .ngoc-am-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+}
+
+.mobile-tuvi-canvas .tuvi-palace {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 10px 10px 27px;
+  background: rgba(251, 247, 239, 0.42);
+  border: none;
+  touch-action: manipulation;
+}
+
+.mobile-tuvi-canvas .tuvi-palace[data-has-horoscope="true"] {
+  padding-bottom: 34px;
+}
+
+/* Hover is a desktop-only affordance — never sticks on touch. */
+@media (hover: hover) and (pointer: fine) {
+  .mobile-tuvi-canvas .tuvi-palace:hover {
+    background: rgba(251, 247, 239, 0.82);
+  }
+}
+
+.mobile-tuvi-canvas .tuvi-palace[data-selected="true"] {
+  z-index: 5;
+  background: rgba(162, 109, 57, 0.13);
+  box-shadow: inset 0 0 0 3px rgba(145, 88, 48, 0.72);
+  outline: none;
+}
+
+.mobile-tuvi-canvas .palace-header {
+  column-gap: 5px;
+}
+
+.mobile-tuvi-canvas .palace-branch {
+  font-size: 10.5px;
+  line-height: 1.05;
+}
+
+.mobile-tuvi-canvas .palace-name {
+  font-size: 12px;
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+.mobile-tuvi-canvas .palace-index {
+  font-size: 9px;
+}
+
+.mobile-tuvi-canvas .palace-main-stars {
+  margin-top: 8px;
+  margin-bottom: 6px;
+  gap: 3px;
+}
+
+.mobile-tuvi-canvas .palace-major-star__name {
+  font-size: 14.5px;
+  line-height: 1.17;
+  font-weight: 650;
+}
+
+.mobile-tuvi-canvas .palace-major-star__meta {
+  min-height: 8px;
+  gap: 3px;
+}
+
+.mobile-tuvi-canvas .palace-major-star__state,
+.mobile-tuvi-canvas .palace-major-star__mutagen,
+.mobile-tuvi-canvas .palace-major-star__annual-mutagen {
+  font-size: 7.5px;
+}
+
+.mobile-tuvi-canvas .palace-minor-stars {
+  margin-top: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 7px;
+  row-gap: 1px;
+}
+
+.mobile-tuvi-canvas .palace-minor-star {
+  font-size: 10px;
+  line-height: 1.27;
+}
+
+.mobile-tuvi-canvas .palace-minor-star__tag {
+  font-size: 7.5px;
+}
+
+.mobile-tuvi-canvas .palace-adjective-stars {
+  margin-top: 5px;
+}
+
+.mobile-tuvi-canvas .palace-adjective-star {
+  font-size: 9.3px;
+  line-height: 1.3;
+}
+
+.mobile-tuvi-canvas .palace-luu-section {
+  margin-top: 6px;
+  padding-top: 4px;
+}
+
+.mobile-tuvi-canvas .palace-luu-label {
+  font-size: 6.5px;
+}
+
+.mobile-tuvi-canvas .palace-footer-zone {
+  padding: 3px 9px;
+  min-height: 18px;
+}
+
+.mobile-tuvi-canvas .palace-footer,
+.mobile-tuvi-canvas .palace-footer--horoscope {
+  font-size: 8px;
+}
+
+.mobile-tuvi-canvas .palace-luu-stars {
+  font-size: 8.8px;
+}
+
+/* ---------- Trung Cung (mobile) ---------- */
+
+.mobile-tuvi-canvas .center-palace-trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mobile-tuvi-canvas .center-palace-trigger[data-selected="true"] .center-palace {
+  box-shadow: inset 0 0 0 3px rgba(145, 88, 48, 0.72);
+}
+
+.mobile-tuvi-canvas .center-palace {
+  padding: 18px 26px 15px;
+  background: rgba(249, 243, 232, 0.72);
+}
+
+.mobile-tuvi-canvas .chart-center-brand {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.mobile-tuvi-canvas .chart-center-title {
+  margin-top: 4px;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.mobile-tuvi-canvas .chart-owner-name {
+  margin-top: 6px;
+  font-size: 11.5px;
+}
+
+.mobile-tuvi-canvas .center-info-row {
+  grid-template-columns: 70px minmax(0, 1fr) minmax(66px, auto);
+  column-gap: 7px;
+  min-height: 19px;
+}
+
+.mobile-tuvi-canvas .center-info-label {
+  font-size: 7.8px;
+}
+
+.mobile-tuvi-canvas .center-info-value {
+  font-size: 9.5px;
+}
+
+.mobile-tuvi-canvas .center-info-secondary {
+  font-size: 9px;
+}
+
+.mobile-tuvi-canvas .center-seal {
+  width: 24px;
+  height: 24px;
+  top: 11px;
+  right: 13px;
+  opacity: 0.72;
+}
+
+.mobile-tuvi-canvas .center-watermark {
+  opacity: 0.025;
+}
+
+.mobile-tuvi-canvas .center-watermark img {
+  width: 58%;
+}
+
+/* ---------- Palace navigator (dropdown) ---------- */
+
+.mobile-palace-navigator {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(88, 61, 38, 0.12);
+  border-bottom: 1px solid rgba(88, 61, 38, 0.12);
+}
+
+.mobile-palace-navigator label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na-muted);
+}
+
+.mobile-palace-navigator select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(88, 61, 38, 0.24);
+  background: rgba(249, 244, 235, 0.78);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  color: var(--na-ink);
+}
+
+/* ---------- Detail panel (MobilePalaceDetail / MobileCenterDetail) ---------- */
+
+.mobile-palace-detail {
+  margin-top: 16px;
+  padding: 20px 18px 22px;
+  border: 1px solid rgba(88, 61, 38, 0.18);
+  background: rgba(249, 244, 235, 0.86);
+}
+
+.mobile-detail-kicker {
+  margin-bottom: 10px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--na-gold);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-tuvi-canvas .tuvi-palace {
+    transition: none !important;
+  }
+}
+
+/* ---------- Safe area (result page shell) ---------- */
+
+.la-so-result-page {
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+}

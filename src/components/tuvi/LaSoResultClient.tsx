@@ -80,7 +80,7 @@ export default function LaSoResultClient() {
   const { chart, birthInput } = state;
 
   return (
-    <div className="mx-auto max-w-[1320px] px-6 py-16 lg:px-10">
+    <div className="la-so-result-page mx-auto max-w-[1320px] px-6 py-16 lg:px-10">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <button

@@ -1,44 +1,22 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import PalaceCell from "./PalaceCell";
-import CenterPalace from "./CenterPalace";
-import AspectOverlay from "./AspectOverlay";
-import TuanTrietOverlay from "./TuanTrietOverlay";
-import MobilePalaceGrid from "./MobilePalaceGrid";
-import MobilePalaceList from "./MobilePalaceList";
-import PalaceDetailSheet from "./PalaceDetailSheet";
-import { BRANCH_GRID_POSITION, CENTER_GRID_AREA } from "@/lib/tuvi/rules/palaces";
+import TuViChartGrid from "./TuViChartGrid";
+import { MobileTuViExperience } from "./mobile/MobileTuViExperience";
+import { useIsMobile } from "./mobile/useIsMobile";
+import { useChartBaseWidth } from "./useChartBaseWidth";
+import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExport";
 import { generateHoroscope } from "@/lib/tuvi/engine/chartEngine";
-import type { BirthInput, VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
-import type { PalaceHoroscopeView } from "./PalaceCell";
+import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "./ngocAmChart.css";
-
-const BASE_WIDTH = 980;
-
-export type MobileChartView = "overview" | "details";
+import "./mobile/tuviMobile.css";
 
 function exportFileBaseName(chart: VietnameseChartDTO): string {
   const namePart = chart.name?.trim().replace(/\s+/g, "-") || "la-so";
   const datePart = chart.solarDate.replace(/[^0-9]/g, "-");
   return `ngoc-am-${namePart}-${datePart}`;
-}
-
-function buildPalaceHoroscopeView(
-  horoscope: VietnameseHoroscopeDTO | null,
-  index: number,
-): PalaceHoroscopeView | undefined {
-  if (!horoscope) return undefined;
-  return {
-    daiVanPalaceName: horoscope.decadal.palaceNameByIndex[index],
-    luuNienPalaceName: horoscope.yearly.palaceNameByIndex[index],
-    luuStars: horoscope.yearly.starsByIndex[index],
-    suiQian: horoscope.yearly.suiQianByIndex[index],
-    jiangQian: horoscope.yearly.jiangQianByIndex[index],
-    mutagenByStarId: horoscope.yearly.mutagenByStarId,
-  };
 }
 
 export default function TuViChart({
@@ -56,13 +34,13 @@ export default function TuViChart({
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
-  const [mobileView, setMobileView] = useState<MobileChartView>("overview");
-  const [mobileSelectedIndex, setMobileSelectedIndex] = useState<number | null>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const exportRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
+  const isMobile = useIsMobile();
+  const baseWidth = useChartBaseWidth();
 
-  /** Roving tabindex 2D navigation (spec: ArrowLeft/Right/Up/Down move between the 12 palaces). */
+  /** Roving tabindex 2D navigation (spec: ArrowLeft/Right/Up/Down move between the 12 palaces). Desktop-only — the mobile experience doesn't use a branch-ring grid. */
   function handlePalaceKeyDown(index: number, e: React.KeyboardEvent<HTMLButtonElement>) {
     const deltas: Record<string, [number, number]> = {
       ArrowLeft: [0, -1],
@@ -96,6 +74,10 @@ export default function TuViChart({
     }
   }
 
+  // Computed once here and shared, as the same `horoscope` object, by both
+  // the desktop chart and the mobile experience below — neither recomputes
+  // it, and switching between mobile/desktop (resize, rotate) never
+  // re-triggers this (only birthInput/targetYear/profile do).
   const horoscope = useMemo(() => {
     if (!birthInput || targetYear === undefined) return null;
     try {
@@ -109,14 +91,6 @@ export default function TuViChart({
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
-
-  function emphasisFor(index: number): "tam-hop" | "xung-chieu" | "giap-cung" | undefined {
-    if (selectedIndex === null || index === selectedIndex) return undefined;
-    if (index === xungChieu) return "xung-chieu";
-    if (tamHop.includes(index)) return "tam-hop";
-    if (giapIndices.includes(index)) return "giap-cung";
-    return undefined;
-  }
 
   async function handleExport(kind: "image" | "pdf") {
     if (!exportRef.current || exporting) return;
@@ -148,12 +122,10 @@ export default function TuViChart({
     };
   })();
 
-  const mobilePalace = mobileSelectedIndex !== null ? chart.palaces.find((p) => p.index === mobileSelectedIndex) : undefined;
-
   return (
     <div className="ngoc-am-chart-root flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="hidden text-[13px] text-walnut/70 lg:block">
+        <p className="hidden text-[13px] text-walnut/70 md:block">
           Chạm vào một cung để xem tam hợp (viền vàng, nét đứt), xung chiếu (viền đỏ, nét liền) và giáp cung (viền lục, nét chấm).
         </p>
         <div className="flex flex-wrap items-center gap-3">
@@ -163,7 +135,7 @@ export default function TuViChart({
               title="Xuất ảnh"
               onClick={() => handleExport("image")}
               disabled={exporting !== null}
-              className="flex min-h-11 items-center border border-walnut/30 px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "image" ? "Đang xuất…" : "Xuất ảnh"}
             </button>
@@ -172,7 +144,7 @@ export default function TuViChart({
               title="Xuất PDF"
               onClick={() => handleExport("pdf")}
               disabled={exporting !== null}
-              className="flex min-h-11 items-center border border-walnut/30 px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "pdf" ? "Đang xuất…" : "Xuất PDF"}
             </button>
@@ -180,127 +152,67 @@ export default function TuViChart({
         </div>
       </div>
 
-      {/* ---------- Mobile (< lg): Tổng quan / Chi tiết 12 cung — shares `chart`/`horoscope` with the desktop chart below, no separate calculation. ---------- */}
-      <div className="lg:hidden">
-        <div role="tablist" aria-label="Chế độ xem lá số" className="mb-3 grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mobileView === "overview"}
-            onClick={() => setMobileView("overview")}
-            className={`flex min-h-11 items-center justify-center border text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
-              mobileView === "overview" ? "border-walnut bg-walnut text-ivory" : "border-walnut/25 text-walnut/70"
-            }`}
-          >
-            Tổng quan
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mobileView === "details"}
-            onClick={() => setMobileView("details")}
-            className={`flex min-h-11 items-center justify-center border text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
-              mobileView === "details" ? "border-walnut bg-walnut text-ivory" : "border-walnut/25 text-walnut/70"
-            }`}
-          >
-            Chi tiết 12 cung
-          </button>
-        </div>
+      {/* ---------- Mobile (<768px): scaled virtual-canvas overview + dropdown + full-width detail panel. Only mounted while actually mobile — see useIsMobile.ts; the desktop tree below stays mounted regardless (unaffected by this), so Xuat anh/PDF always captures the real 980x980 chart. ---------- */}
+      {isMobile && <MobileTuViExperience chart={chart} birthTime={birthTime} horoscope={horoscope} />}
 
-        {mobileView === "overview" ? (
-          <MobilePalaceGrid palaces={chart.palaces} onSelect={setMobileSelectedIndex} />
-        ) : (
-          <MobilePalaceList
-            palaces={chart.palaces}
-            horoscopeByIndex={(index) => buildPalaceHoroscopeView(horoscope, index)}
-          />
-        )}
-
-        {mobilePalace && (
-          <PalaceDetailSheet
-            palace={mobilePalace}
-            horoscope={buildPalaceHoroscopeView(horoscope, mobilePalace.index)}
-            onClose={() => setMobileSelectedIndex(null)}
-          />
-        )}
-      </div>
-
-      {/* ---------- Desktop (>= lg): traditional 4x4 chart, unchanged. Visually
-          collapsed (not display:none) below lg so `exportRef` still captures the
-          full traditional chart for Xuất ảnh/PDF regardless of which mobile view
-          the visitor is looking at. ---------- */}
-      <div className="h-0 overflow-hidden opacity-0 lg:h-auto lg:overflow-visible lg:opacity-100">
+      {/* ---------- Desktop (>=768px): traditional 4x4 chart, unchanged. Visually
+          collapsed (not display:none) below md so `exportRef` still captures the
+          full traditional chart for Xuất ảnh/PDF regardless of viewport. ---------- */}
+      <div className="h-0 overflow-hidden opacity-0 md:h-auto md:overflow-visible md:opacity-100">
         <div className="ngoc-am-chart-scroll">
-          <div
-            ref={exportRef}
-            className="relative mx-auto"
-            style={{
-              // Fixed at BASE_WIDTH — no zoom control anymore (removed per
-              // user request); the chart always renders at its natural
-              // 980x980 size, letting .ngoc-am-chart-scroll's overflow-x
-              // handle any viewport narrower than that.
-              width: `${BASE_WIDTH}px`,
-            }}
-          >
+          <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px` }}>
             <section className="ngoc-am-chart">
-              <div className="ngoc-am-grid">
-                {chart.palaces.map((p) => {
-                  const palaceHoroscope = buildPalaceHoroscopeView(horoscope, p.index);
-                  return (
-                    <div key={p.index} style={{ gridArea: `${BRANCH_GRID_POSITION[p.branch].row} / ${BRANCH_GRID_POSITION[p.branch].col} / span 1 / span 1` }}>
-                      <PalaceCell
-                        palace={p}
-                        selected={selectedIndex === p.index}
-                        emphasis={emphasisFor(p.index)}
-                        horoscope={palaceHoroscope}
-                        tabIndex={focusedIndex === p.index ? 0 : -1}
-                        cellRef={(el) => {
-                          if (el) cellRefs.current.set(p.index, el);
-                          else cellRefs.current.delete(p.index);
-                        }}
-                        onKeyDown={(e) => handlePalaceKeyDown(p.index, e)}
-                        onSelect={() => {
-                          setSelectedIndex((cur) => (cur === p.index ? null : p.index));
-                          setFocusedIndex(p.index);
-                        }}
-                      />
-                    </div>
-                  );
-                })}
-
-                <div style={{ gridArea: CENTER_GRID_AREA }}>
-                  <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} />
-                </div>
-              </div>
-
-              <AspectOverlay palaces={chart.palaces} selectedIndex={selectedIndex} />
-              <TuanTrietOverlay tuan={chart.tuan} triet={chart.triet} />
+              <TuViChartGrid
+                chart={chart}
+                birthTime={birthTime}
+                horoscope={horoscope}
+                selectedIndex={selectedIndex}
+                onSelectPalace={(index) => {
+                  setSelectedIndex((cur) => (cur === index ? null : index));
+                  setFocusedIndex(index);
+                }}
+                tabIndexFor={(index) => (focusedIndex === index ? 0 : -1)}
+                cellRef={(index, el) => {
+                  if (el) cellRefs.current.set(index, el);
+                  else cellRefs.current.delete(index);
+                }}
+                onKeyDownPalace={handlePalaceKeyDown}
+              />
             </section>
 
             <div className="chart-legend">
-              <span className="flex items-center gap-1.5">
-                <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="var(--color-gold)" strokeWidth="2" strokeDasharray="4 3" /></svg>
-                Tam hợp
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="var(--color-lacquer)" strokeWidth="2" /></svg>
-                Xung chiếu
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="#45684c" strokeWidth="2" strokeDasharray="1 3" strokeLinecap="round" /></svg>
-                Giáp cung
-              </span>
-              <span>
-                <b>M</b> Miếu · <b>V</b> Vượng · <b>Đ</b> Đắc · <b>B</b> Bình · <b>H</b> Hãm
-              </span>
-              <span>Kim · Mộc · Thủy · Hỏa · Thổ</span>
+              <div className="chart-legend-group">
+                <span className="chart-legend-group__title">Tương quan</span>
+                <span className="flex items-center gap-1.5">
+                  <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="var(--color-gold)" strokeWidth="2" strokeDasharray="4 3" /></svg>
+                  Tam hợp
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="var(--color-lacquer)" strokeWidth="2" /></svg>
+                  Xung chiếu
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="#45684c" strokeWidth="2" strokeDasharray="1 3" strokeLinecap="round" /></svg>
+                  Giáp cung
+                </span>
+              </div>
+              <div className="chart-legend-group">
+                <span className="chart-legend-group__title">Trạng thái</span>
+                <span>
+                  <b>M</b> Miếu · <b>V</b> Vượng · <b>Đ</b> Đắc · <b>B</b> Bình · <b>H</b> Hãm
+                </span>
+              </div>
+              <div className="chart-legend-group">
+                <span className="chart-legend-group__title">Ngũ hành</span>
+                <span>Kim · Mộc · Thủy · Hỏa · Thổ</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {selectedPalace && relationText && (
-        <p aria-live="polite" className="hidden text-[13px] leading-[1.6] text-walnut/75 lg:block">
+        <p aria-live="polite" className="hidden text-[13px] leading-[1.6] text-walnut/75 md:block">
           Cung đang chọn: <strong className="text-ink">{relationText.current}</strong>
           {relationText.tamHop && <> · Tam hợp: {relationText.tamHop}</>}
           {relationText.xungChieu && <> · Xung chiếu: {relationText.xungChieu}</>}

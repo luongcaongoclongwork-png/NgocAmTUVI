@@ -5,21 +5,23 @@
  * palaces instead of overflowing. Never used to decide star placement,
  * brightness, or any astrology fact.
  */
-export type PalaceVisualDensity = "airy" | "normal" | "dense" | "packed";
+export type PalaceDensity = "airy" | "normal" | "dense" | "packed";
 
-export function getPalaceVisualDensity({
+export function getPalaceDensity({
   majorCount,
   minorCount,
-  extraCount = 0,
+  adjectiveCount,
+  annualCount,
 }: {
   majorCount: number;
   minorCount: number;
-  extraCount?: number;
-}): PalaceVisualDensity {
-  const score = majorCount * 2.2 + minorCount + extraCount * 0.75;
+  adjectiveCount: number;
+  annualCount: number;
+}): PalaceDensity {
+  const score = majorCount * 2.4 + minorCount + adjectiveCount * 0.55 + annualCount * 0.65;
 
-  if (score <= 7) return "airy";
-  if (score <= 11) return "normal";
-  if (score <= 15) return "dense";
+  if (score <= 8) return "airy";
+  if (score <= 13) return "normal";
+  if (score <= 18) return "dense";
   return "packed";
 }
