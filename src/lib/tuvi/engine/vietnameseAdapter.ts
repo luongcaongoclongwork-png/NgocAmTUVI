@@ -26,6 +26,7 @@ import type {
   FourTransformation,
   HeavenlyStemVi,
   PalaceNameVi,
+  StarCategory,
   VietnameseBrightness,
   VietnameseChartDTO,
   VietnamesePalace,
@@ -52,6 +53,17 @@ interface RawStarLike {
   brightness?: string;
   mutagen?: string;
 }
+
+/**
+ * Star categories that can carry a brightness rating at all — the 14 major
+ * stars plus the 6 sat tinh ("malefic") and Van Xuong/Van Khuc (both
+ * "support", alongside other support stars like Ta Phu/Loc Ton that never
+ * carry one). Widening this beyond "major" is safe: lookupBrightness()
+ * still only returns a value for the specific (star, branch) pairs verified
+ * in MINOR_STAR_BRIGHTNESS_VI — everything else still comes back
+ * sourceNeeded and renders no badge, same as before this category was added.
+ */
+const BRIGHTNESS_ELIGIBLE_CATEGORIES = new Set<StarCategory>(["major", "malefic", "support"]);
 
 function stemBranchFromZh(stem: string, branch: string): { stem: HeavenlyStemVi; branch: EarthlyBranchVi } {
   return { stem: HEAVENLY_STEM_VI[stem], branch: EARTHLY_BRANCH_VI[branch] };
@@ -103,7 +115,7 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
     const entry = STAR_NAMES_VI[key];
     const star: VietnameseStar = { id: key, name: entry.name, category: entry.category, element: entry.element };
 
-    if (entry.category === "major") {
+    if (BRIGHTNESS_ELIGIBLE_CATEGORIES.has(entry.category)) {
       if (profile.useVietnameseBrightness) {
         const { brightness, sourceNeeded } = lookupBrightness(key, branch);
         star.brightness = brightness;

@@ -30,8 +30,9 @@ export interface PalaceHoroscopeView {
 function MinorStarLabel({ star, horoscope }: { star: VietnameseStar; horoscope?: PalaceHoroscopeView }) {
   const annualMutagen = horoscope?.mutagenByStarId[star.id];
   return (
-    <span className="palace-minor-star" style={starColorVar(star)}>
+    <span className="palace-minor-star" data-category={star.category} style={starColorVar(star)}>
       {star.name}
+      {star.brightness && <span className="palace-minor-star__state">({BRIGHTNESS_LABEL[star.brightness]})</span>}
       {star.transformation && (
         <span className={`palace-minor-star__tag ${TRANSFORMATION_CLASS[star.transformation]}`}>{star.transformation}</span>
       )}
@@ -46,7 +47,7 @@ function MajorStarBlock({ star, horoscope }: { star: VietnameseStar; horoscope?:
   return (
     <div className="palace-major-star">
       <div className="palace-major-star__name-row">
-        <span className="palace-major-star__name" style={starColorVar(star)}>
+        <span className="palace-major-star__name" data-category={star.category} style={starColorVar(star)}>
           {star.name}
         </span>
       </div>
@@ -149,7 +150,7 @@ export default function PalaceCell({
       {(palace.adjectiveStars.length > 0 || natalCycleStars.length > 0) && (
         <div className="palace-adjective-stars">
           {palace.adjectiveStars.map((s) => (
-            <span key={s.id} className="palace-adjective-star">
+            <span key={s.id} className="palace-adjective-star" data-category={s.category}>
               {s.name}
             </span>
           ))}

@@ -7,7 +7,7 @@ import { useIsMobile } from "./mobile/useIsMobile";
 import { useChartBaseWidth } from "./useChartBaseWidth";
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
-import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExport";
+import { exportChartAsImage } from "@/lib/tuvi/export/chartExport";
 import { generateHoroscope } from "@/lib/tuvi/engine/chartEngine";
 import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "./ngocAmChart.css";
@@ -33,7 +33,7 @@ export default function TuViChart({
   targetYear?: number;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
+  const [exporting, setExporting] = useState<"image" | null>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const exportRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
@@ -92,22 +92,29 @@ export default function TuViChart({
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
 
-  async function handleExport(kind: "image" | "pdf") {
+  async function handleExportImage() {
     if (!exportRef.current || exporting) return;
-    setExporting(kind);
+    setExporting("image");
     try {
       const baseName = exportFileBaseName(chart);
-      if (kind === "image") {
-        await exportChartAsImage(exportRef.current, `${baseName}.png`);
-      } else {
-        await exportChartAsPdf(exportRef.current, `${baseName}.pdf`);
-      }
+      await exportChartAsImage(exportRef.current, `${baseName}.png`);
     } catch (err) {
       console.error("Chart export failed:", err);
       window.alert("Không thể xuất lá số lúc này. Vui lòng thử lại.");
     } finally {
       setExporting(null);
     }
+  }
+
+  /** Opens the dedicated A4 print/PDF route in a new tab — sessionStorage
+   * (read by /la-so/print via loadChartInput()) is only copied to a tab
+   * opened this way (a same-origin script-initiated window.open), not to
+   * one opened with noopener/noreferrer or a manually typed URL, so this
+   * intentionally omits those. Re-derives the SAME chart via the SAME
+   * generateChart() call, not a screenshot of this one — see
+   * components/tuvi/print/. */
+  function handleExportPdf() {
+    window.open("/la-so/print", "_blank");
   }
 
   const selectedPalace = chart.palaces.find((p) => p.index === selectedIndex);
@@ -133,7 +140,7 @@ export default function TuViChart({
             <button
               type="button"
               title="Xuất ảnh"
-              onClick={() => handleExport("image")}
+              onClick={handleExportImage}
               disabled={exporting !== null}
               className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
@@ -142,11 +149,10 @@ export default function TuViChart({
             <button
               type="button"
               title="Xuất PDF"
-              onClick={() => handleExport("pdf")}
-              disabled={exporting !== null}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              onClick={handleExportPdf}
+              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
             >
-              {exporting === "pdf" ? "Đang xuất…" : "Xuất PDF"}
+              Xuất PDF
             </button>
           </div>
         </div>

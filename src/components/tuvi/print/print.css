@@ -1,0 +1,789 @@
+/**
+ * A4 print/PDF presentation for the Ngoc Am chart. Pure CSS override layer —
+ * every selector here targets class names PalaceCell.tsx/CenterPalace.tsx/
+ * TuViChartGrid.tsx already render for the live web chart (see
+ * ngocAmChart.css); nothing here computes or re-derives star data.
+ *
+ * @page note: the spec this implements asked for BOTH `@page{margin:10mm}`
+ * AND a full 210x297mm `.tuvi-print-page` box, which double-insets (the
+ * browser's own 10mm page margin, THEN another 10mm from the page box) and
+ * risks spilling onto a second page. Using `@page{margin:0}` plus a single
+ * 10mm padding on `.tuvi-print-page` gives the exact same 190x277mm safe
+ * area with only one inset, which is what section 50's "1 page only, no
+ * overflow" test actually requires.
+ */
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+/* ---------- Screen-only chrome hide-and-reveal (dedicated /la-so/print route lives inside the site's normal Header/main/Footer layout on screen; @media print reveals only the print root) ---------- */
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #tuvi-print-root,
+  #tuvi-print-root * {
+    visibility: visible;
+  }
+
+  #tuvi-print-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+/* ============================================================
+   Page shell
+   ============================================================ */
+
+.tuvi-print-page {
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  padding: 10mm;
+  background: var(--print-paper) url("/images/print/chart-paper-bg.png") center / cover no-repeat;
+  color: var(--print-ink);
+  overflow: hidden;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+
+  break-after: page;
+  page-break-after: always;
+  break-inside: avoid;
+  page-break-inside: avoid;
+
+  --print-paper: #f7efe2;
+  --print-ink: #34261d;
+  --print-brand: #8d6a3f;
+  --print-cinnabar: #944230;
+  --print-cinnabar-soft: #985040;
+  --print-sage: #6f7259;
+  --print-gold: #9b794b;
+  --print-muted: #938474;
+  --print-ink-soft: #665444;
+  --print-hairline: rgba(83, 61, 42, 0.16);
+
+  /* Category colors for the "CHU GIAI KY HIEU" legend + the stars themselves
+     (chinh tinh / cat tinh / hung tinh / phu tinh) — print-only, keyed off
+     the `data-category` attribute PalaceCell.tsx already exposes on each
+     star span (its own VietnameseStar.category, not a new computation).
+     The live web chart is untouched: nothing in ngocAmChart.css reads this
+     attribute, so it has zero effect there. */
+  --print-major-color: var(--print-cinnabar);
+  --print-support-color: #3f6b3f;
+  --print-malefic-color: #5c6b3a;
+  --print-auxiliary-color: var(--print-ink);
+}
+
+.tuvi-print-inner {
+  width: 190mm;
+  height: 277mm;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+
+.print-header {
+  min-height: 24mm;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  padding-top: 2mm;
+}
+
+.print-brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6mm;
+}
+
+.print-brand-block--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.print-brand {
+  font-family: var(--font-heading);
+  font-size: 12pt;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--print-brand);
+}
+
+.print-brand-sub {
+  font-size: 6.2pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--print-cinnabar-soft);
+}
+
+.print-motto {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 9pt;
+  color: var(--print-ink);
+}
+
+.print-title-wrap {
+  text-align: center;
+}
+
+.print-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 20pt;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--print-ink);
+}
+
+.print-subtitle {
+  margin-top: 2mm;
+  font-size: 7.5pt;
+  letter-spacing: 0.08em;
+  color: var(--print-cinnabar-soft);
+}
+
+/* ============================================================
+   Chart
+   ============================================================ */
+
+.print-chart-wrap {
+  flex: 0 0 auto;
+  margin: 0 auto;
+}
+
+.print-chart {
+  position: relative;
+  width: 184mm;
+  height: 184mm;
+  margin: 0 auto;
+
+  background: var(--print-paper);
+
+  border: 0.22mm solid rgba(83, 61, 42, 0.62);
+}
+
+/* .ngoc-am-grid's own rule sets `grid-template-rows: repeat(4, minmax(180px, 1fr))`
+   for the 980px+ desktop chart — at 184mm (~695px) a 180px row minimum would
+   force the grid taller than its own 184mm container. Print needs the plain
+   equal-fourths split, same as the column tracks already use. */
+.print-chart .ngoc-am-grid {
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+}
+
+/* Grid items default to `min-height: auto`, which lets their CONTENT's
+   min-content size win over the track's 1fr share and grow the whole row
+   (and every sibling cell in it) past 46mm — confirmed empirically: one
+   dense palace pushed its entire row ~4mm past the chart's own 184mm box.
+   TuViChartGrid.tsx renders each palace/center cell in a plain
+   `<div style={{gridArea}}>` with no class of its own, so this targets
+   them structurally (every direct child of the grid) rather than needing
+   a component change. min-height:0 lets the track hold to its 1fr size;
+   .tuvi-palace's own overflow:hidden (below) then clips that one cell's
+   excess instead of the whole page. */
+.print-chart .ngoc-am-grid > div {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Structural grid: same StructuralGridSVG.tsx component, print-only stroke weight. */
+.print-chart .tuvi-structural-grid {
+  stroke: rgba(83, 61, 42, 0.48);
+  stroke-width: 0.2mm;
+}
+
+.print-chart .tuvi-structural-grid__frame {
+  stroke: rgba(83, 61, 42, 0.62);
+}
+
+/* ---------- Palace cell ---------- */
+
+.print-chart .tuvi-palace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* The base rule's `min-height: 190px` (ngocAmChart.css) is a floor sized
+     for the 980px+ desktop grid (~245px/cell) — at 184mm (~174px/cell) it
+     silently wins over `height: 100%` above (min-height always clamps
+     height from below) and was pushing every cell, and the whole grid row
+     it sits in, ~16px past the chart's own box. Zero it out for print. */
+  min-height: 0;
+  border: none;
+  padding: 2.2mm 2.6mm 6.5mm;
+  background: rgba(251, 247, 239, 0.24);
+  overflow: hidden;
+  /* PalaceCell is a live <button> on the web chart — inert in print (no
+     click target, no hover/hand cursor) but keep the reset minimal since
+     this is a shared component, not a print-only one. */
+  cursor: default;
+}
+
+/* NOTE: .palace-header/.palace-main-stars/.palace-minor-stars/
+   .palace-adjective-stars/.palace-luu-section all carry flex-shrink:0
+   (ngocAmChart.css) — they never auto-compress to fit, so a bigger
+   padding-bottom here does NOT stop them from overflowing the shrunken
+   content box; it only shrinks that box further and makes it worse.
+   Sizing these 5 sections to actually fit (see the pt/mm values above and
+   the density overrides below) is the only real lever. .tuvi-palace's own
+   overflow:hidden plus .palace-footer-zone's opaque background are the
+   safety net for the rare case that still doesn't fit: any excess gets
+   clipped under an opaque footer rather than showing through as ghosted
+   double text. */
+
+.print-chart .palace-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 1.5mm;
+}
+
+.print-chart .palace-branch {
+  font-size: 6.8pt;
+  font-family: var(--font-heading);
+  color: var(--print-ink-soft);
+}
+
+.print-chart .palace-name {
+  font-size: 8.2pt;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-align: center;
+  color: var(--print-cinnabar);
+}
+
+.print-chart .palace-index {
+  font-size: 5.8pt;
+  text-align: right;
+  color: var(--print-muted);
+}
+
+/* ---------- Main (chinh tinh) stars — centered, stacked ---------- */
+
+.print-chart .palace-main-stars {
+  width: 100%;
+  margin-top: 1.6mm;
+  margin-bottom: 1.4mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1mm;
+  text-align: center;
+}
+
+.print-chart .palace-major-star {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.print-chart .palace-major-star__name {
+  font-family: var(--font-heading);
+  font-size: 9.6pt;
+  line-height: 1.08;
+  font-weight: 700;
+  color: var(--print-major-color);
+}
+
+.print-chart .palace-major-star__name--empty {
+  font-size: 8.6pt;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--print-muted);
+}
+
+.print-chart .tuvi-palace[data-density="dense"] .palace-major-star__name {
+  font-size: 9pt;
+}
+
+.print-chart .tuvi-palace[data-density="packed"] .palace-major-star__name {
+  font-size: 8.4pt;
+}
+
+/* flex-shrink:0 on these 5 sections (ngocAmChart.css) means they never
+   auto-compress to fit — density tiers have to shrink them explicitly, same
+   idea as the screen chart's own dense/packed rules just below, scaled to
+   print's much tighter 46mm cell. */
+.print-chart .tuvi-palace[data-density="dense"] .palace-main-stars,
+.print-chart .tuvi-palace[data-density="packed"] .palace-main-stars {
+  margin-top: 1mm;
+  margin-bottom: 0.8mm;
+}
+
+.print-chart .tuvi-palace[data-density="dense"] .palace-minor-star,
+.print-chart .tuvi-palace[data-density="packed"] .palace-minor-star {
+  font-size: 5.5pt;
+  line-height: 1.1;
+}
+
+.print-chart .tuvi-palace[data-density="dense"] .palace-adjective-stars,
+.print-chart .tuvi-palace[data-density="packed"] .palace-adjective-stars {
+  margin-top: 0.4mm;
+}
+
+.print-chart .tuvi-palace[data-density="dense"] .palace-adjective-star,
+.print-chart .tuvi-palace[data-density="packed"] .palace-adjective-star {
+  font-size: 4.8pt;
+  line-height: 1.08;
+}
+
+.print-chart .tuvi-palace[data-density="dense"] .palace-luu-section,
+.print-chart .tuvi-palace[data-density="packed"] .palace-luu-section {
+  margin-top: 0.4mm;
+  padding-top: 0.3mm;
+}
+
+.print-chart .tuvi-palace[data-density="dense"] .palace-luu-stars,
+.print-chart .tuvi-palace[data-density="packed"] .palace-luu-stars {
+  font-size: 4.6pt;
+  line-height: 1.08;
+}
+
+.print-chart .palace-major-star__meta {
+  margin-top: 0.4mm;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8mm;
+  min-height: 2.4mm;
+}
+
+.print-chart .palace-major-star__state {
+  font-size: 5.8pt;
+  color: var(--print-muted);
+}
+
+.print-chart .palace-major-star__mutagen {
+  padding: 0.2mm 0.7mm;
+  border: 0.15mm solid rgba(145, 67, 49, 0.2);
+  font-size: 5.4pt;
+  color: var(--print-cinnabar);
+}
+
+.print-chart .palace-major-star__annual-mutagen {
+  font-size: 5.4pt;
+  color: var(--print-gold);
+}
+
+/* ---------- Minor (phu tinh) stars — 2 columns, left-aligned ---------- */
+
+.print-chart .palace-minor-stars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2.2mm;
+  row-gap: 0.15mm;
+  text-align: left;
+}
+
+.print-chart .palace-minor-star {
+  font-size: 5.9pt;
+  line-height: 1.18;
+  font-weight: 450;
+  color: var(--print-auxiliary-color);
+}
+
+.print-chart .palace-minor-star[data-category="support"] {
+  color: var(--print-support-color);
+}
+
+.print-chart .palace-minor-star[data-category="malefic"] {
+  color: var(--print-malefic-color);
+}
+
+.print-chart .palace-minor-star__state,
+.print-chart .palace-minor-star__tag {
+  font-size: 5.6pt;
+}
+
+/* ---------- Adjective / auxiliary stars ---------- */
+
+.print-chart .palace-adjective-stars {
+  margin-top: 0.7mm;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2.2mm;
+  row-gap: 0.3mm;
+}
+
+.print-chart .palace-adjective-star {
+  font-size: 5.2pt;
+  line-height: 1.16;
+  color: var(--print-auxiliary-color);
+}
+
+.print-chart .palace-adjective-star[data-category="support"] {
+  color: var(--print-support-color);
+}
+
+.print-chart .palace-adjective-star[data-category="malefic"] {
+  color: var(--print-malefic-color);
+}
+
+/* ---------- Luu (annual transit overlay) section ---------- */
+
+.print-chart .palace-luu-section {
+  margin-top: 0.8mm;
+  padding-top: 0.6mm;
+  border-top: 0.15mm dashed rgba(94, 71, 53, 0.18);
+}
+
+.print-chart .palace-luu-label {
+  font-size: 4.4pt;
+  letter-spacing: 0.06em;
+  font-weight: 650;
+  color: var(--print-gold);
+}
+
+.print-chart .palace-luu-stars {
+  margin-top: 0.3mm;
+  font-size: 5pt;
+  line-height: 1.16;
+  color: var(--print-ink-soft);
+}
+
+/* ---------- Footer zone (Dai Van age / Truong Sinh / Bac Si, pinned to the cell's own bottom) ---------- */
+
+.print-chart .palace-footer-zone {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 4.6mm;
+  padding: 0.6mm 2.4mm;
+  border-top: 0.15mm solid rgba(87, 62, 42, 0.1);
+  background: var(--print-paper);
+}
+
+.print-chart .palace-footer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  line-height: 1.1;
+  font-size: 5pt;
+  color: var(--print-muted);
+}
+
+.print-chart .palace-footer--horoscope {
+  line-height: 1.1;
+  font-size: 4.7pt;
+  font-weight: 600;
+  color: var(--print-cinnabar-soft);
+}
+
+/* Tuan/Triet markers (TuanTrietOverlay.tsx) render via Tailwind utility
+   classes, not a stable class hook — left completely unstyled here on
+   purpose (same reasoning as the aspect overlay below): its own ~9px pill
+   already sits comfortably inside this file's 5.4-9.6pt range, and
+   overriding it would mean editing the shared component (which also backs
+   the live web chart — out of scope per rule 53). */
+
+/* ============================================================
+   Center palace (Trung Cung)
+   ============================================================ */
+
+.print-chart .center-palace {
+  position: relative;
+  padding: 4mm 8mm 3mm;
+  background: rgba(249, 243, 232, 0.68);
+}
+
+.print-chart .chart-center-brand {
+  font-size: 7.5pt;
+  letter-spacing: 0.17em;
+}
+
+.print-chart .chart-center-title {
+  margin-top: 1.2mm;
+  font-size: 19pt;
+  line-height: 1;
+}
+
+.print-chart .chart-center-subtitle {
+  margin-top: 1.2mm;
+  font-size: 6pt;
+  letter-spacing: 0.12em;
+}
+
+.print-chart .center-info-row {
+  grid-template-columns: 19mm minmax(0, 1fr) minmax(17mm, auto);
+  column-gap: 2.3mm;
+  min-height: 4.1mm;
+  padding: 0;
+}
+
+.print-chart .center-info-label {
+  font-size: 5.8pt;
+}
+
+.print-chart .center-info-value {
+  font-size: 7.2pt;
+  font-family: var(--font-heading);
+}
+
+.print-chart .center-info-secondary {
+  font-size: 6.4pt;
+}
+
+.print-chart .center-info-row--important .center-info-value {
+  font-size: 9pt;
+  font-weight: 650;
+}
+
+/* CenterPalace.tsx (shared with the live web chart, not editable here)
+   groups its rows as: [watermark, header, divider, GROUP(Ho va
+   ten+Nam+Thang+Ngay+Gio), divider, GROUP(Cuc), divider, GROUP(Chu
+   menh+Chu than), divider, GROUP(Lai nhan cung+Cung Menh+Cung Than+Than
+   cu), divider?, GROUP(Nam xem)?, tagline] — the two rules below target
+   those groups by DOM position (child 4 and child 10), the only hook
+   available without touching that shared component. Flagged here since a
+   reorder in CenterPalace.tsx would silently break this targeting. */
+
+/* Ho va ten is the FIRST row of child 4 — the person's own name, so it
+   gets the strongest typographic weight in the whole panel, stronger even
+   than the "important" rows below it. */
+.print-chart .center-palace > .center-info-group:nth-child(4) > .center-info-row:first-child .center-info-value {
+  font-size: 12pt;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Nam/Thang/Ngay/Gio (the 4 rows in child 4 AFTER Ho va ten) become a 2x2
+   grid — Ho va ten stays full-width above it via grid-column:1/-1 below.
+   Lai nhan cung/Cung Menh/Cung Than/Than cu (child 10, all 4 rows, no
+   stand-out row needed) becomes a plain 2x2 grid. Together these halve
+   both groups' height, freeing room for the bigger type used throughout
+   this panel — same data, same order, just regrouped into columns
+   (rule 47: rename/group/format only). */
+.print-chart .center-palace > .center-info-group:nth-child(4),
+.print-chart .center-palace > .center-info-group:nth-child(10) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 3mm;
+}
+
+/* Halving the row width for the 2x2 grid above also halves room for the
+   label column, wrapping some to 2 lines — narrow it and tighten the gap
+   for just these paired-up rows so they stay on 1 line. Nam/Thang/Ngay/Gio
+   (child 4, rows 2-5) still carry a secondary ganzhi value so they keep
+   3 columns, just narrower; Lai nhan cung's group (child 10) has no
+   secondary value on any row (see CenterPalace.tsx), so those drop to 2. */
+.print-chart .center-palace > .center-info-group:nth-child(4) > .center-info-row:not(:first-child) {
+  grid-template-columns: 12mm minmax(0, 1fr) minmax(10mm, auto);
+  column-gap: 1.2mm;
+}
+
+.print-chart .center-palace > .center-info-group:nth-child(10) > .center-info-row {
+  grid-template-columns: 15mm minmax(0, 1fr);
+  column-gap: 1.4mm;
+}
+
+.print-chart .center-palace > .center-info-group:nth-child(4) > .center-info-row:first-child {
+  grid-column: 1 / -1;
+  /* No secondary value on this row (name has no ganzhi pair) — drop the
+     17mm secondary-column reservation the shared 3-col row grid otherwise
+     wastes, so the enlarged name gets the room it needs to stay on 1 line. */
+  grid-template-columns: 19mm minmax(0, 1fr);
+}
+
+.print-chart .center-relation {
+  font-size: 5.4pt;
+}
+
+.print-chart .center-tagline {
+  margin-top: 1.5mm;
+  font-size: 6.4pt;
+}
+
+.print-chart .center-divider {
+  height: 0.15mm;
+  margin: 1.5mm 0 1.2mm;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(137, 100, 63, 0.24) 15%,
+    rgba(137, 100, 63, 0.24) 85%,
+    transparent
+  );
+}
+
+/* ============================================================
+   Bottom strip: legend box | brand+tagline | consultant box
+   ============================================================ */
+
+.print-bottom-strip {
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding-top: 3mm;
+  display: grid;
+  /* Truyen Nhan Khai Van (consultant box) carries the most trust weight on
+     the page after the chart itself — a premium service's "who's behind
+     this" credential — so it gets the biggest, most deliberate share of
+     this row, not an equal three-way split. */
+  grid-template-columns: 0.82fr 0.86fr 1.32fr;
+  gap: 4mm;
+  align-items: stretch;
+}
+
+.print-legend-box {
+  border: 0.18mm solid var(--print-hairline);
+  padding: 2mm 3mm;
+  /* The page background (chart-paper-bg.png) has real artwork (mountains,
+     blossoms) right in the bottom corners these boxes sit over — an opaque
+     panel keeps their text legible against it instead of racing the art
+     for contrast. */
+  background: rgba(247, 239, 226, 0.88);
+}
+
+.print-legend-title {
+  margin: 0 0 1mm;
+  font-size: 5.4pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--print-gold);
+}
+
+.print-legend-rows {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 3mm;
+  row-gap: 0.8mm;
+}
+
+.print-legend-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 1mm;
+  font-size: 5.6pt;
+  color: var(--print-ink-soft);
+  white-space: nowrap;
+}
+
+.print-legend-dot {
+  width: 1.6mm;
+  height: 1.6mm;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.print-legend-dot--major {
+  background: var(--print-major-color);
+}
+
+.print-legend-dot--auxiliary {
+  background: var(--print-auxiliary-color);
+}
+
+.print-legend-dot--support {
+  background: var(--print-support-color);
+}
+
+.print-legend-dot--malefic {
+  background: var(--print-malefic-color);
+}
+
+.print-legend-mutagen--loc {
+  color: var(--gold);
+}
+
+.print-legend-mutagen--quyen {
+  color: var(--bronze);
+}
+
+.print-legend-mutagen--khoa {
+  color: var(--sage);
+}
+
+.print-legend-mutagen--ky {
+  color: var(--lacquer);
+}
+
+.print-legend-brightness {
+  margin: 1.4mm 0 0;
+  font-size: 5.2pt;
+  color: var(--print-muted);
+}
+
+.print-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1mm;
+}
+
+.print-footer-tagline {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 7.8pt;
+  color: var(--print-cinnabar-soft);
+}
+
+.print-footer-chart-name {
+  margin: 0;
+  font-size: 5.4pt;
+  letter-spacing: 0.05em;
+  color: var(--print-muted);
+}
+
+/* Truyen Nhan Khai Van — the one box on the page meant to read as a
+   credential/signature, not a data field, so it earns its own visual
+   register: a tinted card with a cinnabar top rule (echoes a certificate
+   seal-strip) rather than the legend's plain hairline border. */
+.print-consultant-box {
+  position: relative;
+  text-align: right;
+  padding: 2.6mm 4mm 2.6mm 3mm;
+  background: linear-gradient(135deg, rgba(148, 66, 48, 0.07), rgba(155, 121, 75, 0.08));
+  border: 0.18mm solid rgba(148, 66, 48, 0.32);
+  border-top: 0.6mm solid var(--print-cinnabar);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.print-consultant-box .print-legend-title {
+  margin-bottom: 0.6mm;
+  font-size: 5.6pt;
+  font-weight: 700;
+  color: var(--print-cinnabar);
+}
+
+.print-consultant-name {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 14pt;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  color: var(--print-ink);
+}
+
+.print-consultant-rule {
+  align-self: flex-end;
+  width: 16mm;
+  height: 0.3mm;
+  margin: 1mm 0;
+  background: linear-gradient(90deg, transparent, var(--print-cinnabar) 45%, var(--print-cinnabar) 55%, transparent);
+}
+
+.print-consultant-tagline {
+  margin: 0;
+  font-size: 5.6pt;
+  line-height: 1.35;
+  color: var(--print-ink-soft);
+}

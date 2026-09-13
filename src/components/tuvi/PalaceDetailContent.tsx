@@ -89,6 +89,9 @@ export default function PalaceDetailContent({
             {minorStars.map((s) => (
               <span key={s.id} style={{ color: s.element ? ELEMENT_COLOR[s.element] : undefined }}>
                 {s.name}
+                {s.brightness && (
+                  <span className="ml-1 text-[12px] font-medium text-walnut/70">({BRIGHTNESS_LABEL[s.brightness]})</span>
+                )}
                 {s.transformation && (
                   <span className={`ml-1 text-[12px] font-semibold ${TRANSFORMATION_CLASS[s.transformation]}`}>
                     {s.transformation}

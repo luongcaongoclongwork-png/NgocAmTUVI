@@ -126,6 +126,12 @@ describe("golden chart 05/07/2000 07:30 Nam", () => {
   });
 
   it("no unverified brightness cells on this chart (all 14 chinh tinh covered)", () => {
-    expect(dto.unverifiedBrightnessEntries).toEqual([]);
+    // Minor stars (sat tinh / Van Xuong / Van Khuc) are only spot-verified for a
+    // handful of (star, branch) pairs so far (see MINOR_STAR_BRIGHTNESS_VI) —
+    // this chart is expected to still hit some unverified minor-star cells.
+    // Only the 14 major stars are asserted fully covered here.
+    const majorNameIds = new Set(dto.palaces.flatMap((p) => p.majorStars.map((s) => s.id)));
+    const unverifiedMajor = dto.unverifiedBrightnessEntries.filter((e) => majorNameIds.has(e.starId));
+    expect(unverifiedMajor).toEqual([]);
   });
 });

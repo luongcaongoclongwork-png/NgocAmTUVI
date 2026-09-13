@@ -345,6 +345,14 @@
   color: color-mix(in srgb, var(--star-color, var(--na-ink-soft)) 68%, var(--na-ink-soft) 32%);
 }
 
+.palace-minor-star__state {
+  margin-left: 3px;
+  font-size: 9px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--na-muted);
+}
+
 .palace-minor-star__tag {
   margin-left: 3px;
   font-size: 9px;

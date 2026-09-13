@@ -111,3 +111,42 @@ export const MAJOR_STAR_BRIGHTNESS_VI: Record<string, Partial<Record<EarthlyBran
     Sửu: "V", Mùi: "V",
   },
 };
+
+/**
+ * Vietnamese brightness for the 6 sat tinh (Kinh Duong, Da La, Hoa Tinh, Linh
+ * Tinh, Dia Khong, Dia Kiep) + Van Xuong/Van Khuc — a SEPARATE, much sparser
+ * table from the major-star one above.
+ *
+ * Why sparse: two independent glossary sources (tuvi.vn's own dedicated
+ * articles at tuvi.vn/sao-kinh-duong-va-da-la-a546 and
+ * tuvi.vn/hai-sao-hoa-tinh-va-linh-tinh-a537, plus a cross-check against
+ * github.com/implicit-invocation/tuvi-neo's sao-database.ts binary dac/ham
+ * data) were checked against tuvi.vn's own LIVE-RENDERED chart for the golden
+ * benchmark (tuvi.vn/la-so-am-nu-am-duong-thuan-ly-16-6-1999-thin-36117,
+ * fetched 2026-09-13) and turned out to CONTRADICT it: e.g. the Kinh
+ * Duong/Da La article states "mieu tai Thin Tuat Suu Mui", but that same
+ * chart actually renders Kinh Duong as "(D)" (Dac), not "(M)" (Mieu), at Mui;
+ * the Hoa Tinh/Linh Tinh article's classical tam-hop-cuc scheme (mieu Dan
+ * Ngo Tuat / dac Ty Dau Suu / loi ich Hoi Mao Mui / ham Than Ty Thin) is also
+ * contradicted by that chart's Linh Tinh "(D)" at Ngo, which the article's
+ * own scheme calls Ham (Than Ty Thin) not Dac. Neither article matches what
+ * tuvi.vn's engine actually computes, so per rule G neither was trusted.
+ *
+ * Every entry below instead came directly from reading tuvi.vn's own live
+ * chart output for that one golden-benchmark birth case — each cell is a
+ * single verified (star, branch) -> brightness reading, not a derived rule.
+ * This intentionally covers only ONE branch per star (whichever branch that
+ * star happens to land on for this one person) — the remaining 11 branches
+ * per star stay `sourceNeeded` (no badge shown) until verified the same way
+ * against additional sample charts. See rules/brightness.ts.
+ */
+export const MINOR_STAR_BRIGHTNESS_VI: Record<string, Partial<Record<EarthlyBranchVi, VietnameseBrightness>>> = {
+  qingyangMin: { Mùi: "Đ" },
+  tuoluoMin: { Tỵ: "H" },
+  huoxingMin: { Sửu: "H" },
+  lingxingMin: { Ngọ: "Đ" },
+  dikongMin: { Mùi: "H" },
+  dijieMin: { Mão: "B" },
+  wenchangMin: { Ngọ: "H" },
+  wenquMin: { Thân: "H" },
+};
