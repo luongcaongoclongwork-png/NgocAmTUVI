@@ -133,7 +133,7 @@
    ============================================================ */
 
 .print-header {
-  min-height: 44mm;
+  min-height: 24mm;
   flex: 0 0 auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -143,13 +143,21 @@
 
 .print-brand-block {
   display: flex;
-  flex-direction: column;
-  gap: 0.6mm;
+  flex-direction: row;
+  align-items: center;
+  gap: 2.5mm;
 }
 
-.print-brand-block--right {
-  align-items: flex-end;
-  text-align: right;
+.print-header-logo {
+  width: 13mm;
+  height: 13mm;
+  object-fit: contain;
+}
+
+.print-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6mm;
 }
 
 .print-brand {
@@ -165,13 +173,6 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--print-cinnabar-soft);
-}
-
-.print-motto {
-  font-family: var(--font-heading);
-  font-style: italic;
-  font-size: 11.5pt;
-  color: var(--print-ink);
 }
 
 .print-title-wrap {
@@ -204,10 +205,18 @@
   margin: 2mm auto 0;
 }
 
+/* Deliberately not square — 194x225mm. Freed by removing the legend box
+   and the header's right-side motto block (2026-09-15): the page's own
+   overlays (StructuralGridSVG, AspectOverlay) render with
+   preserveAspectRatio="none", so they already stretch correctly to a
+   non-square box; nothing else needed changing to allow this. Taller rows
+   (~56mm vs the old 47.5mm) both make printed text easier to read and
+   give paletteDensity.ts's tier thresholds more headroom before a palace's
+   content actually overflows. */
 .print-chart {
   position: relative;
-  width: 190mm;
-  height: 190mm;
+  width: 194mm;
+  height: 225mm;
   margin: 0 auto;
 
   background: var(--print-paper);
@@ -216,16 +225,21 @@
 }
 
 /* .ngoc-am-grid's own rule sets `grid-template-rows: repeat(4, minmax(180px, 1fr))`
-   for the 980px+ desktop chart — at 190mm (~718px) a 180px row minimum would
-   force the grid taller than its own 190mm container. Print needs the plain
-   equal-fourths split, same as the column tracks already use.
+   for the 980px+ desktop chart — at 225mm (~850px) tall that 180px-per-row
+   floor is no longer a risk (850/4 ≈ 212px/row), but the print chart isn't
+   square, so it still needs its own explicit equal-fourths split rather
+   than inheriting the desktop rule.
    PrintChart.tsx deliberately does NOT opt into chartRowLayout.ts's
    content-weighted row reallocation (unlike the live desktop chart) — see
    that file's own header comment for why: tested against a real chart, it
    traded one print overflow for a worse one on a different chart. An
    EARLIER, different asymmetric attempt (reusing the desktop 180px-floor
    track sizing as-is for print) was also tried and reverted, for the
-   simpler overflow reason described above. */
+   simpler overflow reason described above.
+   Columns are NOT uniform quarters here (unlike every other caller of
+   TuViChartGrid) — PrintChart.tsx passes `columnBoundaries` explicitly,
+   which TuViChartGrid.tsx applies as an inline `gridTemplateColumns` style
+   (higher specificity than this rule, so no column rule is needed here). */
 .print-chart .ngoc-am-grid {
   grid-template-rows: repeat(4, minmax(0, 1fr));
 }
@@ -297,13 +311,13 @@
 }
 
 .print-chart .palace-branch {
-  font-size: 7.8pt;
+  font-size: 8.4pt;
   font-family: var(--font-heading);
   color: var(--print-ink-soft);
 }
 
 .print-chart .palace-name {
-  font-size: 9.5pt;
+  font-size: 10.3pt;
   font-family: var(--font-heading);
   font-weight: 700;
   text-align: center;
@@ -311,7 +325,7 @@
 }
 
 .print-chart .palace-index {
-  font-size: 6.5pt;
+  font-size: 7pt;
   text-align: right;
   color: var(--print-muted);
 }
@@ -345,6 +359,22 @@
   text-align: center;
 }
 
+/* 2 chinh tinh side by side can be just wide enough (name + trang thai +
+   the 2 mutagen tags) to silently wrap onto 2 rows instead of sitting on
+   1 — confirmed empirically 2026-09-15 (Tat Ach: Vu Khuc + Pha Quan, Vu
+   Khuc carrying both a natal AND an annual mutagen tag, wrapped and
+   pushed content 8-24px under the footer). Trims the row's own gap plus
+   the name font specifically when 2 are present, so this case alone
+   doesn't force the max-safe font size for every single-chinh-tinh
+   palace (the common case) down with it. */
+.print-chart .palace-main-stars:has(.palace-major-star:nth-child(2)) {
+  gap: 0.3mm 1.2mm;
+}
+
+.print-chart .palace-main-stars:has(.palace-major-star:nth-child(2)) .palace-major-star__name {
+  font-size: 11.2pt;
+}
+
 /* Max font sizes below (this block through the density overrides further
    down) were found empirically 2026-09-18: raised step by step against
    leaf-level text bounding-box overlap checks across all 12 palaces on 5
@@ -354,25 +384,25 @@
    hit both failure modes (see this file's git history for the readings). */
 .print-chart .palace-major-star__name {
   font-family: var(--font-heading);
-  font-size: 11.5pt;
+  font-size: 12.4pt;
   line-height: 1.08;
   font-weight: 700;
   color: var(--print-major-color);
 }
 
 .print-chart .palace-major-star__name--empty {
-  font-size: 8.6pt;
+  font-size: 9.3pt;
   font-style: italic;
   font-weight: 500;
   color: var(--print-muted);
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-major-star__name {
-  font-size: 10.8pt;
+  font-size: 11.7pt;
 }
 
 .print-chart .tuvi-palace[data-density="packed"] .palace-major-star__name {
-  font-size: 10.1pt;
+  font-size: 10.9pt;
 }
 
 /* flex-shrink:0 on these 5 sections (ngocAmChart.css) means they never
@@ -387,7 +417,7 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-minor-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-minor-star {
-  font-size: 6.5pt;
+  font-size: 7pt;
   line-height: 1.1;
 }
 
@@ -398,7 +428,7 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-adjective-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-adjective-star {
-  font-size: 5.7pt;
+  font-size: 6.2pt;
   line-height: 1.08;
 }
 
@@ -410,7 +440,7 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-luu-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-luu-star {
-  font-size: 5.5pt;
+  font-size: 5.9pt;
   line-height: 1.08;
 }
 
@@ -424,19 +454,19 @@
 }
 
 .print-chart .palace-major-star__state {
-  font-size: 6.5pt;
+  font-size: 7pt;
   color: var(--print-muted);
 }
 
 .print-chart .palace-major-star__mutagen {
   padding: 0.2mm 0.7mm;
   border: 0.15mm solid rgba(145, 67, 49, 0.2);
-  font-size: 5.4pt;
+  font-size: 5.8pt;
   color: var(--print-cinnabar);
 }
 
 .print-chart .palace-major-star__annual-mutagen {
-  font-size: 5.4pt;
+  font-size: 5.8pt;
   color: var(--print-gold);
 }
 
@@ -451,7 +481,7 @@
 }
 
 .print-chart .palace-minor-star {
-  font-size: 7.0pt;
+  font-size: 7.6pt;
   line-height: 1.18;
   font-weight: 450;
   color: var(--print-auxiliary-color);
@@ -467,7 +497,7 @@
 
 .print-chart .palace-minor-star__state,
 .print-chart .palace-minor-star__tag {
-  font-size: 5.6pt;
+  font-size: 6pt;
 }
 
 /* ---------- Adjective / auxiliary stars ---------- */
@@ -481,7 +511,7 @@
 }
 
 .print-chart .palace-adjective-star {
-  font-size: 6.2pt;
+  font-size: 6.7pt;
   line-height: 1.16;
   color: var(--print-auxiliary-color);
 }
@@ -503,7 +533,7 @@
 }
 
 .print-chart .palace-luu-label {
-  font-size: 4.4pt;
+  font-size: 4.8pt;
   letter-spacing: 0.06em;
   font-weight: 650;
   color: var(--print-gold);
@@ -522,7 +552,7 @@
 
 .print-chart .palace-luu-star {
   min-width: 0;
-  font-size: 6.0pt;
+  font-size: 6.5pt;
   line-height: 1.16;
   color: var(--print-ink-soft);
   overflow-wrap: anywhere;
@@ -535,7 +565,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  min-height: 4.6mm;
+  min-height: 5.2mm;
   padding: 0.6mm 2.4mm;
   border-top: 0.15mm solid rgba(87, 62, 42, 0.1);
   background: var(--print-paper);
@@ -546,13 +576,13 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   line-height: 1.1;
-  font-size: 5.8pt;
+  font-size: 6.3pt;
   color: var(--print-muted);
 }
 
 .print-chart .palace-footer--horoscope {
   line-height: 1.1;
-  font-size: 5.4pt;
+  font-size: 5.8pt;
   font-weight: 600;
   color: var(--print-cinnabar-soft);
 }
@@ -570,7 +600,11 @@
 
 .print-chart .center-palace {
   position: relative;
-  padding: 4mm 8mm 3mm;
+  /* Horizontal padding trimmed from 8mm (was tuned for a 96.82mm-wide box)
+     down to 5mm — Trung Cung's own box is now ~8-9% narrower (see
+     .ngoc-am-grid below), and this recovers most of that width for its
+     content instead of shrinking any of its font sizes. */
+  padding: 4mm 5mm 3mm;
   background: rgba(249, 243, 232, 0.68);
 }
 
@@ -720,18 +754,21 @@
 }
 
 /* Signature + red seal flourish (PrintCenterSeal.tsx) — positioned by fixed
-   mm offset from .print-chart (184mm, position:relative), not inside
-   CenterPalace.tsx (shared with the live web chart). Trung Cung itself
-   spans x/y [46mm, 138mm] within the chart (rows/cols 2-3 of the 4x4
-   grid); these offsets tuck the flourish just inside its bottom-right
-   corner, clear of the centered tagline. */
+   mm offset from .print-chart (194x225mm, position:relative), not inside
+   CenterPalace.tsx (shared with the live web chart). Trung Cung's right
+   edge sits ~53mm from the chart's own right edge (narrower than a plain
+   uniform quarter — see PrintChart.tsx's columnBoundaries); `right` here
+   is bigger than that so the flourish tucks a couple mm INSIDE Trung
+   Cung's corner rather than spilling into the Tuất palace beside it
+   (confirmed empirically 2026-09-15 after narrowing Trung Cung — was
+   47.5mm when Trung Cung was still a uniform-quarter width). */
 /* Deliberately sits over the tagline's corner, not beside it — a seal
    overlapping a signature/line of text is the traditional presentation
    (an authenticity stamp is meant to overlap what it's stamped on), not a
    layout bug. Positioned to clear the Nam xem row (real data) above it. */
 .print-chart .print-center-seal {
   position: absolute;
-  right: 47.5mm;
+  right: 55mm;
   bottom: 47mm;
   pointer-events: none;
 }
@@ -750,27 +787,12 @@
 .print-bottom-strip {
   flex: 0 0 auto;
   margin-top: auto;
-  padding-top: 3mm;
-  display: grid;
-  /* Truyen Nhan Khai Van (consultant box) carries the most trust weight on
-     the page after the chart itself — a premium service's "who's behind
-     this" credential — so it gets the biggest, most deliberate share of
-     this row, not an equal three-way split. */
-  grid-template-columns: 0.82fr 0.86fr 1.32fr;
-  gap: 4mm;
-  align-items: stretch;
+  padding-top: 2mm;
 }
 
-.print-legend-box {
-  border: 0.18mm solid var(--print-hairline);
-  padding: 2mm 3mm;
-  /* The page background (chart-paper-bg.png) has real artwork (mountains,
-     blossoms) right in the bottom corners these boxes sit over — an opaque
-     panel keeps their text legible against it instead of racing the art
-     for contrast. */
-  background: rgba(247, 239, 226, 0.88);
-}
-
+/* Kept (not removed with the rest of the legend) — .print-consultant-box
+   below still uses this same class for its own "Truyền nhân khai vấn"
+   heading. */
 .print-legend-title {
   margin: 0 0 1mm;
   font-size: 5.4pt;
@@ -779,74 +801,21 @@
   color: var(--print-gold);
 }
 
-.print-legend-rows {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 3mm;
-  row-gap: 0.8mm;
-}
-
-.print-legend-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 1mm;
-  font-size: 5.6pt;
-  color: var(--print-ink-soft);
-  white-space: nowrap;
-}
-
-.print-legend-dot {
-  width: 1.6mm;
-  height: 1.6mm;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.print-legend-dot--major {
-  background: var(--print-major-color);
-}
-
-.print-legend-dot--auxiliary {
-  background: var(--print-auxiliary-color);
-}
-
-.print-legend-dot--support {
-  background: var(--print-support-color);
-}
-
-.print-legend-dot--malefic {
-  background: var(--print-malefic-color);
-}
-
-.print-legend-mutagen--loc {
-  color: var(--gold);
-}
-
-.print-legend-mutagen--quyen {
-  color: var(--bronze);
-}
-
-.print-legend-mutagen--khoa {
-  color: var(--sage);
-}
-
-.print-legend-mutagen--ky {
-  color: var(--lacquer);
-}
-
-.print-legend-brightness {
-  margin: 1.4mm 0 0;
-  font-size: 5.2pt;
-  color: var(--print-muted);
-}
-
+/* Footer + consultant box side by side (previously stacked in one column,
+   which is what forced this whole strip to ~44mm tall even after the
+   legend box was removed — see docs/tuvi-engine-audit.md). */
 .print-footer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 1mm;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4mm;
+}
+
+.print-footer-brand {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
 }
 
 .print-footer-tagline {
@@ -858,7 +827,7 @@
 }
 
 .print-footer-chart-name {
-  margin: 0;
+  margin: 0.6mm 0 0;
   font-size: 5.4pt;
   letter-spacing: 0.05em;
   color: var(--print-muted);
@@ -870,6 +839,8 @@
    seal-strip) rather than the legend's plain hairline border. */
 .print-consultant-box {
   position: relative;
+  flex: 0 0 auto;
+  width: 62mm;
   text-align: right;
   padding: 2.6mm 4mm 2.6mm 3mm;
   background: linear-gradient(135deg, rgba(148, 66, 48, 0.07), rgba(155, 121, 75, 0.08));

@@ -1,18 +1,23 @@
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
 import type { EarthlyBranchVi, TuanTrietZone } from "@/lib/tuvi/types/VietnameseChart";
 
-/** Row edges default to plain uniform quarters for callers that don't opt into chartRowLayout.ts's reallocation (mobile virtual canvas). Columns always stay uniform. */
+/** Row/column edges default to plain uniform quarters for callers that don't opt into a non-uniform layout (chartRowLayout.ts for rows; PrintChart.tsx's narrower Trung Cung for columns — see print.css's comment on `.ngoc-am-grid`). */
 const DEFAULT_ROW_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
+const DEFAULT_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
 
 function rowCenterPct(row: number, rowBoundaries: readonly number[]): number {
   return (rowBoundaries[row - 1] + rowBoundaries[row]) / 2;
 }
 
-function midpoint(a: EarthlyBranchVi, b: EarthlyBranchVi, rowBoundaries: readonly number[]) {
+function colCenterPct(col: number, columnBoundaries: readonly number[]): number {
+  return (columnBoundaries[col - 1] + columnBoundaries[col]) / 2;
+}
+
+function midpoint(a: EarthlyBranchVi, b: EarthlyBranchVi, rowBoundaries: readonly number[], columnBoundaries: readonly number[]) {
   const pa = BRANCH_GRID_POSITION[a];
   const pb = BRANCH_GRID_POSITION[b];
   return {
-    xPct: ((pa.col - 0.5 + (pb.col - 0.5)) / 2 / 4) * 100,
+    xPct: (colCenterPct(pa.col, columnBoundaries) + colCenterPct(pb.col, columnBoundaries)) / 2,
     yPct: (rowCenterPct(pa.row, rowBoundaries) + rowCenterPct(pb.row, rowBoundaries)) / 2,
   };
 }
@@ -29,13 +34,15 @@ function ZoneLabel({
   zone,
   className,
   rowBoundaries,
+  columnBoundaries,
 }: {
   label: string;
   zone: TuanTrietZone;
   className: string;
   rowBoundaries: readonly number[];
+  columnBoundaries: readonly number[];
 }) {
-  const { xPct, yPct } = midpoint(zone.branches[0], zone.branches[1], rowBoundaries);
+  const { xPct, yPct } = midpoint(zone.branches[0], zone.branches[1], rowBoundaries, columnBoundaries);
   return (
     <span
       className={`tracking-label pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-sm border px-1 text-[9px] font-semibold uppercase ${className}`}
@@ -50,11 +57,14 @@ export default function TuanTrietOverlay({
   tuan,
   triet,
   rowBoundaries = DEFAULT_ROW_BOUNDARIES,
+  columnBoundaries = DEFAULT_COLUMN_BOUNDARIES,
 }: {
   tuan: TuanTrietZone;
   triet: TuanTrietZone;
   /** Real row edges (0-100) from chartRowLayout.ts — defaults to plain uniform quarters for callers that don't opt in (mobile virtual canvas). */
   rowBoundaries?: [number, number, number, number, number];
+  /** Real column edges (0-100) — see TuViChartGrid.tsx / PrintChart.tsx. Defaults to plain uniform quarters for every caller except print. */
+  columnBoundaries?: [number, number, number, number, number];
 }) {
   // "Tuan Triet dong cung" (e.g. a Giap Tuat year: both fall on Than-Dau) —
   // the two zone labels would sit at the exact same xPct/yPct and the DOM's
@@ -64,7 +74,7 @@ export default function TuanTrietOverlay({
   // legible. Purely a rendering fix — tuan/triet are still whatever
   // rules/tuanTriet.ts (unchanged) computed.
   if (sameZone(tuan, triet)) {
-    const { xPct, yPct } = midpoint(tuan.branches[0], tuan.branches[1], rowBoundaries);
+    const { xPct, yPct } = midpoint(tuan.branches[0], tuan.branches[1], rowBoundaries, columnBoundaries);
     return (
       <div className="pointer-events-none absolute inset-0 z-10">
         <span
@@ -81,8 +91,8 @@ export default function TuanTrietOverlay({
 
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
-      <ZoneLabel label="Tuần" zone={tuan} className="border-sage/50 bg-ivory text-sage" rowBoundaries={rowBoundaries} />
-      <ZoneLabel label="Triệt" zone={triet} className="border-lacquer/50 bg-ivory text-lacquer" rowBoundaries={rowBoundaries} />
+      <ZoneLabel label="Tuần" zone={tuan} className="border-sage/50 bg-ivory text-sage" rowBoundaries={rowBoundaries} columnBoundaries={columnBoundaries} />
+      <ZoneLabel label="Triệt" zone={triet} className="border-lacquer/50 bg-ivory text-lacquer" rowBoundaries={rowBoundaries} columnBoundaries={columnBoundaries} />
     </div>
   );
 }

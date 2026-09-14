@@ -1,6 +1,5 @@
 import PrintHeader from "./PrintHeader";
 import PrintChart from "./PrintChart";
-import PrintLegend from "./PrintLegend";
 import PrintFooter from "./PrintFooter";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "../ngocAmChart.css";
@@ -31,7 +30,6 @@ export default function A4TuViPrintRenderer({
             <PrintChart chart={chart} birthTime={birthTime} horoscope={horoscope} />
           </div>
           <div className="print-bottom-strip">
-            <PrintLegend />
             <PrintFooter chart={chart} />
           </div>
         </div>

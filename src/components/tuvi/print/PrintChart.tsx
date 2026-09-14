@@ -3,7 +3,21 @@ import PrintCenterSeal from "./PrintCenterSeal";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 /**
- * The 184x184mm chart square for the A4 print page. Reuses TuViChartGrid
+ * Narrows Trung Cung's own width from a plain uniform quarter (50-25=25%
+ * each side) to ~22.75% each, widening the 2 outer columns to ~27.25%
+ * each — chosen by hand (not content-measured) 2026-09-15 so the 12
+ * outer palaces get more width for their 2-column phu-tinh/luu-tinh
+ * grids without Trung Cung's own text needing a smaller font (only its
+ * CSS padding/gaps were retuned to fit — see print.css's .center-palace
+ * rules). Symmetric on purpose: keeps the vertical divider at the exact
+ * midpoint of Trung Cung (x=50) so StructuralGridSVG's line math doesn't
+ * need a 3rd column edge.
+ */
+const PRINT_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 27.25, 50, 72.75, 100];
+
+/**
+ * The 194x225mm chart area for the A4 print page (deliberately not square
+ * — see print.css's own comment on .print-chart). Reuses TuViChartGrid
  * as-is (the exact StructuralGridSVG + PalaceCell x12 + CenterPalace +
  * AspectOverlay + TuanTrietOverlay bundle the live desktop chart and the
  * mobile virtual canvas already share) — print.css overrides its class
@@ -43,6 +57,7 @@ export default function PrintChart({
         onSelectPalace={() => {}}
         tabIndexFor={() => -1}
         showAspectOverlay={false}
+        columnBoundaries={PRINT_COLUMN_BOUNDARIES}
       />
       <PrintCenterSeal />
     </div>

@@ -8,6 +8,7 @@ import { BRANCH_GRID_POSITION, CENTER_GRID_AREA } from "@/lib/tuvi/rules/palaces
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import type { PalaceHoroscopeView } from "./PalaceCell";
 import type { BirthInput, VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
+import type { CSSProperties } from "react";
 
 /**
  * The 4x4 grid + Trung Cung + relation/Tuan-Triet overlays — the ONE piece
@@ -57,7 +58,16 @@ export interface TuViChartGridProps {
    * fixed proportions) is completely unaffected; desktop and print opt in.
    */
   useVariableRowHeights?: boolean;
+  /**
+   * Column edges (0-100), narrowing Trung Cung's width and widening the
+   * outer columns — a fixed hand-chosen split, not content-computed like
+   * rowLayout above. Only PrintChart.tsx passes this (see print.css's own
+   * comment on `.ngoc-am-grid`); every other caller keeps uniform quarters.
+   */
+  columnBoundaries?: [number, number, number, number, number];
 }
+
+const UNIFORM_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
 
 export default function TuViChartGrid({
   chart,
@@ -72,12 +82,14 @@ export default function TuViChartGrid({
   centerSelected,
   showAspectOverlay = true,
   useVariableRowHeights = false,
+  columnBoundaries,
 }: TuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
 
   const rowLayout = useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null) : UNIFORM_ROW_LAYOUT;
+  const resolvedColumnBoundaries = columnBoundaries ?? UNIFORM_COLUMN_BOUNDARIES;
 
   function emphasisFor(index: number): "tam-hop" | "xung-chieu" | "giap-cung" | undefined {
     if (selectedIndex === null || index === selectedIndex) return undefined;
@@ -93,12 +105,19 @@ export default function TuViChartGrid({
     </div>
   );
 
+  const gridStyle: CSSProperties = {};
+  if (useVariableRowHeights) gridStyle.gridTemplateRows = rowLayout.heights.map((h) => `${h}%`).join(" ");
+  if (columnBoundaries) {
+    const [c0, c1, c2, c3, c4] = columnBoundaries;
+    gridStyle.gridTemplateColumns = [c1 - c0, c2 - c1, c3 - c2, c4 - c3].map((w) => `${w}%`).join(" ");
+  }
+
   return (
     <>
-      <StructuralGridSVG rowBoundaries={rowLayout.boundaries} />
+      <StructuralGridSVG rowBoundaries={rowLayout.boundaries} columnBoundaries={resolvedColumnBoundaries} />
       <div
         className="ngoc-am-grid"
-        style={useVariableRowHeights ? { gridTemplateRows: rowLayout.heights.map((h) => `${h}%`).join(" ") } : undefined}
+        style={Object.keys(gridStyle).length > 0 ? gridStyle : undefined}
       >
         {chart.palaces.map((p) => {
           const palaceHoroscope = buildPalaceHoroscopeView(horoscope, p.index);
@@ -138,7 +157,7 @@ export default function TuViChartGrid({
       {showAspectOverlay && (
         <AspectOverlay palaces={chart.palaces} selectedIndex={selectedIndex} rowBoundaries={rowLayout.boundaries} />
       )}
-      <TuanTrietOverlay tuan={chart.tuan} triet={chart.triet} rowBoundaries={rowLayout.boundaries} />
+      <TuanTrietOverlay tuan={chart.tuan} triet={chart.triet} rowBoundaries={rowLayout.boundaries} columnBoundaries={resolvedColumnBoundaries} />
     </>
   );
 }

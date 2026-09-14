@@ -1,11 +1,12 @@
 import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 /**
- * Bottom strip: legend box (PrintLegend) sits to the left of this in
- * A4TuViPrintRenderer; this covers the center brand/tagline block and the
- * right "Truyen Nhan Khai Van" box. No QR / no publish metadata (rule 34 —
- * never hardcode a domain or fabricate a profile id the project doesn't
- * track) and chart.name is the only chart field used, read-only.
+ * Bottom strip of the print page: tagline/chart-name on the left,
+ * "Truyen Nhan Khai Van" credential box on the right, side by side (the
+ * legend box that used to sit further left was removed — see
+ * docs/tuvi-engine-audit.md). No QR / no publish metadata (rule 34 — never
+ * hardcode a domain or fabricate a profile id the project doesn't track)
+ * and chart.name is the only chart field used, read-only.
  */
 export default function PrintFooter({ chart }: { chart: VietnameseChartDTO }) {
   return (
