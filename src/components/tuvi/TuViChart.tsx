@@ -207,6 +207,7 @@ export default function TuViChart({
                   else cellRefs.current.delete(index);
                 }}
                 onKeyDownPalace={handlePalaceKeyDown}
+                useVariableRowHeights
               />
             </section>
 

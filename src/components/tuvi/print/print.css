@@ -218,9 +218,14 @@
 /* .ngoc-am-grid's own rule sets `grid-template-rows: repeat(4, minmax(180px, 1fr))`
    for the 980px+ desktop chart — at 190mm (~718px) a 180px row minimum would
    force the grid taller than its own 190mm container. Print needs the plain
-   equal-fourths split, same as the column tracks already use. See the
-   2026-09-18 note in this file's header on why an asymmetric (outer-ring-
-   bigger-than-center) grid was tried and reverted. */
+   equal-fourths split, same as the column tracks already use.
+   PrintChart.tsx deliberately does NOT opt into chartRowLayout.ts's
+   content-weighted row reallocation (unlike the live desktop chart) — see
+   that file's own header comment for why: tested against a real chart, it
+   traded one print overflow for a worse one on a different chart. An
+   EARLIER, different asymmetric attempt (reusing the desktop 180px-floor
+   track sizing as-is for print) was also tried and reverted, for the
+   simpler overflow reason described above. */
 .print-chart .ngoc-am-grid {
   grid-template-rows: repeat(4, minmax(0, 1fr));
 }

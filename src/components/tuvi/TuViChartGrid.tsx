@@ -3,6 +3,7 @@ import CenterPalace from "./CenterPalace";
 import AspectOverlay from "./AspectOverlay";
 import TuanTrietOverlay from "./TuanTrietOverlay";
 import StructuralGridSVG from "./StructuralGridSVG";
+import { computeRowLayout, UNIFORM_ROW_LAYOUT } from "./chartRowLayout";
 import { BRANCH_GRID_POSITION, CENTER_GRID_AREA } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import type { PalaceHoroscopeView } from "./PalaceCell";
@@ -48,6 +49,14 @@ export interface TuViChartGridProps {
   centerSelected?: boolean;
   /** Desktop always shows tam hop/xung chieu/giap cung lines; mobile overview can skip them to keep the map reading clean. Defaults to true. */
   showAspectOverlay?: boolean;
+  /**
+   * Reallocate the 4 grid rows by real content weight (chartRowLayout.ts)
+   * instead of a fixed equal 25/25/25/25 split — see
+   * docs/tuvi-engine-audit.md section 7's "F + D" plan. Off by default so
+   * the mobile virtual canvas (MOBILE_TUVI_CANVAS's own tuned 747x1032
+   * fixed proportions) is completely unaffected; desktop and print opt in.
+   */
+  useVariableRowHeights?: boolean;
 }
 
 export default function TuViChartGrid({
@@ -62,10 +71,13 @@ export default function TuViChartGrid({
   onSelectCenter,
   centerSelected,
   showAspectOverlay = true,
+  useVariableRowHeights = false,
 }: TuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
+
+  const rowLayout = useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null) : UNIFORM_ROW_LAYOUT;
 
   function emphasisFor(index: number): "tam-hop" | "xung-chieu" | "giap-cung" | undefined {
     if (selectedIndex === null || index === selectedIndex) return undefined;
@@ -83,8 +95,11 @@ export default function TuViChartGrid({
 
   return (
     <>
-      <StructuralGridSVG />
-      <div className="ngoc-am-grid">
+      <StructuralGridSVG rowBoundaries={rowLayout.boundaries} />
+      <div
+        className="ngoc-am-grid"
+        style={useVariableRowHeights ? { gridTemplateRows: rowLayout.heights.map((h) => `${h}%`).join(" ") } : undefined}
+      >
         {chart.palaces.map((p) => {
           const palaceHoroscope = buildPalaceHoroscopeView(horoscope, p.index);
           return (
@@ -120,8 +135,10 @@ export default function TuViChartGrid({
         )}
       </div>
 
-      {showAspectOverlay && <AspectOverlay palaces={chart.palaces} selectedIndex={selectedIndex} />}
-      <TuanTrietOverlay tuan={chart.tuan} triet={chart.triet} />
+      {showAspectOverlay && (
+        <AspectOverlay palaces={chart.palaces} selectedIndex={selectedIndex} rowBoundaries={rowLayout.boundaries} />
+      )}
+      <TuanTrietOverlay tuan={chart.tuan} triet={chart.triet} rowBoundaries={rowLayout.boundaries} />
     </>
   );
 }

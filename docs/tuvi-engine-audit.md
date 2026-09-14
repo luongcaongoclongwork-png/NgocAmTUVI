@@ -97,3 +97,20 @@ Tức luôn có đúng 1 trong 2 sao đi nghịch, sao nào đi nghịch phụ t
 **Hệ quả ước tính:** khoảng một nửa số lá số (tùy chi năm sinh) đang hiện sai cung của Hỏa Tinh hoặc Linh Tinh trên Ngọc Âm so với chuẩn tuvi.vn/Tân Biên.
 
 **Trạng thái: ĐÃ SỬA (2026-09-14).** Thêm `ChartProfile.fixHuoLingDirection` (`true` cho `ngoc-am`/`vietnam-tan-bien`, `false` cho `iztro-default` — profile so sánh phải giữ nguyên bản gốc chưa override của iztro để test còn có ý nghĩa). Logic sửa nằm trong `vietnameseAdapter.ts`: với sao cần đảo chiều, tính lại cung bằng `cung_thuan_cua_iztro - 2*timeIndex` (tức trừ lùi từ chính kết quả thuận iztro đã tính, không cần chép lại bảng cung khởi của iztro) — tái sử dụng đúng cách các profile khác đã override sao (`khoiViet.ts`, `namPhaiStars.ts`). Đã có 3 test hồi quy vĩnh viễn trong `vietnameseChart.test.ts` (dùng đúng 2 lá số đã đối chiếu 2 nguồn ở trên) + chạy thử toàn bộ 12 lá số đã thu thập trong quá trình điều tra đều khớp 100%. Toàn bộ 35 test, typecheck, lint đều sạch.
+
+## 8. Bố cục lá số: sao đè lên chữ — phương án "F" (lưới co giãn theo nội dung) + gỡ bỏ phương án "D" (2026-09-15)
+
+Người dùng báo lỗi "sao đè lên chữ" ở lưới 4x4 hiện tại, hỏi liệu đổi khung sang chữ nhật có giúp không. Tái hiện được lỗi thật (đo bằng `getBoundingClientRect`, không suy đoán) trên cả web lẫn bản in — bản in nặng hơn nhiều (5/12 cung tràn, nặng nhất 17.5px) vì ô cung trên giấy nhỏ hơn nhiều so với màn hình.
+
+**Tham khảo tuvi.vn:** lá số của họ dựng bằng `<table>` HTML thật, mỗi HÀNG tự co theo đúng cung nào trong hàng đó đang dày nhất — không ép 4 hàng cao bằng nhau như Ngọc Âm. Đây là gốc của phương án F.
+
+**Đã làm (F):**
+- `chartRowLayout.ts` (mới) — tính lại tỉ lệ chiều cao 4 hàng dựa trên điểm "độ dày" đã có sẵn (`paletteDensity.ts`), có baseline riêng cho hàng 2-3 (mang thêm Trung Cung) và sàn tối thiểu mỗi hàng. Thuần dữ liệu, tính trước khi vẽ — không cần đo DOM runtime.
+- Viết lại toán học của `StructuralGridSVG.tsx` (đường kẻ lưới), `AspectOverlay.tsx` (đường tam hợp/xung chiếu/giáp cung), `TuanTrietOverlay.tsx` (nhãn Tuần/Triệt) để nhận biên hàng THẬT thay vì giả định 4 hàng đều 25% — đã kiểm chứng trực quan trên web, đường vẽ đúng vị trí.
+- **Phát hiện phụ quan trọng, đã sửa luôn:** công thức tính độ dày cho cung "Vô Chính Diệu" (0 chính tinh) điểm 0 ở phần chính tinh dù dòng chữ thay thế vẫn chiếm chỗ — khiến cung dày sao bị xếp nhầm mức "normal" (không được co chữ). Sửa: tính điểm với `max(majorCount, 1)`. Tự nó đã sửa được một lỗi tràn 21px trên web (cung Quan Lộc, lá số "Lê Văn Đức").
+- **Bật cho web, TẮT cho bản in.** Test chéo nhiều lá số phát hiện: phương án F giúp rõ rệt lá số "Trang" (17.5px→10.8px trên in) nhưng lại làm NẶNG HƠN một lá số cực đoan khác ("Lê Văn Đức", năm xem = năm sinh: 22.3px→30px, thêm 3 cung tràn mới) — vì tổng ngân sách chiều cao trên A4 quá chật, giật chỗ từ hàng này bù hàng khác có thể phản tác dụng. Bản in do đó CHỈ nhận phần sửa điểm-độ-dày (luôn có lợi, không có ca nào xấu đi), KHÔNG nhận phần lưới co giãn — xem comment trong `PrintChart.tsx`.
+- Có 12 test tạm (không giữ lại) xác nhận 12/12 lá số đã thu thập trong phiên đều đúng như kỳ vọng trên web.
+
+**Đã làm rồi GỠ (D):** ban đầu làm thêm modal "xem chi tiết cung" khi bấm vào cung trên desktop (giống mobile đã có), nhưng sau khi thấy lưới co giãn (F) đã đủ rõ, người dùng yêu cầu bỏ — thấy thừa. Đã gỡ sạch (`PalaceDetailModal.tsx` xoá, `TuViChart.tsx` trả về hành vi bấm-để-tô-đậm tam hợp như cũ).
+
+**Còn tồn đọng (không thuộc phạm vi hôm nay):** bản in vẫn còn ca tràn thật với lá số/năm xem cực đoan (ví dụ Mệnh có 2 chính tinh cùng lúc) — cần một trong hai hướng đã nêu từ đầu: đo chiều cao thật (không chỉ ước lượng theo số lượng sao) hoặc bớt nội dung hiển thị ở cung quá dày. Chưa làm hôm nay.
