@@ -7,4 +7,5 @@ export const vietnamTanBienProfile: ChartProfile = {
   khoiViet: KHOI_VIET_VI,
   useVietnameseBrightness: true,
   useZhongzhouMenhChu: true,
+  fixHuoLingDirection: true,
 };

@@ -11,4 +11,5 @@ export const iztroDefaultProfile: ChartProfile = {
   khoiViet: null,
   useVietnameseBrightness: false,
   useZhongzhouMenhChu: false,
+  fixHuoLingDirection: false,
 };

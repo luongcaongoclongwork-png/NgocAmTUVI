@@ -114,39 +114,73 @@ export const MAJOR_STAR_BRIGHTNESS_VI: Record<string, Partial<Record<EarthlyBran
 
 /**
  * Vietnamese brightness for the 6 sat tinh (Kinh Duong, Da La, Hoa Tinh, Linh
- * Tinh, Dia Khong, Dia Kiep) + Van Xuong/Van Khuc — a SEPARATE, much sparser
- * table from the major-star one above.
+ * Tinh, Dia Khong, Dia Kiep) + Van Xuong/Van Khuc — a SEPARATE table from the
+ * major-star one above.
  *
- * Why sparse: two independent glossary sources (tuvi.vn's own dedicated
- * articles at tuvi.vn/sao-kinh-duong-va-da-la-a546 and
+ * Why a separate table: two independent glossary sources (tuvi.vn's own
+ * dedicated articles at tuvi.vn/sao-kinh-duong-va-da-la-a546 and
  * tuvi.vn/hai-sao-hoa-tinh-va-linh-tinh-a537, plus a cross-check against
  * github.com/implicit-invocation/tuvi-neo's sao-database.ts binary dac/ham
- * data) were checked against tuvi.vn's own LIVE-RENDERED chart for the golden
- * benchmark (tuvi.vn/la-so-am-nu-am-duong-thuan-ly-16-6-1999-thin-36117,
- * fetched 2026-09-13) and turned out to CONTRADICT it: e.g. the Kinh
- * Duong/Da La article states "mieu tai Thin Tuat Suu Mui", but that same
- * chart actually renders Kinh Duong as "(D)" (Dac), not "(M)" (Mieu), at Mui;
- * the Hoa Tinh/Linh Tinh article's classical tam-hop-cuc scheme (mieu Dan
- * Ngo Tuat / dac Ty Dau Suu / loi ich Hoi Mao Mui / ham Than Ty Thin) is also
- * contradicted by that chart's Linh Tinh "(D)" at Ngo, which the article's
- * own scheme calls Ham (Than Ty Thin) not Dac. Neither article matches what
- * tuvi.vn's engine actually computes, so per rule G neither was trusted.
+ * data) were checked against tuvi.vn's own LIVE-RENDERED charts and turned
+ * out to CONTRADICT the published articles in multiple spots (e.g. the Kinh
+ * Duong/Da La article states "mieu tai Thin Tuat Suu Mui", but tuvi.vn's own
+ * engine renders Kinh Duong as "(D)" Dac, not "(M)" Mieu, at Mui). Neither
+ * article matches what tuvi.vn's engine actually computes, so per rule G
+ * neither was trusted — every entry below instead came directly from reading
+ * tuvi.vn's own live chart output, one verified (star, branch) -> brightness
+ * reading at a time, never a derived formula.
  *
- * Every entry below instead came directly from reading tuvi.vn's own live
- * chart output for that one golden-benchmark birth case — each cell is a
- * single verified (star, branch) -> brightness reading, not a derived rule.
- * This intentionally covers only ONE branch per star (whichever branch that
- * star happens to land on for this one person) — the remaining 11 branches
- * per star stay `sourceNeeded` (no badge shown) until verified the same way
- * against additional sample charts. See rules/brightness.ts.
+ * Round 2 (2026-09-14): systematically read 14 additional tuvi.vn charts
+ * (solar 15/06 of 1984-1995 + 1997 + 2001-2002, Nam, each a different birth
+ * hour) chosen so that between them every reachable branch of Kinh Duong/
+ * Da La/Dia Khong/Van Xuong/Van Khuc/Linh Tinh/Hoa Tinh got hit at least
+ * once (Kinh Duong and Da La each only ever land on 8 of the 12 branches —
+ * confirmed by scanning our own engine first, see git history). Result:
+ * Kinh Duong, Da La and Dia Khong are now verified on EVERY branch they can
+ * reach. Van Xuong/Van Khuc are missing only Mao and Dau — tuvi.vn itself
+ * renders no brightness badge for either star at those two branches specific
+ * (confirmed by revisiting each at a second, unrelated birth chart; not a
+ * one-off rendering glitch). Dia Kiep almost never gets a brightness badge
+ * on tuvi.vn at all (badge-less in 10 of 11 chart readings) — the one Dan/Dac
+ * reading below is the only one caught; do not treat its remaining
+ * `sourceNeeded` cells as a gap to chase further with this method.
+ *
+ * A separate finding from this round, NOT a brightness issue: Hoa Tinh and
+ * Linh Tinh's own BRANCH POSITION (not just brightness) frequently disagreed
+ * between our iztro-derived chart and tuvi.vn's for the identical birth
+ * input — iztro's getHuoLingIndex() always counts both stars forward
+ * (thuan) by hour, but only one of the two actually counts forward per
+ * year-branch group, the other counts backward (nghich). This has since
+ * been FIXED and verified against two independent engines (tuvi.vn,
+ * tracuutuvi.com) — see ChartProfile.fixHuoLingDirection in
+ * vietnameseAdapter.ts and docs/tuvi-engine-audit.md section 7 for the full
+ * derivation. The `lingxingMin.Tý` entry below came directly out of that
+ * follow-up cross-check (both sources agreed on Tý -> H).
  */
 export const MINOR_STAR_BRIGHTNESS_VI: Record<string, Partial<Record<EarthlyBranchVi, VietnameseBrightness>>> = {
-  qingyangMin: { Mùi: "Đ" },
-  tuoluoMin: { Tỵ: "H" },
-  huoxingMin: { Sửu: "H" },
-  lingxingMin: { Ngọ: "Đ" },
-  dikongMin: { Mùi: "H" },
-  dijieMin: { Mão: "B" },
-  wenchangMin: { Ngọ: "H" },
-  wenquMin: { Thân: "H" },
+  qingyangMin: {
+    Mão: "H", Thìn: "Đ", Ngọ: "H", Mùi: "Đ", Dậu: "H", Tuất: "Đ", Tý: "H", Sửu: "Đ",
+  },
+  tuoluoMin: {
+    Sửu: "Đ", Dần: "H", Thìn: "Đ", Tỵ: "H", Mùi: "Đ", Thân: "H", Tuất: "Đ", Hợi: "H",
+  },
+  huoxingMin: {
+    Sửu: "H", Dần: "Đ", Mão: "Đ", Ngọ: "Đ", Mùi: "H", Tuất: "H", Hợi: "H",
+  },
+  lingxingMin: {
+    Ngọ: "Đ", Tuất: "H", Hợi: "H", Sửu: "H", Mão: "Đ", Dậu: "H", Tỵ: "Đ", Dần: "Đ", Mùi: "H", Tý: "H",
+  },
+  dikongMin: {
+    Mùi: "H", Hợi: "Đ", Tuất: "H", Dậu: "H", Thân: "Đ", Ngọ: "H", Tỵ: "Đ", Thìn: "H",
+    Mão: "H", Dần: "Đ", Sửu: "H", Tý: "H",
+  },
+  dijieMin: { Mão: "B", Dần: "Đ" },
+  wenchangMin: {
+    Ngọ: "H", Tuất: "Đ", Thân: "H", Mùi: "Đ", Tỵ: "Đ", Thìn: "Đ", Dần: "H", Sửu: "Đ",
+    Tý: "H", Hợi: "Đ",
+  },
+  wenquMin: {
+    Thân: "H", Thìn: "Đ", Tỵ: "Đ", Ngọ: "H", Mùi: "Đ", Tuất: "Đ", Hợi: "Đ", Tý: "H",
+    Sửu: "Đ", Dần: "H",
+  },
 };

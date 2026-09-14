@@ -57,3 +57,43 @@ Sẽ sửa: `package.json` (thêm `iztro@2.6.1` + test runner), `Header.tsx`/`Fo
 4. **Báo cáo entry chưa xác minh:** với các sao/cung không nằm trong bảng benchmark đã cho, brightness sẽ đánh dấu `sourceNeeded: true` thay vì đoán — sẽ liệt kê danh sách này trong báo cáo cuối, không chặn golden test (golden test chỉ cần đúng các entry mà benchmark đã cho).
 5. **Chỉ sau khi golden test PASS** mới bắt đầu Bước 7 (renderer UI) — đúng Bước 6 trong quy trình.
 6. Cuối cùng: `npm run lint`, `tsc --noEmit`, test suite, `npm run build`.
+
+## 6. Trạng thái profile / trường phái (chốt 2026-09-14)
+
+Tài liệu này là kế hoạch viết TRƯỚC khi implement (mục 2 từng nói "chưa cài iztro, chưa có route /lap-la-so") — phần dưới đây ghi lại trạng thái THẬT của code ở thời điểm chốt, để không ai đọc lại tài liệu này rồi tưởng nhầm việc còn dang dở.
+
+- **"Ngọc Âm" là thương hiệu, không phải một trường phái Tử Vi riêng.** `ngocAmProfile` kế thừa 100% `vietnamTanBienProfile` (`{ ...vietnamTanBienProfile, id: "ngoc-am" }`) — đây là quyết định chủ đích, đã được người phụ trách xác nhận, không phải profile "chưa làm xong". Toàn bộ UI (`LaSoResultClient.tsx`, `PrintPageClient.tsx`) chỉ gọi cố định `generateChart(input, "ngoc-am")`.
+- **`vietnam-tan-bien` và `iztro-default` không phải lựa chọn cho người dùng** — hai profile này tồn tại thuần để `vietnameseChart.test.ts` so sánh output của Ngọc Âm với output gốc chưa override của iztro (chứng minh các override Khôi/Việt, độ sáng... thật sự có tác dụng). Không xây UI chọn phái xung quanh 2 id này.
+- **Không có kế hoạch xây một bộ luật "Nam phái" độc lập** khác với Tân Biên. Nếu quyết định này đổi trong tương lai, cần một dự án nghiên cứu riêng (tìm nguồn Nam phái chuẩn, đối chiếu từng sao khác biệt thật sự với Tân Biên — ước tính chỉ ~10-15 sao thực sự "nhạy trường phái", không phải toàn bộ 72 sao) trước khi bật lại ý tưởng này.
+- **Bảng sáng tối 6 sát tinh + Văn Xương/Văn Khúc** (`vietnamese-brightness.ts` → `MINOR_STAR_BRIGHTNESS_VI`): hoàn thiện phần lớn 2026-09-14 bằng cách đọc 16 lá số tuvi.vn có kiểm soát biến số (xem git log cho danh sách). Kình Dương, Đà La, Địa Không giờ đã xác minh 100% (đủ mọi vị trí có thể rơi vào). Văn Xương/Văn Khúc còn thiếu đúng 2 cung mỗi sao (Mão, Dậu) — không phải do chưa tìm được lá số, mà vì bản thân tuvi.vn cũng không hiện badge sáng tối ở 2 vị trí đó (xác nhận 2 lần độc lập). Địa Kiếp gần như không có dữ liệu khả dụng từ nguồn này (tuvi.vn chỉ hiện badge cho sao này 1/11 lần đọc được) — không nên tiếp tục cố lấy thêm bằng phương pháp này.
+
+## 7. BUG đã chẩn đoán, xác minh 2 nguồn độc lập và ĐÃ SỬA: an sai vị trí Hỏa Tinh / Linh Tinh (phát hiện + sửa 2026-09-14)
+
+Trong lúc đối chiếu bảng sáng tối (mục 6), phát hiện Hỏa Tinh và Linh Tinh **thường xuyên rơi vào cung khác nhau** giữa lá số Ngọc Âm (qua iztro) và tuvi.vn với cùng một ngày giờ sinh — không phải lỗi hiển thị độ sáng, mà là lỗi **an sao sai vị trí**.
+
+**Nguồn gốc (đọc thẳng mã nguồn iztro):** `node_modules/iztro/lib/star/location.js`, hàm `getHuoLingIndex` (dòng 340-380). iztro chia năm sinh theo chi thành 4 nhóm tam hợp, mỗi nhóm có cung khởi (giờ Tý) riêng cho Hỏa Tinh và Linh Tinh, sau đó **luôn cộng thêm `timeIndex` (đếm thuận) cho cả hai sao, không phân biệt nhóm**.
+
+**Đối chiếu thực nghiệm với tuvi.vn** (16 lá số, cùng ngày 15/06 dương lịch, Nam, trải đều 10 thiên can x nhiều giờ sinh khác nhau, có 2 lá số thiết kế riêng để phá vỡ tương quan năm-giờ nhằm loại trừ trùng hợp ngẫu nhiên): cung khởi điểm của iztro và tuvi.vn **giống hệt nhau** cho cả 2 sao ở cả 4 nhóm — chỉ khác nhau ở **chiều đếm** (thuận/nghịch), theo quy luật:
+
+| Nhóm chi năm sinh | Hỏa Tinh (tuvi.vn) | Linh Tinh (tuvi.vn) |
+|---|---|---|
+| Dần-Ngọ-Tuất, Thân-Tý-Thìn (chi Dương) | Thuận (khớp iztro) | **Nghịch** (iztro sai) |
+| Tỵ-Dậu-Sửu, Hợi-Mão-Mùi (chi Âm) | **Nghịch** (iztro sai) | Thuận (khớp iztro) |
+
+Tức luôn có đúng 1 trong 2 sao đi nghịch, sao nào đi nghịch phụ thuộc nhóm Âm/Dương của chi năm sinh — không phải lỗi ngẫu nhiên, không phải do đọc sai lá số.
+
+**Đối chiếu nguồn độc lập thứ 2 (tracuutuvi.com, 2026-09-14):** lập cùng 1 lá số (15/06/1985 dương lịch, 4 giờ, Nam — thuộc nhóm Tỵ-Dậu-Sửu) trên một engine hoàn toàn khác tuvi.vn. Kết quả khớp 100% với tuvi.vn ở cả vị trí lẫn độ sáng cho cả 5 sao đối chiếu được:
+
+| Sao | tuvi.vn | tracuutuvi.com |
+|---|---|---|
+| Hỏa Tinh | Sửu (H) | Sửu (H) |
+| Linh Tinh | Tý (H) | Tý (H) |
+| Kình Dương | Thìn (Đ) | Thìn (Đ) |
+| Đà La | Dần (H) | Dần (H) |
+| Địa Không | Dậu (H) | Dậu (H) |
+
+Đặc biệt Hỏa Tinh rơi đúng Sửu (chiều nghịch) ở cả hai nguồn, không phải Tỵ như công thức thuận của iztro sẽ cho ra — hai nguồn độc lập đồng thuận tuyệt đối, loại trừ khả năng trùng hợp hoặc lỗi đọc lá số ở một nguồn. Chẩn đoán ở trên được xem là ĐÃ XÁC MINH ĐỦ để tiến hành sửa.
+
+**Hệ quả ước tính:** khoảng một nửa số lá số (tùy chi năm sinh) đang hiện sai cung của Hỏa Tinh hoặc Linh Tinh trên Ngọc Âm so với chuẩn tuvi.vn/Tân Biên.
+
+**Trạng thái: ĐÃ SỬA (2026-09-14).** Thêm `ChartProfile.fixHuoLingDirection` (`true` cho `ngoc-am`/`vietnam-tan-bien`, `false` cho `iztro-default` — profile so sánh phải giữ nguyên bản gốc chưa override của iztro để test còn có ý nghĩa). Logic sửa nằm trong `vietnameseAdapter.ts`: với sao cần đảo chiều, tính lại cung bằng `cung_thuan_cua_iztro - 2*timeIndex` (tức trừ lùi từ chính kết quả thuận iztro đã tính, không cần chép lại bảng cung khởi của iztro) — tái sử dụng đúng cách các profile khác đã override sao (`khoiViet.ts`, `namPhaiStars.ts`). Đã có 3 test hồi quy vĩnh viễn trong `vietnameseChart.test.ts` (dùng đúng 2 lá số đã đối chiếu 2 nguồn ở trên) + chạy thử toàn bộ 12 lá số đã thu thập trong quá trình điều tra đều khớp 100%. Toàn bộ 35 test, typecheck, lint đều sạch.

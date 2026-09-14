@@ -5,6 +5,15 @@ import { vietnamTanBienProfile } from "../profiles/vietnamTanBien";
 import { iztroDefaultProfile } from "../profiles/iztroDefault";
 import type { BirthInput, VietnameseChartDTO, VietnameseHoroscopeDTO } from "../types/VietnameseChart";
 
+/**
+ * "ngoc-am" is the only profile any route ever requests — it's the site's
+ * one real house style. "vietnam-tan-bien" and "iztro-default" exist purely
+ * so tests can diff ngoc-am's output against iztro's un-overridden defaults
+ * (vietnameseChart.test.ts) and prove the Khoi-Viet/brightness overrides
+ * actually fire; they are not user-facing alternatives and there is no
+ * profile-switcher UI to build here (confirmed 2026-09-14 — see
+ * profiles/ngocAm.ts).
+ */
 const PROFILES = {
   "ngoc-am": ngocAmProfile,
   "vietnam-tan-bien": vietnamTanBienProfile,

@@ -1,5 +1,5 @@
 import type { IFunctionalAstrolabe } from "./iztroAdapter";
-import { loadRawIztroChart } from "./iztroAdapter";
+import { loadRawIztroChart, timeIndexFromHHmm } from "./iztroAdapter";
 import {
   HEAVENLY_STEM_VI,
   EARTHLY_BRANCH_VI,
@@ -41,6 +41,17 @@ export interface ChartProfile {
   useVietnameseBrightness: boolean;
   /** See rules/palaces.ts for why the Vietnamese profiles need this for Menh Chu. */
   useZhongzhouMenhChu: boolean;
+  /**
+   * false = keep iztro's own Hoa Tinh/Linh Tinh placement (both counted
+   * forward/thuan by hour), for the iztro-default comparison profile only —
+   * see docs/tuvi-engine-audit.md section 7. iztro's getHuoLingIndex()
+   * always counts both stars forward from their year-branch-group's Ty-hour
+   * start point; verified against two independent engines (tuvi.vn,
+   * tracuutuvi.com, 2026-09-14) that only one of the two actually counts
+   * forward per year, the other counts backward (nghich), and which one
+   * flips depends on yin/yang of the year branch.
+   */
+  fixHuoLingDirection: boolean;
 }
 
 /** iztro's own 7-level scale, collapsed only for the "iztro-default" comparison profile. Never used for ngoc-am/vietnam-tan-bien. */
@@ -199,6 +210,70 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
       }
       if (palace.branch === viet) {
         palace.supportStars.push({ id: "tianyueMin", name: vietEntry.name, category: "support" });
+      }
+    }
+  }
+
+  // Hoa Tinh / Linh Tinh direction fix — see ChartProfile.fixHuoLingDirection
+  // above and docs/tuvi-engine-audit.md section 7 for the full derivation.
+  // iztro's getHuoLingIndex() computes both stars as (group start branch) +
+  // timeIndex, always forward, for all 4 year-branch groups. Empirically
+  // only one of the two stars is actually forward per group; the other is
+  // backward, i.e. (group start branch) - timeIndex = iztroForward -
+  // 2*timeIndex. Reusing iztro's own forward result this way avoids
+  // re-encoding its per-group start-branch table a second time.
+  if (profile.fixHuoLingDirection) {
+    const BRANCH_ORDER: EarthlyBranchVi[] = [
+      "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi",
+    ];
+    const branchIndex = (b: EarthlyBranchVi) => BRANCH_ORDER.indexOf(b);
+    const branchAt = (i: number) => BRANCH_ORDER[((i % 12) + 12) % 12];
+    const timeIndex = timeIndexFromHHmm(input.time) % 12;
+    const YANG_BRANCHES = new Set<EarthlyBranchVi>(["Tý", "Dần", "Thìn", "Ngọ", "Thân", "Tuất"]);
+    const yearIsYang = YANG_BRANCHES.has(year.branch);
+    // Yang-branch years (Dan-Ngo-Tuat, Than-Ty-Thin): Hoa Tinh forward matches
+    // iztro, Linh Tinh must flip. Yin-branch years (Ty-Dau-Suu, Hoi-Mao-Mui):
+    // the reverse.
+    const huoNeedsFlip = !yearIsYang;
+    const lingNeedsFlip = yearIsYang;
+
+    function flippedBranch(rawZhName: string): EarthlyBranchVi | undefined {
+      const rawPalace = astrolabe.palaces.find((p) => p.minorStars.some((s) => s.name === rawZhName));
+      if (!rawPalace) return undefined;
+      const forwardIndex = branchIndex(EARTHLY_BRANCH_VI[rawPalace.earthlyBranch]);
+      return branchAt(forwardIndex - 2 * timeIndex);
+    }
+
+    const relocations: { id: "huoxingMin" | "lingxingMin"; branch: EarthlyBranchVi }[] = [];
+    if (huoNeedsFlip) {
+      const branch = flippedBranch("火星");
+      if (branch) relocations.push({ id: "huoxingMin", branch });
+    }
+    if (lingNeedsFlip) {
+      const branch = flippedBranch("铃星");
+      if (branch) relocations.push({ id: "lingxingMin", branch });
+    }
+
+    if (relocations.length > 0) {
+      const relocatedIds = new Set(relocations.map((r) => r.id));
+      for (const palace of palaces) {
+        palace.maleficStars = palace.maleficStars.filter((s) => !relocatedIds.has(s.id as "huoxingMin" | "lingxingMin"));
+      }
+      for (const { id, branch } of relocations) {
+        const palace = palaces.find((p) => p.branch === branch);
+        if (!palace) continue;
+        const entry = STAR_NAMES_VI[id];
+        const star: VietnameseStar = { id, name: entry.name, category: entry.category, element: entry.element };
+        const { brightness, sourceNeeded } = lookupBrightness(id, branch);
+        star.brightness = brightness;
+        star.sourceNeeded = sourceNeeded;
+        if (sourceNeeded) unverifiedBrightnessEntries.push({ starId: id, branch });
+        const transformation = transformationByStarId.get(id);
+        if (transformation) star.transformation = transformation;
+        palace.maleficStars.push(star);
+        palace.fourTransformations = [
+          ...palace.majorStars, ...palace.supportStars, ...palace.maleficStars, ...palace.adjectiveStars,
+        ].filter((s) => s.transformation).map((s) => s.transformation as FourTransformation);
       }
     }
   }
