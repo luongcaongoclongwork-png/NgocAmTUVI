@@ -35,6 +35,19 @@
     left: 0;
     top: 0;
   }
+
+  /* visibility:hidden above hides PAINT only — the site's own Header/Footer
+     (rendered by the root layout around every route, this print page
+     included) and the on-page "In / Luu PDF" button still occupy real
+     height in normal document flow while invisible, which was tall enough
+     on its own to push the print engine into laying out a spurious blank
+     2nd page even after the break-after bug (see .tuvi-print-page's own
+     comment) was fixed. display:none removes them from flow entirely. */
+  body > header,
+  body > footer,
+  .print-no-print {
+    display: none !important;
+  }
 }
 
 /* ============================================================
@@ -45,15 +58,26 @@
   width: 210mm;
   height: 297mm;
   box-sizing: border-box;
-  padding: 10mm;
-  background: var(--print-paper) url("/images/print/chart-paper-bg.png") center / cover no-repeat;
+  /* 7mm (down from 10mm) — user tested this margin on their own printer
+     with no clipping before approving it (2026-09-16). See
+     print.constants.ts's PRINT_A4 for the derived safe-area numbers. */
+  padding: 7mm;
+  background: var(--print-paper);
   color: var(--print-ink);
   overflow: hidden;
+  position: relative;
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
 
-  break-after: page;
-  page-break-after: always;
+  /* break-inside:avoid keeps this ONE page's own content from splitting —
+     correct. `break-after:page` was also set here (copied from the
+     original task spec's section 41), which is wrong for a single-page
+     document: it forces a page break AFTER this element regardless of
+     whether anything follows it, so with nothing after it, it printed a
+     blank trailing 2nd page every time ("in 2 tờ" feedback 2026-09-17).
+     break-after only makes sense between MULTIPLE .tuvi-print-page
+     elements in sequence (a future multi-page report), not on the last
+     (here, only) one. */
   break-inside: avoid;
   page-break-inside: avoid;
 
@@ -80,9 +104,24 @@
   --print-auxiliary-color: var(--print-ink);
 }
 
+/* The background art used to cover the page edge-to-edge (true bleed, 0mm
+   from the physical paper edge) — most printers' own non-printable margin
+   (a hardware limit, independent of our 7mm content margin) sits right in
+   that zone, so the decorative corner art got clipped on a real printout
+   ("ảnh nền bị cắt mất 1 góc" feedback 2026-09-18) even though it rendered
+   correctly on screen/PDF. Insetting it 2.5mm gives real printers a small
+   buffer; a `::before` layer (not the page's own `background`) so it can
+   be inset independently of `.tuvi-print-page`'s 7mm content padding. */
+.tuvi-print-page::before {
+  content: "";
+  position: absolute;
+  inset: 2.5mm;
+  background: url("/images/print/chart-paper-bg.png") center / cover no-repeat;
+}
+
 .tuvi-print-inner {
-  width: 190mm;
-  height: 277mm;
+  width: 196mm;
+  height: 283mm;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -94,11 +133,11 @@
    ============================================================ */
 
 .print-header {
-  min-height: 24mm;
+  min-height: 44mm;
   flex: 0 0 auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: start;
+  align-items: center;
   padding-top: 2mm;
 }
 
@@ -115,14 +154,14 @@
 
 .print-brand {
   font-family: var(--font-heading);
-  font-size: 12pt;
+  font-size: 16pt;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--print-brand);
 }
 
 .print-brand-sub {
-  font-size: 6.2pt;
+  font-size: 7.8pt;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--print-cinnabar-soft);
@@ -131,7 +170,7 @@
 .print-motto {
   font-family: var(--font-heading);
   font-style: italic;
-  font-size: 9pt;
+  font-size: 11.5pt;
   color: var(--print-ink);
 }
 
@@ -142,7 +181,7 @@
 .print-title {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 20pt;
+  font-size: 28pt;
   line-height: 1;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -150,8 +189,8 @@
 }
 
 .print-subtitle {
-  margin-top: 2mm;
-  font-size: 7.5pt;
+  margin-top: 2.4mm;
+  font-size: 9pt;
   letter-spacing: 0.08em;
   color: var(--print-cinnabar-soft);
 }
@@ -162,13 +201,13 @@
 
 .print-chart-wrap {
   flex: 0 0 auto;
-  margin: 0 auto;
+  margin: 2mm auto 0;
 }
 
 .print-chart {
   position: relative;
-  width: 184mm;
-  height: 184mm;
+  width: 190mm;
+  height: 190mm;
   margin: 0 auto;
 
   background: var(--print-paper);
@@ -177,9 +216,11 @@
 }
 
 /* .ngoc-am-grid's own rule sets `grid-template-rows: repeat(4, minmax(180px, 1fr))`
-   for the 980px+ desktop chart — at 184mm (~695px) a 180px row minimum would
-   force the grid taller than its own 184mm container. Print needs the plain
-   equal-fourths split, same as the column tracks already use. */
+   for the 980px+ desktop chart — at 190mm (~718px) a 180px row minimum would
+   force the grid taller than its own 190mm container. Print needs the plain
+   equal-fourths split, same as the column tracks already use. See the
+   2026-09-18 note in this file's header on why an asymmetric (outer-ring-
+   bigger-than-center) grid was tried and reverted. */
 .print-chart .ngoc-am-grid {
   grid-template-rows: repeat(4, minmax(0, 1fr));
 }
@@ -251,13 +292,13 @@
 }
 
 .print-chart .palace-branch {
-  font-size: 6.8pt;
+  font-size: 7.8pt;
   font-family: var(--font-heading);
   color: var(--print-ink-soft);
 }
 
 .print-chart .palace-name {
-  font-size: 8.2pt;
+  font-size: 9.5pt;
   font-family: var(--font-heading);
   font-weight: 700;
   text-align: center;
@@ -265,35 +306,50 @@
 }
 
 .print-chart .palace-index {
-  font-size: 5.8pt;
+  font-size: 6.5pt;
   text-align: right;
   color: var(--print-muted);
 }
 
-/* ---------- Main (chinh tinh) stars — centered, stacked ---------- */
-
+/* ---------- Main (chinh tinh) stars — centered, SIDE BY SIDE ----------
+   Row, not column: matches the live web chart's own .palace-main-stars
+   (ngocAmChart.css) — two major stars sit next to each other instead of
+   stacked, which is both visually consistent with web/mobile and frees
+   ~7.5mm of vertical room per 2-major-star palace versus stacking them
+   (verified 2026-09-18: max safe font sizes below were tested WITH this
+   row layout, not against the old column one). */
 .print-chart .palace-main-stars {
   width: 100%;
   margin-top: 1.6mm;
   margin-bottom: 1.4mm;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.1mm;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.4mm 2.5mm;
   text-align: center;
 }
 
 .print-chart .palace-major-star {
-  width: 100%;
+  width: auto;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
+/* Max font sizes below (this block through the density overrides further
+   down) were found empirically 2026-09-18: raised step by step against
+   leaf-level text bounding-box overlap checks across all 12 palaces on 5
+   different charts (varied star spread, a very long name, edge-case ages)
+   until real (non-footer) overlaps or chart-edge overflow first appeared,
+   then backed off one step. ~+20% over the previous sizes; roughly +25%
+   hit both failure modes (see this file's git history for the readings). */
 .print-chart .palace-major-star__name {
   font-family: var(--font-heading);
-  font-size: 9.6pt;
+  font-size: 11.5pt;
   line-height: 1.08;
   font-weight: 700;
   color: var(--print-major-color);
@@ -307,11 +363,11 @@
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-major-star__name {
-  font-size: 9pt;
+  font-size: 10.8pt;
 }
 
 .print-chart .tuvi-palace[data-density="packed"] .palace-major-star__name {
-  font-size: 8.4pt;
+  font-size: 10.1pt;
 }
 
 /* flex-shrink:0 on these 5 sections (ngocAmChart.css) means they never
@@ -326,7 +382,7 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-minor-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-minor-star {
-  font-size: 5.5pt;
+  font-size: 6.5pt;
   line-height: 1.1;
 }
 
@@ -337,7 +393,7 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-adjective-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-adjective-star {
-  font-size: 4.8pt;
+  font-size: 5.7pt;
   line-height: 1.08;
 }
 
@@ -347,9 +403,9 @@
   padding-top: 0.3mm;
 }
 
-.print-chart .tuvi-palace[data-density="dense"] .palace-luu-stars,
-.print-chart .tuvi-palace[data-density="packed"] .palace-luu-stars {
-  font-size: 4.6pt;
+.print-chart .tuvi-palace[data-density="dense"] .palace-luu-star,
+.print-chart .tuvi-palace[data-density="packed"] .palace-luu-star {
+  font-size: 5.5pt;
   line-height: 1.08;
 }
 
@@ -363,7 +419,7 @@
 }
 
 .print-chart .palace-major-star__state {
-  font-size: 5.8pt;
+  font-size: 6.5pt;
   color: var(--print-muted);
 }
 
@@ -390,7 +446,7 @@
 }
 
 .print-chart .palace-minor-star {
-  font-size: 5.9pt;
+  font-size: 7.0pt;
   line-height: 1.18;
   font-weight: 450;
   color: var(--print-auxiliary-color);
@@ -420,7 +476,7 @@
 }
 
 .print-chart .palace-adjective-star {
-  font-size: 5.2pt;
+  font-size: 6.2pt;
   line-height: 1.16;
   color: var(--print-auxiliary-color);
 }
@@ -448,11 +504,23 @@
   color: var(--print-gold);
 }
 
+/* 2-column grid, not one joined line — same reasoning as ngocAmChart.css:
+   a joined line's height depends on how long the star names are, not on
+   how many there are, which is what paletteDensity.ts actually scores. */
 .print-chart .palace-luu-stars {
   margin-top: 0.3mm;
-  font-size: 5pt;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.6mm;
+  row-gap: 0.2mm;
+}
+
+.print-chart .palace-luu-star {
+  min-width: 0;
+  font-size: 6.0pt;
   line-height: 1.16;
   color: var(--print-ink-soft);
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Footer zone (Dai Van age / Truong Sinh / Bac Si, pinned to the cell's own bottom) ---------- */
@@ -473,13 +541,13 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   line-height: 1.1;
-  font-size: 5pt;
+  font-size: 5.8pt;
   color: var(--print-muted);
 }
 
 .print-chart .palace-footer--horoscope {
   line-height: 1.1;
-  font-size: 4.7pt;
+  font-size: 5.4pt;
   font-weight: 600;
   color: var(--print-cinnabar-soft);
 }
@@ -501,21 +569,45 @@
   background: rgba(249, 243, 232, 0.68);
 }
 
+/* Re-orders and re-sizes the SAME 3 elements CenterPalace.tsx already
+   renders (brand="NGỌC ÂM", title="LÁ SỐ TỬ VI", subtitle="XUYÊN TAM
+   DIỆM") — no text/DOM change (CenterPalace.tsx untouched, still shared
+   with the live web/mobile chart), just `order` + font swap. New reading
+   order: NGỌC ÂM (small) / XUYÊN TAM DIỆM (now the big title) / LÁ SỐ TỬ
+   VI (now small, matching NGỌC ÂM) — mirrors the outer page header's own
+   XUYÊN TAM DIỆM/LÁ SỐ TỬ VI hierarchy (see .print-title/.print-subtitle
+   above). Requires flex on the header to make `order` apply. */
+.print-chart .chart-center-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .print-chart .chart-center-brand {
+  order: 1;
   font-size: 7.5pt;
   letter-spacing: 0.17em;
 }
 
-.print-chart .chart-center-title {
+.print-chart .chart-center-subtitle {
+  order: 2;
   margin-top: 1.2mm;
-  font-size: 19pt;
+  font-family: var(--font-heading);
+  font-size: 17pt;
+  font-weight: 700;
   line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--print-ink);
 }
 
-.print-chart .chart-center-subtitle {
+.print-chart .chart-center-title {
+  order: 3;
   margin-top: 1.2mm;
-  font-size: 6pt;
+  font-family: var(--font-heading);
+  font-size: 7.5pt;
+  font-weight: 500;
   letter-spacing: 0.12em;
+  color: var(--print-cinnabar-soft);
 }
 
 .print-chart .center-info-row {
@@ -603,9 +695,11 @@
   font-size: 5.4pt;
 }
 
+/* Removed for print only (CenterPalace.tsx itself is untouched — the live
+   web/mobile chart still shows this quote as-is) to free vertical room in
+   the Trung Cung without shrinking its own info text back down. */
 .print-chart .center-tagline {
-  margin-top: 1.5mm;
-  font-size: 6.4pt;
+  display: none;
 }
 
 .print-chart .center-divider {
@@ -618,6 +712,30 @@
     rgba(137, 100, 63, 0.24) 85%,
     transparent
   );
+}
+
+/* Signature + red seal flourish (PrintCenterSeal.tsx) — positioned by fixed
+   mm offset from .print-chart (184mm, position:relative), not inside
+   CenterPalace.tsx (shared with the live web chart). Trung Cung itself
+   spans x/y [46mm, 138mm] within the chart (rows/cols 2-3 of the 4x4
+   grid); these offsets tuck the flourish just inside its bottom-right
+   corner, clear of the centered tagline. */
+/* Deliberately sits over the tagline's corner, not beside it — a seal
+   overlapping a signature/line of text is the traditional presentation
+   (an authenticity stamp is meant to overlap what it's stamped on), not a
+   layout bug. Positioned to clear the Nam xem row (real data) above it. */
+.print-chart .print-center-seal {
+  position: absolute;
+  right: 47.5mm;
+  bottom: 47mm;
+  pointer-events: none;
+}
+
+.print-chart .print-center-seal__stamp {
+  width: 12mm;
+  height: 12mm;
+  object-fit: contain;
+  opacity: 0.9;
 }
 
 /* ============================================================

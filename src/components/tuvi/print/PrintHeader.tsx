@@ -6,8 +6,8 @@ export default function PrintHeader() {
         <span className="print-brand-sub">TỬ VI · PHONG THUỶ</span>
       </div>
       <div className="print-title-wrap">
-        <h1 className="print-title">LÁ SỐ TỬ VI</h1>
-        <p className="print-subtitle">XUYÊN TAM DIỆM</p>
+        <h1 className="print-title">XUYÊN TAM DIỆM</h1>
+        <p className="print-subtitle">LÁ SỐ TỬ VI</p>
       </div>
       <div className="print-brand-block print-brand-block--right">
         <span className="print-motto">Hiểu mình · Thuận thế · Vững bước</span>

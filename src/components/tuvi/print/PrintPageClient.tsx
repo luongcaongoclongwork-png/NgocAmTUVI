@@ -51,6 +51,11 @@ export default function PrintPageClient() {
 
   useEffect(() => {
     if (state.status !== "ready") return;
+    // "In lá số" and "Xuất PDF" are two independent buttons on /la-so that
+    // both land here — only the former asks for the print dialog to open
+    // by itself (see TuViChart.tsx's handlePrint/handleExportPdf); "Xuất
+    // PDF" just opens this page and lets the user print/save it themselves.
+    if (new URLSearchParams(window.location.search).get("autoprint") !== "1") return;
     let cancelled = false;
     document.fonts.ready.then(() => {
       if (cancelled) return;
@@ -79,5 +84,23 @@ export default function PrintPageClient() {
     );
   }
 
-  return <A4TuViPrintRenderer chart={state.chart} birthTime={state.birthInput.time} horoscope={horoscope} />;
+  return (
+    <>
+      {/* Only reachable via "Xuất PDF" (no ?autoprint=1) — "In lá số" already
+          opens the OS print dialog on its own. print-no-print removes this
+          from layout entirely under @media print (see print.css) — plain
+          visibility:hidden alone left it tall enough, still occupying flow
+          height while invisible, to trigger a spurious blank 2nd page. */}
+      <div className="print-no-print mx-auto max-w-[1320px] px-6 pt-6 text-center lg:px-10">
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="tracking-label inline-flex h-10 items-center border border-walnut/30 bg-transparent px-4 text-[13px] uppercase text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+        >
+          In / Lưu PDF
+        </button>
+      </div>
+      <A4TuViPrintRenderer chart={state.chart} birthTime={state.birthInput.time} horoscope={horoscope} />
+    </>
+  );
 }

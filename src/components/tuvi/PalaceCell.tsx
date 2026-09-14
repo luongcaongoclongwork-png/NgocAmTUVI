@@ -166,7 +166,13 @@ export default function PalaceCell({
         <div className="palace-luu-section">
           <div className="palace-luu-label">Lưu</div>
           <div className="palace-luu-stars">
-            {[...horoscope.luuStars.map((s) => s.name), horoscope.suiQian, horoscope.jiangQian].filter(Boolean).join(" · ")}
+            {horoscope.luuStars.map((s) => (
+              <span key={s.id} className="palace-luu-star">
+                {s.name}
+              </span>
+            ))}
+            {horoscope.suiQian && <span className="palace-luu-star">{horoscope.suiQian}</span>}
+            {horoscope.jiangQian && <span className="palace-luu-star">{horoscope.jiangQian}</span>}
           </div>
         </div>
       )}

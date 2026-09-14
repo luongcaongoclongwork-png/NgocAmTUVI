@@ -5,8 +5,10 @@
 export const PRINT_A4 = {
   widthMm: 210,
   heightMm: 297,
-  pageMarginMm: 10,
-  safeWidthMm: 190,
-  safeHeightMm: 277,
-  chartSizeMm: 184,
+  // 7mm (down from 10mm) — user tested this margin on their own printer
+  // with no clipping before approving it (2026-09-16).
+  pageMarginMm: 7,
+  safeWidthMm: 196,
+  safeHeightMm: 283,
+  chartSizeMm: 190,
 } as const;

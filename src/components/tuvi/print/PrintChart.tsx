@@ -1,4 +1,5 @@
 import TuViChartGrid from "../TuViChartGrid";
+import PrintCenterSeal from "./PrintCenterSeal";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 /**
@@ -28,6 +29,7 @@ export default function PrintChart({
         tabIndexFor={() => -1}
         showAspectOverlay={false}
       />
+      <PrintCenterSeal />
     </div>
   );
 }

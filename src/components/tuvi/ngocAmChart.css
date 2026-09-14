@@ -405,10 +405,28 @@
   color: var(--na-gold);
 }
 
+/* A 2-column grid, not one joined "A · B · C · D" line — a joined line's
+   height depends on how LONG the star names happen to be (this palace's
+   "Lưu Văn Khúc · Lưu Kình Dương · Tuế Kiến · Tướng Tinh" wrapped to a 2nd
+   line and overlapped the fixed-position footer below, even though
+   paletteDensity.ts scored this palace as merely "normal" density — it
+   counts star COUNT, not rendered text width). A grid's height instead
+   scales with item count the same way palace-adjective-stars already does,
+   which the density score already accounts for correctly. */
 .palace-luu-stars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 10px;
+  row-gap: 1px;
+  text-align: left;
+}
+
+.palace-luu-star {
+  min-width: 0;
   font-size: 9.5px;
   line-height: 1.32;
   color: var(--na-ink-soft);
+  overflow-wrap: anywhere;
 }
 
 /* ---------- Footer zone — same baseline across all 12 palaces ---------- */
@@ -492,6 +510,16 @@
   padding-top: 5px;
 }
 
+/* .palace-adjective-star/.palace-luu-star don't read --na-star-minor-size
+   (that variable is major/minor-star-specific) — they need their own
+   density-tier step down, same idea as everything else on this list, or a
+   crowded cell's adjective+luu blocks stay full-size even at "dense"/
+   "packed" and keep pushing into the footer below. */
+.tuvi-palace[data-density="dense"] .palace-adjective-star,
+.tuvi-palace[data-density="dense"] .palace-luu-star {
+  font-size: 9.1px;
+}
+
 .tuvi-palace[data-density="packed"] {
   --na-star-major-size: 15px;
   --na-star-minor-size: 10px;
@@ -512,6 +540,11 @@
 .tuvi-palace[data-density="packed"] .palace-luu-section {
   margin-top: 5px;
   padding-top: 4px;
+}
+
+.tuvi-palace[data-density="packed"] .palace-adjective-star,
+.tuvi-palace[data-density="packed"] .palace-luu-star {
+  font-size: 8.6px;
 }
 
 /* ---------- Trung Cung (owner profile) ---------- */

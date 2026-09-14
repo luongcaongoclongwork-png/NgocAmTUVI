@@ -23,7 +23,17 @@ export function getPalaceDensity({
   // old weight under-counted real crowding on cells that were already
   // adjective-heavy (e.g. No Boc content touching the Dai Van footer,
   // "chạm đại vận" feedback 2026-09-13).
-  const score = majorCount * 2.4 + minorCount + adjectiveCount * 0.7 + annualCount * 0.65;
+  //
+  // annualCount weight raised from 0.65 to 0.8 (now closer to
+  // adjectiveCount's own 0.7) — palace-luu-stars renders as a 2-column grid
+  // now (same layout as palace-adjective-stars, see PalaceCell.tsx), so an
+  // annual item costs roughly the same vertical space as an adjective one;
+  // 0.65 was calibrated back when it was one joined text line and
+  // under-weighted palaces like Dien Trach, whose Luu Nien block kept
+  // touching the footer even after that layout change ("sao lưu... đè lên
+  // số" feedback 2026-09-15). Only affects palaces with an active "nam
+  // xem" overlay (annualCount is 0 otherwise).
+  const score = majorCount * 2.4 + minorCount + adjectiveCount * 0.7 + annualCount * 0.8;
 
   if (score <= 8) return "airy";
   if (score <= 13) return "normal";

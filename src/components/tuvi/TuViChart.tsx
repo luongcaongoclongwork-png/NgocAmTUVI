@@ -112,9 +112,25 @@ export default function TuViChart({
    * one opened with noopener/noreferrer or a manually typed URL, so this
    * intentionally omits those. Re-derives the SAME chart via the SAME
    * generateChart() call, not a screenshot of this one — see
-   * components/tuvi/print/. */
+   * components/tuvi/print/.
+   *
+   * "Xuất PDF" and "In lá số" are two independent entry points into the
+   * SAME print-ready page, not one button doing double duty: this one just
+   * opens the page (the user saves it as PDF themselves from the browser's
+   * own print dialog, or via the "In lá số" button below). The
+   * `?autoprint=1` flag is what PrintPageClient.tsx checks to decide
+   * whether to fire window.print() on load — this call omits it on
+   * purpose. */
   function handleExportPdf() {
     window.open("/la-so/print", "_blank");
+  }
+
+  /** Same destination as "Xuất PDF" above, but flagged to auto-open the
+   * print dialog immediately — a dedicated, independent print action
+   * rather than something that happens as a side effect of exporting a
+   * PDF. */
+  function handlePrint() {
+    window.open("/la-so/print?autoprint=1", "_blank");
   }
 
   const selectedPalace = chart.palaces.find((p) => p.index === selectedIndex);
@@ -153,6 +169,14 @@ export default function TuViChart({
               className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
             >
               Xuất PDF
+            </button>
+            <button
+              type="button"
+              title="In lá số"
+              onClick={handlePrint}
+              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+            >
+              In lá số
             </button>
           </div>
         </div>
