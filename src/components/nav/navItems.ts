@@ -9,6 +9,7 @@ export const PRIMARY_NAV_ITEMS: NavItem[] = [
   { label: "Lập lá số", href: "/lap-la-so" },
   { label: "Tử vi", href: "/tu-vi" },
   { label: "Phong thuỷ", href: "/phong-thuy" },
+  { label: "Trà đạo", href: "/tra-dao" },
   { label: "Dịch vụ", href: "/dich-vu" },
 ];
 

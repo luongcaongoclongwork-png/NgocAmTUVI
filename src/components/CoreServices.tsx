@@ -22,6 +22,15 @@ const pillars = [
     image: "/images/26-homepage-phong-thuy-thuy-khi.webp",
     alt: "Hành lang gỗ bên hồ nước trong sân nhà cổ",
   },
+  {
+    id: "tra-dao",
+    eyebrow: "Trà Đạo Ngọc Âm",
+    words: ["Thuận trà", "Thuận thủy", "Thuận thời", "Thuận tâm"],
+    cta: "Tìm hiểu Trà Đạo",
+    href: "/tra-dao",
+    image: "/images/tra-dao-banner.png",
+    alt: "Bàn trà gỗ giữa vườn trà trên núi, nhìn ra thung lũng sương sớm",
+  },
 ];
 
 export default function CoreServices() {
@@ -34,7 +43,7 @@ export default function CoreServices() {
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold">
-            Hai trụ cột triết học
+            Ba trụ cột triết học
           </p>
         </Reveal>
         <Reveal delay={80}>
@@ -43,7 +52,7 @@ export default function CoreServices() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-2 lg:gap-12">
+        <div className="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-12">
           {pillars.map((p, idx) => (
             <Reveal key={p.id} delay={idx * 140}>
               <article id={p.id} className="flex h-full flex-col">

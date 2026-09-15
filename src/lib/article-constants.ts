@@ -42,6 +42,7 @@ export type ArticleInput = {
 export const CATEGORIES = [
   "Tử vi",
   "Phong thuỷ",
+  "Trà đạo",
   "Phật học",
   "Phát triển nội lực",
   "Không gian sống",

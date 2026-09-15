@@ -23,7 +23,7 @@ export default function Consultants() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-2 lg:gap-12">
+        <div className="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-12">
           {consultants.map((c, idx) => (
             <Reveal key={c.id} delay={idx * 140}>
               <article className="flex h-full flex-col border-t border-walnut/20 pt-8">

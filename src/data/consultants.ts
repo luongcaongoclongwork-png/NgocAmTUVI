@@ -1,3 +1,5 @@
+import { khuong } from "./traDao";
+
 export const ROLE_TAGLINE = "Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại";
 
 export type Consultant = {
@@ -24,5 +26,12 @@ export const consultants: Consultant[] = [
     initials: "T",
     bio:
       "Là hậu nhân của một vị Thượng thư Bộ Hộ, từng kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng, Thầy Tịnh sinh trưởng trong một gia đình có truyền thống gắn với địa lý và Phong Thuỷ. Thầy dành nhiều tâm sức nghiên cứu Phong Thuỷ Dương Trạch và Âm Trạch — nhà ở, đất đai, không gian sống và việc lựa chọn vị trí an táng — như một nghệ thuật quan sát mối quan hệ giữa con người, không gian và môi trường sống.",
+  },
+  {
+    id: "khuong",
+    name: khuong.name,
+    field: khuong.title,
+    initials: "KH",
+    bio: khuong.homeBio,
   },
 ];
