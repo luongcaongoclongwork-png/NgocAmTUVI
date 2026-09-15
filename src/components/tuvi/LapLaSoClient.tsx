@@ -39,21 +39,22 @@ export default function LapLaSoClient() {
   }
 
   return (
-    // OUTER background slot — the whole section, edge-to-edge. Empty until an
-    // image is dropped in; see docs/background-image-slots.md for exact specs.
-    // Kept full-bleed (not inside the 1320px column below) on purpose so the
-    // image can run the entire page width, matching SectionBackdrop's pattern
-    // elsewhere on the site.
-    <div
-      className="relative w-full bg-cover bg-center"
-      style={{ backgroundImage: "url(/images/lap-la-so/outer-bg.jpg)" }}
-    >
-      <div className="mx-auto max-w-[1320px] px-6 py-16 lg:px-10">
-        {/* INNER background slot — scoped to just the form card's own box. */}
-        <div
-          className="relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
-          style={{ backgroundImage: "url(/images/lap-la-so/inner-bg.jpg)" }}
-        >
+    // The page-level outer background (single shared outer-bg.jpg spanning
+    // this AND the PageBanner above it) now lives in app/lap-la-so/page.tsx
+    // — this component only renders the form column on top of it.
+    <div className="relative mx-auto max-w-[1320px] px-6 py-4 lg:px-10">
+      {/* INNER background slot — scoped to just the form card's own box. */}
+      <div
+        className="relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
+        style={{ backgroundImage: "url(/images/lap-la-so/inner-bg.jpg)" }}
+      >
+        {/* Thin scrim between the background (this card's own inner-bg,
+            or — while that slot is still empty — the page-level outer-bg
+            showing through) and the form, so field labels/inputs stay
+            legible over a busy image instead of sitting directly on it. */}
+        <div className="pointer-events-none absolute inset-0 bg-ivory/75" aria-hidden="true" />
+
+        <div className="relative">
           <BirthForm
             key={savedInput ? "prefilled" : "empty"}
             onSubmit={handleSubmit}
