@@ -48,11 +48,16 @@ export default function LapLaSoClient() {
         className="relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
         style={{ backgroundImage: "url(/images/lap-la-so/inner-bg.jpg)" }}
       >
-        {/* Thin scrim between the background (this card's own inner-bg,
-            or — while that slot is still empty — the page-level outer-bg
+        {/* Scrim between the background (this card's own inner-bg, or —
+            while that slot is still empty — the page-level outer-bg
             showing through) and the form, so field labels/inputs stay
-            legible over a busy image instead of sitting directly on it. */}
-        <div className="pointer-events-none absolute inset-0 bg-ivory/75" aria-hidden="true" />
+            legible over a busy image instead of sitting directly on it.
+            95% (not the original 75%) because on mobile the card's own top
+            overlaps the tail end of outer-bg-mobile.jpg (the rendered image
+            runs taller than where the card starts at narrow widths) — at
+            75% that mountain/scroll art showed through strongly enough to
+            visually clash with "Thông tin lá số" right where it sits. */}
+        <div className="pointer-events-none absolute inset-0 bg-ivory/95" aria-hidden="true" />
 
         <div className="relative">
           <BirthForm

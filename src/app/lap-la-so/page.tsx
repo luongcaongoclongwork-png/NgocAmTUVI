@@ -11,16 +11,13 @@ export const metadata: Metadata = {
 export default function LapLaSoPage() {
   return (
     // Single shared background (outer-bg.jpg) spanning the banner AND the
-    // form below it — sized/positioned the same way as the form's own
-    // former wrapper: full width, no crop (bg-size 100% auto), height
-    // clamped between the image's own proportions (980-1400px). If combined
-    // content (banner + form) is taller than the image's natural height,
-    // the excess is plain ivory — deliberate, see the "vẫn giữ trọn ảnh"
-    // decision over cropping via `cover`.
-    <div
-      className="relative w-full min-h-[clamp(980px,72.9167vw,1400px)] bg-[#f4ebdd] bg-[length:100%_auto] bg-top bg-no-repeat"
-      style={{ backgroundImage: "url(/images/lap-la-so/outer-bg.jpg)" }}
-    >
+    // form below it — see .lap-la-so-outer in globals.css: desktop keeps
+    // the full image uncropped (bg-size 100% auto, height clamped to its
+    // own 1920x1400 aspect ratio — if combined content is taller than
+    // that, the excess is plain ivory, deliberate, see the "vẫn giữ trọn
+    // ảnh" decision over cropping via `cover`); under 768px it swaps to a
+    // dedicated portrait image via `cover` instead.
+    <div className="lap-la-so-outer relative w-full">
       <PageBanner
         eyebrow="Lập Lá Số"
         heading="Tử Vi Xuyên Tam Diệm"

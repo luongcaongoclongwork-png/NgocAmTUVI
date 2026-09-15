@@ -59,3 +59,30 @@ body {
 .tracking-label {
   letter-spacing: 0.18em;
 }
+
+/* /lap-la-so's single shared outer background (banner + form, see
+   app/lap-la-so/page.tsx) — desktop keeps the full outer-bg.jpg uncropped
+   (bg-size 100% auto, height clamped to its own 1920x1400 aspect ratio);
+   under 768px it swaps to a dedicated portrait image (outer-bg-mobile.jpg,
+   1080x1500) sized the same way (100% auto — width-locked, no crop). The
+   mobile form is much taller than this image at any width, so the image
+   only ever covers the TOP of the section; #f4ebdd below it is this
+   element's own background-color, not a second image layer — picked to
+   match the image's own paper tone so there's no visible seam where the
+   image ends. */
+.lap-la-so-outer {
+  min-height: clamp(980px, 72.9167vw, 1400px);
+  background-color: #f4ebdd;
+  background-image: url("/images/lap-la-so/outer-bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
+}
+
+@media (max-width: 767px) {
+  .lap-la-so-outer {
+    background-image: url("/images/lap-la-so/outer-bg-mobile.jpg");
+    background-size: 100% auto;
+    background-position: center top;
+  }
+}
