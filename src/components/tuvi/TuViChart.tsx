@@ -7,8 +7,9 @@ import { useIsMobile } from "./mobile/useIsMobile";
 import { useChartBaseWidth } from "./useChartBaseWidth";
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
-import { exportChartAsImage } from "@/lib/tuvi/export/chartExport";
+import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExport";
 import { generateHoroscope } from "@/lib/tuvi/engine/chartEngine";
+import A4TuViPrintRenderer from "./print/A4TuViPrintRenderer";
 import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "./ngocAmChart.css";
 import "./mobile/tuviMobile.css";
@@ -33,9 +34,10 @@ export default function TuViChart({
   targetYear?: number;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [exporting, setExporting] = useState<"image" | null>(null);
+  const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const exportRef = useRef<HTMLDivElement>(null);
+  const printExportRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
   const isMobile = useIsMobile();
   const baseWidth = useChartBaseWidth();
@@ -106,29 +108,34 @@ export default function TuViChart({
     }
   }
 
-  /** Opens the dedicated A4 print/PDF route in a new tab — sessionStorage
-   * (read by /la-so/print via loadChartInput()) is only copied to a tab
-   * opened this way (a same-origin script-initiated window.open), not to
-   * one opened with noopener/noreferrer or a manually typed URL, so this
-   * intentionally omits those. Re-derives the SAME chart via the SAME
-   * generateChart() call, not a screenshot of this one — see
-   * components/tuvi/print/.
-   *
-   * "Xuất PDF" and "In lá số" are two independent entry points into the
-   * SAME print-ready page, not one button doing double duty: this one just
-   * opens the page (the user saves it as PDF themselves from the browser's
-   * own print dialog, or via the "In lá số" button below). The
-   * `?autoprint=1` flag is what PrintPageClient.tsx checks to decide
-   * whether to fire window.print() on load — this call omits it on
-   * purpose. */
-  function handleExportPdf() {
-    window.open("/la-so/print", "_blank");
+  /** Captures the hidden `.tuvi-print-page` rendered below (same
+   * A4TuViPrintRenderer /la-so/print itself uses — see that route's
+   * PrintPageClient.tsx) and downloads a real .pdf file directly — no new
+   * tab, no browser print dialog. Independent of "In lá số" below, which
+   * is for actually printing on paper (or a user who prefers picking
+   * "Save as PDF" themselves from that dialog). */
+  async function handleExportPdf() {
+    if (!printExportRef.current || exporting) return;
+    setExporting("pdf");
+    try {
+      await document.fonts.ready;
+      const baseName = exportFileBaseName(chart);
+      await exportChartAsPdf(printExportRef.current, `${baseName}.pdf`);
+    } catch (err) {
+      console.error("PDF export failed:", err);
+      window.alert("Không thể xuất PDF lúc này. Vui lòng thử lại.");
+    } finally {
+      setExporting(null);
+    }
   }
 
-  /** Same destination as "Xuất PDF" above, but flagged to auto-open the
-   * print dialog immediately — a dedicated, independent print action
-   * rather than something that happens as a side effect of exporting a
-   * PDF. */
+  /** Opens the dedicated A4 print route in a new tab and asks it to open
+   * the browser's own print dialog immediately — sessionStorage (read by
+   * /la-so/print via loadChartInput()) is only copied to a tab opened this
+   * way (a same-origin script-initiated window.open), not to one opened
+   * with noopener/noreferrer or a manually typed URL, so this intentionally
+   * omits those. Re-derives the SAME chart via the SAME generateChart()
+   * call, not a screenshot of this one — see components/tuvi/print/. */
   function handlePrint() {
     window.open("/la-so/print?autoprint=1", "_blank");
   }
@@ -166,9 +173,10 @@ export default function TuViChart({
               type="button"
               title="Xuất PDF"
               onClick={handleExportPdf}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+              disabled={exporting !== null}
+              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
-              Xuất PDF
+              {exporting === "pdf" ? "Đang xuất…" : "Xuất PDF"}
             </button>
             <button
               type="button"
@@ -182,12 +190,22 @@ export default function TuViChart({
         </div>
       </div>
 
-      {/* ---------- Mobile (<768px): scaled virtual-canvas overview + dropdown + full-width detail panel. Only mounted while actually mobile — see useIsMobile.ts; the desktop tree below stays mounted regardless (unaffected by this), so Xuat anh/PDF always captures the real 980x980 chart. ---------- */}
+      {/* ---------- Mobile (<768px): scaled virtual-canvas overview + dropdown + full-width detail panel. Only mounted while actually mobile — see useIsMobile.ts; the desktop tree below stays mounted regardless (unaffected by this), so Xuất ảnh always captures the real 980x980 chart. ---------- */}
       {isMobile && <MobileTuViExperience chart={chart} birthTime={birthTime} horoscope={horoscope} />}
+
+      {/* ---------- Hidden A4 print layout, mounted off-screen (not display:none —
+          html2canvas-pro needs real layout/paint) purely so "Xuất PDF" above has
+          something to capture. Same component + props /la-so/print itself renders;
+          not visible to the user, never involved in what shows on screen. ---------- */}
+      <div aria-hidden="true" className="pointer-events-none fixed left-[-9999px] top-0">
+        <div ref={printExportRef}>
+          <A4TuViPrintRenderer chart={chart} birthTime={birthTime} horoscope={horoscope} />
+        </div>
+      </div>
 
       {/* ---------- Desktop (>=768px): traditional 4x4 chart, unchanged. Visually
           collapsed (not display:none) below md so `exportRef` still captures the
-          full traditional chart for Xuất ảnh/PDF regardless of viewport. ---------- */}
+          full traditional chart for Xuất ảnh regardless of viewport. ---------- */}
       <div className="h-0 overflow-hidden opacity-0 md:h-auto md:overflow-visible md:opacity-100">
         <div className="ngoc-am-chart-scroll">
           <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px` }}>
