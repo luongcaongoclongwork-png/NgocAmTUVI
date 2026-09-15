@@ -116,7 +116,7 @@
   content: "";
   position: absolute;
   inset: 2.5mm;
-  background: url("/images/print/chart-paper-bg.png") center / cover no-repeat;
+  background: url("/images/print/chart-paper-bg.jpg") center / cover no-repeat;
 }
 
 .tuvi-print-inner {
