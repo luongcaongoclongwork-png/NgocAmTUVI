@@ -9,6 +9,6 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["src/lib/tuvi/tests/**/*.test.ts"],
+    include: ["src/lib/tuvi/tests/**/*.test.ts", "src/**/*.test.ts"],
   },
 });

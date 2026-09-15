@@ -2,10 +2,10 @@ import Link from "next/link";
 import Reveal from "./Reveal";
 import ArticleCard from "./ArticleCard";
 import SectionBackdrop from "./SectionBackdrop";
-import { articles } from "@/data/articles";
+import { getFeaturedArticles } from "@/lib/articles";
 
-export default function Knowledge() {
-  const featured = articles.slice(0, 4);
+export default async function Knowledge() {
+  const featured = await getFeaturedArticles(4);
 
   return (
     <section id="kien-thuc" className="relative overflow-hidden bg-parchment/60 py-24 lg:py-32">

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import PageBanner from "@/components/PageBanner";
 import ArticleCard from "@/components/ArticleCard";
 import CtaBand from "@/components/CtaBand";
-import { articles } from "@/data/articles";
+import { getArticles } from "@/lib/articles";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Ngọc Âm Kiến Thức",
@@ -10,7 +12,8 @@ export const metadata: Metadata = {
     "Tử Vi, Phong Thuỷ, Phật học, văn hoá và phát triển nội lực — tri thức phương Đông đọc theo nhịp sống hiện đại.",
 };
 
-export default function KienThucPage() {
+export default async function KienThucPage() {
+  const articles = await getArticles();
   return (
     <>
       <PageBanner

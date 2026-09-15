@@ -4,7 +4,9 @@ import PhilosophyPillars from "@/components/PhilosophyPillars";
 import ArticleCard from "@/components/ArticleCard";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
-import { articles } from "@/data/articles";
+import { getArticlesByCategory } from "@/lib/articles";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Phật học — Ngọc Âm",
@@ -31,9 +33,8 @@ const pillars = [
   },
 ];
 
-const phatHocArticles = articles.filter((a) => a.category === "Phật học");
-
-export default function PhatHocPage() {
+export default async function PhatHocPage() {
+  const phatHocArticles = await getArticlesByCategory("Phật học");
   return (
     <>
       <PageBanner

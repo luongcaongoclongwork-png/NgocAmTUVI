@@ -1,4 +1,10 @@
-export type Article = {
+/**
+ * The 6 articles that used to be hardcoded in src/data/articles.ts, now used
+ * ONLY as the one-time seed for the new SQLite-backed `articles` table (see
+ * src/lib/db.ts) so the live site's content is unchanged right after the
+ * cutover to the admin panel. Not imported anywhere else.
+ */
+export type SeedArticle = {
   slug: string;
   category: string;
   title: string;
@@ -8,7 +14,7 @@ export type Article = {
   body: string[];
 };
 
-export const articles: Article[] = [
+export const seedArticles: SeedArticle[] = [
   {
     slug: "menh-chu-va-than-chu",
     category: "Tử vi",
@@ -28,8 +34,7 @@ export const articles: Article[] = [
     slug: "tinh-khong-gian-truoc-khi-tinh-tam",
     category: "Phong thuỷ",
     title: "Tịnh không gian trước khi tịnh tâm",
-    excerpt:
-      "Vì sao Phong Thuỷ bắt đầu từ việc quan sát, không phải từ việc sắp đặt vật phẩm.",
+    excerpt: "Vì sao Phong Thuỷ bắt đầu từ việc quan sát, không phải từ việc sắp đặt vật phẩm.",
     readTime: "5 phút đọc",
     image: "/images/08-may-troi-bai-tu-long.webp",
     body: [
@@ -42,8 +47,7 @@ export const articles: Article[] = [
     slug: "vo-thuong-va-van-han",
     category: "Phật học",
     title: "Vô thường trong cách nhìn về vận hạn",
-    excerpt:
-      "Một góc nhìn Phật học giúp việc xem vận trở nên nhẹ nhàng và chủ động hơn.",
+    excerpt: "Một góc nhìn Phật học giúp việc xem vận trở nên nhẹ nhàng và chủ động hơn.",
     readTime: "7 phút đọc",
     image: "/images/15-ban-gioc-may-suong-3d.webp",
     body: [
@@ -56,8 +60,7 @@ export const articles: Article[] = [
     slug: "biet-minh-biet-thoi",
     category: "Phát triển nội lực",
     title: "Biết mình, biết thời: hai điều kiện của quyết định đúng",
-    excerpt:
-      "Nội lực không đến từ việc biết trước tương lai, mà từ việc hiểu rõ chu kỳ của chính mình.",
+    excerpt: "Nội lực không đến từ việc biết trước tương lai, mà từ việc hiểu rõ chu kỳ của chính mình.",
     readTime: "4 phút đọc",
     image: "/images/10-hoang-lien-mu-cang-chai-3d.webp",
     body: [
@@ -70,8 +73,7 @@ export const articles: Article[] = [
     slug: "khong-gian-song-toi-gian",
     category: "Không gian sống",
     title: "Khi tối giản trở thành một nguyên lý Phong Thuỷ",
-    excerpt:
-      "Bớt đi không có nghĩa là thiếu — đôi khi đó chính là cách không gian lấy lại sự cân bằng.",
+    excerpt: "Bớt đi không có nghĩa là thiếu — đôi khi đó chính là cách không gian lấy lại sự cân bằng.",
     readTime: "5 phút đọc",
     image: "/images/17-pu-luong-som-mai-3d.webp",
     body: [
@@ -84,8 +86,7 @@ export const articles: Article[] = [
     slug: "van-hoa-xem-ngay",
     category: "Văn hoá",
     title: "Vì sao người Việt vẫn xem ngày trước việc lớn?",
-    excerpt:
-      "Một tập quán lâu đời, nhìn từ góc độ tâm lý học hiện đại thay vì chỉ từ niềm tin dân gian.",
+    excerpt: "Một tập quán lâu đời, nhìn từ góc độ tâm lý học hiện đại thay vì chỉ từ niềm tin dân gian.",
     readTime: "6 phút đọc",
     image: "/images/16-nho-que-ha-giang-3d.webp",
     body: [

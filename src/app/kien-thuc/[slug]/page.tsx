@@ -3,10 +3,27 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
-import { articles } from "@/data/articles";
+import { getArticleBySlug, getArticleBySlugForAdmin } from "@/lib/articles";
+import { verifySession } from "@/lib/auth";
 
-export function generateStaticParams() {
-  return articles.map((a) => ({ slug: a.slug }));
+export const revalidate = 60;
+
+/**
+ * No generateStaticParams here on purpose — articles are created/edited at
+ * any time from /admin now, so pages render on demand (revalidate=60) and
+ * new slugs are reachable immediately instead of waiting for a rebuild.
+ */
+
+async function loadArticle(slug: string) {
+  const published = await getArticleBySlug(slug);
+  if (published) return published;
+
+  // Draft preview: same real URL, only visible to a logged-in admin — see
+  // the plan's "Nháp & xem trước" note. Anyone else gets a plain 404.
+  const session = await verifySession();
+  if (!session) return null;
+  const draft = await getArticleBySlugForAdmin(slug);
+  return draft?.status === "draft" ? draft : null;
 }
 
 export async function generateMetadata({
@@ -15,7 +32,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
+  const article = await loadArticle(slug);
   if (!article) return {};
   return {
     title: `${article.title} — Ngọc Âm Kiến Thức`,
@@ -29,7 +46,7 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = articles.find((a) => a.slug === slug);
+  const article = await loadArticle(slug);
   if (!article) notFound();
 
   return (
@@ -44,6 +61,11 @@ export default async function ArticlePage({
               ← Ngọc Âm Kiến Thức
             </Link>
           </Reveal>
+          {article.status === "draft" && (
+            <p className="tracking-label mt-6 inline-block bg-lacquer/10 px-2 py-1 text-[11px] font-semibold uppercase text-lacquer">
+              Bản nháp — chỉ bạn thấy được
+            </p>
+          )}
           <Reveal delay={60}>
             <p className="tracking-label mt-6 text-[12px] font-medium uppercase text-gold">
               {article.category} · {article.readTime}

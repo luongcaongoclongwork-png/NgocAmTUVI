@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
-import type { Article } from "@/data/articles";
+import type { Article } from "@/lib/article-constants";
 
 export default function ArticleCard({
   article,
