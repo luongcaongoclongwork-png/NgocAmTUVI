@@ -80,7 +80,7 @@ export default function Footer() {
         <rect width="100%" height="100%" fill="url(#dongson)" />
       </svg>
 
-      <div className="relative mx-auto max-w-[1280px] px-6 pb-10 pt-20 lg:px-10">
+      <div className="relative mx-auto max-w-[1280px] px-6 pb-10 pt-14 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
@@ -102,37 +102,15 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-2 items-center gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
             {columns.map((col) => (
-              <div key={col.title}>
-                <Link
-                  href={col.href}
-                  className="tracking-label text-[11px] font-semibold uppercase text-gold transition-colors hover:text-ivory"
-                >
-                  {col.title}
-                </Link>
-                <ul className="mt-4 space-y-2.5">
-                  {col.links.map((link) =>
-                    link.href ? (
-                      <li key={link.label}>
-                        <Link
-                          href={link.href}
-                          className="text-sm text-ivory/75 transition-colors hover:text-ivory"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ) : (
-                      <li key={link.label} className="text-sm text-ivory/40">
-                        {link.label}{" "}
-                        <span className="text-[10px] uppercase text-gold/60">
-                          sắp ra mắt
-                        </span>
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
+              <Link
+                key={col.title}
+                href={col.href}
+                className="tracking-label text-[11px] font-semibold uppercase text-gold transition-colors hover:text-ivory"
+              >
+                {col.title}
+              </Link>
             ))}
           </div>
 
@@ -140,7 +118,7 @@ export default function Footer() {
             <h4 className="tracking-label text-[11px] font-semibold uppercase text-gold">
               Kết nối
             </h4>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-3 space-y-1.5">
               {social.map((s) => (
                 <li key={s}>
                   <a href="#" className="text-sm text-ivory/75 transition-colors hover:text-ivory">
@@ -152,7 +130,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-ivory/15 pt-8 text-xs text-ivory/55 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-t border-ivory/15 pt-8 text-xs text-ivory/55 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Ngọc Âm. Mọi quyền được bảo lưu.</p>
           <p>Nội dung Tử Vi, Phong Thuỷ mang tính tham khảo và định hướng, không thay thế quyết định của bạn.</p>
         </div>
