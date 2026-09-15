@@ -567,6 +567,32 @@
   z-index: 1;
 }
 
+/* Cuộn tranh núi/sen (xem CenterPalace.tsx) — selector `> .center-scroll-bg*`
+   (2 lớp: 1 class) thắng rule `.center-palace > *` ở trên nhờ độ đặc hiệu
+   cao hơn (0,2,0 so với 0,1,0), bất kể thứ tự khai báo, nên vẫn giữ được
+   position:absolute + z-index thấp thay vì bị ép thành relative/z-index:1. */
+.center-palace > .center-scroll-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("/images/tuvi/trung-cung-desktop.jpg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+  background-color: #f7e5d5;
+}
+
+/* Ẩn mặc định — chỉ .print-chart bật lại (xem print.css). Next/Image với
+   `fill` đã tự set position:absolute/inset:0 qua inline style. */
+.center-palace > .center-scroll-bg-print {
+  z-index: 0;
+  pointer-events: none;
+  object-fit: contain;
+  object-position: center bottom;
+  display: none;
+}
+
 .center-watermark {
   position: absolute;
   inset: 0;
@@ -688,6 +714,37 @@
   font-size: 11.5px;
   font-style: italic;
   color: var(--na-muted);
+}
+
+/* "Làm nổi lên" v2 — quầng mờ text-shadow (bản trước) bị chìm quá, không đủ
+   tách khỏi tranh núi. Đổi sang "miếng mờ" (frosted chip) nhỏ ôm sát từng
+   chữ: nền bán trong suốt màu giấy + backdrop-blur, width:fit-content để
+   miếng nền chỉ to bằng đúng chữ (không kéo dài hết cột lưới), không lan
+   ra ảnh xung quanh. Áp dụng cho tagline + cả 3 phần label/value/secondary
+   của riêng khối "Năm xem" (qua .center-info-group--viewing-year). KHÔNG áp
+   dụng cho bản in (xem override phía dưới trong print.css) — html2canvas
+   không hỗ trợ tốt backdrop-filter, và phạm vi yêu cầu ban đầu vốn chỉ nói
+   về desktop. */
+.center-tagline,
+.center-info-group--viewing-year .center-info-label,
+.center-info-group--viewing-year .center-info-value,
+.center-info-group--viewing-year .center-info-secondary {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 1px 7px;
+  border-radius: 5px;
+  background: rgba(246, 238, 223, 0.78);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.center-tagline {
+  align-self: center;
+}
+
+.center-info-group--viewing-year .center-info-secondary {
+  justify-self: end;
 }
 
 /* ---------- Legend ---------- */

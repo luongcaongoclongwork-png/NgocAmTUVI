@@ -201,6 +201,10 @@
   background: rgba(249, 243, 232, 0.72);
 }
 
+.mobile-tuvi-canvas .center-palace > .center-scroll-bg {
+  background-image: url("/images/tuvi/trung-cung-mobile.jpg");
+}
+
 .mobile-tuvi-canvas .chart-center-brand {
   font-size: 9px;
   letter-spacing: 0.16em;

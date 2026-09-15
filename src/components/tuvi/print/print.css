@@ -608,6 +608,18 @@
   background: rgba(249, 243, 232, 0.68);
 }
 
+/* Cuộn tranh núi/sen bản in: dùng thẻ <Image> thật (center-scroll-bg-print)
+   thay cho lớp CSS background-image dùng ở desktop/mobile (center-scroll-bg)
+   — ảnh thật luôn được in bất kể trình duyệt có bật "In hình nền" hay
+   không, còn background-image thì có thể bị bỏ qua. */
+.print-chart .center-palace > .center-scroll-bg {
+  display: none;
+}
+
+.print-chart .center-palace > .center-scroll-bg-print {
+  display: block;
+}
+
 /* Re-orders and re-sizes the SAME 3 elements CenterPalace.tsx already
    renders (brand="NGỌC ÂM", title="LÁ SỐ TỬ VI", subtitle="XUYÊN TAM
    DIỆM") — no text/DOM change (CenterPalace.tsx untouched, still shared
@@ -739,6 +751,26 @@
    the Trung Cung without shrinking its own info text back down. */
 .print-chart .center-tagline {
   display: none;
+}
+
+/* "Miếng mờ" ôm chữ ở khối "Năm xem" (ngocAmChart.css) là fix riêng cho bản
+   desktop/mobile trên màn hình — không áp dụng cho bản in: html2canvas
+   không hỗ trợ tốt backdrop-filter, và ảnh nền bản in (trung-cung-print.jpg)
+   khác bố cục nên chưa chắc gặp cùng vấn đề. Reset lại nguyên trạng. */
+.print-chart .center-info-group--viewing-year .center-info-label,
+.print-chart .center-info-group--viewing-year .center-info-value,
+.print-chart .center-info-group--viewing-year .center-info-secondary {
+  display: block;
+  width: auto;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.print-chart .center-info-group--viewing-year .center-info-secondary {
+  justify-self: auto;
 }
 
 .print-chart .center-divider {

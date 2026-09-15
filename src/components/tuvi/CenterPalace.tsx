@@ -17,6 +17,25 @@ export default function CenterPalace({
 
   return (
     <div className="center-palace">
+      {/* Cuộn tranh núi/sen — nền trang trí của Trung Cung. Một lớp CSS
+          background (desktop/mobile, ảnh đổi theo breakpoint qua
+          tuviMobile.css) + một thẻ <Image> thật riêng cho bản in (ẩn mặc
+          định, chỉ hiện trong .print-chart — dùng ảnh thật thay vì
+          background-image để không phụ thuộc tuỳ chọn "in hình nền" của
+          trình duyệt, xem print.css). Cả hai đều position:absolute, nằm
+          dưới mọi nội dung thật (xem `.center-palace > .center-scroll-bg*`
+          trong ngocAmChart.css để biết cách chúng thắng rule `.center-palace
+          > *` mặc định set position:relative cho mọi con trực tiếp). */}
+      <div className="center-scroll-bg" aria-hidden="true" />
+      <Image
+        src="/images/tuvi/trung-cung-print.jpg"
+        alt=""
+        fill
+        unoptimized
+        aria-hidden="true"
+        className="center-scroll-bg-print"
+      />
+
       <div className="center-watermark" aria-hidden="true">
         <Image src="/images/logo-mark.png" alt="" width={200} height={200} />
       </div>
@@ -70,7 +89,7 @@ export default function CenterPalace({
       {vm.viewingYear !== undefined && (
         <>
           <div className="center-divider" />
-          <div className="center-info-group">
+          <div className="center-info-group center-info-group--viewing-year">
             <InfoRow label="Năm xem" value={`${vm.viewingYearGanzhi} (${vm.viewingYear})`} secondary={`${vm.viewingAge} tuổi`} emphasized />
           </div>
         </>
