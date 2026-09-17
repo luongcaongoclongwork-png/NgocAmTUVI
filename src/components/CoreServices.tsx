@@ -1,34 +1,49 @@
-import Image from "next/image";
-import Link from "next/link";
 import Reveal from "./Reveal";
 import SectionBackdrop from "./SectionBackdrop";
+import NgocAmCard, { type NgocAmCardVariant } from "./ui/NgocAmCard";
 
-const pillars = [
+const pillars: {
+  id: string;
+  variant: NgocAmCardVariant;
+  category: string;
+  title: string;
+  words: string[];
+  cta: string;
+  href: string;
+  image: string;
+  alt: string;
+}[] = [
   {
     id: "tu-vi",
-    eyebrow: "Tử Vi Xuyên Tam Diệm",
+    variant: "tuvi",
+    category: "Tử Vi",
+    title: "Tử Vi Xuyên Tam Diệm",
     words: ["Khai vấn", "Định hướng", "Phát triển nội lực", "Chuyển hoá điều bất như ý"],
     cta: "Tìm hiểu Khai vấn Tử Vi",
     href: "/tu-vi",
-    image: "/images/21-homepage-tu-vi-manuscript.webp",
+    image: "/images/pillars/tu-vi.webp",
     alt: "Lá số Tử Vi viết tay trên bàn gỗ cổ",
   },
   {
     id: "phong-thuy",
-    eyebrow: "Phong Thuỷ Là Tịnh",
+    variant: "phongthuy",
+    category: "Phong Thuỷ",
+    title: "Phong Thuỷ Là Tịnh",
     words: ["Quan sát", "Tịnh hoá", "Hài hoà", "Tự chủ", "Thịnh vượng chân thật"],
     cta: "Tìm hiểu Tư vấn Phong Thuỷ",
     href: "/phong-thuy",
-    image: "/images/26-homepage-phong-thuy-thuy-khi.webp",
+    image: "/images/pillars/phong-thuy.webp",
     alt: "Hành lang gỗ bên hồ nước trong sân nhà cổ",
   },
   {
     id: "tra-dao",
-    eyebrow: "Trà Đạo Ngọc Âm",
+    variant: "tradao",
+    category: "Trà Đạo",
+    title: "Trà Đạo Ngọc Âm",
     words: ["Thuận trà", "Thuận thủy", "Thuận thời", "Thuận tâm"],
     cta: "Tìm hiểu Trà Đạo",
     href: "/tra-dao",
-    image: "/images/tra-dao-banner.png",
+    image: "/images/pillars/tra-dao.png",
     alt: "Bàn trà gỗ giữa vườn trà trên núi, nhìn ra thung lũng sương sớm",
   },
 ];
@@ -52,23 +67,18 @@ export default function CoreServices() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-12">
+        <div className="mt-16 grid gap-8 lg:grid-cols-3">
           {pillars.map((p, idx) => (
             <Reveal key={p.id} delay={idx * 140}>
-              <article id={p.id} className="flex h-full flex-col">
-                <div className="relative h-64 w-full overflow-hidden border border-walnut/10">
-                  <Image
-                    src={p.image}
-                    alt={p.alt}
-                    fill
-                    sizes="(min-width: 1024px) 620px, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="mt-8 font-heading text-2xl text-ink">
-                  {p.eyebrow}
-                </h3>
-                <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-2 text-sm text-bronze">
+              <NgocAmCard
+                href={p.href}
+                variant={p.variant}
+                eyebrow={p.category}
+                title={p.title}
+                ctaLabel={p.cta}
+                image={{ src: p.image, alt: p.alt, sizes: "(min-width: 1024px) 33vw, 100vw" }}
+              >
+                <ul className="flex flex-wrap gap-x-3 gap-y-2 text-[13px] text-bronze">
                   {p.words.map((w, i) => (
                     <li key={w} className="flex items-center gap-3">
                       {i !== 0 && <span className="h-1 w-1 rounded-full bg-gold" />}
@@ -76,15 +86,7 @@ export default function CoreServices() {
                     </li>
                   ))}
                 </ul>
-
-                <Link
-                  href={p.href}
-                  className="tracking-label mt-8 inline-flex w-fit items-center gap-2 border-b border-gold pb-1 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
-                >
-                  {p.cta}
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </article>
+              </NgocAmCard>
             </Reveal>
           ))}
         </div>

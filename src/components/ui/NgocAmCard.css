@@ -1,0 +1,291 @@
+/*
+  Ngoc Am Card — unified hover foundation for every card type on the site
+  (service, product, consultant, article/knowledge, pillar).
+
+  Spirit: "a document resting on a table lifts gently when a hand reaches
+  for it — light sweeps the surface, the mist over the image thins, the
+  information opens up." Never "a button animating."
+
+  Layout is intentionally NOT unified here — only motion, border, shadow,
+  image reveal, CTA movement, timing and color behavior are shared.
+*/
+
+.ngoc-am-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #f5f0e8;
+  border: 1px solid rgba(88, 61, 38, 0.16);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(49, 34, 21, 0.04);
+  overflow: hidden;
+  transform: translateY(0);
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ngoc-am-card:focus-visible {
+  outline: none;
+  border-color: rgba(175, 138, 80, 0.42);
+  box-shadow:
+    0 0 0 3px rgba(175, 138, 80, 0.38),
+    0 14px 34px rgba(49, 34, 21, 0.1);
+}
+
+/* hover only on devices that truly support hover — no odd transform on tap */
+@media (hover: hover) and (pointer: fine) {
+  .ngoc-am-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(175, 138, 80, 0.42);
+    box-shadow:
+      0 14px 34px rgba(49, 34, 21, 0.1),
+      0 2px 6px rgba(49, 34, 21, 0.05);
+  }
+}
+
+/* ---------- media / image reveal ---------- */
+.ngoc-am-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--parchment);
+}
+
+.ngoc-am-card__media-img {
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* custom illustration content (e.g. an SVG mark) in the media slot */
+.ngoc-am-card__media--custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ngoc-am-card__media--custom > * {
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ngoc-am-card:hover .ngoc-am-card__media--custom > * {
+    transform: scale(1.02);
+  }
+}
+
+.ngoc-am-card__veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 235, 221, 0.2);
+  transition: background-color 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.ngoc-am-card__paper-light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08),
+    transparent 28%,
+    transparent 72%,
+    rgba(62, 43, 30, 0.035)
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ngoc-am-card:hover .ngoc-am-card__media-img {
+    transform: scale(1.02);
+  }
+  .ngoc-am-card:hover .ngoc-am-card__veil {
+    background: rgba(244, 235, 221, 0.09);
+  }
+  .ngoc-am-card:hover .ngoc-am-card__paper-light {
+    opacity: 1;
+  }
+}
+
+/* ---------- body ---------- */
+.ngoc-am-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 22px 26px;
+  flex: 1;
+}
+
+.ngoc-am-card__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #7a6a59;
+  transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ngoc-am-card:hover .ngoc-am-card__eyebrow {
+    color: #af8a50;
+  }
+}
+
+.ngoc-am-card__title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.35;
+  color: #25211b;
+  margin: 0;
+}
+
+.ngoc-am-card__desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(37, 33, 27, 0.68);
+  margin: 0;
+  flex: 1;
+}
+
+.ngoc-am-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(37, 33, 27, 0.55);
+  padding-top: 12px;
+  border-top: 1px solid rgba(62, 43, 30, 0.1);
+  margin-top: 4px;
+}
+
+.ngoc-am-card__meta b {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  color: #25211b;
+  font-weight: 500;
+}
+
+/* ---------- CTA: ink-line + arrow ---------- */
+.ngoc-am-card__cta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ngoc-am-card__ink-line {
+  display: block;
+  height: 1px;
+  width: 16px;
+  background: rgba(175, 138, 80, 0.65);
+  transition:
+    width 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ngoc-am-card:hover .ngoc-am-card__ink-line {
+    width: 48px;
+    background: rgba(175, 138, 80, 0.8);
+  }
+}
+
+.ngoc-am-card__cta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.ngoc-am-card__cta-arrow {
+  display: inline-block;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ngoc-am-card:hover .ngoc-am-card__cta-arrow {
+    transform: translateX(5px);
+  }
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ngoc-am-card,
+  .ngoc-am-card__media-img,
+  .ngoc-am-card__veil,
+  .ngoc-am-card__paper-light,
+  .ngoc-am-card__eyebrow,
+  .ngoc-am-card__ink-line,
+  .ngoc-am-card__cta-arrow {
+    transition: none !important;
+  }
+  .ngoc-am-card:hover {
+    transform: none;
+  }
+}
+
+/* ---------- per-variant micro interactions ---------- */
+@media (hover: hover) and (pointer: fine) {
+  /* Tu Vi: manuscript becomes very slightly clearer, not "brighter" */
+  .ngoc-am-card[data-variant="tuvi"]:hover .ngoc-am-card__veil {
+    background: rgba(244, 235, 221, 0.06);
+  }
+
+  /* Phong Thuy: architecture/texture gains a touch more clarity via saturation */
+  .ngoc-am-card[data-variant="phongthuy"]:hover .ngoc-am-card__media-img {
+    filter: saturate(1.04);
+  }
+
+  /* Tra Dao: reserved for an optional animated-webp/video steam layer */
+  .ngoc-am-card[data-variant="tradao"] .ngoc-am-card__steam {
+    opacity: 0;
+    transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ngoc-am-card[data-variant="tradao"]:hover .ngoc-am-card__steam {
+    opacity: 0.5;
+  }
+
+  /* Consultant: face must not zoom noticeably */
+  .ngoc-am-card[data-variant="consultant"]:hover .ngoc-am-card__media-img {
+    transform: scale(1.012);
+  }
+
+  /* Article: lighter lift, image reveal + ink-line carry the motion */
+  .ngoc-am-card[data-variant="article"]:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* ---------- avatar plate (consultant cards with no photo yet) ---------- */
+.ngoc-am-card__avatar-plate {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--parchment), var(--beige));
+}
+
+.ngoc-am-card__avatar-plate span {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--walnut);
+  color: var(--ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 19px;
+}

@@ -69,7 +69,7 @@ export default async function PhongThuyPage() {
       />
       <ConsultantProfile
         consultant={tinh}
-        image="/images/26-homepage-phong-thuy-thuy-khi.webp"
+        image="/images/consultants/thay-tinh.webp"
         imageAlt="Hành lang gỗ bên hồ nước trong sân nhà cổ"
         reverse
       />

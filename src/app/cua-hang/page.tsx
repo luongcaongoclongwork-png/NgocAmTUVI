@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import PageBanner from "@/components/PageBanner";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
+import NgocAmCard from "@/components/ui/NgocAmCard";
 import { StillLifeStone } from "@/components/illustrations";
 import { getProductCategoriesWithItems } from "@/lib/products";
 
@@ -58,26 +58,16 @@ export default async function CuaHangPage() {
               </Reveal>
             )}
 
-            <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {cat.items.map((item, idx) => (
                 <Reveal key={item.id} delay={idx * 90}>
-                  <div className="group">
-                    <div className="aspect-square w-full overflow-hidden border border-walnut/15">
-                      <StillLifeStone className="h-full w-full transition-transform duration-700 group-hover:scale-105" />
-                    </div>
-                    <h3 className="mt-5 font-heading text-lg text-ink">
-                      {item.name}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-ink/65">
-                      {item.desc}
-                    </p>
-                    <Link
-                      href="/#lien-he"
-                      className="tracking-label mt-4 inline-block border-b border-gold pb-0.5 text-[10px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
-                    >
-                      Liên hệ để đặt
-                    </Link>
-                  </div>
+                  <NgocAmCard
+                    href="/#lien-he"
+                    title={item.name}
+                    description={item.desc}
+                    ctaLabel="Liên hệ để đặt"
+                    media={<StillLifeStone />}
+                  />
                 </Reveal>
               ))}
             </div>

@@ -57,7 +57,7 @@ export default async function TuViPage() {
       />
       <ConsultantProfile
         consultant={trang}
-        image="/images/21-homepage-tu-vi-manuscript.webp"
+        image="/images/consultants/minh-trang.webp"
         imageAlt="Lá số Tử Vi viết tay trên bàn gỗ cổ"
       />
       <ServiceList

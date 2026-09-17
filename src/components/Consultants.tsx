@@ -1,6 +1,6 @@
 import Reveal from "./Reveal";
-import { BaguaMark } from "./illustrations";
 import SectionBackdrop from "./SectionBackdrop";
+import NgocAmCard from "./ui/NgocAmCard";
 import { getConsultants } from "@/lib/consultants";
 import { ROLE_TAGLINE } from "@/lib/consultant-constants";
 
@@ -29,27 +29,19 @@ export default async function Consultants() {
         <div className="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-12">
           {consultants.map((c, idx) => (
             <Reveal key={c.id} delay={idx * 140}>
-              <article className="flex h-full flex-col border-t border-walnut/20 pt-8">
-                <div className="flex items-center gap-5">
-                  <span className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-gold/60 text-gold">
-                    <span className="font-heading text-lg">{c.initials}</span>
-                    <BaguaMark className="absolute -bottom-1.5 -right-1.5 h-5 w-5 text-gold opacity-70" />
-                  </span>
-                  <div>
-                    <p className="tracking-label text-[11px] font-semibold uppercase text-walnut">
-                      {c.name}
-                    </p>
-                    <p className="mt-1 text-sm italic text-bronze">{c.field}</p>
-                  </div>
-                </div>
-
-                <p className="tracking-label mt-6 text-[11px] font-semibold uppercase text-gold">
+              <NgocAmCard
+                variant="consultant"
+                avatarInitials={c.initials}
+                eyebrow={c.field}
+                title={c.name}
+              >
+                <p className="tracking-label text-[11px] font-semibold uppercase text-gold">
                   {ROLE_TAGLINE}
                 </p>
                 <p className="mt-4 text-[15px] leading-relaxed text-ink/80">
                   {c.bio}
                 </p>
-              </article>
+              </NgocAmCard>
             </Reveal>
           ))}
         </div>

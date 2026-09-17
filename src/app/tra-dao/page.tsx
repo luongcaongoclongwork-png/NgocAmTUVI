@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import PageBanner from "@/components/PageBanner";
 import ArticleCard from "@/components/ArticleCard";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
+import NgocAmCard from "@/components/ui/NgocAmCard";
 import { StillLifeStone } from "@/components/illustrations";
 import { getArticlesByCategory } from "@/lib/articles";
 import {
@@ -38,34 +37,20 @@ export const metadata: Metadata = {
 
 function TraSanPhamCard({ item }: { item: TraSanPham }) {
   return (
-    <div className="flex h-full flex-col">
-      <div className="relative aspect-square w-full overflow-hidden border border-walnut/15">
-        {item.image ? (
-          <Image
-            src={item.image}
-            alt={item.imageAlt ?? item.name}
-            fill
-            sizes="(min-width: 1024px) 300px, 50vw"
-            className="object-cover"
-          />
-        ) : (
-          <StillLifeStone className="h-full w-full" />
-        )}
-      </div>
-      <h3 className="mt-5 font-heading text-lg text-ink">{item.name}</h3>
+    <NgocAmCard
+      href="/#lien-he"
+      variant="tradao"
+      title={item.name}
+      ctaLabel="Liên hệ để đặt"
+      image={item.image ? { src: item.image, alt: item.imageAlt ?? item.name } : undefined}
+      media={!item.image ? <StillLifeStone /> : undefined}
+    >
       {item.desc.map((d, i) => (
-        <p key={i} className="mt-2 text-sm leading-relaxed text-ink/70">
+        <p key={i} className="text-[13.5px] leading-relaxed text-ink/70">
           {d}
         </p>
       ))}
-      <Link
-        href="/#lien-he"
-        className="tracking-label mt-4 inline-flex w-fit items-center gap-1.5 border-b border-gold pb-0.5 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
-      >
-        Liên hệ để đặt
-        <span aria-hidden="true">→</span>
-      </Link>
-    </div>
+    </NgocAmCard>
   );
 }
 
@@ -78,7 +63,7 @@ export default async function TraDaoPage() {
         eyebrow="Trà Đạo"
         heading="Đạo Trong Một Chén Trà"
         description="Thuận trà · Thuận thủy · Thuận thời · Thuận tâm."
-        image="/images/tra-dao-banner.png"
+        image="/images/pillars/tra-dao.png"
         imageAlt="Bàn trà gỗ giữa vườn trà trên núi, nhìn ra thung lũng sương sớm"
       />
 

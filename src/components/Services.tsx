@@ -30,14 +30,14 @@ export default async function Services({ backdrop = false }: { backdrop?: boolea
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-x-16 gap-y-16 lg:grid-cols-2">
+        <div className="mt-16 flex flex-col gap-16">
           <div>
             <Reveal>
               <p className="tracking-label border-b border-walnut/20 pb-4 text-[13px] font-semibold uppercase text-walnut">
                 Khai vấn Tử Vi
               </p>
             </Reveal>
-            <div>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {tuViServices.map((s, idx) => (
                 <ServiceCard key={s.title} {...s} delay={idx * 90} />
               ))}
@@ -50,7 +50,7 @@ export default async function Services({ backdrop = false }: { backdrop?: boolea
                 Tư vấn Phong Thuỷ
               </p>
             </Reveal>
-            <div>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {phongThuyServices.map((s, idx) => (
                 <ServiceCard key={s.title} {...s} delay={idx * 90} />
               ))}
