@@ -1,9 +1,14 @@
 import Reveal from "./Reveal";
 import ServiceCard from "./ServiceCard";
 import SectionBackdrop from "./SectionBackdrop";
-import { tuViServices, phongThuyServices } from "@/data/services";
+import { getServicesByGroup } from "@/lib/services";
 
-export default function Services({ backdrop = false }: { backdrop?: boolean }) {
+export default async function Services({ backdrop = false }: { backdrop?: boolean }) {
+  const [tuViServices, phongThuyServices] = await Promise.all([
+    getServicesByGroup("tu-vi"),
+    getServicesByGroup("phong-thuy"),
+  ]);
+
   return (
     <section id="dich-vu" className="relative overflow-hidden bg-ivory py-24 lg:py-32">
       {backdrop && (

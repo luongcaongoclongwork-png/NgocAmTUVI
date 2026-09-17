@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
-import type { ServiceItem } from "@/data/services";
+import type { Service } from "@/lib/service-constants";
 
 export default function ServiceCard({
   title,
   desc,
   price,
   delay = 0,
-}: ServiceItem & { delay?: number }) {
+}: Service & { delay?: number }) {
   return (
     <Reveal delay={delay}>
       <div className="flex flex-col justify-between border-t border-walnut/15 py-7 first:border-t-0 sm:flex-row sm:items-start sm:gap-10">

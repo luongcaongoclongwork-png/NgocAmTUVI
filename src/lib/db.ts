@@ -4,6 +4,9 @@ import path from "node:path";
 import crypto from "node:crypto";
 import Database from "better-sqlite3";
 import { seedArticles } from "@/data/seed-articles";
+import { seedServices } from "@/data/seed-services";
+import { seedConsultants } from "@/data/seed-consultants";
+import { seedProductCategories } from "@/data/seed-products";
 
 const DB_PATH = path.join(process.cwd(), "data", "articles.db");
 
@@ -20,6 +23,7 @@ function openDb(): Database.Database {
   fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
   const db = new Database(DB_PATH);
   db.pragma("journal_mode = WAL");
+  db.pragma("foreign_keys = ON");
 
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -43,9 +47,49 @@ function openDb(): Database.Database {
       created_at TEXT NOT NULL,
       updated_at TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS services (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      group_id TEXT NOT NULL CHECK (group_id IN ('tu-vi', 'phong-thuy')),
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      price TEXT NOT NULL,
+      sort_order INTEGER NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS consultants (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      field TEXT NOT NULL,
+      initials TEXT NOT NULL,
+      bio TEXT NOT NULL,
+      sort_order INTEGER NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS product_categories (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      intro TEXT NOT NULL,
+      image TEXT,
+      image_alt TEXT,
+      sort_order INTEGER NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS products (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      category_id INTEGER NOT NULL REFERENCES product_categories(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      description TEXT NOT NULL,
+      sort_order INTEGER NOT NULL
+    );
   `);
 
   seedIfEmpty(db);
+  seedServicesIfEmpty(db);
+  seedConsultantsIfEmpty(db);
+  seedProductsIfEmpty(db);
   return db;
 }
 
@@ -94,6 +138,70 @@ function seedIfEmpty(db: Database.Database) {
     });
     insertMany(seedArticles);
   }
+}
+
+function seedServicesIfEmpty(db: Database.Database) {
+  const count = (db.prepare("SELECT COUNT(*) AS n FROM services").get() as { n: number }).n;
+  if (count > 0) return;
+
+  const insert = db.prepare(
+    `INSERT INTO services (group_id, title, description, price, sort_order)
+     VALUES (@group, @title, @desc, @price, @sortOrder)`
+  );
+  const insertMany = db.transaction((rows: typeof seedServices) => {
+    const counters: Record<string, number> = {};
+    for (const service of rows) {
+      const sortOrder = counters[service.group] ?? 0;
+      counters[service.group] = sortOrder + 1;
+      insert.run({ ...service, sortOrder });
+    }
+  });
+  insertMany(seedServices);
+}
+
+function seedConsultantsIfEmpty(db: Database.Database) {
+  const count = (db.prepare("SELECT COUNT(*) AS n FROM consultants").get() as { n: number }).n;
+  if (count > 0) return;
+
+  const insert = db.prepare(
+    `INSERT INTO consultants (slug, name, field, initials, bio, sort_order)
+     VALUES (@slug, @name, @field, @initials, @bio, @sortOrder)`
+  );
+  const insertMany = db.transaction((rows: typeof seedConsultants) => {
+    rows.forEach((consultant, sortOrder) => insert.run({ ...consultant, sortOrder }));
+  });
+  insertMany(seedConsultants);
+}
+
+function seedProductsIfEmpty(db: Database.Database) {
+  const count = (db.prepare("SELECT COUNT(*) AS n FROM product_categories").get() as { n: number }).n;
+  if (count > 0) return;
+
+  const insertCategory = db.prepare(
+    `INSERT INTO product_categories (slug, name, intro, image, image_alt, sort_order)
+     VALUES (@slug, @name, @intro, @image, @imageAlt, @sortOrder)`
+  );
+  const insertProduct = db.prepare(
+    `INSERT INTO products (category_id, name, description, sort_order)
+     VALUES (@categoryId, @name, @desc, @sortOrder)`
+  );
+  const insertMany = db.transaction((rows: typeof seedProductCategories) => {
+    rows.forEach((category, categorySortOrder) => {
+      const info = insertCategory.run({
+        slug: category.slug,
+        name: category.name,
+        intro: category.intro,
+        image: category.image,
+        imageAlt: category.imageAlt,
+        sortOrder: categorySortOrder,
+      });
+      const categoryId = Number(info.lastInsertRowid);
+      category.items.forEach((item, sortOrder) => {
+        insertProduct.run({ categoryId, name: item.name, desc: item.desc, sortOrder });
+      });
+    });
+  });
+  insertMany(seedProductCategories);
 }
 
 let dbInstance: Database.Database | null = null;

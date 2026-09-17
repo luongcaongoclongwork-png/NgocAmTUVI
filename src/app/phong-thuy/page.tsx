@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import PageBanner from "@/components/PageBanner";
 import PhilosophyPillars from "@/components/PhilosophyPillars";
 import ConsultantProfile from "@/components/ConsultantProfile";
 import ServiceList from "@/components/ServiceList";
 import CtaBand from "@/components/CtaBand";
-import { phongThuyServices } from "@/data/services";
-import { consultants } from "@/data/consultants";
+import { getServicesByGroup } from "@/lib/services";
+import { getConsultantBySlug } from "@/lib/consultants";
 
 export const metadata: Metadata = {
   title: "Phong Thuỷ Là Tịnh — Ngọc Âm",
@@ -37,9 +38,13 @@ const pillars = [
   },
 ];
 
-const tinh = consultants.find((c) => c.id === "thay-tinh")!;
+export default async function PhongThuyPage() {
+  const [tinh, phongThuyServices] = await Promise.all([
+    getConsultantBySlug("thay-tinh"),
+    getServicesByGroup("phong-thuy"),
+  ]);
+  if (!tinh) notFound();
 
-export default function PhongThuyPage() {
   return (
     <>
       <PageBanner

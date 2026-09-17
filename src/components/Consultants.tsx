@@ -1,9 +1,12 @@
 import Reveal from "./Reveal";
 import { BaguaMark } from "./illustrations";
 import SectionBackdrop from "./SectionBackdrop";
-import { consultants, ROLE_TAGLINE } from "@/data/consultants";
+import { getConsultants } from "@/lib/consultants";
+import { ROLE_TAGLINE } from "@/lib/consultant-constants";
 
-export default function Consultants() {
+export default async function Consultants() {
+  const consultants = await getConsultants();
+
   return (
     <section className="relative overflow-hidden bg-parchment/60 py-24 lg:py-32">
       <SectionBackdrop

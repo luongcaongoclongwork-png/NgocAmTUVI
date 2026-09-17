@@ -3,9 +3,11 @@ import Link from "next/link";
 import { StillLifeStone } from "./illustrations";
 import Reveal from "./Reveal";
 import SectionBackdrop from "./SectionBackdrop";
-import { productCategories } from "@/data/products";
+import { getProductCategories } from "@/lib/products";
 
-export default function Products() {
+export default async function Products() {
+  const productCategories = await getProductCategories();
+
   return (
     <section id="cua-hang" className="relative overflow-hidden bg-walnut/5 py-24 lg:py-32">
       <SectionBackdrop

@@ -1,20 +1,24 @@
-export type Product = {
-  name: string;
-  desc: string;
-};
+/**
+ * The 4 product categories that used to be hardcoded in src/data/products.ts,
+ * now used ONLY as the one-time seed for the new SQLite-backed
+ * `product_categories` + `products` tables (see src/lib/db.ts) so the live
+ * site's content is unchanged right after the cutover to the admin panel.
+ * Not imported anywhere else.
+ */
+export type SeedProduct = { name: string; desc: string };
 
-export type ProductCategory = {
-  id: string;
+export type SeedProductCategory = {
+  slug: string;
   name: string;
   intro: string;
-  image?: string;
-  imageAlt?: string;
-  items: Product[];
+  image: string | null;
+  imageAlt: string | null;
+  items: SeedProduct[];
 };
 
-export const productCategories: ProductCategory[] = [
+export const seedProductCategories: SeedProductCategory[] = [
   {
-    id: "ngoc-phi-thuy",
+    slug: "ngoc-phi-thuy",
     name: "Ngọc Phỉ Thuý",
     intro:
       "Tuyển chọn theo màu sắc và độ trong, phù hợp đeo hằng ngày hoặc lưu giữ lâu dài.",
@@ -27,20 +31,24 @@ export const productCategories: ProductCategory[] = [
     ],
   },
   {
-    id: "ngoc-hoa-dien",
+    slug: "ngoc-hoa-dien",
     name: "Ngọc Hoà Điền",
     intro:
       "Chất ngọc ấm, bền theo thời gian — thường được chọn làm vật phẩm truyền lại qua nhiều thế hệ.",
+    image: null,
+    imageAlt: null,
     items: [
       { name: "Mặt Hoà Điền hình Như Ý", desc: "Biểu tượng cổ điển, chế tác tinh giản." },
       { name: "Vòng tay Hoà Điền", desc: "Hạt tròn đều, độ bóng tự nhiên." },
     ],
   },
   {
-    id: "da-phong-thuy",
+    slug: "da-phong-thuy",
     name: "Đá Phong Thuỷ",
     intro:
       "Lựa chọn theo bản mệnh và mục đích sử dụng, tư vấn trực tiếp cùng Thầy Tịnh.",
+    image: null,
+    imageAlt: null,
     items: [
       { name: "Vòng tay Thạch Anh", desc: "Nhiều màu theo ngũ hành, kèm tư vấn chọn theo mệnh." },
       { name: "Trụ đá để bàn", desc: "Đặt bàn làm việc hoặc góc học tập, kích thước nhỏ gọn." },
@@ -48,10 +56,12 @@ export const productCategories: ProductCategory[] = [
     ],
   },
   {
-    id: "do-phong-thuy",
+    slug: "do-phong-thuy",
     name: "Đồ Phong Thuỷ",
     intro:
       "Vật phẩm hỗ trợ theo từng bố cục không gian cụ thể, luôn đi kèm tư vấn vị trí đặt.",
+    image: null,
+    imageAlt: null,
     items: [
       { name: "Tỳ Hưu gỗ", desc: "Chế tác từ gỗ tự nhiên, kèm hướng dẫn vị trí đặt." },
       { name: "Chuông gió đồng", desc: "Dùng điều hoà luồng khí tại cửa chính hoặc ban công." },

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import PageBanner from "@/components/PageBanner";
 import PhilosophyPillars from "@/components/PhilosophyPillars";
 import ConsultantProfile from "@/components/ConsultantProfile";
 import ServiceList from "@/components/ServiceList";
 import ConsultationProcess from "@/components/ConsultationProcess";
 import CtaBand from "@/components/CtaBand";
-import { tuViServices } from "@/data/services";
-import { consultants } from "@/data/consultants";
+import { getServicesByGroup } from "@/lib/services";
+import { getConsultantBySlug } from "@/lib/consultants";
 
 export const metadata: Metadata = {
   title: "Tử Vi Xuyên Tam Diệm — Ngọc Âm",
@@ -33,9 +34,13 @@ const pillars = [
   },
 ];
 
-const trang = consultants.find((c) => c.id === "co-minh-trang")!;
+export default async function TuViPage() {
+  const [trang, tuViServices] = await Promise.all([
+    getConsultantBySlug("co-minh-trang"),
+    getServicesByGroup("tu-vi"),
+  ]);
+  if (!trang) notFound();
 
-export default function TuViPage() {
   return (
     <>
       <PageBanner

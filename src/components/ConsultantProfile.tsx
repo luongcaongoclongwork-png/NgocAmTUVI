@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
-import { ROLE_TAGLINE, type Consultant } from "@/data/consultants";
+import { ROLE_TAGLINE, type Consultant } from "@/lib/consultant-constants";
 
 export default function ConsultantProfile({
   consultant,

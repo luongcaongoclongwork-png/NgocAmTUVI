@@ -5,7 +5,7 @@ import PageBanner from "@/components/PageBanner";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
 import { StillLifeStone } from "@/components/illustrations";
-import { productCategories } from "@/data/products";
+import { getProductCategoriesWithItems } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Vật phẩm Ngọc Âm",
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     "Ngọc phỉ thuý, ngọc Hoà Điền, đá phong thuỷ và đồ phong thuỷ được Ngọc Âm tuyển chọn — liên hệ để được tư vấn trực tiếp trước khi đặt.",
 };
 
-export default function CuaHangPage() {
+export default async function CuaHangPage() {
+  const productCategories = await getProductCategoriesWithItems();
+
   return (
     <>
       <PageBanner
@@ -27,7 +29,7 @@ export default function CuaHangPage() {
       {productCategories.map((cat, catIdx) => (
         <section
           key={cat.id}
-          id={cat.id}
+          id={cat.slug}
           className={`py-20 lg:py-24 ${
             catIdx % 2 === 0 ? "bg-ivory" : "bg-parchment/60"
           }`}
@@ -58,7 +60,7 @@ export default function CuaHangPage() {
 
             <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {cat.items.map((item, idx) => (
-                <Reveal key={item.name} delay={idx * 90}>
+                <Reveal key={item.id} delay={idx * 90}>
                   <div className="group">
                     <div className="aspect-square w-full overflow-hidden border border-walnut/15">
                       <StillLifeStone className="h-full w-full transition-transform duration-700 group-hover:scale-105" />

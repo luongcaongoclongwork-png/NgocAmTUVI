@@ -1,6 +1,6 @@
 import Reveal from "./Reveal";
 import ServiceCard from "./ServiceCard";
-import type { ServiceItem } from "@/data/services";
+import type { Service } from "@/lib/service-constants";
 
 export default function ServiceList({
   eyebrow,
@@ -10,7 +10,7 @@ export default function ServiceList({
 }: {
   eyebrow: string;
   heading: string;
-  items: ServiceItem[];
+  items: Service[];
   background?: string;
 }) {
   return (
