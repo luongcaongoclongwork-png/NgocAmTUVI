@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 import { getOwnerChartViewModel } from "@/lib/tuvi/presentation/ownerViewModel";
 import { InfoRow } from "./InfoRow";
@@ -8,10 +9,17 @@ export default function CenterPalace({
   chart,
   birthTime,
   horoscope,
+  printSeal,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
   horoscope?: VietnameseHoroscopeDTO;
+  /** Print-only red seal overlay (see print/PrintCenterSeal.tsx). Rendered
+   * as a child of .center-palace itself so it always tracks Trung Cung's
+   * real box instead of a fixed mm offset guessed from the outer chart —
+   * undefined on the live desktop/mobile chart, so this component's
+   * default rendering is completely unchanged there. */
+  printSeal?: ReactNode;
 }) {
   const vm = getOwnerChartViewModel(chart, birthTime, horoscope);
 
@@ -94,6 +102,8 @@ export default function CenterPalace({
           </div>
         </>
       )}
+
+      {printSeal}
 
       <p className="center-tagline">&ldquo;Mệnh do trời định, vận do tâm sinh.&rdquo;</p>
     </div>

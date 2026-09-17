@@ -65,6 +65,9 @@ export interface TuViChartGridProps {
    * comment on `.ngoc-am-grid`); every other caller keeps uniform quarters.
    */
   columnBoundaries?: [number, number, number, number, number];
+  /** Print-only red seal, passed straight through to CenterPalace so it
+   * renders inside Trung Cung's own box. Only PrintChart.tsx passes this. */
+  centerPrintSeal?: React.ReactNode;
 }
 
 const UNIFORM_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
@@ -83,6 +86,7 @@ export default function TuViChartGrid({
   showAspectOverlay = true,
   useVariableRowHeights = false,
   columnBoundaries,
+  centerPrintSeal,
 }: TuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
@@ -101,7 +105,7 @@ export default function TuViChartGrid({
 
   const center = (
     <div style={{ gridArea: CENTER_GRID_AREA }}>
-      <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} />
+      <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} printSeal={centerPrintSeal} />
     </div>
   );
 
@@ -147,7 +151,7 @@ export default function TuViChartGrid({
             className="center-palace-trigger"
             style={{ gridArea: CENTER_GRID_AREA }}
           >
-            <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} />
+            <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} printSeal={centerPrintSeal} />
           </button>
         ) : (
           center

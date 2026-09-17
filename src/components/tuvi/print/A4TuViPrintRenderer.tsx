@@ -30,7 +30,7 @@ export default function A4TuViPrintRenderer({
             <PrintChart chart={chart} birthTime={birthTime} horoscope={horoscope} />
           </div>
           <div className="print-bottom-strip">
-            <PrintFooter chart={chart} />
+            <PrintFooter />
           </div>
         </div>
       </div>

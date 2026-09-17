@@ -785,35 +785,42 @@
   );
 }
 
-/* Signature + red seal flourish (PrintCenterSeal.tsx) — positioned by fixed
-   mm offset from .print-chart (194x225mm, position:relative), not inside
-   CenterPalace.tsx (shared with the live web chart). Trung Cung's right
-   edge sits ~53mm from the chart's own right edge (narrower than a plain
-   uniform quarter — see PrintChart.tsx's columnBoundaries); `right` here
-   is bigger than that so the flourish tucks a couple mm INSIDE Trung
-   Cung's corner rather than spilling into the Tuất palace beside it
-   (confirmed empirically 2026-09-15 after narrowing Trung Cung — was
-   47.5mm when Trung Cung was still a uniform-quarter width). */
-/* Deliberately sits over the tagline's corner, not beside it — a seal
-   overlapping a signature/line of text is the traditional presentation
-   (an authenticity stamp is meant to overlap what it's stamped on), not a
-   layout bug. Positioned to clear the Nam xem row (real data) above it. */
-.print-chart .print-center-seal {
+/* Seal flourish (PrintCenterSeal.tsx) — now passed into CenterPalace via
+   TuViChartGrid's `centerPrintSeal` prop (see PrintChart.tsx) and
+   positioned relative to .center-palace ITSELF (position:relative, see
+   ngocAmChart.css), not by a fixed mm offset from the outer 194x225mm
+   .print-chart box. The old fixed-offset approach drifted out of Trung
+   Cung whenever the chart's overall size or column split changed — this
+   anchors it to the box that actually matters, so it can't drift again.
+
+   Sits directly above the "N tuổi" secondary text of the Năm xem row —
+   but right-aligned to THAT text's own column, not centered across the
+   whole Trung Cung width. Measured live (2026-09-18): the secondary
+   column (where "N tuổi" sits, flush with the content's right padding
+   edge) is completely unused by every row above it (Lai nhân cung/Cung
+   Mệnh/Cung Thân/Thân cư have no secondary value, confirmed via
+   getBoundingClientRect on each), so that whole column is blank all the
+   way up — centering the seal across the full width instead (the first
+   attempt) landed it on top of that group's label/value text, which is
+   what "above 28 tuổi" actually needs to avoid. */
+.print-chart .center-palace .print-center-seal {
   position: absolute;
-  right: 55mm;
-  bottom: 47mm;
+  right: 5mm;
+  bottom: 30mm;
   pointer-events: none;
 }
 
 .print-chart .print-center-seal__stamp {
-  width: 12mm;
-  height: 12mm;
+  width: 11mm;
+  height: 11mm;
   object-fit: contain;
   opacity: 0.9;
 }
 
 /* ============================================================
-   Bottom strip: legend box | brand+tagline | consultant box
+   Bottom strip: one centered "Bậc Thầy Khai Vấn" credential box
+   (the tagline/chart-name block and the legend box that used to sit
+   beside it were both removed — see docs/tuvi-engine-audit.md).
    ============================================================ */
 
 .print-bottom-strip {
@@ -822,9 +829,6 @@
   padding-top: 2mm;
 }
 
-/* Kept (not removed with the rest of the legend) — .print-consultant-box
-   below still uses this same class for its own "Truyền nhân khai vấn"
-   heading. */
 .print-legend-title {
   margin: 0 0 1mm;
   font-size: 5.4pt;
@@ -833,83 +837,67 @@
   color: var(--print-gold);
 }
 
-/* Footer + consultant box side by side (previously stacked in one column,
-   which is what forced this whole strip to ~44mm tall even after the
-   legend box was removed — see docs/tuvi-engine-audit.md). */
 .print-footer {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 4mm;
-}
-
-.print-footer-brand {
-  flex: 1 1 auto;
-  min-width: 0;
-  text-align: left;
-}
-
-.print-footer-tagline {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-style: italic;
-  font-size: 7.8pt;
-  color: var(--print-cinnabar-soft);
-}
-
-.print-footer-chart-name {
-  margin: 0.6mm 0 0;
-  font-size: 5.4pt;
-  letter-spacing: 0.05em;
-  color: var(--print-muted);
-}
-
-/* Truyen Nhan Khai Van — the one box on the page meant to read as a
-   credential/signature, not a data field, so it earns its own visual
-   register: a tinted card with a cinnabar top rule (echoes a certificate
-   seal-strip) rather than the legend's plain hairline border. */
-.print-consultant-box {
-  position: relative;
-  flex: 0 0 auto;
-  width: 62mm;
-  text-align: right;
-  padding: 2.6mm 4mm 2.6mm 3mm;
-  background: linear-gradient(135deg, rgba(148, 66, 48, 0.07), rgba(155, 121, 75, 0.08));
-  border: 0.18mm solid rgba(148, 66, 48, 0.32);
-  border-top: 0.6mm solid var(--print-cinnabar);
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 
+/* The one box on the page meant to read as a credential/signature, not a
+   data field, so it earns its own visual register: a tinted card with a
+   cinnabar top rule (echoes a certificate seal-strip). Centered and
+   widened (was 62mm, right-aligned, sharing the strip with a now-removed
+   tagline block) now that it is the strip's sole content.
+
+   Background raised from a ~7-8% tint to near-opaque (2026-09-18 —
+   "BẬC THẦY KHAI VẤN chìm" feedback): the whole page sits on
+   chart-paper-bg.jpg's busy corner-ornament artwork (.tuvi-print-page's
+   ::before, full bleed), so a barely-there tint let that pattern show
+   straight through the box and swallow the small label text. A
+   near-solid card + a soft shadow (renders fine in the html2canvas
+   PDF/PNG export this page is built for) makes it read as a distinct
+   credential card sitting ON the page, not sunk into it. */
+.print-consultant-box {
+  position: relative;
+  width: 92mm;
+  text-align: center;
+  padding: 4.4mm 7mm;
+  background: linear-gradient(135deg, rgba(250, 243, 232, 0.97), rgba(247, 236, 222, 0.97));
+  border: 0.18mm solid rgba(148, 66, 48, 0.4);
+  border-top: 0.7mm solid var(--print-cinnabar);
+  box-shadow: 0 1.2mm 3mm rgba(52, 38, 29, 0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .print-consultant-box .print-legend-title {
-  margin-bottom: 0.6mm;
-  font-size: 5.6pt;
+  margin-bottom: 1.2mm;
+  font-size: 8.5pt;
   font-weight: 700;
+  letter-spacing: 0.16em;
   color: var(--print-cinnabar);
 }
 
 .print-consultant-name {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 14pt;
+  font-size: 18pt;
   font-weight: 700;
   letter-spacing: 0.015em;
   color: var(--print-ink);
 }
 
 .print-consultant-rule {
-  align-self: flex-end;
-  width: 16mm;
+  align-self: center;
+  width: 20mm;
   height: 0.3mm;
-  margin: 1mm 0;
+  margin: 1.6mm 0;
   background: linear-gradient(90deg, transparent, var(--print-cinnabar) 45%, var(--print-cinnabar) 55%, transparent);
 }
 
 .print-consultant-tagline {
   margin: 0;
-  font-size: 5.6pt;
-  line-height: 1.35;
+  font-size: 8.5pt;
+  line-height: 1.4;
   color: var(--print-ink-soft);
 }

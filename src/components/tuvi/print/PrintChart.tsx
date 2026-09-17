@@ -58,8 +58,8 @@ export default function PrintChart({
         tabIndexFor={() => -1}
         showAspectOverlay={false}
         columnBoundaries={PRINT_COLUMN_BOUNDARIES}
+        centerPrintSeal={<PrintCenterSeal />}
       />
-      <PrintCenterSeal />
     </div>
   );
 }

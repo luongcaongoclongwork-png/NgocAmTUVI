@@ -1,23 +1,15 @@
-import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
-
 /**
- * Bottom strip of the print page: tagline/chart-name on the left,
- * "Truyen Nhan Khai Van" credential box on the right, side by side (the
- * legend box that used to sit further left was removed — see
- * docs/tuvi-engine-audit.md). No QR / no publish metadata (rule 34 — never
- * hardcode a domain or fabricate a profile id the project doesn't track)
- * and chart.name is the only chart field used, read-only.
+ * Bottom strip of the print page: a single centered "Bậc Thầy Khai Vấn"
+ * credential box (the tagline/chart-name block that used to sit to its
+ * left, and the legend box before that — see docs/tuvi-engine-audit.md —
+ * were both removed). No chart data is shown here any more, so this takes
+ * no props.
  */
-export default function PrintFooter({ chart }: { chart: VietnameseChartDTO }) {
+export default function PrintFooter() {
   return (
     <footer className="print-footer">
-      <div className="print-footer-brand">
-        <p className="print-footer-tagline">Biết mệnh để sống thuận · Hiểu vận để an nhiên</p>
-        <p className="print-footer-chart-name">{chart.name ? `${chart.name} — ` : ""}Ngọc Âm Tử Vi Phong Thuỷ</p>
-      </div>
-
       <div className="print-consultant-box">
-        <p className="print-legend-title">Truyền nhân khai vấn</p>
+        <p className="print-legend-title">Bậc Thầy Khai Vấn</p>
         <p className="print-consultant-name">Cô Nguyễn Minh Trang</p>
         <span className="print-consultant-rule" aria-hidden="true" />
         <p className="print-consultant-tagline">Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại</p>
