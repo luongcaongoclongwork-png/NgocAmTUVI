@@ -11,6 +11,7 @@ import {
   deleteProductCategory as deleteProductCategoryFromDb,
   getProductCategoryByIdForAdmin,
 } from "@/lib/products";
+import { deleteUser as deleteUserFromDb, getUserCount } from "@/lib/users";
 import { deleteUploadedImage } from "@/lib/uploads";
 
 export async function logoutAction() {
@@ -91,4 +92,19 @@ export async function deleteProductAction(id: number) {
 
   await deleteProductFromDb(id);
   await revalidateProductSurfaces();
+}
+
+/** Returns an error message instead of throwing — the delete button needs to
+ * show these two guardrails inline rather than crash the page. */
+export async function deleteUserAction(id: number): Promise<{ error: string | null }> {
+  const session = await verifySession();
+  if (!session) return { error: "Phiên đăng nhập đã hết hạn." };
+  if (session.userId === id) return { error: "Không thể tự xoá tài khoản đang đăng nhập." };
+
+  const count = await getUserCount();
+  if (count <= 1) return { error: "Không thể xoá tài khoản admin cuối cùng." };
+
+  await deleteUserFromDb(id);
+  revalidatePath("/admin/tai-khoan");
+  return { error: null };
 }

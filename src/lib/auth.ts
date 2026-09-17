@@ -114,6 +114,16 @@ export async function verifySession(): Promise<SessionUser | null> {
   return decryptSession(token);
 }
 
+/** Used by the "đổi mật khẩu" flow to re-check the caller's current password
+ * before accepting a new one — never trust the client to have already done this. */
+export async function verifyUserPassword(userId: number, password: string): Promise<boolean> {
+  const row = getDb().prepare("SELECT password_hash FROM users WHERE id = ?").get(userId) as
+    | { password_hash: string }
+    | undefined;
+  if (!row) return false;
+  return verifyPassword(password, row.password_hash);
+}
+
 export async function login(username: string, password: string): Promise<SessionUser | null> {
   const { locked } = await isLoginLocked();
   if (locked) return null;

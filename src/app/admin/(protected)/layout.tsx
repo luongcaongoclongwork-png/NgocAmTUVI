@@ -35,6 +35,9 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
             <Link href="/admin/san-pham" className="hover:text-gold">
               Sản phẩm
             </Link>
+            <Link href="/admin/tai-khoan" className="hover:text-gold">
+              Tài khoản
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-[13px] text-walnut/70">
