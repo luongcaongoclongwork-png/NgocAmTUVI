@@ -91,7 +91,7 @@ export default function CenterPalace({
         <InfoRow label="Lai nhân cung" value={vm.originPalace} emphasized />
         <InfoRow label="Cung Mệnh" value={vm.destinyPalace} />
         <InfoRow label="Cung Thân" value={vm.bodyPalace} />
-        <InfoRow label="Thân cư" value={vm.bodyResidence} />
+        <InfoRow label="Thân cư" value={vm.bodyResidence} className="center-info-row--frosted" />
       </div>
 
       {vm.viewingYear !== undefined && (
