@@ -61,28 +61,35 @@ body {
 }
 
 /* /lap-la-so's single shared outer background (banner + form, see
-   app/lap-la-so/page.tsx) — desktop keeps the full outer-bg.jpg uncropped
-   (bg-size 100% auto, height clamped to its own 1920x1400 aspect ratio);
-   under 768px it swaps to a dedicated portrait image (outer-bg-mobile.jpg,
-   1080x1500) sized the same way (100% auto — width-locked, no crop). The
-   mobile form is much taller than this image at any width, so the image
-   only ever covers the TOP of the section; #f4ebdd below it is this
-   element's own background-color, not a second image layer — picked to
-   match the image's own paper tone so there's no visible seam where the
-   image ends. */
+   app/lap-la-so/page.tsx) — under 768px it swaps to a dedicated portrait
+   image (outer-bg-mobile.jpg).
+
+   background-size: cover (not the old "100% auto") — this element's
+   height is driven by its CONTENT (banner + the full birth-date form),
+   not by the image, and content height doesn't scale with viewport width
+   the way "100% auto" (width-locked) does: on a narrow phone the image
+   renders SHORTER while wrapped text makes the content TALLER, so the
+   two drift apart fast. At ~375px wide the gap was only ~19px (easy to
+   miss testing on one device), but it grows a lot on narrower phones —
+   the image runs out and the plain #f4ebdd background-color shows
+   through as a visible seam ("ảnh bị cắt cụt / lộ khoảng màu trống
+   phía dưới" feedback, 2026-09-18). `cover` guarantees the image always
+   fills the element's real height regardless of how tall the content
+   gets, cropping the sides a bit instead of ever leaving a gap - same
+   fix already used for the Trung Cung chart backdrop earlier. */
 .lap-la-so-outer {
   min-height: clamp(980px, 72.9167vw, 1400px);
   background-color: #f4ebdd;
   background-image: url("/images/lap-la-so/outer-bg.jpg");
   background-repeat: no-repeat;
   background-position: center top;
-  background-size: 100% auto;
+  background-size: cover;
 }
 
 @media (max-width: 767px) {
   .lap-la-so-outer {
     background-image: url("/images/lap-la-so/outer-bg-mobile.jpg");
-    background-size: 100% auto;
+    background-size: cover;
     background-position: center top;
   }
 }
