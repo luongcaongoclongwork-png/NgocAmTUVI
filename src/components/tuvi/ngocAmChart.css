@@ -726,45 +726,114 @@
   text-align: center;
   font-family: var(--font-heading);
   font-size: 11.5px;
-  font-style: italic;
+  font-style: normal;
   color: var(--na-muted);
-}
-
-/* "Làm nổi lên" v2 — quầng mờ text-shadow (bản trước) bị chìm quá, không đủ
-   tách khỏi tranh núi. Đổi sang "miếng mờ" (frosted chip) nhỏ ôm sát từng
-   chữ: nền bán trong suốt màu giấy + backdrop-blur, width:fit-content để
-   miếng nền chỉ to bằng đúng chữ (không kéo dài hết cột lưới), không lan
-   ra ảnh xung quanh. KHÔNG áp dụng cho bản in (xem override phía dưới
-   trong print.css) — html2canvas không hỗ trợ tốt backdrop-filter, và
-   phạm vi yêu cầu ban đầu vốn chỉ nói về desktop.
-
-   2026-09-18: rút "Bính Ngọ (2026)" (center-info-value của khối Năm xem)
-   ra khỏi danh sách này — sau khi ảnh Trung Cung đã chỉnh tone + đổi
-   cover (2 lần sửa trước đó), phần đó không còn cần lớp mờ nữa. Thêm
-   ".center-info-row--frosted" — dòng "Thân cư" giờ dùng class này (qua
-   CenterPalace.tsx) vì nó nằm sát vùng tranh núi, cần tách chữ khỏi ảnh
-   rõ hơn. */
-.center-tagline,
-.center-info-group--viewing-year .center-info-label,
-.center-info-group--viewing-year .center-info-secondary,
-.center-info-row--frosted .center-info-label,
-.center-info-row--frosted .center-info-value {
-  display: inline-block;
-  width: fit-content;
-  max-width: 100%;
-  padding: 1px 7px;
-  border-radius: 5px;
-  background: rgba(246, 238, 223, 0.78);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-}
-
-.center-tagline {
+  line-height: 1.5;
   align-self: center;
 }
 
 .center-info-group--viewing-year .center-info-secondary {
   justify-self: end;
+}
+
+/* "Làm nổi lên" v4 — thay vì xử lý riêng từng dòng chữ (v1 quầng đơn lẻ,
+   v2 miếng mờ per-line, v3 viền+quầng chỉ ở Năm xem/Thân cư), giờ phủ 1
+   lớp màn mỏng đều lên TOÀN BỘ tranh nền Trung Cung rồi đẩy MỌI dòng chữ
+   trong đó lên đậm tối đa — áp dụng đồng loạt thay vì riêng lẻ từng dòng,
+   nên không cần chọn dòng nào "cần xử lý" nữa (2026-09-18, sau khi mọi
+   phương án chỉ xử lý phần chữ bị chê "vẫn không đọc được").
+   Chỉ desktop + mobile — bản in giữ nguyên (không áp dụng .center-veil và
+   không đôn weight, xem print.css reset riêng bằng specificity cao hơn,
+   cộng .center-veil bị ẩn hẳn dưới .print-chart). */
+.ngoc-am-chart .center-palace > .center-veil,
+.mobile-tuvi-canvas .center-palace > .center-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: rgba(249, 243, 232, 0.5);
+}
+
+.ngoc-am-chart .center-info-label,
+.mobile-tuvi-canvas .center-info-label,
+.ngoc-am-chart .center-info-value,
+.mobile-tuvi-canvas .center-info-value,
+.ngoc-am-chart .center-info-secondary,
+.mobile-tuvi-canvas .center-info-secondary,
+.ngoc-am-chart .chart-center-brand,
+.mobile-tuvi-canvas .chart-center-brand,
+.ngoc-am-chart .chart-center-title,
+.mobile-tuvi-canvas .chart-center-title,
+.ngoc-am-chart .chart-center-subtitle,
+.mobile-tuvi-canvas .chart-center-subtitle {
+  /* 900 ở đây giờ là weight THẬT — layout.tsx đã thêm "900" vào cả 2 font
+     (Be Vietnam Pro + Playfair Display) riêng cho khối chữ này, nên trình
+     duyệt dùng đúng file chữ đậm thay vì giả lập/phóng nét (thứ gây mờ ở
+     lần trước, 2026-09-18: 700 tuy nét nhưng nhìn "nhẹ" hơn hẳn so với
+     yêu cầu đậm tối đa). */
+  font-weight: 900;
+  color: var(--na-ink);
+  /* Cực mảnh, chỉ để tách nét khỏi hoạ tiết nền — không phải kiểu viền
+     "quầng sáng" dày đã bị chê "đọc kiểu gì" ở v2. */
+  -webkit-text-stroke: 0.35px rgba(251, 247, 240, 0.9);
+}
+
+.ngoc-am-chart .center-info-secondary,
+.mobile-tuvi-canvas .center-info-secondary {
+  color: var(--na-cinnabar-dark);
+}
+
+/* Tagline (Bậc Thầy Tư Vấn / Nguyễn Minh Trang) kept OUT of the 900+stroke
+   block above on purpose (2026-09-18): unlike the data rows, this is
+   read as a signature/credential line, not something to fight the busy
+   artwork for — matches the rest of the chart's own serif style instead
+   (same family + weight 700 as .palace-name/.palace-major-star__name,
+   the dominant "bold serif, never italic" look repeated in all 12
+   palaces), not the special-cased legibility weight used above. */
+.ngoc-am-chart .center-tagline,
+.mobile-tuvi-canvas .center-tagline {
+  font-weight: 700;
+  color: var(--na-ink);
+  -webkit-text-stroke: 0.35px rgba(251, 247, 240, 0.9);
+}
+
+/* Ấn triện đỏ trên bản web (khác PrintCenterSeal — đó là ảnh riêng chỉ
+   hiện trong .print-chart). Đặt ngay phía trên dòng "N tuổi" của khối
+   Năm xem, căn theo cột giá trị phụ (secondary) như cách đã làm ở bản in
+   để không đè lên chữ thật — xem print.css's .print-center-seal cho cùng
+   nguyên tắc đo khoảng trống trước khi đặt vị trí cố định. */
+.ngoc-am-chart .center-palace > .center-live-seal,
+.mobile-tuvi-canvas .center-palace > .center-live-seal {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  width: 34px;
+  height: auto;
+  right: 40px;
+  /* Measured live (2026-09-18): the secondary-value column (right side,
+     ~40-90px in from the edge) is completely blank from the "Lai nhân
+     cung" group's top down to the divider just above "Năm xem" — none of
+     those 4 rows (Lai nhân cung/Cung Mệnh/Cung Thân/Thân cư) have a
+     secondary value. bottom:117px lands the seal's own bottom edge a few
+     px above that divider, comfortably inside the blank strip and clear
+     of "28 tuổi" below it — same principle as print's seal placement
+     (see print.css's .print-center-seal comment), different offset
+     because web's row spacing differs from the A4 print layout. */
+  bottom: 117px;
+  opacity: 0.92;
+}
+
+.mobile-tuvi-canvas .center-palace > .center-live-seal {
+  width: 30px;
+  right: 30px;
+  /* Mobile's Trung Cung sits in the fixed 747x1032 virtual canvas
+     (tuviMobileConstants.ts), a very different box than desktop's live
+     530x500 one — desktop's bottom:117px measured wildly wrong here
+     (landed the seal up near the header). Measured live in the same
+     canvas coordinate space (before the CSS scale-down to fit the phone
+     width): the blank secondary-value column above "Năm xem" starts
+     ~157px above Trung Cung's own bottom edge. */
+  bottom: 161px;
 }
 
 /* ---------- Legend ---------- */

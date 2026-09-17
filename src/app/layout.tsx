@@ -7,14 +7,19 @@ import Footer from "@/components/Footer";
 const heading = Playfair_Display({
   variable: "--font-heading",
   subsets: ["latin", "vietnamese"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "600", "700", "900"],
   style: ["normal", "italic"],
 });
 
 const body = Be_Vietnam_Pro({
   variable: "--font-body",
   subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "600"],
+  // 900 added for Trung Cung's own legibility treatment (ngocAmChart.css's
+  // ".center-info-label"/".center-info-value" etc) — without a real 900
+  // font file loaded here, that CSS's font-weight:900 falls back to the
+  // browser's synthetic/faux bold (stroke-expansion, not a real glyph),
+  // which reads blurry rather than crisp (2026-09-18).
+  weight: ["300", "400", "500", "600", "900"],
 });
 
 export const metadata: Metadata = {

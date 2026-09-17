@@ -620,6 +620,19 @@
   display: block;
 }
 
+/* .center-veil and .center-live-seal (CenterPalace.tsx) are desktop/mobile-
+   only additions, styled/positioned entirely under .ngoc-am-chart/
+   .mobile-tuvi-canvas scopes in ngocAmChart.css — print never matches those
+   scopes, so without this they'd fall back to the generic ".center-palace
+   > *" rule (plain relative-positioned block) and either add stray layout
+   space or, for the 200x300 seal image, render unpositioned on top of the
+   print layout right next to the real print seal (PrintCenterSeal, via
+   centerPrintSeal). */
+.print-chart .center-veil,
+.print-chart .center-live-seal {
+  display: none;
+}
+
 /* Re-orders and re-sizes the SAME 3 elements CenterPalace.tsx already
    renders (brand="NGỌC ÂM", title="LÁ SỐ TỬ VI", subtitle="XUYÊN TAM
    DIỆM") — no text/DOM change (CenterPalace.tsx untouched, still shared

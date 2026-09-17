@@ -43,6 +43,11 @@ export default function CenterPalace({
         aria-hidden="true"
         className="center-scroll-bg-print"
       />
+      {/* Thin warm veil over the whole scroll art (desktop/mobile only, see
+          ngocAmChart.css's ".center-veil" rule) — lowers the background
+          artwork's contrast a bit everywhere so every info row reads
+          cleanly against it without covering the art itself. */}
+      <div className="center-veil" aria-hidden="true" />
 
       <div className="center-watermark" aria-hidden="true">
         <Image src="/images/logo-mark.png" alt="" width={200} height={200} />
@@ -91,7 +96,7 @@ export default function CenterPalace({
         <InfoRow label="Lai nhân cung" value={vm.originPalace} emphasized />
         <InfoRow label="Cung Mệnh" value={vm.destinyPalace} />
         <InfoRow label="Cung Thân" value={vm.bodyPalace} />
-        <InfoRow label="Thân cư" value={vm.bodyResidence} className="center-info-row--frosted" />
+        <InfoRow label="Thân cư" value={vm.bodyResidence} />
       </div>
 
       {vm.viewingYear !== undefined && (
@@ -105,7 +110,30 @@ export default function CenterPalace({
 
       {printSeal}
 
-      <p className="center-tagline">&ldquo;Mệnh do trời định, vận do tâm sinh.&rdquo;</p>
+      {/* Live (desktop/mobile) red seal — printSeal above covers the print
+          render only. Hidden under .print-chart via CSS so it never doubles
+          up with PrintCenterSeal there (see ngocAmChart.css's
+          ".center-live-seal" rule for positioning, sized to sit just above
+          the "N tuổi" secondary value without touching real text). Named
+          "-live-" (not the shorter "center-seal") because tuviMobile.css
+          already had an orphaned ".mobile-tuvi-canvas .center-seal" rule
+          (no matching element anywhere in the codebase, confirmed via
+          grep) — reusing that name silently pulled in its top:11px/
+          height:24px, fighting this element's own bottom/height. */}
+      <Image
+        src="/images/print/ngoc-am-seal-v3.png"
+        alt=""
+        width={200}
+        height={300}
+        aria-hidden="true"
+        className="center-live-seal"
+      />
+
+      <p className="center-tagline">
+        BẬC THẦY TƯ VẤN
+        <br />
+        NGUYỄN MINH TRANG
+      </p>
     </div>
   );
 }
