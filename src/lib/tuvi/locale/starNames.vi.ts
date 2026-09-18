@@ -122,6 +122,24 @@ export const SUPERSEDED_BY_OWN_TUAN_TRIET = new Set([
   "jielu",
 ]);
 
+/**
+ * "xianchi" (Hàm Trì, 咸池) — removed per user request 2026-09-19: iztro
+ * always emits this as a standalone star (adjectiveStar.js, unconditional,
+ * not gated behind the zhongzhou algorithm switch), landing on the exact
+ * same branch rules/namPhaiStars.ts's own getDaoHoa() now computes (same
+ * year-branch tam-hop formula, cross-verified against iztro's own
+ * getJiangqian12StartIndex — see that function's comment for the citation).
+ * Keeping both would show two stars on the same branch for what Tu Vi Dau
+ * So treats as elementally distinct entities (Dao Hoa = Moc, Ham Tri =
+ * Thuy) rather than one star under two names (unlike Bat Tu, where they
+ * are synonyms) — so the raw iztro "Hàm Trì" is filtered out here and the
+ * dedicated Dao Hoa star takes its place. Vong Tuong Tinh's OWN "Hàm Trì"
+ * position label (locale/astronomyNames.vi.ts's JIANG_QIAN_VI, palace.jiangQian
+ * / horoscope.yearly.jiangQianByIndex) is a completely separate code path —
+ * a cycle-position name, not a star — and is untouched by this.
+ */
+export const SUPERSEDED_BY_OWN_DAO_HOA = new Set(["xianchi"]);
+
 const ZH_TO_KEY: Record<string, string> = Object.fromEntries(
   Object.entries(STAR_NAMES_VI).map(([key, entry]) => [entry.zh, key]),
 );

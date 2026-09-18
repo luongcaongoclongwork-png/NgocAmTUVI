@@ -12,10 +12,11 @@
  * not in that spec are intentionally left out — render falls back to the
  * canonical Vietnamese name (see getXtdStarName below), never invented.
  *
- * Note: "Dao Hoa" (spec's Dao Hoa -> Ho Toan) has no matching star id in
- * this codebase's engine at all (grepped locale/starNames.vi.ts and every
- * rules/*.ts — no star named "Dao Hoa" is ever computed), so it can never
- * appear on a chart here; left out rather than mapped to nothing. "Tieu Hao"
+ * Note: "Dao Hoa" (spec's Dao Hoa -> Ho Toan) now maps to "daoHoaNamPhai" —
+ * a real star added to the engine 2026-09-19 (rules/namPhaiStars.ts's
+ * getDaoHoa(), replacing iztro's own "Ham Tri" at the same branch — see
+ * locale/starNames.vi.ts's SUPERSEDED_BY_OWN_DAO_HOA for why). Previously
+ * this codebase computed no star named "Dao Hoa" at all. "Tieu Hao"
  * (spec's "sao phu khac" table -> Trich Thuy) is not a standalone star id
  * either — it only exists as a Thai Sui/Boshi cycle POSITION label, and that
  * position is already covered by taiSuiCycle.ts's "Hac Phan" (a later,
@@ -65,7 +66,8 @@ export const XUYEN_TAM_DIEM_STAR_MAP: Record<string, XtdStarEntry> = {
   dikongMin: { display: "Không Khám" },
   dijieMin: { display: "La Sát" },
 
-  // Dao hoa - hinh phap (Dao Hoa itself has no star id in this engine, see file header)
+  // Dao hoa - hinh phap
+  daoHoaNamPhai: { display: "Hồ Toàn" },
   hongluan: { display: "Hàm Hoa" },
   tianxi: { display: "Tán Hoa" },
   tianyao: { display: "Ma Nữ" },

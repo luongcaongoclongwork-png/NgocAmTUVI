@@ -10,6 +10,7 @@ import {
   STAR_NAMES_VI,
   starKeyFromZh,
   SUPERSEDED_BY_OWN_TUAN_TRIET,
+  SUPERSEDED_BY_OWN_DAO_HOA,
   CHANG_SINH_VI,
   BOSHI_VI,
   JIANG_QIAN_VI,
@@ -18,7 +19,7 @@ import {
 import { lookupBrightness } from "../rules/brightness";
 import { getTuan, getTriet } from "../rules/tuanTriet";
 import { FOUR_TRANSFORMATIONS_VI } from "../rules/fourTransformations";
-import { getQuocAn, getDuongPhu, getThienGiai, getDiaGiai, getLuuHa } from "../rules/namPhaiStars";
+import { getQuocAn, getDuongPhu, getThienGiai, getDiaGiai, getLuuHa, getDaoHoa } from "../rules/namPhaiStars";
 import { getVietnameseLunarOverride, getVietnameseMonthGanZhi } from "../rules/vietnamChinaCalendarOverride";
 import type {
   BirthInput,
@@ -122,6 +123,7 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
       return { id: raw.name, name: raw.name, category: "auxiliary", sourceNeeded: true };
     }
     if (SUPERSEDED_BY_OWN_TUAN_TRIET.has(key)) return undefined;
+    if (SUPERSEDED_BY_OWN_DAO_HOA.has(key)) return undefined;
 
     const entry = STAR_NAMES_VI[key];
     const star: VietnameseStar = { id: key, name: entry.name, category: entry.category, element: entry.element };
@@ -296,10 +298,14 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
   const locTonPalace = findPalaceByStarId("lucunMin");
   const thienDieuPalace = findPalaceByStarId("tianyao");
 
-  const namPhaiStars: { id: string; name: string; branch: EarthlyBranchVi }[] = [
+  const namPhaiStars: { id: string; name: string; branch: EarthlyBranchVi; element?: VietnameseStar["element"] }[] = [
     { id: "thienGiaiNamPhai", name: "Thiên Giải", branch: getThienGiai(lunarMonth) },
     { id: "diaGiaiNamPhai", name: "Địa Giải", branch: getDiaGiai(lunarMonth) },
     { id: "luuHaNamPhai", name: "Lưu Hà", branch: getLuuHa(year.stem) },
+    // Moc element (vs iztro's own "Ham Tri" it replaces, which is Thuy) —
+    // see rules/namPhaiStars.ts's getDaoHoa() and
+    // locale/starNames.vi.ts's SUPERSEDED_BY_OWN_DAO_HOA for the full story.
+    { id: "daoHoaNamPhai", name: "Đào Hoa", branch: getDaoHoa(year.branch), element: "Mộc" },
   ];
   if (locTonPalace) {
     namPhaiStars.push(
@@ -308,9 +314,9 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
     );
   }
 
-  for (const { id, name, branch } of namPhaiStars) {
+  for (const { id, name, branch, element } of namPhaiStars) {
     const palace = palaces.find((p) => p.branch === branch);
-    if (palace) palace.adjectiveStars.push({ id, name, category: "auxiliary" });
+    if (palace) palace.adjectiveStars.push({ id, name, category: "auxiliary", element });
   }
 
   // Thien Y always shares Thien Dieu's palace (never computed independently).

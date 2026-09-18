@@ -83,3 +83,27 @@ const LUU_HA_BY_STEM: Record<HeavenlyStemVi, EarthlyBranchVi> = {
 export function getLuuHa(yearStem: HeavenlyStemVi): EarthlyBranchVi {
   return LUU_HA_BY_STEM[yearStem];
 }
+
+/**
+ * Dao Hoa — by year branch's tam hop (triangle) group, landing on the
+ * "bai" (peach-blossom) position of that group: Dan-Ngo-Tuat -> Mao,
+ * Than-Ty-Thin -> Dau, Ty-Dau-Suu -> Ngo, Hoi-Mao-Mui -> Ty. Cross-checked
+ * 2026-09-19 against thayungkhiem.vn's "than sat Dao Hoa" lesson AND, more
+ * rigorously, against iztro's own source (star/decorativeStar.js's
+ * getJiangqian12StartIndex + the classical "寅午戌年将星午..." poem there):
+ * this exact formula, plus a fixed +9 offset, is how iztro already places
+ * "Ham Tri" (咸池, vong Tuong Tinh's 10th member) — same position, verified
+ * for all 4 tam-hop groups, not just spot-checked. Computed here as its own
+ * star (Moc element) rather than reusing iztro's Ham Tri (Thuy element) —
+ * per user request 2026-09-19, since the two are treated as elementally
+ * distinct in Tu Vi Dau So (as opposed to Bat Tu, where they're the same
+ * star under two names) — see engine/vietnameseAdapter.ts's
+ * SUPERSEDED_BY_OWN_DAO_HOA, which removes iztro's own Ham Tri so the two
+ * don't both appear on the same branch.
+ */
+export function getDaoHoa(yearBranch: EarthlyBranchVi): EarthlyBranchVi {
+  if (["Dần", "Ngọ", "Tuất"].includes(yearBranch)) return "Mão";
+  if (["Thân", "Tý", "Thìn"].includes(yearBranch)) return "Dậu";
+  if (["Tỵ", "Dậu", "Sửu"].includes(yearBranch)) return "Ngọ";
+  return "Tý"; // Hợi / Mão / Mùi
+}
