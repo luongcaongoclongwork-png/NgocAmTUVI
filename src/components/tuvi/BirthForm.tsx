@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import type { BirthInput } from "@/lib/tuvi/types/VietnameseChart";
-import type { GenerationStatus } from "./LapLaSoClient";
+import type { GenerationStatus, NamingMode } from "./LapLaSoClient";
 import { CalendarSwitch, type CalendarType } from "./CalendarSwitch";
 import { BirthDateFields } from "./BirthDateFields";
 import { TuViHourPicker } from "./TuViHourPicker";
@@ -34,6 +34,8 @@ export default function BirthForm({
   targetYear,
   onTargetYearChange,
   initialValue,
+  namingMode,
+  onNamingModeChange,
 }: {
   onSubmit: (input: BirthInput) => void;
   status: GenerationStatus;
@@ -42,6 +44,9 @@ export default function BirthForm({
   onTargetYearChange?: (year: number) => void;
   /** Seeds the form fields (e.g. when returning from /la-so via "Chỉnh thông tin") — read once at mount, per field, via each useState initializer below. */
   initialValue?: BirthInput;
+  /** Which naming-display route submit navigates to — see LapLaSoClient.tsx's own comment on NamingMode. */
+  namingMode: NamingMode;
+  onNamingModeChange: (mode: NamingMode) => void;
 }) {
   const [name, setName] = useState(initialValue?.name ?? "");
   const [gender, setGender] = useState<"Nam" | "Nữ">(initialValue?.gender ?? "Nam");
@@ -107,6 +112,34 @@ export default function BirthForm({
       <h2 className="tracking-label text-center text-[13px] font-medium uppercase text-gold">
         Thông tin lá số
       </h2>
+
+      <div className="space-y-3">
+        <span className={labelClass}>Hệ luận</span>
+        <div className="flex h-11 gap-2">
+          {(
+            [
+              { mode: "traditional", label: "Xuyên Tam Diệm hàng ngày" },
+              { mode: "xuyen-tam-diem", label: "Xuyên Tam Diệm" },
+            ] as const
+          ).map(({ mode, label }) => {
+            const active = namingMode === mode;
+            return (
+              <button
+                key={mode}
+                type="button"
+                aria-pressed={active}
+                onClick={() => onNamingModeChange(mode)}
+                className={`flex flex-1 items-center justify-center gap-1 border px-2 text-[13px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
+                  active ? "border-walnut bg-walnut text-ivory" : "border-walnut/25 text-walnut/70 hover:border-gold"
+                }`}
+              >
+                {active && <CheckIcon />}
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]">
         <div>
