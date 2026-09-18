@@ -23,6 +23,7 @@ type LoadState =
 export default function PrintPageClient() {
   const router = useRouter();
   const [state, setState] = useState<LoadState>({ status: "loading" });
+  const [overflowGuardSettled, setOverflowGuardSettled] = useState(false);
 
   useEffect(() => {
     const saved = loadChartInput();
@@ -56,15 +57,16 @@ export default function PrintPageClient() {
     // by itself (see TuViChart.tsx's handlePrint/handleExportPdf); "Xuất
     // PDF" just opens this page and lets the user print/save it themselves.
     if (new URLSearchParams(window.location.search).get("autoprint") !== "1") return;
-    let cancelled = false;
-    document.fonts.ready.then(() => {
-      if (cancelled) return;
-      requestAnimationFrame(() => window.print());
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [state.status]);
+    // Gated on the overflow guard (usePrintOverflowGuard, wired through
+    // PrintChart/A4TuViPrintRenderer), not just document.fonts.ready —
+    // that guard already waits for fonts itself before it measures/shrinks
+    // any still-overflowing palace cell, so waiting for its callback here
+    // instead of duplicating the fonts.ready wait means the OS print
+    // dialog never opens on a layout the guard hasn't finished fixing.
+    if (!overflowGuardSettled) return;
+    const frame = requestAnimationFrame(() => window.print());
+    return () => cancelAnimationFrame(frame);
+  }, [state.status, overflowGuardSettled]);
 
   if (state.status === "loading") {
     return (
@@ -100,7 +102,12 @@ export default function PrintPageClient() {
           In / Lưu PDF
         </button>
       </div>
-      <A4TuViPrintRenderer chart={state.chart} birthTime={state.birthInput.time} horoscope={horoscope} />
+      <A4TuViPrintRenderer
+        chart={state.chart}
+        birthTime={state.birthInput.time}
+        horoscope={horoscope}
+        onOverflowGuardSettled={() => setOverflowGuardSettled(true)}
+      />
     </>
   );
 }

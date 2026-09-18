@@ -14,9 +14,17 @@ import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/type
  *
  * This is a pure function of chart + horoscope data, computed once per
  * render before paint — NOT a ResizeObserver/measured-after-layout
- * approach. That keeps it identical between server and client and safe to
- * use for the print route (a static page with no client-side measurement
- * pass to wait for).
+ * approach, so it's identical between server and client and costs nothing
+ * to run before the print route's own real DOM measurement pass
+ * (usePrintOverflowGuard.ts) gets a chance to run: this reallocation is
+ * the FIRST line of defense (starts every cell as close to already-fitting
+ * as a pure, no-measurement pass can get it), that hook is the safety net
+ * underneath it for whatever's still too tall afterward. Now used by print
+ * too (re-enabled 2026-09-19 alongside that hook — see this file's own git
+ * history / docs/tuvi-engine-audit.md section 7 for why it was print-only
+ * disabled from 2026-09-15 until then: on its own it helped one benchmark
+ * chart but made a more extreme one worse, which the measurement pass now
+ * catches instead).
  *
  * The chart's OUTER footprint is unchanged (desktop keeps its aspect-ratio
  * square, print keeps its fixed 190mm square) — this only redistributes
@@ -50,11 +58,11 @@ const ROW_BASELINE = 5;
  * time: bonus=4 fixed Mệnh's row but pushed Huynh Đệ's from -9.5px slack
  * into +17.9px real overflow; bonus=1 leaves both with only single-digit
  * px residual overlap (Mệnh ~11px, Huynh Đệ ~5px) — worse than a perfect
- * fix, clearly better than either extreme, and clipped safely by
- * .tuvi-palace's own overflow:hidden + the opaque footer on print if a
- * harder chart ever needs it (see print.css). A structurally cleaner fix
- * (per-palace, not per-row, measurement) is possible later if this specific
- * residual ever gets reported — see docs/tuvi-engine-audit.md section 7. */
+ * fix, clearly better than either extreme. That residual (and any other
+ * chart's, however much worse) is now closed for real by
+ * usePrintOverflowGuard.ts's per-cell measure-and-shrink pass on top of
+ * this row split, not just clipped away under the footer — see that
+ * file and docs/tuvi-engine-audit.md section 7 for the full history. */
 const CENTER_ROW_BONUS = 1;
 
 const DEFAULT_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];

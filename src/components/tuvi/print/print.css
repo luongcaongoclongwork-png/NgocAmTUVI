@@ -112,11 +112,26 @@
    correctly on screen/PDF. Insetting it 2.5mm gives real printers a small
    buffer; a `::before` layer (not the page's own `background`) so it can
    be inset independently of `.tuvi-print-page`'s 7mm content padding. */
+/* Same veil treatment + same reasoning as .print-chart .center-veil below
+   (0.55, --print-paper) layered on TOP of this page-wide art via a 2nd
+   background (multiple backgrounds paint first-listed-on-top) — not a
+   separate element, since ::before is already the single layer this art
+   renders on. Requested explicitly (2026-09-19) so Trung Cung's now-veiled
+   tone doesn't read as a separately-treated patch against this page bg:
+   the two source images already measured almost identical average
+   luminance (0.787 vs 0.781) before either was veiled, so applying the
+   exact same wash to both keeps them reading as one consistent tone
+   instead of just coincidentally similar. rgba(...) here is --print-paper
+   (#f7efe2) at the same 0.55 alpha — a custom property can't be used
+   inside rgba() directly, so it's spelled out; keep the two in sync if
+   --print-paper's hex ever changes. */
 .tuvi-print-page::before {
   content: "";
   position: absolute;
   inset: 2.5mm;
-  background: url("/images/print/chart-paper-bg.jpg") center / cover no-repeat;
+  background:
+    linear-gradient(rgba(247, 239, 226, 0.55), rgba(247, 239, 226, 0.55)),
+    url("/images/print/chart-paper-bg.jpg") center / cover no-repeat;
 }
 
 .tuvi-print-inner {
@@ -289,6 +304,18 @@
      click target, no hover/hand cursor) but keep the reset minimal since
      this is a shared component, not a print-only one. */
   cursor: default;
+  /* Per-cell escape hatch for usePrintOverflowGuard.ts — every star/label
+     font-size and vertical-space margin below this point that multiplies
+     `var(--pz-scale, 1)` into a calc() shrinks TOGETHER when this one
+     custom property is set. Default 1 (untouched) for every cell; the
+     guard hook only ever sets a real value on the specific cell(s) whose
+     measured scrollHeight still exceeds this box's real clientHeight
+     AFTER paletteDensity.ts's tier system and chartRowLayout.ts's row
+     reallocation have both already done their part — a last-resort net,
+     not the primary sizing mechanism (2026-09-19, closing the "sao lưu
+     biến mất" bug: see docs/tuvi-engine-audit.md section 7 and
+     usePrintOverflowGuard.ts's own header comment). */
+  --pz-scale: 1;
 }
 
 /* NOTE: .palace-header/.palace-main-stars/.palace-minor-stars/
@@ -339,8 +366,8 @@
    row layout, not against the old column one). */
 .print-chart .palace-main-stars {
   width: 100%;
-  margin-top: 1.6mm;
-  margin-bottom: 1.4mm;
+  margin-top: calc(1.6mm * var(--pz-scale, 1));
+  margin-bottom: calc(1.4mm * var(--pz-scale, 1));
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -372,7 +399,7 @@
 }
 
 .print-chart .palace-main-stars:has(.palace-major-star:nth-child(2)) .palace-major-star__name {
-  font-size: 11.2pt;
+  font-size: calc(11.2pt * var(--pz-scale, 1));
 }
 
 /* Max font sizes below (this block through the density overrides further
@@ -384,7 +411,7 @@
    hit both failure modes (see this file's git history for the readings). */
 .print-chart .palace-major-star__name {
   font-family: var(--font-heading);
-  font-size: 12.4pt;
+  font-size: calc(12.4pt * var(--pz-scale, 1));
   line-height: 1.08;
   font-weight: 700;
   color: var(--print-major-color);
@@ -398,11 +425,11 @@
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-major-star__name {
-  font-size: 11.7pt;
+  font-size: calc(11.7pt * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="packed"] .palace-major-star__name {
-  font-size: 10.9pt;
+  font-size: calc(10.9pt * var(--pz-scale, 1));
 }
 
 /* flex-shrink:0 on these 5 sections (ngocAmChart.css) means they never
@@ -411,36 +438,36 @@
    print's much tighter 46mm cell. */
 .print-chart .tuvi-palace[data-density="dense"] .palace-main-stars,
 .print-chart .tuvi-palace[data-density="packed"] .palace-main-stars {
-  margin-top: 1mm;
-  margin-bottom: 0.8mm;
+  margin-top: calc(1mm * var(--pz-scale, 1));
+  margin-bottom: calc(0.8mm * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-minor-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-minor-star {
-  font-size: 7pt;
+  font-size: calc(7pt * var(--pz-scale, 1));
   line-height: 1.1;
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-adjective-stars,
 .print-chart .tuvi-palace[data-density="packed"] .palace-adjective-stars {
-  margin-top: 0.4mm;
+  margin-top: calc(0.4mm * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-adjective-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-adjective-star {
-  font-size: 6.2pt;
+  font-size: calc(6.2pt * var(--pz-scale, 1));
   line-height: 1.08;
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-luu-section,
 .print-chart .tuvi-palace[data-density="packed"] .palace-luu-section {
-  margin-top: 0.4mm;
-  padding-top: 0.3mm;
+  margin-top: calc(0.4mm * var(--pz-scale, 1));
+  padding-top: calc(0.3mm * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-luu-star,
 .print-chart .tuvi-palace[data-density="packed"] .palace-luu-star {
-  font-size: 5.9pt;
+  font-size: calc(5.9pt * var(--pz-scale, 1));
   line-height: 1.08;
 }
 
@@ -481,7 +508,7 @@
 }
 
 .print-chart .palace-minor-star {
-  font-size: 7.6pt;
+  font-size: calc(7.6pt * var(--pz-scale, 1));
   line-height: 1.18;
   font-weight: 450;
   color: var(--print-auxiliary-color);
@@ -503,7 +530,7 @@
 /* ---------- Adjective / auxiliary stars ---------- */
 
 .print-chart .palace-adjective-stars {
-  margin-top: 0.7mm;
+  margin-top: calc(0.7mm * var(--pz-scale, 1));
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 2.2mm;
@@ -511,7 +538,7 @@
 }
 
 .print-chart .palace-adjective-star {
-  font-size: 6.7pt;
+  font-size: calc(6.7pt * var(--pz-scale, 1));
   line-height: 1.16;
   color: var(--print-auxiliary-color);
 }
@@ -527,8 +554,8 @@
 /* ---------- Luu (annual transit overlay) section ---------- */
 
 .print-chart .palace-luu-section {
-  margin-top: 0.8mm;
-  padding-top: 0.6mm;
+  margin-top: calc(0.8mm * var(--pz-scale, 1));
+  padding-top: calc(0.6mm * var(--pz-scale, 1));
   border-top: 0.15mm dashed rgba(94, 71, 53, 0.18);
 }
 
@@ -552,7 +579,7 @@
 
 .print-chart .palace-luu-star {
   min-width: 0;
-  font-size: 6.5pt;
+  font-size: calc(6.5pt * var(--pz-scale, 1));
   line-height: 1.16;
   color: var(--print-ink-soft);
   overflow-wrap: anywhere;
@@ -618,19 +645,56 @@
 
 .print-chart .center-palace > .center-scroll-bg-print {
   display: block;
+  /* `contain` (ngocAmChart.css's base rule) was tuned for the ONE fixed
+     box ratio Trung Cung always had back when print used a flat equal-
+     fourths grid (~0.784, matching this image almost exactly). Since
+     `useVariableRowHeights` was turned on for print (see chartRowLayout.ts
+     and docs/tuvi-engine-audit.md section 9), Trung Cung's box spans rows
+     2-3, whose combined height now depends on how dense the OTHER outer
+     palaces are that chart — nothing to do with Trung Cung's own content —
+     so its ratio drifts per chart (measured 0.76-0.89 across 5 sample
+     charts, 2026-09-19) and `contain` started leaving a visibly empty
+     paper-colored band down both sides on any chart whose ratio drifted
+     enough ("ảnh nền... bị thừa ra" feedback). `cover` always fills the
+     box regardless of ratio, cropping a bit off whichever edge has the
+     excess instead of ever leaving a gap — position stays "center bottom"
+     so the crop always comes off the TOP (empty sky, no motif) or the
+     sides evenly, never the bottom foreground that matters most. */
+  object-fit: cover;
 }
 
-/* .center-veil and .center-live-seal (CenterPalace.tsx) are desktop/mobile-
-   only additions, styled/positioned entirely under .ngoc-am-chart/
-   .mobile-tuvi-canvas scopes in ngocAmChart.css — print never matches those
-   scopes, so without this they'd fall back to the generic ".center-palace
-   > *" rule (plain relative-positioned block) and either add stray layout
-   space or, for the 200x300 seal image, render unpositioned on top of the
-   print layout right next to the real print seal (PrintCenterSeal, via
-   centerPrintSeal). */
-.print-chart .center-veil,
+/* .center-live-seal (CenterPalace.tsx) is a desktop/mobile-only addition,
+   styled/positioned entirely under .ngoc-am-chart/.mobile-tuvi-canvas
+   scopes in ngocAmChart.css — print never matches those scopes, so without
+   this it'd fall back to the generic ".center-palace > *" rule (plain
+   relative-positioned block) and render its 200x300 seal image
+   unpositioned on top of the print layout, right next to the real print
+   seal (PrintCenterSeal, via centerPrintSeal). */
 .print-chart .center-live-seal {
   display: none;
+}
+
+/* .center-veil: unlike center-live-seal above, print DOES use this one —
+   same element CenterPalace.tsx already renders for desktop/mobile
+   (ngocAmChart.css's own veil, hidden here until now), given its own print
+   sizing since it sits between the scroll-art image (z-index 0) and the
+   text/seal (z-index 1). Added 2026-09-19: measuring real contrast at
+   actual text positions across 20 sample charts found 7/20 (35%) had at
+   least one row fall below WCAG AA's 4.5:1 against --print-ink, worst
+   case 1.11:1 ("Năm xem" landing on a near-black tree/rock detail in the
+   artwork — "chữ và ấn triện bị chìm" feedback). Opacity 0.55 in
+   --print-paper is computed, not eyeballed: it's the minimum needed to
+   bring that exact worst measured pixel (RGB ~47,29,1) up to 4.5:1
+   against --print-ink; verified the artwork still reads clearly through
+   it (see the published before/after demo this was approved from). */
+.print-chart .center-veil {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--print-paper);
+  opacity: 0.55;
 }
 
 /* Re-orders and re-sizes the SAME 3 elements CenterPalace.tsx already

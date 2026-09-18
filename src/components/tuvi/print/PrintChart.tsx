@@ -1,5 +1,10 @@
+"use client";
+
+import { useRef } from "react";
 import TuViChartGrid from "../TuViChartGrid";
 import PrintCenterSeal from "./PrintCenterSeal";
+import { usePrintOverflowGuard } from "./usePrintOverflowGuard";
+import { PRINT_ROW_EDGE_OFFSET } from "../TuanTrietOverlay";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 /**
@@ -23,32 +28,44 @@ const PRINT_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 27
  * mobile virtual canvas already share) — print.css overrides its class
  * names for A4 sizing, nothing here computes or re-derives chart data.
  *
- * Deliberately does NOT pass `useVariableRowHeights` (chartRowLayout.ts) —
- * unlike the live desktop chart (TuViChart.tsx), which does. Tested
- * 2026-09-15 against 2 real charts: it clearly helps the moderate case
- * ("Trang" benchmark: worst overflow 17.5px -> 10.8px) but made a more
- * extreme one worse (targetYear === birth year, unusually Luu-Nien-heavy:
- * worst overflow 24.2px -> 30.1px, and turned 3 previously-safe palaces
- * overflowing too) — that specific chart is ALREADY overflowing under
- * today's plain equal-fourths grid regardless of this flag, from a deeper,
- * separate cause (paletteDensity.ts's tier scoring under-counting a
- * 0-major/high-minor+adjective+luu content mix — see
- * docs/tuvi-engine-audit.md section 7). Print's failure mode (paper, no
- * scrolling) is worse than the live chart's, so it stays on the
- * conservative equal-fourths default until that deeper cause is fixed
- * rather than risk trading one print chart's overflow for another's.
+ * `useVariableRowHeights` (chartRowLayout.ts) is now ON for print too
+ * (re-enabled 2026-09-19 — was deliberately OFF since 2026-09-15, see git
+ * history / docs/tuvi-engine-audit.md section 7 for why: it helped one
+ * benchmark chart but made a more extreme one worse). What changed: it's
+ * no longer print's ONLY line of defense. `usePrintOverflowGuard` below
+ * now measures every cell's real rendered content after row reallocation
+ * has already done its part, and shrinks (via `--pz-scale`, see
+ * print.css) only the specific cell(s) that still overflow — so a chart
+ * that row-reallocation alone would have made worse now gets caught by
+ * the per-cell guard instead of silently losing content. Re-verify this
+ * doesn't regress if either mechanism is ever touched again; both are
+ * meant to compose, not substitute for each other.
+ *
+ * `tuanTrietRowEdgeOffset={PRINT_ROW_EDGE_OFFSET}` — print's own row
+ * proportions (narrower Trung Cung columns, mm-based sizing) made the
+ * web-tuned default land Tuần/Triệt labels on real text far more often
+ * here than on web (measured 2026-09-19: only ~40% collision-free at the
+ * web default vs 80-100% at this value) — see TuanTrietOverlay.tsx's own
+ * comment for the full picture.
  */
 export default function PrintChart({
   chart,
   birthTime,
   horoscope,
+  onOverflowGuardSettled,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
   horoscope: VietnameseHoroscopeDTO | null;
+  /** Fires once every palace cell has been measured and (if needed) shrunk to fit — PrintPageClient.tsx gates its autoprint `window.print()` call on this so the OS print dialog never opens on a still-overflowing layout. */
+  onOverflowGuardSettled?: () => void;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  usePrintOverflowGuard(containerRef, [chart, horoscope], onOverflowGuardSettled);
+
   return (
-    <div className="print-chart">
+    <div className="print-chart" ref={containerRef}>
       <TuViChartGrid
         chart={chart}
         birthTime={birthTime}
@@ -57,8 +74,10 @@ export default function PrintChart({
         onSelectPalace={() => {}}
         tabIndexFor={() => -1}
         showAspectOverlay={false}
+        useVariableRowHeights
         columnBoundaries={PRINT_COLUMN_BOUNDARIES}
         centerPrintSeal={<PrintCenterSeal />}
+        tuanTrietRowEdgeOffset={PRINT_ROW_EDGE_OFFSET}
       />
     </div>
   );

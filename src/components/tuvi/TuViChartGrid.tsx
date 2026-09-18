@@ -68,6 +68,8 @@ export interface TuViChartGridProps {
   /** Print-only red seal, passed straight through to CenterPalace so it
    * renders inside Trung Cung's own box. Only PrintChart.tsx passes this. */
   centerPrintSeal?: React.ReactNode;
+  /** Passed straight through to TuanTrietOverlay — see its own prop comment (PRINT_ROW_EDGE_OFFSET vs the default). Only PrintChart.tsx overrides this. */
+  tuanTrietRowEdgeOffset?: number;
 }
 
 const UNIFORM_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
@@ -87,6 +89,7 @@ export default function TuViChartGrid({
   useVariableRowHeights = false,
   columnBoundaries,
   centerPrintSeal,
+  tuanTrietRowEdgeOffset,
 }: TuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
@@ -161,7 +164,13 @@ export default function TuViChartGrid({
       {showAspectOverlay && (
         <AspectOverlay palaces={chart.palaces} selectedIndex={selectedIndex} rowBoundaries={rowLayout.boundaries} />
       )}
-      <TuanTrietOverlay tuan={chart.tuan} triet={chart.triet} rowBoundaries={rowLayout.boundaries} columnBoundaries={resolvedColumnBoundaries} />
+      <TuanTrietOverlay
+        tuan={chart.tuan}
+        triet={chart.triet}
+        rowBoundaries={rowLayout.boundaries}
+        columnBoundaries={resolvedColumnBoundaries}
+        rowEdgeOffset={tuanTrietRowEdgeOffset}
+      />
     </>
   );
 }

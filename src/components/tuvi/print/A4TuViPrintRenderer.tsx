@@ -16,10 +16,13 @@ export default function A4TuViPrintRenderer({
   chart,
   birthTime,
   horoscope,
+  onOverflowGuardSettled,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
   horoscope: VietnameseHoroscopeDTO | null;
+  /** Passed straight through to PrintChart — see its own prop comment. */
+  onOverflowGuardSettled?: () => void;
 }) {
   return (
     <div id="tuvi-print-root">
@@ -27,7 +30,7 @@ export default function A4TuViPrintRenderer({
         <div className="tuvi-print-inner">
           <PrintHeader />
           <div className="print-chart-wrap">
-            <PrintChart chart={chart} birthTime={birthTime} horoscope={horoscope} />
+            <PrintChart chart={chart} birthTime={birthTime} horoscope={horoscope} onOverflowGuardSettled={onOverflowGuardSettled} />
           </div>
           <div className="print-bottom-strip">
             <PrintFooter />

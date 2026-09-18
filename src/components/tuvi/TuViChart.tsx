@@ -39,6 +39,12 @@ export default function TuViChart({
   const exportRef = useRef<HTMLDivElement>(null);
   const printExportRef = useRef<HTMLDivElement>(null);
   const cellRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
+  /** Flips once usePrintOverflowGuard (inside the hidden A4TuViPrintRenderer
+   * below) has finished measuring/shrinking every palace cell in the print
+   * tree — a ref, not state, since nothing needs to re-render off it, only
+   * handleExportPdf reading it at click time. A plain ref written from a
+   * child's effect callback is fine here (not read during render). */
+  const printOverflowGuardSettledRef = useRef(false);
   const isMobile = useIsMobile();
   const baseWidth = useChartBaseWidth();
 
@@ -119,6 +125,19 @@ export default function TuViChart({
     setExporting("pdf");
     try {
       await document.fonts.ready;
+      // Same "sao lưu biến mất" fix as /la-so/print (see
+      // usePrintOverflowGuard.ts) applies to this hidden print tree too,
+      // via the SAME A4TuViPrintRenderer below — but this button can be
+      // clicked at any time, not gated behind a page-load effect the way
+      // PrintPageClient.tsx's autoprint is, so wait here instead. The guard
+      // normally settles within one render pass of mount; this only ever
+      // matters if someone clicks in the first instant after the page
+      // loads, and the 3s cap keeps a broken guard from wedging the export
+      // button forever.
+      const guardDeadline = Date.now() + 3000;
+      while (!printOverflowGuardSettledRef.current && Date.now() < guardDeadline) {
+        await new Promise((resolve) => setTimeout(resolve, 30));
+      }
       const baseName = exportFileBaseName(chart);
       await exportChartAsPdf(printExportRef.current, `${baseName}.pdf`);
     } catch (err) {
@@ -199,7 +218,14 @@ export default function TuViChart({
           not visible to the user, never involved in what shows on screen. ---------- */}
       <div aria-hidden="true" className="pointer-events-none fixed left-[-9999px] top-0">
         <div ref={printExportRef}>
-          <A4TuViPrintRenderer chart={chart} birthTime={birthTime} horoscope={horoscope} />
+          <A4TuViPrintRenderer
+            chart={chart}
+            birthTime={birthTime}
+            horoscope={horoscope}
+            onOverflowGuardSettled={() => {
+              printOverflowGuardSettledRef.current = true;
+            }}
+          />
         </div>
       </div>
 
