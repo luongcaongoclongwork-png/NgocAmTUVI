@@ -30,7 +30,6 @@ export function buildPalaceHoroscopeView(
     luuNienPalaceName: horoscope.yearly.palaceNameByIndex[index],
     luuStars: horoscope.yearly.starsByIndex[index],
     suiQian: horoscope.yearly.suiQianByIndex[index],
-    jiangQian: horoscope.yearly.jiangQianByIndex[index],
     mutagenByStarId: horoscope.yearly.mutagenByStarId,
   };
 }

@@ -4,7 +4,6 @@ import {
   EARTHLY_BRANCH_VI,
   PALACE_NAMES_VI,
   SUI_QIAN_VI,
-  JIANG_QIAN_VI,
   YEARLY_FLOW_STAR_VI,
 } from "../locale/vi-VN";
 import { FOUR_TRANSFORMATIONS_VI } from "../rules/fourTransformations";
@@ -119,7 +118,6 @@ export function generateVietnameseHoroscope(
       mutagenByStarId,
       starsByIndex,
       suiQianByIndex: horoscope.yearly.yearlyDecStar.suiqian12.map((zh) => translateCycleName(SUI_QIAN_VI, zh, "yearly suiqian12")),
-      jiangQianByIndex: horoscope.yearly.yearlyDecStar.jiangqian12.map((zh) => translateCycleName(JIANG_QIAN_VI, zh, "yearly jiangqian12")),
     },
   };
 }

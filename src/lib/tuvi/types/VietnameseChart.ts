@@ -136,8 +136,6 @@ export interface YearlyHoroscope {
   starsByIndex: HoroscopeStar[][];
   /** Luu Thai Tue vong (suiqian12) for this year, indexed like VietnamesePalace.index. */
   suiQianByIndex: string[];
-  /** Luu Tuong Tinh vong (jiangqian12) for this year, indexed like VietnamesePalace.index. */
-  jiangQianByIndex: string[];
 }
 
 export interface VietnameseHoroscopeDTO {
@@ -167,7 +165,6 @@ export interface VietnamesePalace {
 
   changSinh: string;
   boshi: string;
-  jiangQian: string;
   suiQian: string;
 
   /** Present only on the (at most two) palaces this chart's Tuần covers. */

@@ -13,7 +13,6 @@ import {
   SUPERSEDED_BY_OWN_DAO_HOA,
   CHANG_SINH_VI,
   BOSHI_VI,
-  JIANG_QIAN_VI,
   SUI_QIAN_VI,
 } from "../locale/vi-VN";
 import { lookupBrightness } from "../rules/brightness";
@@ -188,7 +187,6 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
       fourTransformations,
       changSinh: CHANG_SINH_VI[raw.changsheng12] ?? raw.changsheng12,
       boshi: BOSHI_VI[raw.boshi12] ?? raw.boshi12,
-      jiangQian: JIANG_QIAN_VI[raw.jiangqian12] ?? raw.jiangqian12,
       suiQian: SUI_QIAN_VI[raw.suiqian12] ?? raw.suiqian12,
       tuan: tuan.branches.includes(branch) ? true : undefined,
       triet: triet.branches.includes(branch) ? true : undefined,

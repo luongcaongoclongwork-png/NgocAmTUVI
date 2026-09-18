@@ -15,7 +15,8 @@ export interface PalaceContentCounts {
 }
 
 // adjectiveCount weight raised from 0.55 — every palace now always carries
-// 2 more items here (natal suiQian/jiangQian, see PalaceCell.tsx), so the
+// 1 more item here (natal suiQian, see PalaceCell.tsx — jiangQian was
+// removed 2026-09-19, see locale/astronomyNames.vi.ts), so the
 // old weight under-counted real crowding on cells that were already
 // adjective-heavy (e.g. No Boc content touching the Dai Van footer,
 // "chạm đại vận" feedback 2026-09-13).

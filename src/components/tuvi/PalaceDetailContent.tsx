@@ -109,11 +109,11 @@ export default function PalaceDetailContent({
         </p>
       )}
 
-      {horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian) && (
+      {horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian) && (
         <div>
           <p className="tracking-label mb-1.5 text-[12px] font-medium uppercase text-walnut/55">Lưu niên</p>
           <p className="text-[14px] leading-[1.45] text-lacquer">
-            {[...horoscope.luuStars.map((s) => s.name), horoscope.suiQian, horoscope.jiangQian].filter(Boolean).join(" · ")}
+            {[...horoscope.luuStars.map((s) => s.name), horoscope.suiQian].filter(Boolean).join(" · ")}
           </p>
         </div>
       )}

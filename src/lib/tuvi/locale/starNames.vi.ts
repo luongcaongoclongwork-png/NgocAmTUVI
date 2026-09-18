@@ -93,8 +93,8 @@ export const STAR_NAMES_VI: Record<string, StarRegistryEntry> = {
   tianshi: { zh: "天使", name: "Thiên Sứ", category: "auxiliary" },
   tianchu: { zh: "天厨", name: "Thiên Trù", category: "auxiliary" },
   // Also appear as standalone adjectiveStars entries (in addition to being one
-  // slot of the jiangqian12/suiqian12 per-palace cycle strings already
-  // translated via JIANG_QIAN_VI/SUI_QIAN_VI in locale/astronomyNames.vi.ts).
+  // slot of suiqian12's per-palace cycle strings, already translated via
+  // SUI_QIAN_VI in locale/astronomyNames.vi.ts).
   dahao: { zh: "大耗", name: "Đại Hao", category: "cycle" },
   huagai: { zh: "华盖", name: "Hoa Cái", category: "cycle" },
   longde: { zh: "龙德", name: "Long Đức", category: "cycle" },
@@ -133,10 +133,11 @@ export const SUPERSEDED_BY_OWN_TUAN_TRIET = new Set([
  * So treats as elementally distinct entities (Dao Hoa = Moc, Ham Tri =
  * Thuy) rather than one star under two names (unlike Bat Tu, where they
  * are synonyms) — so the raw iztro "Hàm Trì" is filtered out here and the
- * dedicated Dao Hoa star takes its place. Vong Tuong Tinh's OWN "Hàm Trì"
- * position label (locale/astronomyNames.vi.ts's JIANG_QIAN_VI, palace.jiangQian
- * / horoscope.yearly.jiangQianByIndex) is a completely separate code path —
- * a cycle-position name, not a star — and is untouched by this.
+ * dedicated Dao Hoa star takes its place. Vong Tuong Tinh itself (the
+ * cycle "Hàm Trì" was ALSO a position label in) was removed entirely one
+ * day later, 2026-09-19 — see astronomyNames.vi.ts's comment where
+ * JIANG_QIAN_VI used to live — so this Set is now the only place "Hàm Trì"
+ * can still turn up, and this comment is the only remaining explanation.
  */
 export const SUPERSEDED_BY_OWN_DAO_HOA = new Set(["xianchi"]);
 

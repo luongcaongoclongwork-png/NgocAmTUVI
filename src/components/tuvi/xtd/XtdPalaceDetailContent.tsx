@@ -13,9 +13,10 @@ import {
 /**
  * Xuyen Tam Diem (川三焰) render copy of ../PalaceDetailContent.tsx — same
  * mobile detail layout/type-scale; the only diffs are the getXtd*() calls
- * wrapping star/palace/cycle text. `palace.boshi` (vong Bac Si) and
- * `horoscope.jiangQian` (vong Tuong Tinh) are left untranslated on purpose
- * — no mapping for either was given in the Xuyen Tam Diem spec.
+ * wrapping star/palace/cycle text. `palace.boshi` (vong Bac Si) is left
+ * untranslated on purpose — no mapping was given in the Xuyen Tam Diem spec.
+ * Vong Tuong Tinh (`horoscope.jiangQian`) no longer exists at all as of
+ * 2026-09-19 — see locale/astronomyNames.vi.ts.
  */
 
 const TRANSFORMATION_CLASS: Record<FourTransformation, string> = {
@@ -114,14 +115,13 @@ export default function XtdPalaceDetailContent({
         </p>
       )}
 
-      {horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian) && (
+      {horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian) && (
         <div>
           <p className="tracking-label mb-1.5 text-[12px] font-medium uppercase text-walnut/55">Lưu niên</p>
           <p className="text-[14px] leading-[1.45] text-lacquer">
             {[
               ...horoscope.luuStars.map((s) => getXtdLuuStarName(s.name)),
               horoscope.suiQian ? getXtdTaiSuiName(horoscope.suiQian) : undefined,
-              horoscope.jiangQian,
             ]
               .filter(Boolean)
               .join(" · ")}

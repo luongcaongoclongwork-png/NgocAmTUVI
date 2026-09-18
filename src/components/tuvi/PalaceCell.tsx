@@ -23,7 +23,6 @@ export interface PalaceHoroscopeView {
   luuNienPalaceName: PalaceNameVi;
   luuStars: HoroscopeStar[];
   suiQian: string;
-  jiangQian: string;
   mutagenByStarId: Partial<Record<string, FourTransformation>>;
 }
 
@@ -85,21 +84,23 @@ export default function PalaceCell({
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 }) {
   const minorStars = [...palace.supportStars, ...palace.maleficStars];
-  const annualCount = horoscope ? horoscope.luuStars.length + (horoscope.suiQian ? 1 : 0) + (horoscope.jiangQian ? 1 : 0) : 0;
-  // Natal Thai Tue / Tuong Tinh 12-star cycles (vong Thai Tue, vong Tuong
-  // Tinh) — always exactly one member per palace, fixed by birth year
-  // (unlike horoscope.suiQian/jiangQian above, which are the *annual*
-  // members for whatever "nam xem" is selected). Already computed by
-  // vietnameseAdapter.ts onto every VietnamesePalace; just never rendered
-  // until now ("Bach Ho missing" feedback 2026-09-13).
-  const natalCycleStars = [palace.suiQian, palace.jiangQian].filter(Boolean);
+  const annualCount = horoscope ? horoscope.luuStars.length + (horoscope.suiQian ? 1 : 0) : 0;
+  // Natal Thai Tue 12-star cycle (vong Thai Tue) — always exactly one
+  // member per palace, fixed by birth year (unlike horoscope.suiQian
+  // above, which is the *annual* member for whatever "nam xem" is
+  // selected). Already computed by vietnameseAdapter.ts onto every
+  // VietnamesePalace; just never rendered until now ("Bach Ho missing"
+  // feedback 2026-09-13). Vong Tuong Tinh (palace.jiangQian) was removed
+  // entirely 2026-09-19 — see locale/astronomyNames.vi.ts's comment where
+  // JIANG_QIAN_VI used to live.
+  const natalCycleStars = [palace.suiQian].filter(Boolean);
   const density = getPalaceDensity({
     majorCount: palace.majorStars.length,
     minorCount: minorStars.length,
     adjectiveCount: palace.adjectiveStars.length + natalCycleStars.length,
     annualCount,
   });
-  const hasLuuContent = Boolean(horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian));
+  const hasLuuContent = Boolean(horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian));
 
   return (
     <button
@@ -172,7 +173,6 @@ export default function PalaceCell({
               </span>
             ))}
             {horoscope.suiQian && <span className="palace-luu-star">{horoscope.suiQian}</span>}
-            {horoscope.jiangQian && <span className="palace-luu-star">{horoscope.jiangQian}</span>}
           </div>
         </div>
       )}

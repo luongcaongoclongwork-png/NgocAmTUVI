@@ -54,10 +54,9 @@ describe("horoscope (Luu Nien) overlay, target year 2026", () => {
     expect([...dto.yearly.palaceNameByIndex].sort()).toEqual([...ALL_PALACE_NAMES].sort());
   });
 
-  it("yearly flow-star / suiqian12 / jiangqian12 arrays cover all 12 palaces with real (translated) names", () => {
+  it("yearly flow-star / suiqian12 arrays cover all 12 palaces with real (translated) names", () => {
     expect(dto.yearly.starsByIndex).toHaveLength(12);
     expect(dto.yearly.suiQianByIndex).toHaveLength(12);
-    expect(dto.yearly.jiangQianByIndex).toHaveLength(12);
 
     const allFlowStars = dto.yearly.starsByIndex.flat();
     // 10 named flow stars + Luu Nien Giai land in 11 of the 12 palaces (one star per palace, at most).
@@ -67,9 +66,6 @@ describe("horoscope (Luu Nien) overlay, target year 2026", () => {
       expect(star.name).not.toContain("流"); // never leak raw zh-CN if a translation is missing
     }
     for (const name of dto.yearly.suiQianByIndex) {
-      expect(name.length).toBeGreaterThan(0);
-    }
-    for (const name of dto.yearly.jiangQianByIndex) {
       expect(name.length).toBeGreaterThan(0);
     }
   });

@@ -74,12 +74,11 @@ function countsFor(
 ): { majorCount: number; minorCount: number; adjectiveCount: number; annualCount: number } {
   const majorCount = palace.majorStars.length;
   const minorCount = palace.supportStars.length + palace.maleficStars.length;
-  const natalCycleCount = (palace.suiQian ? 1 : 0) + (palace.jiangQian ? 1 : 0);
+  const natalCycleCount = palace.suiQian ? 1 : 0;
   const adjectiveCount = palace.adjectiveStars.length + natalCycleCount;
   const annualCount = horoscope
     ? horoscope.yearly.starsByIndex[palace.index].length +
-      (horoscope.yearly.suiQianByIndex[palace.index] ? 1 : 0) +
-      (horoscope.yearly.jiangQianByIndex[palace.index] ? 1 : 0)
+      (horoscope.yearly.suiQianByIndex[palace.index] ? 1 : 0)
     : 0;
   return { majorCount, minorCount, adjectiveCount, annualCount };
 }

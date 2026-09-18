@@ -85,21 +85,22 @@ export const BOSHI_VI: Record<string, string> = {
   "官府": "Quan Phủ",
 };
 
-/** Tuong Tien 12-star cycle (jiangqian12, vong Tuong Quan). */
-export const JIANG_QIAN_VI: Record<string, string> = {
-  "将星": "Tướng Tinh",
-  "攀鞍": "Phan Án",
-  "岁驿": "Tuế Dịch",
-  "息神": "Tức Thần",
-  "华盖": "Hoa Cái",
-  "劫煞": "Kiếp Sát",
-  "灾煞": "Tai Sát",
-  "天煞": "Thiên Sát",
-  "指背": "Chỉ Bối",
-  "咸池": "Hàm Trì",
-  "月煞": "Nguyệt Sát",
-  "亡神": "Vong Thần",
-};
+/**
+ * Vong Tuong Tinh (jiangqian12) is NOT translated/exposed anywhere in this
+ * app — removed entirely 2026-09-19 per user request: only 3 of its 12
+ * members (Dao Hoa/Ham Tri, Hoa Cai, Kiep Sat) are actually used in
+ * traditional Vietnamese Tu Vi practice (per khoahoc.tuvichanco.net's "vong
+ * Tuong Tinh" lesson), and all 3 already exist as independent standalone
+ * stars this engine computes on their own (rules/namPhaiStars.ts's Dao Hoa,
+ * and iztro's own hoa Cai / jieshaAdj) — so the other 9 members were purely
+ * a "trung chau" (Chinese school) artifact with no Vietnamese-tradition
+ * standing, and even the 3 traditionally-real ones were pure duplicates of
+ * stars already shown elsewhere on the chart. See
+ * engine/vietnameseAdapter.ts / engine/horoscopeAdapter.ts for where the
+ * removal happens; iztro's own jiangqian12 computation is unaffected
+ * (unused output, not deleted upstream — untouched per rule against editing
+ * the library).
+ */
 
 /** Tue Tien 12-star cycle (suiqian12, vong Thai Tue). */
 export const SUI_QIAN_VI: Record<string, string> = {

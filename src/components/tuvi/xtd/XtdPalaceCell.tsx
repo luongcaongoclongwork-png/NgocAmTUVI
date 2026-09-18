@@ -40,7 +40,6 @@ export interface PalaceHoroscopeView {
   luuNienPalaceName: PalaceNameVi;
   luuStars: HoroscopeStar[];
   suiQian: string;
-  jiangQian: string;
   mutagenByStarId: Partial<Record<string, FourTransformation>>;
 }
 
@@ -99,15 +98,15 @@ export default function XtdPalaceCell({
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 }) {
   const minorStars = [...palace.supportStars, ...palace.maleficStars];
-  const annualCount = horoscope ? horoscope.luuStars.length + (horoscope.suiQian ? 1 : 0) + (horoscope.jiangQian ? 1 : 0) : 0;
-  const natalCycleStars = [palace.suiQian, palace.jiangQian].filter(Boolean);
+  const annualCount = horoscope ? horoscope.luuStars.length + (horoscope.suiQian ? 1 : 0) : 0;
+  const natalCycleStars = [palace.suiQian].filter(Boolean);
   const density = getPalaceDensity({
     majorCount: palace.majorStars.length,
     minorCount: minorStars.length,
     adjectiveCount: palace.adjectiveStars.length + natalCycleStars.length,
     annualCount,
   });
-  const hasLuuContent = Boolean(horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian || horoscope.jiangQian));
+  const hasLuuContent = Boolean(horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian));
   const xtdName = getXtdPalaceName(palace.name);
 
   return (
@@ -180,7 +179,6 @@ export default function XtdPalaceCell({
               </span>
             ))}
             {horoscope.suiQian && <span className="palace-luu-star">{getXtdTaiSuiName(horoscope.suiQian)}</span>}
-            {horoscope.jiangQian && <span className="palace-luu-star">{horoscope.jiangQian}</span>}
           </div>
         </div>
       )}
