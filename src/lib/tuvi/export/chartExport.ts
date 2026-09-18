@@ -49,12 +49,13 @@ export async function exportChartAsImage(node: HTMLElement, filename: string) {
  * chart ("khoảng trắng lớn" — see docs/tuvi-engine-audit.md). Capturing the
  * print layout instead is what actually fixes that, not a scaling tweak.
  *
- * scale=3 (~288dpi at A4) instead of exportChartAsImage's 2 — this is a
- * print deliverable, not a screen preview, so it gets the higher of the
- * two budgets image quality vs. file size/render time allows here.
+ * scale=300/96 (300dpi at A4, the standard print-quality threshold)
+ * instead of exportChartAsImage's 2 — this is a print deliverable, not a
+ * screen preview, so it gets the higher of the two budgets image quality
+ * vs. file size/render time allows here.
  */
 export async function exportChartAsPdf(printPageNode: HTMLElement, filename: string) {
-  const canvas = await renderNodeToCanvas(printPageNode, 3);
+  const canvas = await renderNodeToCanvas(printPageNode, 300 / 96);
   const { jsPDF } = await import("jspdf");
 
   const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });

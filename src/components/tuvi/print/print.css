@@ -112,17 +112,24 @@
    correctly on screen/PDF. Insetting it 2.5mm gives real printers a small
    buffer; a `::before` layer (not the page's own `background`) so it can
    be inset independently of `.tuvi-print-page`'s 7mm content padding. */
-/* Same veil treatment + same reasoning as .print-chart .center-veil below
-   (0.55, --print-paper) layered on TOP of this page-wide art via a 2nd
-   background (multiple backgrounds paint first-listed-on-top) — not a
-   separate element, since ::before is already the single layer this art
-   renders on. Requested explicitly (2026-09-19) so Trung Cung's now-veiled
-   tone doesn't read as a separately-treated patch against this page bg:
-   the two source images already measured almost identical average
-   luminance (0.787 vs 0.781) before either was veiled, so applying the
-   exact same wash to both keeps them reading as one consistent tone
-   instead of just coincidentally similar. rgba(...) here is --print-paper
-   (#f7efe2) at the same 0.55 alpha — a custom property can't be used
+/* Veil over this page-wide art via a 2nd background (multiple backgrounds
+   paint first-listed-on-top) — not a separate element, since ::before is
+   already the single layer this art renders on. Deliberately LIGHTER than
+   .print-chart .center-veil below (0.10 vs 0.55, --print-paper both) —
+   requested explicitly (2026-09-19) to let this page-wide bleed read more
+   than Trung Cung's own background. Unlike Trung Cung, nothing here sits
+   directly on this layer without its own opaque box EXCEPT the header
+   (.print-title/.print-brand/.print-subtitle, no background of their
+   own) — the bottom credential card (.print-consultant-box) already has
+   a near-opaque background of its own (see its comment) so it's
+   unaffected by this value either way. The header sits over the same
+   family of artwork as Trung Cung's (chart-paper-bg.jpg vs
+   trung-cung-print.jpg, ~same average luminance, see git history), so if
+   a printed copy ever shows the header title/brand text sinking into the
+   art the way Trung Cung's did before its own veil, raise this value —
+   don't add a local opaque box to the header first, that changes the
+   page's look more than the fix warrants. rgba(...) here is --print-paper
+   (#f7efe2) at the same 0.10 alpha — a custom property can't be used
    inside rgba() directly, so it's spelled out; keep the two in sync if
    --print-paper's hex ever changes. */
 .tuvi-print-page::before {
@@ -130,7 +137,7 @@
   position: absolute;
   inset: 2.5mm;
   background:
-    linear-gradient(rgba(247, 239, 226, 0.55), rgba(247, 239, 226, 0.55)),
+    linear-gradient(rgba(247, 239, 226, 0.1), rgba(247, 239, 226, 0.1)),
     url("/images/print/chart-paper-bg.jpg") center / cover no-repeat;
 }
 
