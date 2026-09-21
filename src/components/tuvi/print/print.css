@@ -132,7 +132,7 @@
    own) — the bottom credential card (.print-consultant-box) already has
    a near-opaque background of its own (see its comment) so it's
    unaffected by this value either way. The header sits over the same
-   family of artwork as Trung Cung's (chart-paper-bg-v2.jpg vs
+   family of artwork as Trung Cung's (Ngoc-Am-Tung-Son-Van-4K-Web.webp vs
    trung-cung-print.jpg, ~same average luminance, see git history), so if
    a printed copy ever shows the header title/brand text sinking into the
    art the way Trung Cung's did before its own veil, raise this value —
@@ -147,7 +147,7 @@
   inset: 2.5mm;
   background:
     linear-gradient(rgba(247, 239, 226, 0.1), rgba(247, 239, 226, 0.1)),
-    url("/images/print/chart-paper-bg-v2.jpg") center / cover no-repeat;
+    url("/images/print/Ngoc-Am-Tung-Son-Van-4K-Web.webp") center / cover no-repeat;
 }
 
 .tuvi-print-inner {
@@ -1115,7 +1115,7 @@
 
    Background raised from a ~7-8% tint to near-opaque (2026-09-18 —
    "BẬC THẦY KHAI VẤN chìm" feedback): the whole page sits on
-   chart-paper-bg-v2.jpg's busy corner-ornament artwork (.tuvi-print-page's
+   Ngoc-Am-Tung-Son-Van-4K-Web.webp's busy corner-ornament artwork (.tuvi-print-page's
    ::before, full bleed), so a barely-there tint let that pattern show
    straight through the box and swallow the small label text. A
    near-solid card + a soft shadow (renders fine in the html2canvas
