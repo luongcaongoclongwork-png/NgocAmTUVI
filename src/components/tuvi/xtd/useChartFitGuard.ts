@@ -28,15 +28,20 @@ export const MIN_SCALE = 0.84;
 /** Keep the last line at least this far above the footer's top border. */
 const CLEARANCE_PX = 1;
 
+/**
+ * Layout (offset*) units, not getBoundingClientRect: the phone canvas is scaled
+ * down with a CSS transform (and can be measured before that scale settles),
+ * which would skew or zero the rects. Direct children of the cell are offset
+ * against the cell itself (it is position:relative).
+ */
 function contentOverflowPx(cell: HTMLElement): number {
   const footer = cell.querySelector<HTMLElement>(".palace-footer-zone");
-  const limit = (footer ? footer.getBoundingClientRect().top : cell.getBoundingClientRect().bottom) - CLEARANCE_PX;
+  const limit = (footer ? footer.offsetTop : cell.offsetHeight) - CLEARANCE_PX;
   let bottom = -Infinity;
   for (const child of Array.from(cell.children)) {
-    if (child === footer) continue;
+    if (child === footer || !(child instanceof HTMLElement)) continue;
     if (getComputedStyle(child).position === "absolute") continue;
-    const rect = child.getBoundingClientRect();
-    if (rect.height > 0) bottom = Math.max(bottom, rect.bottom);
+    if (child.offsetHeight > 0) bottom = Math.max(bottom, child.offsetTop + child.offsetHeight);
   }
   return bottom - limit;
 }

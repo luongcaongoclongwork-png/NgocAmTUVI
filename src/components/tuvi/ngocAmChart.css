@@ -903,8 +903,25 @@
      (landed the seal up near the header). Measured live in the same
      canvas coordinate space (before the CSS scale-down to fit the phone
      width): the blank secondary-value column above "Năm xem" starts
-     ~157px above Trung Cung's own bottom edge. */
-  bottom: 161px;
+     ~157px above Trung Cung's own bottom edge.
+
+     2026-09-21: bottom-anchoring still let the seal land ON the "N tuổi"
+     text (10px over at 92 tuổi) because Trung Cung's height changes with
+     the chart while the info rows flow from the top — so it is anchored
+     from the top now, ~10px clear of that row (canvas px, pre-scale). */
+  top: 290px;
+  bottom: auto;
+}
+
+/* Desktop: anchored from the TOP. Trung Cung's height on the web follows the
+   chart's variable row split, while the info rows (incl. "Năm xem / N tuổi")
+   flow from the top — so the bottom:117px above drifted down onto the age
+   text (27px over on the 1994 sample, 2026-09-21). top keeps the seal ~12px
+   clear of that row whatever the height. Mobile's fixed canvas keeps its
+   own bottom offset. */
+.ngoc-am-chart .center-palace > .center-live-seal {
+  top: 334px;
+  bottom: auto;
 }
 
 /* ---------- Legend ---------- */

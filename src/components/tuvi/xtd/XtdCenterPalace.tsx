@@ -112,7 +112,7 @@ export default function XtdCenterPalace({
       />
 
       <p className="center-tagline">
-        BẬC THẦY TƯ VẤN
+        XUYÊN GIẢ
         <br />
         NGUYỄN MINH TRANG
       </p>
