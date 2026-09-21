@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from "react";
 import XtdTuViChartGrid from "../XtdTuViChartGrid";
 import { MobileScaleViewport } from "../../mobile/MobileScaleViewport";
 import { useChartFitGuard } from "../useChartFitGuard";
+import { useXtdReveal } from "../XtdRevealContext";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 export type MobileSelection = { kind: "palace"; index: number } | { kind: "center" };
@@ -31,8 +32,9 @@ function FitCanvas({
 }) {
   const canvasRef = useRef<HTMLDivElement>(null);
   useChartFitGuard(canvasRef, [chart, horoscope]);
+  const reveal = useXtdReveal();
   return (
-    <div ref={canvasRef} className="mobile-tuvi-canvas">
+    <div ref={canvasRef} className="mobile-tuvi-canvas" data-reveal={reveal === "off" ? undefined : reveal}>
       {children}
     </div>
   );
@@ -66,6 +68,7 @@ export function XtdMobileTuViOverview({
             onSelectCenter={() => onSelect({ kind: "center" })}
             centerSelected={selection.kind === "center"}
             showAspectOverlay={selection.kind === "palace"}
+            lantern
           />
         </FitCanvas>
       </MobileScaleViewport>

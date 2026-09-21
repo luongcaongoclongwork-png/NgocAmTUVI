@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { BirthInput } from "@/lib/tuvi/types/VietnameseChart";
 import type { GenerationStatus } from "./LapLaSoClient";
 import { CalendarSwitch, type CalendarType } from "./CalendarSwitch";
@@ -34,6 +34,7 @@ export default function BirthForm({
   targetYear,
   onTargetYearChange,
   initialValue,
+  onAwake,
 }: {
   onSubmit: (input: BirthInput) => void;
   status: GenerationStatus;
@@ -42,6 +43,8 @@ export default function BirthForm({
   onTargetYearChange?: (year: number) => void;
   /** Seeds the form fields (e.g. when returning from /la-so via "Chỉnh thông tin") — read once at mount, per field, via each useState initializer below. */
   initialValue?: BirthInput;
+  /** Called with how many of the 4 groups (name+gender, date, hour, year) the user has touched so far — the painting behind the form wakes up as it grows. */
+  onAwake?: (touchedGroups: number) => void;
 }) {
   const [name, setName] = useState(initialValue?.name ?? "");
   const [gender, setGender] = useState<"Nam" | "Nữ">(initialValue?.gender ?? "Nam");
@@ -55,6 +58,19 @@ export default function BirthForm({
   const dateErrorId = useId();
   const dateFieldsRef = useRef<HTMLDivElement>(null);
   const busy = status === "validating";
+
+  // "Tranh cuộn tỉnh dần": every group starts with a default value, so "awake" honestly means "the user has touched it".
+  const [touchedGroups, setTouchedGroups] = useState<number[]>([]);
+  function touch(group: number) {
+    setTouchedGroups((t) => (t.includes(group) ? t : [...t, group]));
+  }
+  useEffect(() => {
+    if (touchedGroups.length > 0) onAwake?.(touchedGroups.length);
+  }, [touchedGroups.length, onAwake]);
+  const touchProps = (group: number) => ({
+    onFocusCapture: () => touch(group),
+    onPointerDownCapture: () => touch(group),
+  });
 
   // Keep `day` in range whenever the selected month/year/leap-month no longer supports it,
   // rather than letting an invalid combination (e.g. 31/2) sit in state until submit.
@@ -108,7 +124,7 @@ export default function BirthForm({
         Thông tin lá số
       </h2>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]" {...touchProps(0)}>
         <div>
           <label className={labelClass} htmlFor="tuvi-name">
             Họ và tên — không bắt buộc
@@ -145,12 +161,12 @@ export default function BirthForm({
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3" {...touchProps(1)}>
         <span className={labelClass}>Loại lịch</span>
         <CalendarSwitch value={calendarType} onChange={handleCalendarTypeChange} />
       </div>
 
-      <div className="space-y-3" ref={dateFieldsRef}>
+      <div className="space-y-3" ref={dateFieldsRef} {...touchProps(1)}>
         <p className="tracking-label text-[10px] font-medium uppercase text-walnut/60">Ngày sinh</p>
         <BirthDateFields
           calendarType={calendarType}
@@ -172,14 +188,16 @@ export default function BirthForm({
         )}
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3" {...touchProps(2)}>
         <p className="tracking-label text-[10px] font-medium uppercase text-walnut/60">Giờ sinh</p>
         <TimeSelect time={time} onChange={setTime} />
         <TuViHourPicker time={time} onChange={setTime} />
       </div>
 
       {targetYear !== undefined && onTargetYearChange && (
-        <TargetYearStepper targetYear={targetYear} onTargetYearChange={onTargetYearChange} />
+        <div {...touchProps(3)}>
+          <TargetYearStepper targetYear={targetYear} onTargetYearChange={onTargetYearChange} />
+        </div>
       )}
 
       <button

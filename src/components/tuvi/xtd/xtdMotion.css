@@ -1,0 +1,292 @@
+/*
+ * Xuyen Tam Diem chart motion ("Khai mo mot la so") — WEB chart only.
+ *
+ * Every selector below is scoped to `.ngoc-am-chart` (desktop/tablet) or
+ * `.mobile-tuvi-canvas` (phone), never `.print-chart`, so the print page and
+ * the PDF/PNG export tree are never animated. The reveal only exists while
+ * the root carries `data-reveal="pending" | "run"` (see XtdRevealContext.tsx);
+ * with the attribute absent — reloads, back-navigation, reduced motion —
+ * none of this applies and the chart is simply shown.
+ *
+ * What plays, in order (ms at desktop speed; the phone canvas runs at 0.75x):
+ *   0-380    grid lines: frame fades in, then the two full verticals, the two
+ *            full horizontals, then the short segments around Trung Cung;
+ *   200-500  Trung Cung fades in;
+ *   260-800  the 12 palaces "light up" one after another starting from the
+ *            Menh palace (--rv-i = order from Menh): each rises 6px into place
+ *            while a faint dark tint over it lifts, like a lamp reaching it;
+ *   560-820  the cuc's mineral pigment stroke draws under the "Cuc" value;
+ *   640-1020 the two lamps (Chu Dang, Tuan Dang -> Tuy Dang) come on;
+ *   780-1100 the Nien Trinh lantern appears on this year's Menh palace.
+ * Only transform/opacity animate (background of the lamp tint is a static
+ * colour whose opacity fades), so it stays on the compositor.
+ */
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas) {
+  --rv-k: 1;
+  --rv-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mobile-tuvi-canvas {
+  --rv-k: 0.75;
+}
+
+/* ---------- Cuc = mineral pigment (muted, Dunhuang-mural materials) ---------- */
+
+.center-palace[data-cuc="nguyet-tuyen"] {
+  --cuc: #4d7c86;
+}
+.center-palace[data-cuc="ho-duong"] {
+  --cuc: #66794f;
+}
+.center-palace[data-cuc="luu-kim"] {
+  --cuc: #b9903a;
+}
+.center-palace[data-cuc="ao-tho"] {
+  --cuc: #a06a3a;
+}
+.center-palace[data-cuc="chu-sa"] {
+  --cuc: #b2392a;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas) .center-info-row--cuc .center-info-value {
+  position: relative;
+}
+
+/* A short pigment stroke under the cuc name; no layout change (absolute). */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas) .center-info-row--cuc .center-info-value::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 26px;
+  height: 2px;
+  background: var(--cuc, transparent);
+  opacity: 0.85;
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* ---------- Chu Dang / Tuy Dang: a small lamp dot before each label ---------- */
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas) .center-info-row--lamp .center-info-label {
+  position: relative;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas) .center-info-row--lamp .center-info-label::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: var(--color-gold, #af8a50);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* ---------- Nien Trinh lantern ---------- */
+
+.xtd-lantern {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 6;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--color-lacquer, #a13a2f);
+  /* a thin gold ring, no blur/glow */
+  box-shadow: 0 0 0 2px rgba(175, 138, 80, 0.65);
+  pointer-events: none;
+  will-change: transform;
+  /* hidden until first seated on its palace (no flash at the grid's corner) */
+  opacity: 0;
+}
+
+.xtd-lantern--seated {
+  opacity: 1;
+}
+
+/* ---------- Reveal ---------- */
+
+@keyframes xtd-rv-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes xtd-rv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* the tint over a palace fades out = the lamp reaching it */
+@keyframes xtd-rv-lamp {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes xtd-rv-line-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes xtd-rv-line-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes xtd-rv-dot {
+  from {
+    opacity: 0.15;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+/* pending: everything animated is hidden (opacity only — layout is untouched, so the fit guard still measures the real chart) */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="pending"] :is(.rv-cell, .rv-center, .tuvi-structural-grid, .xtd-lantern) {
+  opacity: 0;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal] .rv-cell {
+  position: relative;
+}
+
+/* run: grid lines */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid__frame {
+  animation: xtd-rv-fade calc(240ms * var(--rv-k)) ease both;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line {
+  transform-box: fill-box;
+  animation-duration: calc(220ms * var(--rv-k));
+  animation-timing-function: var(--rv-ease);
+  animation-fill-mode: both;
+}
+
+/* DOM order inside the SVG: 1 frame, 2 c1, 3 c3, 4 c2-top, 5 c2-bottom, 6 r1, 7 r3, 8 r2-left, 9 r2-right */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(-n + 5) {
+  animation-name: xtd-rv-line-y;
+  transform-origin: 50% 0;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(5) {
+  transform-origin: 50% 100%;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(n + 6) {
+  animation-name: xtd-rv-line-x;
+  transform-origin: 0 50%;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(9) {
+  transform-origin: 100% 50%;
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(2) {
+  animation-delay: calc(100ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(3) {
+  animation-delay: calc(130ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(4) {
+  animation-delay: calc(320ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(5) {
+  animation-delay: calc(340ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(6) {
+  animation-delay: calc(200ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(7) {
+  animation-delay: calc(230ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(8) {
+  animation-delay: calc(360ms * var(--rv-k));
+}
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .tuvi-structural-grid line:nth-child(9) {
+  animation-delay: calc(380ms * var(--rv-k));
+}
+
+/* run: Trung Cung */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .rv-center {
+  animation: xtd-rv-fade calc(320ms * var(--rv-k)) ease both;
+  animation-delay: calc(200ms * var(--rv-k));
+}
+
+/* run: the 12 palaces light up in an-cung order from Menh */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .rv-cell {
+  animation: xtd-rv-rise calc(240ms * var(--rv-k)) var(--rv-ease) both;
+  animation-delay: calc((260ms + var(--rv-i, 0) * 24ms) * var(--rv-k));
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .rv-cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(62, 43, 30, 0.085);
+  animation: xtd-rv-lamp calc(460ms * var(--rv-k)) ease-out both;
+  animation-delay: calc((300ms + var(--rv-i, 0) * 24ms) * var(--rv-k));
+}
+
+/* run: pigment stroke, lamps, lantern */
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .center-info-row--cuc .center-info-value::after {
+  animation: xtd-rv-line-x calc(260ms * var(--rv-k)) var(--rv-ease) both;
+  animation-delay: calc(560ms * var(--rv-k));
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .center-info-row--lamp .center-info-label::before {
+  animation: xtd-rv-dot calc(300ms * var(--rv-k)) ease both;
+  animation-delay: calc(640ms * var(--rv-k));
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .center-info-row--lamp2 .center-info-label::before {
+  animation-delay: calc(720ms * var(--rv-k));
+}
+
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .xtd-lantern {
+  animation: xtd-rv-fade calc(320ms * var(--rv-k)) ease both;
+  animation-delay: calc(780ms * var(--rv-k));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal],
+  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal] *,
+  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal] *::before,
+  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal] *::after {
+    animation: none !important;
+  }
+
+  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="pending"] :is(.rv-cell, .rv-center, .tuvi-structural-grid, .xtd-lantern) {
+    opacity: 1 !important;
+  }
+}

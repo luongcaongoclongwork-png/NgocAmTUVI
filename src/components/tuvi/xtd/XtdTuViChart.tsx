@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import XtdTuViChartGrid from "./XtdTuViChartGrid";
 import { XtdMobileTuViExperience } from "./mobile/XtdMobileTuViExperience";
 import { useIsMobile } from "../mobile/useIsMobile";
 import { useChartBaseWidth } from "../useChartBaseWidth";
 import { useChartFitGuard } from "./useChartFitGuard";
+import { XtdRevealContext, type RevealPhase } from "./XtdRevealContext";
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExport";
@@ -15,6 +16,7 @@ import { getXtdPalaceName, XTD_RELATION_LABELS, XUYEN_TAM_DIEM_BRIGHTNESS_LABEL 
 import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "../ngocAmChart.css";
 import "../mobile/tuviMobile.css";
+import "./xtdMotion.css";
 
 /**
  * Xuyen Tam Diem (川三焰) render copy of ../TuViChart.tsx — the top-level
@@ -39,11 +41,14 @@ export default function XtdTuViChart({
   birthTime,
   birthInput,
   targetYear,
+  reveal = false,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
   birthInput?: BirthInput;
   targetYear?: number;
+  /** Arrived from the form: play the one-time "Khai mo" reveal (skipped for reduced motion). */
+  reveal?: boolean;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
@@ -98,7 +103,25 @@ export default function XtdTuViChart({
     }
   }, [birthInput, targetYear, chart.profile]);
 
-  useChartFitGuard(chartSectionRef, [chart, horoscope]);
+  // One-time reveal: hidden ("pending") until fonts + the fit guard settle, then it plays ("run"), then it is switched off.
+  const [revealPhase, setRevealPhase] = useState<RevealPhase>(() =>
+    reveal && typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "pending" : "off",
+  );
+  useEffect(() => {
+    if (revealPhase !== "pending") return;
+    // Safety net: never leave the chart hidden if the fit guard never reports.
+    const t = setTimeout(() => setRevealPhase((p) => (p === "pending" ? "run" : p)), 3000);
+    return () => clearTimeout(t);
+  }, [revealPhase]);
+  useEffect(() => {
+    if (revealPhase !== "run") return;
+    const t = setTimeout(() => setRevealPhase("off"), 2000);
+    return () => clearTimeout(t);
+  }, [revealPhase]);
+
+  useChartFitGuard(chartSectionRef, [chart, horoscope], () =>
+    requestAnimationFrame(() => setRevealPhase((p) => (p === "pending" ? "run" : p))),
+  );
 
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
@@ -155,6 +178,7 @@ export default function XtdTuViChart({
   })();
 
   return (
+    <XtdRevealContext.Provider value={revealPhase}>
     <div className="ngoc-am-chart-root flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="hidden text-[13px] text-walnut/70 md:block">
@@ -166,7 +190,7 @@ export default function XtdTuViChart({
               type="button"
               title="Xuất ảnh"
               onClick={handleExportImage}
-              disabled={exporting !== null}
+              disabled={exporting !== null || revealPhase !== "off"}
               className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "image" ? "Đang xuất…" : "Xuất ảnh"}
@@ -210,7 +234,7 @@ export default function XtdTuViChart({
       <div className="h-0 overflow-hidden opacity-0 md:h-auto md:overflow-visible md:opacity-100">
         <div className="ngoc-am-chart-scroll">
           <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px` }}>
-            <section ref={chartSectionRef} className="ngoc-am-chart">
+            <section ref={chartSectionRef} className="ngoc-am-chart" data-reveal={revealPhase === "off" ? undefined : revealPhase}>
               <XtdTuViChartGrid
                 chart={chart}
                 birthTime={birthTime}
@@ -227,6 +251,7 @@ export default function XtdTuViChart({
                 }}
                 onKeyDownPalace={handlePalaceKeyDown}
                 useVariableRowHeights
+                lantern
               />
             </section>
 
@@ -270,5 +295,6 @@ export default function XtdTuViChart({
         </p>
       )}
     </div>
+    </XtdRevealContext.Provider>
   );
 }

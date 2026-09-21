@@ -4,6 +4,7 @@ import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/type
 import { getOwnerChartViewModel } from "@/lib/tuvi/presentation/ownerViewModel";
 import { getXtdStarNameByVietnameseName, getXtdPalaceName, getXtdCucName, XTD_ROW_LABELS } from "@/data/tuvi/xuyen-tam-diem";
 import { InfoRow } from "../InfoRow";
+import { cucTintKey } from "./xtdMotion";
 import "../ngocAmChart.css";
 
 /**
@@ -30,7 +31,7 @@ export default function XtdCenterPalace({
   const vm = getOwnerChartViewModel(chart, birthTime, horoscope);
 
   return (
-    <div className="center-palace center-palace--xtd">
+    <div className="center-palace center-palace--xtd" data-cuc={cucTintKey(vm.bureau)}>
       <div className="center-scroll-bg" aria-hidden="true" />
       <Image
         src="/images/tuvi/trung-cung-xtd5-print.jpg"
@@ -72,14 +73,14 @@ export default function XtdCenterPalace({
       <div className="center-divider" />
 
       <div className="center-info-group">
-        <InfoRow label="Cục" value={getXtdCucName(vm.bureau)} emphasized />
+        <InfoRow label="Cục" value={getXtdCucName(vm.bureau)} emphasized rowClassName="center-info-row--cuc" />
       </div>
 
       <div className="center-divider" />
 
       <div className="center-info-group">
-        <InfoRow label={XTD_ROW_LABELS.menhChu} value={getXtdStarNameByVietnameseName(vm.destinyMaster)} emphasized />
-        <InfoRow label={XTD_ROW_LABELS.thanChu} value={getXtdStarNameByVietnameseName(vm.bodyMaster)} emphasized />
+        <InfoRow label={XTD_ROW_LABELS.menhChu} value={getXtdStarNameByVietnameseName(vm.destinyMaster)} emphasized rowClassName="center-info-row--lamp" />
+        <InfoRow label={XTD_ROW_LABELS.thanChu} value={getXtdStarNameByVietnameseName(vm.bodyMaster)} emphasized rowClassName="center-info-row--lamp center-info-row--lamp2" />
       </div>
 
       <div className="center-divider" />

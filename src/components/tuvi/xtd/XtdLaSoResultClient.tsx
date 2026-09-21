@@ -6,6 +6,7 @@ import XtdTuViChart from "./XtdTuViChart";
 import TargetYearStepper from "../TargetYearStepper";
 import { loadChartInput, type StoredChartInput } from "@/lib/tuvi/storage/chartInputStorage";
 import { generateChart } from "@/lib/tuvi/engine/chartEngine";
+import { clearReveal, peekReveal } from "./xtdMotion";
 import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 type LoadState =
@@ -25,6 +26,8 @@ export default function XtdLaSoResultClient() {
   const router = useRouter();
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [targetYear, setTargetYear] = useState<number | null>(null);
+  // Came from the form's submit? (the flag is only PEEKED here — idempotent under StrictMode — and cleared once the chart is up)
+  const [reveal] = useState(() => (typeof window === "undefined" ? false : peekReveal()));
 
   useEffect(() => {
     const saved = loadChartInput();
@@ -41,6 +44,10 @@ export default function XtdLaSoResultClient() {
       setState({ status: "error" });
     }
   }, [router]);
+
+  useEffect(() => {
+    if (state.status === "ready") clearReveal();
+  }, [state.status]);
 
   if (state.status === "loading") {
     return (
@@ -89,7 +96,7 @@ export default function XtdLaSoResultClient() {
         {targetYear !== null && <TargetYearStepper targetYear={targetYear} onTargetYearChange={setTargetYear} />}
       </div>
 
-      <XtdTuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear ?? undefined} />
+      <XtdTuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear ?? undefined} reveal={reveal} />
     </div>
   );
 }

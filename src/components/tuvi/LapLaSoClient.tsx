@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BirthForm from "./BirthForm";
 import { loadChartInput, saveChartInput, type StoredChartInput } from "@/lib/tuvi/storage/chartInputStorage";
+import { markReveal } from "./xtd/xtdMotion";
 import type { BirthInput } from "@/lib/tuvi/types/VietnameseChart";
 
 export type GenerationStatus = "idle" | "validating" | "error";
@@ -14,6 +15,8 @@ export default function LapLaSoClient() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [targetYearOverride, setTargetYearOverride] = useState<number | null>(null);
   const [savedInput, setSavedInput] = useState<StoredChartInput | null>(null);
+  // How many of the form's 4 groups the user has touched (0-4): the painting behind the form wakes up with it.
+  const [awake, setAwake] = useState(0);
 
   // Prefill when returning from /la-so via "Chinh thong tin" — see
   // chartInputStorage.ts (and LaSoResultClient.tsx's comment on why this is
@@ -31,6 +34,8 @@ export default function LapLaSoClient() {
     setStatus("validating");
     try {
       saveChartInput({ birthInput: input, targetYear });
+      markReveal();
+      setAwake(4);
       // Xuyen Tam Diem is the only naming layer offered (the old "hang ngay" option was removed 2026-09-21).
       router.push("/la-so/xuyen-tam-diem");
     } catch {
@@ -60,6 +65,20 @@ export default function LapLaSoClient() {
             visually clash with "Thông tin lá số" right where it sits. */}
         <div className="pointer-events-none absolute inset-0 bg-ivory/95" aria-hidden="true" />
 
+        {/* "Tranh cuộn tỉnh dần": the same waterfall/lake scroll that becomes Trung Cung's backdrop wakes up
+            behind the form as its groups are touched (opacity 5% -> 23%, only its lower part), so the chart's
+            own painting is already there when the chart appears. Opacity only; reduced motion = no transition. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-cover bg-bottom bg-no-repeat transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+          style={{
+            backgroundImage: "url(/images/tuvi/trung-cung-xtd5-web.jpg)",
+            opacity: 0.05 + awake * 0.045,
+            maskImage: "linear-gradient(to top, black 0%, black 40%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to top, black 0%, black 40%, transparent 100%)",
+          }}
+        />
+
         <div className="relative">
           <BirthForm
             key={savedInput ? "prefilled" : "empty"}
@@ -68,6 +87,7 @@ export default function LapLaSoClient() {
             targetYear={targetYear}
             onTargetYearChange={setTargetYearOverride}
             initialValue={savedInput?.birthInput}
+            onAwake={setAwake}
           />
 
           {status === "error" && errorMessage && (

@@ -68,7 +68,7 @@ function fitCell(cell: HTMLElement) {
   cell.dataset.fitOverflow = String(Math.round(contentOverflowPx(cell)));
 }
 
-export function useChartFitGuard(containerRef: RefObject<HTMLElement | null>, deps: React.DependencyList) {
+export function useChartFitGuard(containerRef: RefObject<HTMLElement | null>, deps: React.DependencyList, onFirstFit?: () => void) {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -94,6 +94,7 @@ export function useChartFitGuard(containerRef: RefObject<HTMLElement | null>, de
       }
       if (cancelled) return;
       run();
+      onFirstFit?.();
     })();
 
     const observer = new ResizeObserver(schedule);
