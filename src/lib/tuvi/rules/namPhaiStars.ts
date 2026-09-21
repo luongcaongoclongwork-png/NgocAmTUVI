@@ -107,3 +107,56 @@ export function getDaoHoa(yearBranch: EarthlyBranchVi): EarthlyBranchVi {
   if (["Tỵ", "Dậu", "Sửu"].includes(yearBranch)) return "Ngọ";
   return "Tý"; // Hợi / Mão / Mùi
 }
+
+/**
+ * Thien La / Dia Vong — the two fixed "La Vong" corners: Thien La always at
+ * Thin, Dia Vong always at Tuat, no dependency on birth data. Four sources
+ * agree, checked 2026-09-21: tuvi.cohoc.net (Thin/Tuat, both Tho), tuvi.vn
+ * ("luon dinh vi co dinh tai cung Thin", Dia Vong doi cung tai Tuat, not
+ * affected by birth year), tuvikhoahoc.vn ("luon o vi tri cung Thin"). iztro
+ * computes neither, so both are added here like Quoc An / Duong Phu.
+ */
+export const THIEN_LA_BRANCH: EarthlyBranchVi = "Thìn";
+export const DIA_VONG_BRANCH: EarthlyBranchVi = "Tuất";
+
+/**
+ * Luu Nien Van Tinh — by the BIRTH-YEAR heavenly stem (all three sources
+ * that give a rule say "an theo thien can cua tuoi": tuvi.cohoc.net,
+ * tuvicaimenh.com, tuvidonga.com; 2026-09-21). Self-check: for every stem
+ * the branch is exactly 3 positions after that stem's Loc Ton (Giap: Dan ->
+ * Ty, At: Mao -> Ngo, Binh/Mau: Ty -> Than, Dinh/Ky: Ngo -> Dau, Canh: Than
+ * -> Hoi, Tan: Dau -> Ty, Nham: Hoi -> Dan, Quy: Ty -> Mao), matching the
+ * sources' own remark that it sits "cach Loc Ton 2 cung ve phia truoc".
+ */
+const LUU_NIEN_VAN_TINH_BY_STEM: Record<HeavenlyStemVi, EarthlyBranchVi> = {
+  "Giáp": "Tỵ",
+  "Ất": "Ngọ",
+  "Bính": "Thân",
+  "Đinh": "Dậu",
+  "Mậu": "Thân",
+  "Kỷ": "Dậu",
+  "Canh": "Hợi",
+  "Tân": "Tý",
+  "Nhâm": "Dần",
+  "Quý": "Mão",
+};
+
+export function getLuuNienVanTinh(yearStem: HeavenlyStemVi): EarthlyBranchVi {
+  return LUU_NIEN_VAN_TINH_BY_STEM[yearStem];
+}
+
+/**
+ * Dau Quan — start at the year-branch palace (where Thai Tue sits) as month
+ * 1, count BACKWARD (nghich) to the lunar birth month, call that palace hour
+ * Ty, count FORWARD (thuan) to the birth hour; where it stops is Dau Quan.
+ * Same rule word-for-word on tracuutuvi.com, tuvi.cohoc.net, tuvicaimenh.com
+ * (2026-09-21 — these three read as copies of one text, so the rule was also
+ * checked against a worked example found elsewhere: born 1974 (year branch
+ * Dan), lunar month 8, hour Mui -> counting back from Dan reaches Mui for
+ * month 8, then forward 7 hours from Mui stops at Dan, "Dau Quan o cung Dan").
+ * That example is pinned as a test (tests/newStars.test.ts).
+ * `hourIndex` is 0 (Ty) .. 11 (Hoi).
+ */
+export function getDauQuan(yearBranch: EarthlyBranchVi, lunarMonth: number, hourIndex: number): EarthlyBranchVi {
+  return offsetBranch(yearBranch, -(lunarMonth - 1) + hourIndex);
+}

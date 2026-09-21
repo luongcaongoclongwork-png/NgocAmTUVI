@@ -2,15 +2,16 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 import { getOwnerChartViewModel } from "@/lib/tuvi/presentation/ownerViewModel";
-import { getXtdStarNameByVietnameseName, getXtdPalaceName } from "@/data/tuvi/xuyen-tam-diem";
+import { getXtdStarNameByVietnameseName, getXtdPalaceName, getXtdCucName, XTD_ROW_LABELS } from "@/data/tuvi/xuyen-tam-diem";
 import { InfoRow } from "../InfoRow";
 import "../ngocAmChart.css";
 
 /**
  * Xuyen Tam Diem (川三焰) render copy of ../CenterPalace.tsx — same layout,
  * same getOwnerChartViewModel() call, no recomputation. Only diff: the 4
- * fields that carry a star/palace name (Chủ mệnh, Chủ thân, Lai nhân cung,
- * Thân cư) are passed through the Xtd naming layer before render. The
+ * fields that carry a star/palace/cuc name (Cuc, Chủ mệnh, Chủ thân, Lai nhân
+ * cung, Thân cư) and the Menh/Than row labels go through the Xtd naming layer
+ * before render. The
  * chart-center-subtitle brand text below stays "XUYÊN TAM DIỆM" on purpose
  * (per 2026-09-19 decision: only the picker option label in the form
  * changes, not the 6 places this brand name already appears sitewide).
@@ -29,7 +30,7 @@ export default function XtdCenterPalace({
   const vm = getOwnerChartViewModel(chart, birthTime, horoscope);
 
   return (
-    <div className="center-palace">
+    <div className="center-palace center-palace--xtd">
       <div className="center-scroll-bg" aria-hidden="true" />
       <Image
         src="/images/tuvi/trung-cung-print.jpg"
@@ -47,8 +48,7 @@ export default function XtdCenterPalace({
 
       <header className="chart-center-header">
         <div className="chart-center-brand">NGỌC ÂM</div>
-        <h2 className="chart-center-title">LÁ SỐ TỬ VI</h2>
-        <p className="chart-center-subtitle">XUYÊN TAM DIỆM</p>
+        <h2 className="chart-center-title chart-center-title--xtd">XUYÊN TAM DIỆM</h2>
       </header>
 
       <div className="center-divider" />
@@ -72,22 +72,22 @@ export default function XtdCenterPalace({
       <div className="center-divider" />
 
       <div className="center-info-group">
-        <InfoRow label="Cục" value={vm.bureau} emphasized />
+        <InfoRow label="Cục" value={getXtdCucName(vm.bureau)} emphasized />
       </div>
 
       <div className="center-divider" />
 
       <div className="center-info-group">
-        <InfoRow label="Chủ mệnh" value={getXtdStarNameByVietnameseName(vm.destinyMaster)} emphasized />
-        <InfoRow label="Chủ thân" value={getXtdStarNameByVietnameseName(vm.bodyMaster)} emphasized />
+        <InfoRow label={XTD_ROW_LABELS.menhChu} value={getXtdStarNameByVietnameseName(vm.destinyMaster)} emphasized />
+        <InfoRow label={XTD_ROW_LABELS.thanChu} value={getXtdStarNameByVietnameseName(vm.bodyMaster)} emphasized />
       </div>
 
       <div className="center-divider" />
 
       <div className="center-info-group">
         <InfoRow label="Lai nhân cung" value={vm.originPalace ? getXtdPalaceName(vm.originPalace) : vm.originPalace} emphasized />
-        <InfoRow label="Cung Mệnh" value={vm.destinyPalace} />
-        <InfoRow label="Cung Thân" value={vm.bodyPalace} />
+        <InfoRow label={XTD_ROW_LABELS.cungMenh} value={vm.destinyPalace} />
+        <InfoRow label={XTD_ROW_LABELS.cungThan} value={vm.bodyPalace} />
         <InfoRow label="Thân cư" value={vm.bodyResidence ? getXtdPalaceName(vm.bodyResidence) : vm.bodyResidence} />
       </div>
 

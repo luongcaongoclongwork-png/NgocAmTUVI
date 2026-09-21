@@ -123,7 +123,7 @@
    own) — the bottom credential card (.print-consultant-box) already has
    a near-opaque background of its own (see its comment) so it's
    unaffected by this value either way. The header sits over the same
-   family of artwork as Trung Cung's (chart-paper-bg.jpg vs
+   family of artwork as Trung Cung's (chart-paper-bg.png vs
    trung-cung-print.jpg, ~same average luminance, see git history), so if
    a printed copy ever shows the header title/brand text sinking into the
    art the way Trung Cung's did before its own veil, raise this value —
@@ -138,7 +138,7 @@
   inset: 2.5mm;
   background:
     linear-gradient(rgba(247, 239, 226, 0.1), rgba(247, 239, 226, 0.1)),
-    url("/images/print/chart-paper-bg.jpg") center / cover no-repeat;
+    url("/images/print/chart-paper-bg.png") center / cover no-repeat;
 }
 
 .tuvi-print-inner {
@@ -621,6 +621,46 @@
   color: var(--print-cinnabar-soft);
 }
 
+/* Tuan/Triet badge line of the Xuyen Tam Diem chart (xtd/XtdPalaceCell.tsx):
+   last line of the cell inside the footer zone, centered, in flow. Cells
+   carrying it reserve one more line of bottom padding (data-zone-badge). */
+.print-chart .palace-zone-badges {
+  gap: 0.8mm;
+}
+
+.print-chart .palace-zone-badge {
+  border-width: 0.15mm;
+  font-size: 4.3pt;
+  line-height: 1.25;
+  background: var(--print-paper);
+}
+
+.print-chart .palace-zone-badge--tuan {
+  color: var(--print-sage);
+  border-color: color-mix(in srgb, var(--print-sage) 50%, transparent);
+}
+
+.print-chart .palace-zone-badge--both {
+  border-color: color-mix(in srgb, var(--print-ink-soft) 40%, transparent);
+}
+
+.print-chart .palace-zone-badge__tuan {
+  color: var(--print-sage);
+}
+
+.print-chart .palace-zone-badge__triet {
+  color: var(--print-cinnabar);
+}
+
+.print-chart .palace-zone-badge--triet {
+  color: var(--print-cinnabar);
+  border-color: color-mix(in srgb, var(--print-cinnabar) 50%, transparent);
+}
+
+.print-chart .tuvi-palace[data-zone-badge="true"] {
+  padding-bottom: 9.8mm;
+}
+
 /* Tuan/Triet markers (TuanTrietOverlay.tsx) render via Tailwind utility
    classes, not a stable class hook — left completely unstyled here on
    purpose (same reasoning as the aspect overlay below): its own ~9px pill
@@ -704,6 +744,18 @@
   opacity: 0.55;
 }
 
+/* Xuyen Tam Diem print (2026-09-21): no washes over the Trung Cung artwork —
+   neither the .center-veil above nor the panel's own cream tint — so its
+   background reads in the same tone as the page's chart-paper-bg. Text
+   contrast now rests on the artwork alone. */
+.print-chart .center-palace.center-palace--xtd {
+  background: none;
+}
+
+.print-chart .center-palace--xtd > .center-veil {
+  display: none;
+}
+
 /* Re-orders and re-sizes the SAME 3 elements CenterPalace.tsx already
    renders (brand="NGỌC ÂM", title="LÁ SỐ TỬ VI", subtitle="XUYÊN TAM
    DIỆM") — no text/DOM change (CenterPalace.tsx untouched, still shared
@@ -725,6 +777,20 @@
 }
 
 .print-chart .chart-center-subtitle {
+  order: 2;
+  margin-top: 1.2mm;
+  font-family: var(--font-heading);
+  font-size: 17pt;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--print-ink);
+}
+
+/* Xuyen Tam Diem Trung Cung has only 2 lines (NGỌC ÂM / XUYÊN TAM DIỆM — the
+   "LÁ SỐ TỬ VI" line was dropped 2026-09-21): its h2 carries the big-title
+   look that .chart-center-subtitle gives the original chart above. */
+.print-chart .chart-center-title.chart-center-title--xtd {
   order: 2;
   margin-top: 1.2mm;
   font-family: var(--font-heading);
@@ -890,7 +956,7 @@
 .print-chart .center-palace .print-center-seal {
   position: absolute;
   right: 5mm;
-  bottom: 30mm;
+  bottom: 33.5mm;
   pointer-events: none;
 }
 
@@ -934,7 +1000,7 @@
 
    Background raised from a ~7-8% tint to near-opaque (2026-09-18 —
    "BẬC THẦY KHAI VẤN chìm" feedback): the whole page sits on
-   chart-paper-bg.jpg's busy corner-ornament artwork (.tuvi-print-page's
+   chart-paper-bg.png's busy corner-ornament artwork (.tuvi-print-page's
    ::before, full bleed), so a barely-there tint let that pattern show
    straight through the box and swallow the small label text. A
    near-solid card + a soft shadow (renders fine in the html2canvas

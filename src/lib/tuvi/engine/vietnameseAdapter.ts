@@ -18,7 +18,10 @@ import {
 import { lookupBrightness } from "../rules/brightness";
 import { getTuan, getTriet } from "../rules/tuanTriet";
 import { FOUR_TRANSFORMATIONS_VI } from "../rules/fourTransformations";
-import { getQuocAn, getDuongPhu, getThienGiai, getDiaGiai, getLuuHa, getDaoHoa } from "../rules/namPhaiStars";
+import {
+  getQuocAn, getDuongPhu, getThienGiai, getDiaGiai, getLuuHa, getDaoHoa,
+  THIEN_LA_BRANCH, DIA_VONG_BRANCH, getLuuNienVanTinh, getDauQuan,
+} from "../rules/namPhaiStars";
 import { getVietnameseLunarOverride, getVietnameseMonthGanZhi } from "../rules/vietnamChinaCalendarOverride";
 import type {
   BirthInput,
@@ -304,6 +307,11 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
     // see rules/namPhaiStars.ts's getDaoHoa() and
     // locale/starNames.vi.ts's SUPERSEDED_BY_OWN_DAO_HOA for the full story.
     { id: "daoHoaNamPhai", name: "Đào Hoa", branch: getDaoHoa(year.branch), element: "Mộc" },
+    // Added 2026-09-21 — see the matching comments in rules/namPhaiStars.ts.
+    { id: "thienLa", name: "Thiên La", branch: THIEN_LA_BRANCH, element: "Thổ" },
+    { id: "diaVong", name: "Địa Võng", branch: DIA_VONG_BRANCH, element: "Thổ" },
+    { id: "luuNienVanTinh", name: "Lưu Niên Văn Tinh", branch: getLuuNienVanTinh(year.stem) },
+    { id: "dauQuan", name: "Đẩu Quân", branch: getDauQuan(year.branch, lunarMonth, timeIndexFromHHmm(input.time) % 12), element: "Hỏa" },
   ];
   if (locTonPalace) {
     namPhaiStars.push(

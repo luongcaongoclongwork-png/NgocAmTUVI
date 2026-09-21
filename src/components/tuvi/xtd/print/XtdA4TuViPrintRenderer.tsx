@@ -28,12 +28,12 @@ export default function XtdA4TuViPrintRenderer({
     <div id="tuvi-print-root">
       <div className="tuvi-print-page ngoc-am-chart-root">
         <div className="tuvi-print-inner">
-          <PrintHeader />
+          <PrintHeader showSubtitle={false} />
           <div className="print-chart-wrap">
             <XtdPrintChart chart={chart} birthTime={birthTime} horoscope={horoscope} onOverflowGuardSettled={onOverflowGuardSettled} />
           </div>
           <div className="print-bottom-strip">
-            <PrintFooter />
+            <PrintFooter variant="xtd" />
           </div>
         </div>
       </div>

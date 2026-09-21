@@ -5,12 +5,13 @@ import XtdTuViChartGrid from "./XtdTuViChartGrid";
 import { XtdMobileTuViExperience } from "./mobile/XtdMobileTuViExperience";
 import { useIsMobile } from "../mobile/useIsMobile";
 import { useChartBaseWidth } from "../useChartBaseWidth";
+import { useChartFitGuard } from "./useChartFitGuard";
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExport";
 import { generateHoroscope } from "@/lib/tuvi/engine/chartEngine";
 import XtdA4TuViPrintRenderer from "./print/XtdA4TuViPrintRenderer";
-import { getXtdPalaceName } from "@/data/tuvi/xuyen-tam-diem";
+import { getXtdPalaceName, XTD_RELATION_LABELS, XUYEN_TAM_DIEM_BRIGHTNESS_LABEL } from "@/data/tuvi/xuyen-tam-diem";
 import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "../ngocAmChart.css";
 import "../mobile/tuviMobile.css";
@@ -49,6 +50,7 @@ export default function XtdTuViChart({
   const [focusedIndex, setFocusedIndex] = useState(0);
   const exportRef = useRef<HTMLDivElement>(null);
   const printExportRef = useRef<HTMLDivElement>(null);
+  const chartSectionRef = useRef<HTMLElement>(null);
   const cellRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
   const printOverflowGuardSettledRef = useRef(false);
   const isMobile = useIsMobile();
@@ -95,6 +97,8 @@ export default function XtdTuViChart({
       return null;
     }
   }, [birthInput, targetYear, chart.profile]);
+
+  useChartFitGuard(chartSectionRef, [chart, horoscope]);
 
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
@@ -154,7 +158,7 @@ export default function XtdTuViChart({
     <div className="ngoc-am-chart-root flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="hidden text-[13px] text-walnut/70 md:block">
-          Chạm vào một khám để xem tam hợp (viền vàng, nét đứt), xung chiếu (viền đỏ, nét liền) và giáp cung (viền lục, nét chấm).
+          Chạm vào một khám để xem {XTD_RELATION_LABELS.tamHop} (viền vàng, nét đứt), {XTD_RELATION_LABELS.xungChieu} (viền đỏ, nét liền) và {XTD_RELATION_LABELS.giapCung} (viền lục, nét chấm).
         </p>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 text-[13px] tracking-[0.04em] text-walnut/70">
@@ -206,7 +210,7 @@ export default function XtdTuViChart({
       <div className="h-0 overflow-hidden opacity-0 md:h-auto md:overflow-visible md:opacity-100">
         <div className="ngoc-am-chart-scroll">
           <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px` }}>
-            <section className="ngoc-am-chart">
+            <section ref={chartSectionRef} className="ngoc-am-chart">
               <XtdTuViChartGrid
                 chart={chart}
                 birthTime={birthTime}
@@ -231,21 +235,21 @@ export default function XtdTuViChart({
                 <span className="chart-legend-group__title">Tương quan</span>
                 <span className="flex items-center gap-1.5">
                   <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="var(--color-gold)" strokeWidth="2" strokeDasharray="4 3" /></svg>
-                  Tam hợp
+                  {XTD_RELATION_LABELS.tamHop}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="var(--color-lacquer)" strokeWidth="2" /></svg>
-                  Xung chiếu
+                  {XTD_RELATION_LABELS.xungChieu}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <svg width="20" height="2" aria-hidden="true"><line x1="0" y1="1" x2="20" y2="1" stroke="#45684c" strokeWidth="2" strokeDasharray="1 3" strokeLinecap="round" /></svg>
-                  Giáp cung
+                  {XTD_RELATION_LABELS.giapCung}
                 </span>
               </div>
               <div className="chart-legend-group">
                 <span className="chart-legend-group__title">Trạng thái</span>
                 <span>
-                  <b>M</b> Miếu · <b>V</b> Vượng · <b>Đ</b> Đắc · <b>B</b> Bình · <b>H</b> Hãm
+                  {Object.values(XUYEN_TAM_DIEM_BRIGHTNESS_LABEL).join(" · ")}
                 </span>
               </div>
               <div className="chart-legend-group">
@@ -260,9 +264,9 @@ export default function XtdTuViChart({
       {selectedPalace && relationText && (
         <p aria-live="polite" className="hidden text-[13px] leading-[1.6] text-walnut/75 md:block">
           Khám đang chọn: <strong className="text-ink">{relationText.current}</strong>
-          {relationText.tamHop && <> · Tam hợp: {relationText.tamHop}</>}
-          {relationText.xungChieu && <> · Xung chiếu: {relationText.xungChieu}</>}
-          {relationText.giapCung && <> · Giáp cung: {relationText.giapCung}</>}
+          {relationText.tamHop && <> · {XTD_RELATION_LABELS.tamHop}: {relationText.tamHop}</>}
+          {relationText.xungChieu && <> · {XTD_RELATION_LABELS.xungChieu}: {relationText.xungChieu}</>}
+          {relationText.giapCung && <> · {XTD_RELATION_LABELS.giapCung}: {relationText.giapCung}</>}
         </p>
       )}
     </div>

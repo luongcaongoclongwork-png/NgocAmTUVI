@@ -18,14 +18,30 @@
  * engine/vietnameseAdapter.ts's suiQian computation (iztro's own suiqian12
  * positions, untouched) is not touched by this file at all.
  */
+/**
+ * 2026-09-21: vi tri 1 and 3 follow Xuyen-Tam-Diem.pdf's "Bien the phai Trung
+ * Chau" table (Hoi Khi -> Mong Tran, Quan Sach -> Cau Toa), NOT the Nam phai
+ * names (Thieu Duong -> So Nhat, Thieu Am -> Tan Nguyet) an earlier chat had
+ * picked — the engine runs iztro in "zhongzhou" mode (iztroAdapter.ts), so
+ * "Hoi Khi"/"Quan Sach" are exactly the labels it emits and the PDF gives
+ * them their own Trung Chau names. User confirmed "lam vong Thai Tue nhu
+ * file moi" the same day. The 4 other Trung Chau labels (Tue Kien, Tieu Hao,
+ * Thien Duc, Benh Phu) have no separate name in the PDF, so they keep the
+ * Nam phai position names below.
+ */
 export const XUYEN_TAM_DIEM_TAI_SUI_MAP: Record<string, string> = {
   "Tuế Kiến": "Đương Khám", // vi tri 0 = Thai Sui / Tue Kien
-  "Hối Khí": "Sơ Nhật", // vi tri 1 = Thieu Duong / Hoi Khi
+  "Hối Khí": "Mông Trần", // vi tri 1 = Thieu Duong / Hoi Khi — PDF "bien the Trung Chau"
   "Tang Môn": "Phan Tràng", // vi tri 2 — ten trung nhau ca 2 truong phai
-  "Quán Sách": "Tàn Nguyệt", // vi tri 3 = Thieu Am / Quan Sach
+  "Quán Sách": "Câu Tỏa", // vi tri 3 = Thieu Am / Quan Sach — PDF "bien the Trung Chau"
   "Quan Phù": "Thẩm Nghiệp", // vi tri 4 — ten trung nhau ca 2 truong phai
   "Tiểu Hao": "Hắc Phan", // vi tri 5 = Tu Phu / Tieu Hao
-  "Đại Hao": "Liệt Bích", // vi tri 6 = Tue Pha / Dai Hao
+  // vi tri 6 = Tue Pha / Dai Hao. The engine runs iztro in "zhongzhou" mode,
+  // whose label here is "Tue Pha" (SUI_QIAN_VI's "岁破"), NOT "Dai Hao" —
+  // the "Dai Hao" key is only what iztro's default (non-zhongzhou) mode
+  // would emit, kept so either variant translates.
+  "Tuế Phá": "Liệt Bích",
+  "Đại Hao": "Liệt Bích",
   "Long Đức": "Long Hộ", // vi tri 7 — ten trung nhau ca 2 truong phai
   "Bạch Hổ": "Xả Thân", // vi tri 8 — ten trung nhau ca 2 truong phai
   "Thiên Đức": "Thí Xả", // vi tri 9 = Phuc Duc / Thien Duc

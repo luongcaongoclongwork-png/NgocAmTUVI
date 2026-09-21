@@ -1,7 +1,6 @@
 import XtdPalaceCell from "./XtdPalaceCell";
 import XtdCenterPalace from "./XtdCenterPalace";
 import AspectOverlay from "../AspectOverlay";
-import TuanTrietOverlay from "../TuanTrietOverlay";
 import StructuralGridSVG from "../StructuralGridSVG";
 import { computeRowLayout, UNIFORM_ROW_LAYOUT } from "../chartRowLayout";
 import { BRANCH_GRID_POSITION, CENTER_GRID_AREA } from "@/lib/tuvi/rules/palaces";
@@ -16,8 +15,10 @@ import type { CSSProperties } from "react";
  * grid/overlay layout and prop contract; the only diff is importing
  * XtdPalaceCell/XtdCenterPalace instead of the originals, so every star/
  * palace name painted inside this grid goes through the Xtd naming layer.
- * TuanTrietOverlay is reused UNCHANGED (shared, not duplicated) — its
- * "Tuần"/"Triệt" labels are not part of the Xuyen Tam Diem naming spec.
+ * Tuan/Triet are NOT drawn with the shared floating TuanTrietOverlay here:
+ * XtdPalaceCell renders them as an in-flow badge line at the bottom of each
+ * covered cell (so they can never sit on other text) and this grid tells
+ * computeRowLayout to weigh that extra line.
  * buildPalaceHoroscopeView is reused from the original file too — it's a
  * pure data mapper with no rendered text, nothing to translate.
  */
@@ -38,7 +39,6 @@ export interface XtdTuViChartGridProps {
   useVariableRowHeights?: boolean;
   columnBoundaries?: [number, number, number, number, number];
   centerPrintSeal?: React.ReactNode;
-  tuanTrietRowEdgeOffset?: number;
 }
 
 const UNIFORM_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
@@ -58,13 +58,12 @@ export default function XtdTuViChartGrid({
   useVariableRowHeights = false,
   columnBoundaries,
   centerPrintSeal,
-  tuanTrietRowEdgeOffset,
 }: XtdTuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
 
-  const rowLayout = useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null) : UNIFORM_ROW_LAYOUT;
+  const rowLayout = useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null, { zoneBadge: true }) : UNIFORM_ROW_LAYOUT;
   const resolvedColumnBoundaries = columnBoundaries ?? UNIFORM_COLUMN_BOUNDARIES;
 
   function emphasisFor(index: number): "tam-hop" | "xung-chieu" | "giap-cung" | undefined {
@@ -133,13 +132,6 @@ export default function XtdTuViChartGrid({
       {showAspectOverlay && (
         <AspectOverlay palaces={chart.palaces} selectedIndex={selectedIndex} rowBoundaries={rowLayout.boundaries} />
       )}
-      <TuanTrietOverlay
-        tuan={chart.tuan}
-        triet={chart.triet}
-        rowBoundaries={rowLayout.boundaries}
-        columnBoundaries={resolvedColumnBoundaries}
-        rowEdgeOffset={tuanTrietRowEdgeOffset}
-      />
     </>
   );
 }

@@ -3,16 +3,21 @@
  * credential box (the tagline/chart-name block that used to sit to its
  * left, and the legend box before that — see docs/tuvi-engine-audit.md —
  * were both removed). No chart data is shown here any more, so this takes
- * no props.
+ * only a display variant.
+ *
+ * `variant="xtd"` (Xuyen Tam Diem print, 2026-09-21): label reads "XUYÊN GIẢ",
+ * and no tagline line (so no divider rule above it); the card frame is the
+ * same as the default one.
  */
-export default function PrintFooter() {
+export default function PrintFooter({ variant = "default" }: { variant?: "default" | "xtd" }) {
+  const xtd = variant === "xtd";
   return (
     <footer className="print-footer">
       <div className="print-consultant-box">
-        <p className="print-legend-title">Bậc Thầy Khai Vấn</p>
+        <p className="print-legend-title">{xtd ? "XUYÊN GIẢ" : "Bậc Thầy Khai Vấn"}</p>
         <p className="print-consultant-name">Cô Nguyễn Minh Trang</p>
-        <span className="print-consultant-rule" aria-hidden="true" />
-        <p className="print-consultant-tagline">Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại</p>
+        {!xtd && <span className="print-consultant-rule" aria-hidden="true" />}
+        {!xtd && <p className="print-consultant-tagline">Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại</p>}
       </div>
     </footer>
   );

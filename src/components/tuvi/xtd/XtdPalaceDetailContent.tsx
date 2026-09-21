@@ -1,5 +1,4 @@
 import type { FourTransformation, VietnamesePalace } from "@/lib/tuvi/types/VietnameseChart";
-import { BRIGHTNESS_LABEL } from "@/lib/tuvi/types/VietnameseChart";
 import { ELEMENT_COLOR } from "../starElementColor";
 import type { PalaceHoroscopeView } from "./XtdPalaceCell";
 import {
@@ -8,13 +7,23 @@ import {
   getXtdGrowthCycleName,
   getXtdTaiSuiName,
   getXtdLuuStarName,
+  getXtdTuHoaName,
+  getXtdBoshiName,
+  XUYEN_TAM_DIEM_BRIGHTNESS_LABEL,
+  XTD_VO_CHINH_DIEU,
+  XTD_MENH_TAG,
+  XTD_THAN_TAG,
+  XTD_TUAN_LABEL,
+  XTD_TRIET_LABEL,
+  XTD_TIME_LABELS,
+  XTD_TUAN_TRIET_COMBINED,
 } from "@/data/tuvi/xuyen-tam-diem";
 
 /**
  * Xuyen Tam Diem (川三焰) render copy of ../PalaceDetailContent.tsx — same
  * mobile detail layout/type-scale; the only diffs are the getXtd*() calls
- * wrapping star/palace/cycle text. `palace.boshi` (vong Bac Si) is left
- * untranslated on purpose — no mapping was given in the Xuyen Tam Diem spec.
+ * wrapping star/palace/cycle/label text (stars, palaces, Tu Hoa, brightness,
+ * vong Truong Sinh/Thai Sui/Bac Si, Vo Tuong, Tuan/Triet, time layers).
  * Vong Tuong Tinh (`horoscope.jiangQian`) no longer exists at all as of
  * 2026-09-19 — see locale/astronomyNames.vi.ts.
  */
@@ -47,12 +56,12 @@ export default function XtdPalaceDetailContent({
             {xtdName}
             {palace.isSoulPalace && (
               <span className="tracking-label ml-2 border border-gold px-1.5 py-0.5 align-middle text-[11px] font-semibold uppercase text-gold">
-                Mệnh
+                {XTD_MENH_TAG}
               </span>
             )}
             {palace.isBodyPalace && (
               <span className="tracking-label ml-2 border border-lacquer px-1.5 py-0.5 align-middle text-[11px] font-semibold uppercase text-lacquer">
-                Thân
+                {XTD_THAN_TAG}
               </span>
             )}
           </h3>
@@ -61,7 +70,7 @@ export default function XtdPalaceDetailContent({
 
       <div className="space-y-2">
         {palace.majorStars.length === 0 ? (
-          <p className="font-heading text-[17px] leading-[1.45] text-walnut/70">Vô Chính Diệu</p>
+          <p className="font-heading text-[17px] leading-[1.45] text-walnut/70">{XTD_VO_CHINH_DIEU}</p>
         ) : (
           palace.majorStars.map((s) => (
             <p
@@ -71,16 +80,16 @@ export default function XtdPalaceDetailContent({
             >
               {getXtdStarName(s.id, s.name)}
               {s.brightness && (
-                <span className="ml-2 text-[14px] font-medium text-walnut/70">{BRIGHTNESS_LABEL[s.brightness]}</span>
+                <span className="ml-2 text-[14px] font-medium text-walnut/70">{XUYEN_TAM_DIEM_BRIGHTNESS_LABEL[s.brightness]}</span>
               )}
               {s.transformation && (
                 <span className={`ml-1.5 text-[14px] font-semibold ${TRANSFORMATION_CLASS[s.transformation]}`}>
-                  {s.transformation}
+                  {getXtdTuHoaName(s.transformation)}
                 </span>
               )}
               {horoscope?.mutagenByStarId[s.id] && (
                 <span className={`ml-1.5 text-[14px] font-semibold ${TRANSFORMATION_CLASS[horoscope.mutagenByStarId[s.id]!]}`}>
-                  L.{horoscope.mutagenByStarId[s.id]}
+                  L.{getXtdTuHoaName(horoscope.mutagenByStarId[s.id]!)}
                 </span>
               )}
             </p>
@@ -96,11 +105,11 @@ export default function XtdPalaceDetailContent({
               <span key={s.id} style={{ color: s.element ? ELEMENT_COLOR[s.element] : undefined }}>
                 {getXtdStarName(s.id, s.name)}
                 {s.brightness && (
-                  <span className="ml-1 text-[12px] font-medium text-walnut/70">({BRIGHTNESS_LABEL[s.brightness]})</span>
+                  <span className="ml-1 text-[12px] font-medium text-walnut/70">({XUYEN_TAM_DIEM_BRIGHTNESS_LABEL[s.brightness]})</span>
                 )}
                 {s.transformation && (
                   <span className={`ml-1 text-[12px] font-semibold ${TRANSFORMATION_CLASS[s.transformation]}`}>
-                    {s.transformation}
+                    {getXtdTuHoaName(s.transformation)}
                   </span>
                 )}
               </span>
@@ -117,7 +126,7 @@ export default function XtdPalaceDetailContent({
 
       {horoscope && (horoscope.luuStars.length > 0 || horoscope.suiQian) && (
         <div>
-          <p className="tracking-label mb-1.5 text-[12px] font-medium uppercase text-walnut/55">Lưu niên</p>
+          <p className="tracking-label mb-1.5 text-[12px] font-medium uppercase text-walnut/55">{XTD_TIME_LABELS.luuNien}</p>
           <p className="text-[14px] leading-[1.45] text-lacquer">
             {[
               ...horoscope.luuStars.map((s) => getXtdLuuStarName(s.name)),
@@ -131,23 +140,23 @@ export default function XtdPalaceDetailContent({
 
       <dl className="grid grid-cols-2 gap-x-3 gap-y-2 border-t border-walnut/15 pt-3 text-[14px] leading-[1.45]">
         <div>
-          <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">Đại vận</dt>
+          <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">{XTD_TIME_LABELS.daiVan}</dt>
           <dd className="text-ink/80">
             {palace.daiVan ? `${palace.daiVan.startAge}–${palace.daiVan.endAge} tuổi` : "—"} · {getXtdGrowthCycleName(palace.changSinh)}
           </dd>
         </div>
         <div>
           <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">Bác sĩ</dt>
-          <dd className="text-ink/80">{palace.boshi}</dd>
+          <dd className="text-ink/80">{getXtdBoshiName(palace.boshi)}</dd>
         </div>
         {horoscope && (
           <>
             <div>
-              <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">ĐV (đại vận này)</dt>
+              <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">{XTD_TIME_LABELS.daiVan} (chặng này)</dt>
               <dd className="text-ink/80">{getXtdPalaceName(horoscope.daiVanPalaceName)}</dd>
             </div>
             <div>
-              <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">LN (năm xem)</dt>
+              <dt className="tracking-label text-[11px] font-medium uppercase text-walnut/55">{XTD_TIME_LABELS.luuNien} (năm xem)</dt>
               <dd className="text-ink/80">{getXtdPalaceName(horoscope.luuNienPalaceName)}</dd>
             </div>
           </>
@@ -156,8 +165,13 @@ export default function XtdPalaceDetailContent({
 
       {(palace.tuan || palace.triet) && (
         <p className="text-[13px] text-walnut/60">
-          {palace.tuan && <span className="mr-3 text-sage">Tuần</span>}
-          {palace.triet && <span className="text-lacquer">Triệt</span>}
+          {palace.tuan && <span className="mr-3 text-sage">{XTD_TUAN_LABEL}</span>}
+          {palace.triet && <span className="text-lacquer">{XTD_TRIET_LABEL}</span>}
+          {palace.tuan && palace.triet && (
+            <span className="ml-3 text-walnut/50">
+              ({XTD_TUAN_TRIET_COMBINED.tuan} {XTD_TUAN_TRIET_COMBINED.triet} = {XTD_TUAN_LABEL} + {XTD_TRIET_LABEL})
+            </span>
+          )}
         </p>
       )}
     </div>

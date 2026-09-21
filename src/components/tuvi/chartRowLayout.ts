@@ -68,12 +68,21 @@ const CENTER_ROW_BONUS = 1;
 const DEFAULT_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
 export const UNIFORM_ROW_LAYOUT: RowLayout = { heights: [25, 25, 25, 25], boundaries: DEFAULT_BOUNDARIES };
 
+/** Mirrors xtd/XtdPalaceCell.tsx's badgeOwnLine: a Tuan/Triet badge only costs a line of its own when there is no horoscope footer row to share. */
+function badgeNeedsOwnLine(palace: VietnameseChartDTO["palaces"][number], horoscope: VietnameseHoroscopeDTO | null): boolean {
+  if (!palace.tuan && !palace.triet) return false;
+  return !horoscope;
+}
+
 function countsFor(
   palace: VietnameseChartDTO["palaces"][number],
   horoscope: VietnameseHoroscopeDTO | null,
+  zoneBadge: boolean,
 ): { majorCount: number; minorCount: number; adjectiveCount: number; annualCount: number } {
   const majorCount = palace.majorStars.length;
-  const minorCount = palace.supportStars.length + palace.maleficStars.length;
+  // +1 line for the Tuan/Triet badge at the bottom of the cell — only when the
+  // caller (the Xuyen Tam Diem grid) actually renders one; off by default.
+  const minorCount = palace.supportStars.length + palace.maleficStars.length + (zoneBadge && badgeNeedsOwnLine(palace, horoscope) ? 1 : 0);
   const natalCycleCount = palace.suiQian ? 1 : 0;
   const adjectiveCount = palace.adjectiveStars.length + natalCycleCount;
   const annualCount = horoscope
@@ -83,11 +92,15 @@ function countsFor(
   return { majorCount, minorCount, adjectiveCount, annualCount };
 }
 
-export function computeRowLayout(chart: VietnameseChartDTO, horoscope: VietnameseHoroscopeDTO | null): RowLayout {
+export function computeRowLayout(
+  chart: VietnameseChartDTO,
+  horoscope: VietnameseHoroscopeDTO | null,
+  options: { zoneBadge?: boolean } = {},
+): RowLayout {
   const rowMaxScore = [0, 0, 0, 0]; // index 0..3 = row 1..4
   for (const palace of chart.palaces) {
     const { row } = BRANCH_GRID_POSITION[palace.branch];
-    const score = getPalaceRawScore(countsFor(palace, horoscope));
+    const score = getPalaceRawScore(countsFor(palace, horoscope, options.zoneBadge ?? false));
     if (score > rowMaxScore[row - 1]) rowMaxScore[row - 1] = score;
   }
 

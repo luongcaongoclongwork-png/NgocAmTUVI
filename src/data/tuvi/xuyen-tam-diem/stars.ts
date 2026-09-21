@@ -81,7 +81,7 @@ export const XUYEN_TAM_DIEM_STAR_MAP: Record<string, XtdStarEntry> = {
   santai: { display: "Tam Thố" },
   bazuo: { display: "Thiên Long" },
   engguang: { display: "Thiếp Kim" },
-  tiangui: { display: "Thụ Ký" },
+  tiangui: { display: "Bảo Tọa" },
   longchi: { display: "Thủy Nguyệt" },
   fengge: { display: "Bảo Các" },
   taifu: { display: "Huyền Cái" },
@@ -97,6 +97,38 @@ export const XUYEN_TAM_DIEM_STAR_MAP: Record<string, XtdStarEntry> = {
   quocAnNamPhai: { display: "Quan Ấn" },
   duongPhuNamPhai: { display: "Tự Ngạch" },
   dahao: { display: "Sa Bạo" },
+
+  // Cat tinh le — Xuyen-Tam-Diem.pdf (2026-09-21)
+  tianguan: { display: "Sắc Sứ" },
+  tianfu: { display: "Phúc Điền" },
+  tianchu: { display: "Trai Đường" },
+  tiande: { display: "Công Đức" },
+  yuede: { display: "Từ Bi" },
+  jieshen: { display: "Cứu Nạn" },
+  tianshou: { display: "Trường Đăng" },
+  tiancai: { display: "Tuệ Căn" },
+  tianwu: { display: "Chú Sư" },
+
+  // Hung tinh le — Xuyen-Tam-Diem.pdf (2026-09-21)
+  luuHaNamPhai: { display: "Phiêu Đái" },
+  yinsha: { display: "U Minh" },
+  tianyue: { display: "Chướng Khí" },
+  tianshang: { display: "Thương Ngân" },
+  tianshi: { display: "Vô Thường" },
+
+  // Stand-alone stars whose PDF name is only listed inside a cycle (Thai Sui's
+  // "Long Duc" -> Long Ho, Bac Si's "Phi Liem" -> Phong Than). Applied to the
+  // stand-alone star too, per the user's "ap quy tac lam nhu ban thay"
+  // (2026-09-21) — the star and its cycle label are the same star (iztro emits
+  // both), unlike Tieu Hao/Dai Hao whose star form has its own PDF name.
+  longde: { display: "Long Hộ" },
+  feilian: { display: "Phong Thần" },
+
+  // Stars added to the engine 2026-09-21 (rules/namPhaiStars.ts)
+  thienLa: { display: "Vân Võng" },
+  diaVong: { display: "Sa Hãm" },
+  dauQuan: { display: "Nguyệt Kiến" },
+  luuNienVanTinh: { display: "Niên Văn" },
 };
 
 /** Falls back to the canonical Vietnamese name when no Xtd entry exists — never crashes, never invents a name. */

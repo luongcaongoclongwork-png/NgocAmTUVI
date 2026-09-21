@@ -1,5 +1,5 @@
 import { getOwnerChartViewModel } from "@/lib/tuvi/presentation/ownerViewModel";
-import { getXtdStarNameByVietnameseName, getXtdPalaceName } from "@/data/tuvi/xuyen-tam-diem";
+import { getXtdStarNameByVietnameseName, getXtdPalaceName, getXtdCucName, XTD_ROW_LABELS } from "@/data/tuvi/xuyen-tam-diem";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 /**
@@ -60,20 +60,20 @@ export function XtdMobileCenterDetail({
 
         <section className="border-t border-walnut/15 pt-3">
           <p className="tracking-label mb-1 text-[12px] font-medium uppercase text-walnut/55">Mệnh cục</p>
-          <Row label="Cục" value={vm.bureau} />
+          <Row label="Cục" value={getXtdCucName(vm.bureau)} />
         </section>
 
         <section className="border-t border-walnut/15 pt-3">
           <p className="tracking-label mb-1 text-[12px] font-medium uppercase text-walnut/55">Chủ tinh</p>
-          <Row label="Chủ mệnh" value={getXtdStarNameByVietnameseName(vm.destinyMaster)} />
-          <Row label="Chủ thân" value={getXtdStarNameByVietnameseName(vm.bodyMaster)} />
+          <Row label={XTD_ROW_LABELS.menhChu} value={getXtdStarNameByVietnameseName(vm.destinyMaster)} />
+          <Row label={XTD_ROW_LABELS.thanChu} value={getXtdStarNameByVietnameseName(vm.bodyMaster)} />
         </section>
 
         <section className="border-t border-walnut/15 pt-3">
           <p className="tracking-label mb-1 text-[12px] font-medium uppercase text-walnut/55">Hệ thống</p>
           <Row label="Lai nhân cung" value={vm.originPalace ? getXtdPalaceName(vm.originPalace) : vm.originPalace} />
-          <Row label="Cung Mệnh" value={vm.destinyPalace} />
-          <Row label="Cung Thân" value={vm.bodyPalace} />
+          <Row label={XTD_ROW_LABELS.cungMenh} value={vm.destinyPalace} />
+          <Row label={XTD_ROW_LABELS.cungThan} value={vm.bodyPalace} />
           <Row label="Thân cư" value={vm.bodyResidence ? getXtdPalaceName(vm.bodyResidence) : vm.bodyResidence} />
         </section>
 

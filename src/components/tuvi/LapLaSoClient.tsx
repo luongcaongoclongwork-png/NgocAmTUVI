@@ -8,23 +8,12 @@ import type { BirthInput } from "@/lib/tuvi/types/VietnameseChart";
 
 export type GenerationStatus = "idle" | "validating" | "error";
 
-/**
- * Which naming-display route the just-submitted chart is sent to — picked
- * in BirthForm's "Thông tin lá số" card, read only here at submit time.
- * Never persisted alongside the birth data (chartInputStorage.ts's
- * StoredChartInput is unchanged) since both routes re-derive the exact
- * same chart from the exact same saved input; this is purely which page
- * renders it, decided fresh on every submit.
- */
-export type NamingMode = "traditional" | "xuyen-tam-diem";
-
 export default function LapLaSoClient() {
   const router = useRouter();
   const [status, setStatus] = useState<GenerationStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [targetYearOverride, setTargetYearOverride] = useState<number | null>(null);
   const [savedInput, setSavedInput] = useState<StoredChartInput | null>(null);
-  const [namingMode, setNamingMode] = useState<NamingMode>("traditional");
 
   // Prefill when returning from /la-so via "Chinh thong tin" — see
   // chartInputStorage.ts (and LaSoResultClient.tsx's comment on why this is
@@ -42,7 +31,8 @@ export default function LapLaSoClient() {
     setStatus("validating");
     try {
       saveChartInput({ birthInput: input, targetYear });
-      router.push(namingMode === "xuyen-tam-diem" ? "/la-so/xuyen-tam-diem" : "/la-so");
+      // Xuyen Tam Diem is the only naming layer offered (the old "hang ngay" option was removed 2026-09-21).
+      router.push("/la-so/xuyen-tam-diem");
     } catch {
       setErrorMessage("Không thể lưu thông tin lá số trên trình duyệt này. Vui lòng thử lại.");
       setStatus("error");
@@ -78,8 +68,6 @@ export default function LapLaSoClient() {
             targetYear={targetYear}
             onTargetYearChange={setTargetYearOverride}
             initialValue={savedInput?.birthInput}
-            namingMode={namingMode}
-            onNamingModeChange={setNamingMode}
           />
 
           {status === "error" && errorMessage && (

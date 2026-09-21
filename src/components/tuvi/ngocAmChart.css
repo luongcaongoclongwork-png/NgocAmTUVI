@@ -230,8 +230,8 @@
 
 .palace-main-stars {
   width: 100%;
-  margin-top: 12px;
-  margin-bottom: 11px;
+  margin-top: calc(12px * var(--pz-space, 1));
+  margin-bottom: calc(11px * var(--pz-space, 1));
   display: flex;
   /* Row, not column: two major stars (e.g. Tu Vi + Pha Quan) sit side by
      side, not stacked — stacking them needed ~70px and could overflow
@@ -269,7 +269,7 @@
 
 .palace-major-star__name {
   font-family: var(--font-heading);
-  font-size: var(--na-star-major-size);
+  font-size: calc(var(--na-star-major-size) * var(--pz-scale, 1));
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -301,7 +301,7 @@
 
 .palace-major-star__state {
   font-family: var(--font-body);
-  font-size: 9.5px;
+  font-size: calc(9.5px * var(--pz-scale, 1));
   font-weight: 500;
   color: var(--na-muted);
 }
@@ -310,7 +310,7 @@
   padding: 1px 3px;
   border: 1px solid rgba(145, 67, 49, 0.2);
   font-family: var(--font-body);
-  font-size: 8.5px;
+  font-size: calc(8.5px * var(--pz-scale, 1));
   line-height: 1.15;
   font-weight: 650;
   color: var(--na-cinnabar);
@@ -318,7 +318,7 @@
 
 .palace-major-star__annual-mutagen {
   font-family: var(--font-body);
-  font-size: 8.5px;
+  font-size: calc(8.5px * var(--pz-scale, 1));
   line-height: 1.15;
   font-weight: 600;
   color: var(--na-gold);
@@ -330,15 +330,15 @@
   margin-top: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 12px;
-  row-gap: 2px;
+  column-gap: calc(6px + 6px * var(--pz-space, 1));
+  row-gap: calc(2px * var(--pz-space, 1));
   text-align: left;
 }
 
 .palace-minor-star {
   min-width: 0;
   font-family: var(--font-body);
-  font-size: var(--na-star-minor-size);
+  font-size: calc(var(--na-star-minor-size) * var(--pz-scale, 1));
   line-height: var(--na-minor-line-height);
   font-weight: 450;
   overflow-wrap: anywhere;
@@ -347,7 +347,7 @@
 
 .palace-minor-star__state {
   margin-left: 3px;
-  font-size: 9px;
+  font-size: calc(9px * var(--pz-scale, 1));
   font-weight: 500;
   font-family: var(--font-body);
   color: var(--na-muted);
@@ -355,7 +355,7 @@
 
 .palace-minor-star__tag {
   margin-left: 3px;
-  font-size: 9px;
+  font-size: calc(9px * var(--pz-scale, 1));
   font-weight: 600;
   font-family: var(--font-body);
 }
@@ -367,17 +367,17 @@
 /* ---------- Adjective / minor-minor stars — pushed further down the hierarchy ---------- */
 
 .palace-adjective-stars {
-  margin-top: 6px;
+  margin-top: calc(6px * var(--pz-space, 1));
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 12px;
-  row-gap: 1px;
+  column-gap: calc(6px + 6px * var(--pz-space, 1));
+  row-gap: calc(1px * var(--pz-space, 1));
   text-align: left;
 }
 
 .palace-adjective-star {
   min-width: 0;
-  font-size: 9.7px;
+  font-size: calc(9.7px * var(--pz-scale, 1));
   line-height: 1.34;
   font-weight: 400;
   color: var(--na-muted);
@@ -391,14 +391,14 @@
 }
 
 .palace-luu-section {
-  margin-top: 8px;
-  padding-top: 6px;
+  margin-top: calc(8px * var(--pz-space, 1));
+  padding-top: calc(6px * var(--pz-space, 1));
   border-top: 1px dashed rgba(94, 71, 53, 0.16);
 }
 
 .palace-luu-label {
   margin-bottom: 3px;
-  font-size: 8px;
+  font-size: calc(8px * var(--pz-scale, 1));
   font-weight: 650;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -416,14 +416,14 @@
 .palace-luu-stars {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 10px;
-  row-gap: 1px;
+  column-gap: calc(5px + 5px * var(--pz-space, 1));
+  row-gap: calc(1px * var(--pz-space, 1));
   text-align: left;
 }
 
 .palace-luu-star {
   min-width: 0;
-  font-size: 9.5px;
+  font-size: calc(9.5px * var(--pz-scale, 1));
   line-height: 1.32;
   color: var(--na-ink-soft);
   overflow-wrap: anywhere;
@@ -468,6 +468,72 @@
   text-align: right;
 }
 
+/* ---------- Tuan / Triet badge — Xuyen Tam Diem chart only (xtd/XtdPalaceCell.tsx) ----------
+   Lives inside the footer zone, centered, in normal flow, so nothing can
+   ever sit under it (the old floating pill over the shared cell boundary
+   kept landing on stars/footers). Normally it takes the empty middle column
+   of the "DT .. / NT .." row (no extra height); a cell with both zones
+   shows one shared two-colour "Bich Lo". Only with no horoscope row is
+   there no line to share — then it gets its own last line, and that cell
+   carries data-zone-badge="true" to add exactly one line to the bottom
+   padding that reserves the footer zone's height. Unused by the
+   traditional chart, so it is unaffected. */
+.palace-zone-badges {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Fixed width (6.94em = 50px at the web's 7.2px font) so Bach Bich, Doan Lo
+   and the shared Bich Lo badge all look the same size; text is centered. */
+.palace-zone-badge {
+  box-sizing: border-box;
+  width: 6.94em;
+  padding: 0;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 2px;
+  font-size: 7.2px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--color-ivory);
+}
+
+.palace-zone-badge--tuan {
+  color: var(--color-sage);
+  border-color: color-mix(in srgb, var(--color-sage) 50%, transparent);
+}
+
+.palace-zone-badge--triet {
+  color: var(--color-lacquer);
+  border-color: color-mix(in srgb, var(--color-lacquer) 50%, transparent);
+}
+
+/* Tuan + Triet in one cell: neutral border, each word in its own zone colour. */
+.palace-zone-badge--both {
+  border-color: color-mix(in srgb, var(--color-walnut) 40%, transparent);
+}
+
+.palace-zone-badge__tuan {
+  color: var(--color-sage);
+}
+
+.palace-zone-badge__triet {
+  color: var(--color-lacquer);
+}
+
+.tuvi-palace[data-zone-badge="true"] {
+  padding-bottom: 50px;
+}
+
+.tuvi-palace[data-zone-badge="true"][data-has-horoscope="true"] {
+  padding-bottom: 68px;
+}
+
 .palace-footer--horoscope {
   font-size: 10px;
   font-weight: 600;
@@ -497,17 +563,17 @@
 /* Same idea as packed mode below, one notch lighter — closes the group gaps
    before font size has to shrink further. */
 .tuvi-palace[data-density="dense"] .palace-main-stars {
-  margin-top: 9px;
-  margin-bottom: 8px;
+  margin-top: calc(9px * var(--pz-space, 1));
+  margin-bottom: calc(8px * var(--pz-space, 1));
 }
 
 .tuvi-palace[data-density="dense"] .palace-adjective-stars {
-  margin-top: 4px;
+  margin-top: calc(4px * var(--pz-space, 1));
 }
 
 .tuvi-palace[data-density="dense"] .palace-luu-section {
-  margin-top: 6px;
-  padding-top: 5px;
+  margin-top: calc(6px * var(--pz-space, 1));
+  padding-top: calc(5px * var(--pz-space, 1));
 }
 
 /* .palace-adjective-star/.palace-luu-star don't read --na-star-minor-size
@@ -517,7 +583,7 @@
    "packed" and keep pushing into the footer below. */
 .tuvi-palace[data-density="dense"] .palace-adjective-star,
 .tuvi-palace[data-density="dense"] .palace-luu-star {
-  font-size: 9.1px;
+  font-size: calc(9.1px * var(--pz-scale, 1));
 }
 
 .tuvi-palace[data-density="packed"] {
@@ -528,8 +594,8 @@
 
 /* Before shrinking type further, packed mode gives up spacing first. */
 .tuvi-palace[data-density="packed"] .palace-main-stars {
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: calc(7px * var(--pz-space, 1));
+  margin-bottom: calc(7px * var(--pz-space, 1));
   gap: 3px;
 }
 
@@ -538,13 +604,13 @@
 }
 
 .tuvi-palace[data-density="packed"] .palace-luu-section {
-  margin-top: 5px;
-  padding-top: 4px;
+  margin-top: calc(5px * var(--pz-space, 1));
+  padding-top: calc(4px * var(--pz-space, 1));
 }
 
 .tuvi-palace[data-density="packed"] .palace-adjective-star,
 .tuvi-palace[data-density="packed"] .palace-luu-star {
-  font-size: 8.6px;
+  font-size: calc(8.6px * var(--pz-scale, 1));
 }
 
 /* ---------- Trung Cung (owner profile) ---------- */
@@ -643,6 +709,11 @@
   line-height: 1;
   font-weight: 700;
   color: var(--na-ink);
+}
+
+/* Xuyen Tam Diem Trung Cung: the title line is now the chart's own name. */
+.chart-center-title--xtd {
+  letter-spacing: 0.05em;
 }
 
 .chart-center-subtitle {
