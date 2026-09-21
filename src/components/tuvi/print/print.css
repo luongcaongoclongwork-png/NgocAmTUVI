@@ -132,7 +132,7 @@
    own) — the bottom credential card (.print-consultant-box) already has
    a near-opaque background of its own (see its comment) so it's
    unaffected by this value either way. The header sits over the same
-   family of artwork as Trung Cung's (Ngoc-Am-Tung-Son-Van-4K-Web.webp vs
+   family of artwork as Trung Cung's (ngoc-am-print-bg-v4.jpg vs
    trung-cung-print.jpg, ~same average luminance, see git history), so if
    a printed copy ever shows the header title/brand text sinking into the
    art the way Trung Cung's did before its own veil, raise this value —
@@ -145,9 +145,21 @@
   content: "";
   position: absolute;
   inset: 2.5mm;
+  /* Two soft ovals of the page's paper tone ("D" from the live comparison), each
+     sized to just hug its text, measured on the real layout: the smallest radii
+     (2.1 x the text box's half size) at which every corner of every text line
+     still gets >= 70% of the peak 85% (62% at the corners). 55% solid core, then
+     fading to 0, so the art around the text stays visible.
+       - header: logo + NGOC AM + TU VI - PHONG THUY = 55.1 x 25.7mm, centred at
+         50% / 15.3mm below this layer's top -> ellipse 57.9 x 27mm;
+       - XUYEN GIA label + name = 60.1 x 14.5mm, centred at 50% / 275.1mm ->
+         ellipse 63.1 x 15.2mm (was 96.6 x 25.9mm, sized to the frame instead).
+     Re-measure if the header/footer text or its size ever changes. */
   background:
+    radial-gradient(ellipse 57.9mm 27mm at 50% 15.3mm, rgba(243, 226, 203, 0.85) 0%, rgba(243, 226, 203, 0.85) 55%, rgba(243, 226, 203, 0) 100%),
+    radial-gradient(ellipse 63.1mm 15.2mm at 50% 275.1mm, rgba(243, 226, 203, 0.85) 0%, rgba(243, 226, 203, 0.85) 55%, rgba(243, 226, 203, 0) 100%),
     linear-gradient(rgba(247, 239, 226, 0.1), rgba(247, 239, 226, 0.1)),
-    url("/images/print/Ngoc-Am-Tung-Son-Van-4K-Web.webp") center / cover no-repeat;
+    url("/images/print/ngoc-am-print-bg-v4.jpg") center / cover no-repeat;
 }
 
 .tuvi-print-inner {
@@ -239,8 +251,14 @@
    horizontally and a bit more tracking. transform doesn't change layout width,
    so centering is unaffected; padding-left equals the letter-spacing so the
    trailing tracking after the last letter doesn't pull the text off-centre. */
+/* Bolder and darker (2026-09-21): the header now sits over the new print
+   background's mountains; at 700/400 weight and the original tan/cinnabar the
+   darkest 10% of the backdrop gave only 3.6:1. 900 / 700 weights (both loaded)
+   plus #72522b and #803a2c lift that to about 5.2:1 and 5.1:1. */
 .print-brand-block--stack .print-brand {
   font-size: 21pt;
+  font-weight: 900;
+  color: #72522b;
   line-height: 1.1;
   letter-spacing: 0.16em;
   padding-left: 0.16em;
@@ -249,6 +267,8 @@
 
 .print-brand-block--stack .print-brand-sub {
   font-size: 10pt;
+  font-weight: 700;
+  color: #803a2c;
   line-height: 1.1;
   letter-spacing: 0.2em;
   padding-left: 0.2em;
@@ -804,11 +824,11 @@
 
 /* Xuyen Tam Diem print Trung Cung (2026-09-21, "D+C2" picked from the live
    comparison): the panel's own cream tint is dropped, the artwork is pushed
-   down 9% (its bottom edge cropped) so the mountains/temple sit below most of
-   the info rows, and the veil is a vertical gradient instead of a flat wash —
+   down 3% (its bottom edge cropped, the scroll stays whole), and the veil is a
+   vertical gradient instead of a flat wash —
    light at the top, 65% across the text rows, 15% at the bottom so the scenery
-   still shows. Measured on the real (9%) geometry with black text: worst text
-   sample 12.5:1 (median) / 11.2:1 (darkest 10%) — was 1.8:1 with no veil. */
+   still shows. Measured on the real (3%) geometry with the waterfall/lake artwork and black
+   text: worst text sample 9.9:1 (median) / 8.2:1 (darkest 10%). */
 .print-chart .center-palace.center-palace--xtd {
   background: none;
   overflow: hidden;
@@ -817,13 +837,15 @@
 /* The artwork is a real <img> (replaced element): with height:auto it would
    NOT stretch between top and bottom — it took its natural height (416px at
    this width), stuck to the top, and left an empty strip under it whenever
-   Trung Cung was taller than that (fixed 2026-09-21). An explicit 109% height
+   Trung Cung was taller than that (fixed 2026-09-21). An explicit 103% height
    from top:0 always covers the box; object-fit:cover + object-position:bottom
-   then crops exactly 9% off the bottom (same 9% as the web copy). next/image
+   then crops exactly 3% off the bottom (same 3% as the web copy — the current
+   artwork's scroll reaches 97% of the image height, so that is all that can go
+   without losing the scroll's edge and curls). next/image
    `fill` writes inset:0 / height:100% inline, hence !important. */
 .print-chart .center-palace--xtd > .center-scroll-bg-print {
   inset: 0 0 auto 0 !important;
-  height: 109% !important;
+  height: 103% !important;
 }
 
 /* All Trung Cung text in pure black for the clearest print (labels, values,
@@ -855,15 +877,20 @@
     0 0 3px rgba(247, 239, 226, 0.85);
 }
 
+/* Veil colour = the page background's own tone (243,226,203: the print
+   background art's paper #f3e1c8 under its 10% cream wash), so Trung Cung
+   reads in the same tone as the sheet around it. Measured effect on legibility
+   is small because the alpha, not the colour, does the work: worst text sample
+   14.4:1 -> 13.6:1 (median) and 10.0:1 -> 9.3:1 (darkest 10%). */
 .print-chart .center-palace--xtd > .center-veil {
   opacity: 1;
   background: linear-gradient(
     to bottom,
-    rgba(247, 239, 226, 0.2) 0%,
-    rgba(247, 239, 226, 0.4) 45%,
-    rgba(247, 239, 226, 0.65) 62%,
-    rgba(247, 239, 226, 0.65) 82%,
-    rgba(247, 239, 226, 0.15) 100%
+    rgba(243, 226, 203, 0.2) 0%,
+    rgba(243, 226, 203, 0.4) 45%,
+    rgba(243, 226, 203, 0.65) 62%,
+    rgba(243, 226, 203, 0.65) 82%,
+    rgba(243, 226, 203, 0.15) 100%
   );
 }
 
@@ -1115,7 +1142,7 @@
 
    Background raised from a ~7-8% tint to near-opaque (2026-09-18 —
    "BẬC THẦY KHAI VẤN chìm" feedback): the whole page sits on
-   Ngoc-Am-Tung-Son-Van-4K-Web.webp's busy corner-ornament artwork (.tuvi-print-page's
+   ngoc-am-print-bg-v4.jpg's busy corner-ornament artwork (.tuvi-print-page's
    ::before, full bleed), so a barely-there tint let that pattern show
    straight through the box and swallow the small label text. A
    near-solid card + a soft shadow (renders fine in the html2canvas
@@ -1133,6 +1160,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Xuyen Tam Diem: no card fill and no drop shadow behind XUYEN GIA — only the
+   frame lines. The soft oval in .tuvi-print-page::before (see above) replaces
+   the old near-opaque card, so the page's background art stays visible. */
+.print-consultant-box.print-consultant-box--xtd {
+  background: none;
+  box-shadow: none;
 }
 
 .print-consultant-box .print-legend-title {

@@ -667,10 +667,10 @@
    and phone, colour-matched (sharp .linear) to --na-paper's average like the
    old ones were. The extra element in the selector (0,3,1) also beats
    tuviMobile.css's phone-only rule (0,3,0), which loads after this file. The
-   print copy is the <Image> in XtdCenterPalace.tsx (trung-cung-xtd2-print.jpg,
+   print copy is the <Image> in XtdCenterPalace.tsx (trung-cung-xtd5-print.jpg,
    matched to the print page background). Traditional chart keeps its own. */
 div.center-palace.center-palace--xtd > .center-scroll-bg {
-  background-image: url("/images/tuvi/trung-cung-xtd2-web.jpg");
+  background-image: url("/images/tuvi/trung-cung-xtd5-web.jpg");
 }
 
 /* Ẩn mặc định — chỉ .print-chart bật lại (xem print.css). Next/Image với
@@ -836,7 +836,7 @@ div.center-palace.center-palace--xtd > .center-scroll-bg {
 }
 
 /* Xuyen Tam Diem web/tablet/phone Trung Cung (2026-09-21): same artwork
-   treatment as its print copy — panel tint dropped, artwork pushed down 9%
+   treatment as its print copy — panel tint dropped, artwork pushed down 3%
    (bottom cropped) and the flat veil replaced by a vertical gradient (light
    at the top, 65% across the text rows, 15% at the bottom). Text colours stay
    as they are on the web (deliberately not the print's pure black). Measured on
@@ -850,8 +850,10 @@ div.center-palace.center-palace--xtd > .center-scroll-bg {
 
 .ngoc-am-chart .center-palace.center-palace--xtd > .center-scroll-bg,
 .mobile-tuvi-canvas .center-palace.center-palace--xtd > .center-scroll-bg {
-  /* 9% (print uses 12%): any deeper crops the scroll's corner curls at the bottom. */
-  inset: 0 0 -9% 0;
+  /* 3%: the current artwork's scroll runs down to 97% of the image height, so
+     only the empty margin under it (about 3%) can be cropped without losing the
+     scroll's edge and curls (was 9% for the previous, shorter-scroll image). */
+  inset: 0 0 -3% 0;
 }
 
 .ngoc-am-chart .center-palace.center-palace--xtd > .center-veil,

@@ -33,7 +33,7 @@ export default function XtdCenterPalace({
     <div className="center-palace center-palace--xtd">
       <div className="center-scroll-bg" aria-hidden="true" />
       <Image
-        src="/images/tuvi/trung-cung-xtd2-print.jpg"
+        src="/images/tuvi/trung-cung-xtd5-print.jpg"
         alt=""
         fill
         unoptimized
