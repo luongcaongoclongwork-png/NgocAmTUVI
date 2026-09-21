@@ -663,6 +663,16 @@
   background-color: #f6eedf;
 }
 
+/* Xuyen Tam Diem Trung Cung artwork (2026-09-21): one image for desktop, tablet
+   and phone, colour-matched (sharp .linear) to --na-paper's average like the
+   old ones were. The extra element in the selector (0,3,1) also beats
+   tuviMobile.css's phone-only rule (0,3,0), which loads after this file. The
+   print copy is the <Image> in XtdCenterPalace.tsx (trung-cung-xtd-print.jpg,
+   matched to the print page background). Traditional chart keeps its own. */
+div.center-palace.center-palace--xtd > .center-scroll-bg {
+  background-image: url("/images/tuvi/trung-cung-xtd-web.jpg");
+}
+
 /* Ẩn mặc định — chỉ .print-chart bật lại (xem print.css). Next/Image với
    `fill` đã tự set position:absolute/inset:0 qua inline style. */
 .center-palace > .center-scroll-bg-print {

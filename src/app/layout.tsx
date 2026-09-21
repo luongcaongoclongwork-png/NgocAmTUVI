@@ -19,7 +19,10 @@ const body = Be_Vietnam_Pro({
   // font file loaded here, that CSS's font-weight:900 falls back to the
   // browser's synthetic/faux bold (stroke-expansion, not a real glyph),
   // which reads blurry rather than crisp (2026-09-18).
-  weight: ["300", "400", "500", "600", "900"],
+  // 700 added 2026-09-21: the print chart asks for 650/700 (Tu Hoa tags, the
+  // XUYEN GIA label), which with no 700 file loaded snapped up to 900 (Black).
+  // Be Vietnam Pro is a static family (100-step weights), so 650 resolves to 700.
+  weight: ["300", "400", "500", "600", "700", "900"],
 });
 
 export const metadata: Metadata = {

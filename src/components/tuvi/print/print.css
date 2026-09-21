@@ -206,6 +206,55 @@
   color: var(--print-cinnabar-soft);
 }
 
+/* Xuyen Tam Diem header: brand stack centered, logo highest, and pulled up
+   toward the paper edge: margin-top:-4mm + min-height:28mm keeps the header's
+   net footprint at the usual 24mm (the chart below doesn't move) while the
+   content starts 4mm higher — logo top ≈ 5mm from the sheet edge (7mm page
+   padding - 4mm + 2mm padding-top), which was ≈ 9mm. Logo 12mm + 21pt name +
+   10pt line + gaps ≈ 25.6mm fits the 28mm box. */
+.print-header--xtd {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: -4mm;
+  min-height: 28mm;
+}
+
+.print-brand-block--stack {
+  flex-direction: column;
+  gap: 1mm;
+}
+
+.print-brand-block--stack .print-header-logo {
+  width: 12mm;
+  height: 12mm;
+}
+
+.print-brand-block--stack .print-brand-text {
+  align-items: center;
+  gap: 0.5mm;
+}
+
+/* Wider, not taller (2026-09-21): same 21pt / 10pt heights, glyphs stretched 12%
+   horizontally and a bit more tracking. transform doesn't change layout width,
+   so centering is unaffected; padding-left equals the letter-spacing so the
+   trailing tracking after the last letter doesn't pull the text off-centre. */
+.print-brand-block--stack .print-brand {
+  font-size: 21pt;
+  line-height: 1.1;
+  letter-spacing: 0.16em;
+  padding-left: 0.16em;
+  transform: scaleX(1.12);
+}
+
+.print-brand-block--stack .print-brand-sub {
+  font-size: 10pt;
+  line-height: 1.1;
+  letter-spacing: 0.2em;
+  padding-left: 0.2em;
+  transform: scaleX(1.12);
+}
+
 .print-title-wrap {
   text-align: center;
 }
@@ -753,16 +802,63 @@
   opacity: 0.55;
 }
 
-/* Xuyen Tam Diem print (2026-09-21): no washes over the Trung Cung artwork —
-   neither the .center-veil above nor the panel's own cream tint — so its
-   background reads in the same tone as the page's chart-paper-bg. Text
-   contrast now rests on the artwork alone. */
+/* Xuyen Tam Diem print Trung Cung (2026-09-21, "D+C2" picked from the live
+   comparison): the panel's own cream tint is dropped, the artwork is pushed
+   down 12% (its bottom edge cropped) so the mountains/temple sit below most of
+   the info rows, and the veil is a vertical gradient instead of a flat wash —
+   light at the top, 65% across the text rows, 15% at the bottom so the scenery
+   still shows. Measured against --print-ink on the sample chart: worst text
+   sample 11.2:1 (median) / 7.4:1 (darkest 10%) — was 1.8:1 with no veil. */
 .print-chart .center-palace.center-palace--xtd {
   background: none;
+  overflow: hidden;
+}
+
+/* next/image `fill` writes inset:0 / height:100% inline, hence !important. */
+.print-chart .center-palace--xtd > .center-scroll-bg-print {
+  inset: 0 0 -12% 0 !important;
+  height: auto !important;
+}
+
+/* All Trung Cung text in pure black for the clearest print (labels, values,
+   brand, title — including the muted/cinnabar/gold ones), plus a 0.6px paper-
+   coloured ring + soft glow ("kiểu 3" from the live comparison) so letters
+   stay separated from the artwork behind them. Plain text-shadow, so PDF/image
+   export (html2canvas) keeps it. The extra class makes this beat the
+   per-element colour rules further down. */
+.print-chart .center-palace.center-palace--xtd,
+.print-chart .center-palace.center-palace--xtd * {
+  color: #000;
+}
+
+/* the title has its own (0,3,0) colour rule later in this file */
+.print-chart .center-palace.center-palace--xtd .chart-center-title.chart-center-title--xtd {
+  color: #000;
+}
+
+.print-chart .center-palace.center-palace--xtd {
+  text-shadow:
+    0.6px 0 0 #f7efe2,
+    -0.6px 0 0 #f7efe2,
+    0 0.6px 0 #f7efe2,
+    0 -0.6px 0 #f7efe2,
+    0.6px 0.6px 0 #f7efe2,
+    -0.6px -0.6px 0 #f7efe2,
+    0.6px -0.6px 0 #f7efe2,
+    -0.6px 0.6px 0 #f7efe2,
+    0 0 3px rgba(247, 239, 226, 0.85);
 }
 
 .print-chart .center-palace--xtd > .center-veil {
-  display: none;
+  opacity: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(247, 239, 226, 0.2) 0%,
+    rgba(247, 239, 226, 0.4) 45%,
+    rgba(247, 239, 226, 0.65) 62%,
+    rgba(247, 239, 226, 0.65) 82%,
+    rgba(247, 239, 226, 0.15) 100%
+  );
 }
 
 /* Re-orders and re-sizes the SAME 3 elements CenterPalace.tsx already
