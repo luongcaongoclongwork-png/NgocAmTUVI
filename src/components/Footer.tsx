@@ -64,7 +64,11 @@ const columns: {
   },
 ];
 
-const social = ["TikTok", "Facebook", "Instagram", "Email"];
+const social: { label: string; href: string }[] = [
+  { label: "TikTok", href: "https://www.tiktok.com/@ngocam.tuviphongthuy" },
+  { label: "Facebook", href: "https://www.facebook.com/Tuviphongthuyngocam" },
+  { label: "Instagram", href: "https://www.instagram.com/ngocam_tuviphongthuy/" },
+];
 
 export default function Footer() {
   return (
@@ -120,9 +124,14 @@ export default function Footer() {
             </h4>
             <ul className="mt-3 space-y-1.5">
               {social.map((s) => (
-                <li key={s}>
-                  <a href="#" className="text-sm text-ivory/75 transition-colors hover:text-ivory">
-                    {s}
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-ivory/75 transition-colors hover:text-ivory"
+                  >
+                    {s.label}
                   </a>
                 </li>
               ))}
