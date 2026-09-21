@@ -99,7 +99,7 @@ export default function PrintPageClient() {
           onClick={() => window.print()}
           className="tracking-label inline-flex h-10 items-center border border-walnut/30 bg-transparent px-4 text-[13px] uppercase text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
         >
-          In / Lưu PDF
+          In lá số
         </button>
       </div>
       <A4TuViPrintRenderer

@@ -15,7 +15,7 @@ export default function PrintFooter({ variant = "default" }: { variant?: "defaul
     <footer className="print-footer">
       <div className="print-consultant-box">
         <p className="print-legend-title">{xtd ? "XUYÊN GIẢ" : "Bậc Thầy Khai Vấn"}</p>
-        <p className="print-consultant-name">Cô Nguyễn Minh Trang</p>
+        <p className="print-consultant-name">{xtd ? "Nguyễn Minh Trang" : "Cô Nguyễn Minh Trang"}</p>
         {!xtd && <span className="print-consultant-rule" aria-hidden="true" />}
         {!xtd && <p className="print-consultant-tagline">Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại</p>}
       </div>

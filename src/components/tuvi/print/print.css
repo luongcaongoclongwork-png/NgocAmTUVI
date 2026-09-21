@@ -50,6 +50,15 @@
   }
 }
 
+/* On screen the fixed-width (210mm) sheet sat against the left edge while the
+   "In lá số" button above it is centered — center the sheet in the same
+   column. Screen only: in print the root is absolutely placed at left:0. */
+@media screen {
+  .tuvi-print-page {
+    margin-inline: auto;
+  }
+}
+
 /* ============================================================
    Page shell
    ============================================================ */
