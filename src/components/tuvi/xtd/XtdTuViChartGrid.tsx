@@ -2,7 +2,7 @@ import XtdPalaceCell from "./XtdPalaceCell";
 import XtdCenterPalace from "./XtdCenterPalace";
 import AspectOverlay from "../AspectOverlay";
 import StructuralGridSVG from "../StructuralGridSVG";
-import { computeRowLayout, UNIFORM_ROW_LAYOUT } from "../chartRowLayout";
+import { computeRowLayout, UNIFORM_ROW_LAYOUT, type RowLayout } from "../chartRowLayout";
 import { BRANCH_GRID_POSITION, CENTER_GRID_AREA } from "@/lib/tuvi/rules/palaces";
 import { giapCungIndices, tamHopIndices, xungChieuIndex } from "@/lib/tuvi/rules/aspects";
 import { buildPalaceHoroscopeView } from "../TuViChartGrid";
@@ -39,6 +39,8 @@ export interface XtdTuViChartGridProps {
   useVariableRowHeights?: boolean;
   columnBoundaries?: [number, number, number, number, number];
   centerPrintSeal?: React.ReactNode;
+  /** Measured row split (print's useXtdPrintFit); wins over computeRowLayout's estimate. */
+  rowLayoutOverride?: RowLayout;
 }
 
 const UNIFORM_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
@@ -58,12 +60,14 @@ export default function XtdTuViChartGrid({
   useVariableRowHeights = false,
   columnBoundaries,
   centerPrintSeal,
+  rowLayoutOverride,
 }: XtdTuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
 
-  const rowLayout = useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null, { zoneBadge: true }) : UNIFORM_ROW_LAYOUT;
+  const rowLayout =
+    rowLayoutOverride ?? (useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null, { zoneBadge: true }) : UNIFORM_ROW_LAYOUT);
   const resolvedColumnBoundaries = columnBoundaries ?? UNIFORM_COLUMN_BOUNDARIES;
 
   function emphasisFor(index: number): "tam-hop" | "xung-chieu" | "giap-cung" | undefined {

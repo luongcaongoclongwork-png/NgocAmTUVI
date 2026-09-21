@@ -835,6 +835,37 @@ div.center-palace.center-palace--xtd > .center-scroll-bg {
   background: rgba(249, 243, 232, 0.5);
 }
 
+/* Xuyen Tam Diem web/tablet/phone Trung Cung (2026-09-21): same artwork
+   treatment as its print copy — panel tint dropped, artwork pushed down 9%
+   (bottom cropped) and the flat veil replaced by a vertical gradient (light
+   at the top, 65% across the text rows, 15% at the bottom). Text colours stay
+   as they are on the web (deliberately not the print's pure black). Measured on
+   the sample chart: artwork visibility 7 -> 23 (0-100) while the worst text
+   sample stays 10.7:1 (was 12.8:1). Three-class selectors beat
+   tuviMobile.css's phone rule, which loads after this file. */
+.ngoc-am-chart .center-palace.center-palace--xtd,
+.mobile-tuvi-canvas .center-palace.center-palace--xtd {
+  background: none;
+}
+
+.ngoc-am-chart .center-palace.center-palace--xtd > .center-scroll-bg,
+.mobile-tuvi-canvas .center-palace.center-palace--xtd > .center-scroll-bg {
+  /* 9% (print uses 12%): any deeper crops the scroll's corner curls at the bottom. */
+  inset: 0 0 -9% 0;
+}
+
+.ngoc-am-chart .center-palace.center-palace--xtd > .center-veil,
+.mobile-tuvi-canvas .center-palace.center-palace--xtd > .center-veil {
+  background: linear-gradient(
+    to bottom,
+    rgba(246, 238, 223, 0.2) 0%,
+    rgba(246, 238, 223, 0.4) 45%,
+    rgba(246, 238, 223, 0.65) 62%,
+    rgba(246, 238, 223, 0.65) 82%,
+    rgba(246, 238, 223, 0.15) 100%
+  );
+}
+
 .ngoc-am-chart .center-info-label,
 .mobile-tuvi-canvas .center-info-label,
 .ngoc-am-chart .center-info-value,

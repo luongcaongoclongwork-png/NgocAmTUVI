@@ -431,8 +431,8 @@
    row layout, not against the old column one). */
 .print-chart .palace-main-stars {
   width: 100%;
-  margin-top: calc(1.6mm * var(--pz-scale, 1));
-  margin-bottom: calc(1.4mm * var(--pz-scale, 1));
+  margin-top: calc(1.6mm * var(--pz-space, 1) * var(--pz-scale, 1));
+  margin-bottom: calc(1.4mm * var(--pz-space, 1) * var(--pz-scale, 1));
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -503,8 +503,8 @@
    print's much tighter 46mm cell. */
 .print-chart .tuvi-palace[data-density="dense"] .palace-main-stars,
 .print-chart .tuvi-palace[data-density="packed"] .palace-main-stars {
-  margin-top: calc(1mm * var(--pz-scale, 1));
-  margin-bottom: calc(0.8mm * var(--pz-scale, 1));
+  margin-top: calc(1mm * var(--pz-space, 1) * var(--pz-scale, 1));
+  margin-bottom: calc(0.8mm * var(--pz-space, 1) * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-minor-star,
@@ -515,7 +515,7 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-adjective-stars,
 .print-chart .tuvi-palace[data-density="packed"] .palace-adjective-stars {
-  margin-top: calc(0.4mm * var(--pz-scale, 1));
+  margin-top: calc(0.4mm * var(--pz-space, 1) * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-adjective-star,
@@ -526,8 +526,8 @@
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-luu-section,
 .print-chart .tuvi-palace[data-density="packed"] .palace-luu-section {
-  margin-top: calc(0.4mm * var(--pz-scale, 1));
-  padding-top: calc(0.3mm * var(--pz-scale, 1));
+  margin-top: calc(0.4mm * var(--pz-space, 1) * var(--pz-scale, 1));
+  padding-top: calc(0.3mm * var(--pz-space, 1) * var(--pz-scale, 1));
 }
 
 .print-chart .tuvi-palace[data-density="dense"] .palace-luu-star,
@@ -595,7 +595,7 @@
 /* ---------- Adjective / auxiliary stars ---------- */
 
 .print-chart .palace-adjective-stars {
-  margin-top: calc(0.7mm * var(--pz-scale, 1));
+  margin-top: calc(0.7mm * var(--pz-space, 1) * var(--pz-scale, 1));
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 2.2mm;
@@ -619,8 +619,8 @@
 /* ---------- Luu (annual transit overlay) section ---------- */
 
 .print-chart .palace-luu-section {
-  margin-top: calc(0.8mm * var(--pz-scale, 1));
-  padding-top: calc(0.6mm * var(--pz-scale, 1));
+  margin-top: calc(0.8mm * var(--pz-space, 1) * var(--pz-scale, 1));
+  padding-top: calc(0.6mm * var(--pz-space, 1) * var(--pz-scale, 1));
   border-top: 0.15mm dashed rgba(94, 71, 53, 0.18);
 }
 
@@ -804,20 +804,26 @@
 
 /* Xuyen Tam Diem print Trung Cung (2026-09-21, "D+C2" picked from the live
    comparison): the panel's own cream tint is dropped, the artwork is pushed
-   down 12% (its bottom edge cropped) so the mountains/temple sit below most of
+   down 9% (its bottom edge cropped) so the mountains/temple sit below most of
    the info rows, and the veil is a vertical gradient instead of a flat wash —
    light at the top, 65% across the text rows, 15% at the bottom so the scenery
-   still shows. Measured against --print-ink on the sample chart: worst text
-   sample 11.2:1 (median) / 7.4:1 (darkest 10%) — was 1.8:1 with no veil. */
+   still shows. Measured on the real (9%) geometry with black text: worst text
+   sample 12.5:1 (median) / 11.2:1 (darkest 10%) — was 1.8:1 with no veil. */
 .print-chart .center-palace.center-palace--xtd {
   background: none;
   overflow: hidden;
 }
 
-/* next/image `fill` writes inset:0 / height:100% inline, hence !important. */
+/* The artwork is a real <img> (replaced element): with height:auto it would
+   NOT stretch between top and bottom — it took its natural height (416px at
+   this width), stuck to the top, and left an empty strip under it whenever
+   Trung Cung was taller than that (fixed 2026-09-21). An explicit 109% height
+   from top:0 always covers the box; object-fit:cover + object-position:bottom
+   then crops exactly 9% off the bottom (same 9% as the web copy). next/image
+   `fill` writes inset:0 / height:100% inline, hence !important. */
 .print-chart .center-palace--xtd > .center-scroll-bg-print {
-  inset: 0 0 -12% 0 !important;
-  height: auto !important;
+  inset: 0 0 auto 0 !important;
+  height: 109% !important;
 }
 
 /* All Trung Cung text in pure black for the clearest print (labels, values,

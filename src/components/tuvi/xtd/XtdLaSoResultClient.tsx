@@ -81,7 +81,7 @@ export default function XtdLaSoResultClient() {
             <span aria-hidden="true">←</span> Chỉnh thông tin
           </button>
           <h1 className="font-heading text-[28px] font-semibold text-walnut">
-            Lá số Tử Vi
+            Lá Số Xuyên Tam Diệm
             {chart.name && <span className="ml-2 text-[18px] font-normal text-walnut/70">— {chart.name}</span>}
           </h1>
         </div>

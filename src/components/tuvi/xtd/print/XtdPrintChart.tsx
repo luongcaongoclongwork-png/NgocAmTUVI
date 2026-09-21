@@ -1,18 +1,25 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import XtdTuViChartGrid from "../XtdTuViChartGrid";
 import PrintCenterSeal from "../../print/PrintCenterSeal";
-import { usePrintOverflowGuard } from "../../print/usePrintOverflowGuard";
+import { useXtdPrintFit, XTD_PRINT_MAX_SCALE } from "./useXtdPrintFit";
+import type { RowLayout } from "../../chartRowLayout";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 /**
  * Xuyen Tam Diem (川三焰) render copy of ../../print/PrintChart.tsx — same
- * A4 sizing/column-boundary/overflow-guard behavior, only diff is importing
- * XtdTuViChartGrid instead of TuViChartGrid so the print tree's star/palace
- * text goes through the Xtd naming layer too. PrintCenterSeal,
- * and usePrintOverflowGuard are reused UNCHANGED
- * (shared, not duplicated) — none of them render star/palace/cycle text.
+ * A4 sizing/column boundaries, only diff is importing XtdTuViChartGrid instead
+ * of TuViChartGrid so the print tree's star/palace text goes through the Xtd
+ * naming layer too. PrintCenterSeal is reused UNCHANGED (shared, not
+ * duplicated) — it renders no star/palace/cycle text.
+ *
+ * Fit is NOT the traditional print's one-knob usePrintOverflowGuard: it is
+ * useXtdPrintFit (auto text size up to XTD_PRINT_MAX_SCALE, measured row split,
+ * spacing squeeze, per-cell shrink, last-resort floor). It reports the row
+ * split back through `rows`, which the grid (and its SVG grid lines) draws.
+ * `onOverflowGuardSettled` fires when all of that is done, so auto-print and
+ * the PDF export still wait for a finished layout.
  */
 const PRINT_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 27.25, 50, 72.75, 100];
 
@@ -28,8 +35,9 @@ export default function XtdPrintChart({
   onOverflowGuardSettled?: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [rows, setRows] = useState<RowLayout | undefined>(undefined);
 
-  usePrintOverflowGuard(containerRef, [chart, horoscope], onOverflowGuardSettled);
+  useXtdPrintFit(containerRef, [chart, horoscope], setRows, onOverflowGuardSettled, { maxScale: XTD_PRINT_MAX_SCALE });
 
   return (
     <div className="print-chart" ref={containerRef}>
@@ -44,6 +52,7 @@ export default function XtdPrintChart({
         useVariableRowHeights
         columnBoundaries={PRINT_COLUMN_BOUNDARIES}
         centerPrintSeal={<PrintCenterSeal />}
+        rowLayoutOverride={rows}
       />
     </div>
   );
