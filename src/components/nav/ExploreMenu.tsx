@@ -60,8 +60,8 @@ export default function ExploreMenu() {
         aria-expanded={open}
         aria-controls={menuId}
         onClick={() => setOpen((v) => !v)}
-        className={`tracking-label flex items-center gap-1 text-[11px] font-medium uppercase transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
-          active ? "text-gold" : "text-walnut/80"
+        className={`tracking-label flex items-center gap-1 text-[11px] font-medium uppercase transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
+          active ? "text-gold-deep" : "text-walnut"
         }`}
       >
         Khám phá

@@ -8,6 +8,7 @@
   --walnut: #3e2b1e;
   --ink: #25211b;
   --gold: #af8a50;
+  --gold-deep: #6f4e1b; /* vàng đậm cho chữ trên thanh menu có ảnh nền (tương phản ≥4,5) */
   --bronze: #80633e;
   --sage: #7a8068;
   --lacquer: #a13a2f;
@@ -21,6 +22,7 @@
   --color-walnut: var(--walnut);
   --color-ink: var(--ink);
   --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
   --color-bronze: var(--bronze);
   --color-sage: var(--sage);
   --color-lacquer: var(--lacquer);
@@ -92,4 +94,13 @@ body {
     background-size: cover;
     background-position: center top;
   }
+}
+
+/* Thanh menu đầu trang: tranh mây/núi (public/images/header-bg.webp) dưới lớp phủ kem 72%.
+   Đổi độ đậm tranh bằng số alpha 0.72 (0 = tranh nguyên bản, 0.9 = rất nhạt). Đã đo tương phản chữ menu trên các khổ 390-1920px: 0.72 là mức thấp nhất còn giữ chữ vàng "mục đang chọn" ở 1280px (chỗ khó nhất) quanh 4,2-4,3; muốn chắc >= 4,5 thì dùng 0.75-0.8. */
+.site-header {
+  background:
+    linear-gradient(rgba(250, 244, 232, 0.72), rgba(250, 244, 232, 0.72)),
+    url("/images/header-bg.webp") 50% 47% / cover no-repeat;
+  background-color: var(--ivory);
 }

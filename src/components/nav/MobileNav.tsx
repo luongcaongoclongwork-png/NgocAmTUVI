@@ -82,7 +82,7 @@ export default function MobileNav() {
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
         onClick={() => setOpen((v) => !v)}
-        className="flex h-11 w-11 items-center justify-center text-walnut/80 transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory xl:hidden"
+        className="flex h-11 w-11 items-center justify-center text-walnut transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory xl:hidden"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
       </button>

@@ -72,7 +72,7 @@ export default function LapLaSoClient() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-cover bg-bottom bg-no-repeat transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
           style={{
-            backgroundImage: "url(/images/tuvi/trung-cung-xtd5-web.jpg)",
+            backgroundImage: "url(/images/thong-tin-la-so/trung-cung-web.jpg)",
             opacity: 0.05 + awake * 0.045,
             maskImage: "linear-gradient(to top, black 0%, black 40%, transparent 100%)",
             WebkitMaskImage: "linear-gradient(to top, black 0%, black 40%, transparent 100%)",

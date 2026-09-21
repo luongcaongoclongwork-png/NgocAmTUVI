@@ -29,7 +29,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-walnut/10 bg-ivory/95 backdrop-blur">
+    <header className="sticky top-0 z-50 site-header border-b border-walnut/10">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
         <Link href="/" className="flex min-h-11 items-center gap-3">
           <Image src="/images/logo-mark.png" alt="Ngọc Âm" width={32} height={32} className="h-8 w-8" />
@@ -44,8 +44,8 @@ export default function Header() {
                 key={item.label}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`tracking-label text-[11px] font-medium uppercase transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
-                  active ? "text-gold" : "text-walnut/80"
+                className={`tracking-label text-[11px] font-medium uppercase transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
+                  active ? "text-gold-deep" : "text-walnut"
                 }`}
               >
                 {item.label}
@@ -55,22 +55,22 @@ export default function Header() {
           <ExploreMenu />
         </nav>
 
-        <div className="flex items-center gap-2 text-walnut/80 sm:gap-4">
+        <div className="flex items-center gap-2 text-walnut sm:gap-4">
           <button
             aria-label="Tìm kiếm"
-            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:flex"
+            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:flex"
           >
             <SearchIcon />
           </button>
           <button
             aria-label="Tài khoản"
-            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:flex"
+            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:flex"
           >
             <AccountIcon />
           </button>
           <Link
             href="/dich-vu"
-            className="tracking-label flex h-11 items-center border border-walnut px-4 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+            className="tracking-label flex h-11 items-center border border-walnut px-4 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold-deep hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
           >
             Đặt lịch
           </Link>

@@ -667,10 +667,10 @@
    and phone, colour-matched (sharp .linear) to --na-paper's average like the
    old ones were. The extra element in the selector (0,3,1) also beats
    tuviMobile.css's phone-only rule (0,3,0), which loads after this file. The
-   print copy is the <Image> in XtdCenterPalace.tsx (trung-cung-xtd5-print.jpg,
+   print copy is the <Image> in XtdCenterPalace.tsx (thong-tin-la-so/trung-cung-in.jpg,
    matched to the print page background). Traditional chart keeps its own. */
 div.center-palace.center-palace--xtd > .center-scroll-bg {
-  background-image: url("/images/tuvi/trung-cung-xtd5-web.jpg");
+  background-image: url("/images/thong-tin-la-so/trung-cung-web.jpg");
 }
 
 /* Ẩn mặc định — chỉ .print-chart bật lại (xem print.css). Next/Image với
