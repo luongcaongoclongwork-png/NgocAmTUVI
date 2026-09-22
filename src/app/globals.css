@@ -104,3 +104,19 @@ body {
     url("/images/header-bg.webp") 50% 47% / cover no-repeat;
   background-color: var(--ivory);
 }
+
+/* Chân trang: tranh núi/mây (public/images/footer-bg.webp) — ảnh nền sáng màu
+   kem trong khi chữ chân trang là màu ngà trên nền nâu đậm (--earth-brown),
+   nên lớp phủ ở đây là MÀU NÂU (không phải kem) để giữ đúng tông tối và chữ
+   ngà/vàng vẫn đọc được. Đổi độ đậm bằng alpha 0.9 (0 = tranh nguyên bản rất
+   sáng, 1 = không thấy tranh). Lưu ý: chữ vàng của các mục (Tử vi, Phong
+   thuỷ...) vốn đã tương phản thấp ngay cả trên nền nâu đặc trước khi có ảnh
+   (chữ trang trí nhỏ, không phải văn bản chính) — ảnh sáng màu làm giảm thêm;
+   0.9 là mức cân bằng giữa còn thấy tranh và chữ "Kết nối" (email/SĐT) vẫn
+   đọc được. Muốn chữ rõ hơn nữa thì tăng số lên gần 1. */
+.site-footer {
+  background:
+    linear-gradient(rgba(121, 90, 58, 0.9), rgba(121, 90, 58, 0.9)),
+    url("/images/footer-bg.webp") 50% 55% / cover no-repeat;
+  background-color: var(--earth-brown);
+}
