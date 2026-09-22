@@ -671,7 +671,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: url("/images/tuvi/trung-cung-desktop.jpg");
+  background-image: url("/images/tuvi/trung-cung-desktop.webp");
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: cover;
@@ -685,7 +685,7 @@
    print copy is the <Image> in XtdCenterPalace.tsx (thong-tin-la-so/trung-cung-in.jpg,
    matched to the print page background). Traditional chart keeps its own. */
 div.center-palace.center-palace--xtd > .center-scroll-bg {
-  background-image: url("/images/thong-tin-la-so/trung-cung-web.jpg");
+  background-image: url("/images/thong-tin-la-so/trung-cung-web.webp");
 }
 
 /* Ẩn mặc định — chỉ .print-chart bật lại (xem print.css). Next/Image với

@@ -34,7 +34,7 @@ export default function XtdCenterPalace({
     <div className="center-palace center-palace--xtd" data-cuc={cucTintKey(vm.bureau)}>
       <div className="center-scroll-bg" aria-hidden="true" />
       <Image
-        src="/images/thong-tin-la-so/trung-cung-in.jpg"
+        src="/images/thong-tin-la-so/trung-cung-in.webp"
         alt=""
         fill
         unoptimized

@@ -36,7 +36,7 @@ export default function CenterPalace({
           > *` mặc định set position:relative cho mọi con trực tiếp). */}
       <div className="center-scroll-bg" aria-hidden="true" />
       <Image
-        src="/images/tuvi/trung-cung-print.jpg"
+        src="/images/tuvi/trung-cung-print.webp"
         alt=""
         fill
         unoptimized
