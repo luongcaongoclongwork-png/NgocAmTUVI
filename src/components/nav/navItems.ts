@@ -19,12 +19,12 @@ export const EXPLORE_NAV_ITEMS: NavItem[] = [
   { label: "Kiến thức", href: "/kien-thuc" },
   { label: "Cửa hàng", href: "/cua-hang" },
   { label: "Về Ngọc Âm", href: "/ve-ngoc-am" },
-  { label: "Liên hệ", href: "/#lien-he" },
+  { label: "Liên hệ", href: "/lien-he" },
 ];
 
 export const ALL_NAV_ITEMS: NavItem[] = [...PRIMARY_NAV_ITEMS, ...EXPLORE_NAV_ITEMS];
 
-/** Active-route check: exact match for "/", prefix match otherwise (so /kien-thuc/[slug] still highlights "Kiến thức"). A hash-only link (e.g. "/#lien-he") is never "active" — it's a same-page anchor, not a distinct route. */
+/** Active-route check: exact match for "/", prefix match otherwise (so /kien-thuc/[slug] still highlights "Kiến thức"). A hash-only link (e.g. "/#gioi-thieu") is never "active" — it's a same-page anchor, not a distinct route. */
 export function isNavItemActive(pathname: string, href: string): boolean {
   if (href.includes("#")) return false;
   if (href === "/") return pathname === "/";

@@ -69,14 +69,44 @@ export default function LienHeClient({
             <p className="tracking-label text-[12px] font-semibold uppercase text-walnut/70">
               Một cuộc trao đổi được chuẩn bị riêng
             </p>
-            <ul className="mt-6 flex flex-col gap-4 text-[15px] leading-relaxed text-ink/75">
-              <li>Lắng nghe điều đang cần được làm rõ</li>
-              <li>Gợi ý cách trao đổi phù hợp</li>
-              <li>Hồi đáp trong một ngày làm việc</li>
-            </ul>
+            <ol className="mt-6 flex flex-col gap-4 text-[15px] leading-relaxed text-ink/75">
+              <li>
+                <span className="mr-2 text-gold-deep">01</span>Lắng nghe điều đang cần được làm rõ
+              </li>
+              <li>
+                <span className="mr-2 text-gold-deep">02</span>Gợi ý cách trao đổi phù hợp
+              </li>
+              <li>
+                <span className="mr-2 text-gold-deep">03</span>Hồi đáp trong một ngày làm việc
+              </li>
+            </ol>
+
+            <div className="mt-10 border-t border-walnut/10 pt-8">
+              <p className="tracking-label text-[12px] font-semibold uppercase text-walnut/70">
+                Thông tin kết nối
+              </p>
+              <div className="mt-5 flex flex-col gap-2 text-[14px]">
+                <ContactLink href="tel:+84775448989">0775 448 989</ContactLink>
+                <ContactLink href="mailto:trangsucngocam.work@gmail.com">
+                  trangsucngocam.work@gmail.com
+                </ContactLink>
+              </div>
+              <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-2 text-[13.5px] sm:grid-cols-2">
+                <ContactLink href="https://www.tiktok.com/@ngocam.tuviphongthuy" external>
+                  TikTok
+                </ContactLink>
+                <ContactLink href="https://www.facebook.com/Tuviphongthuyngocam" external>
+                  Facebook
+                </ContactLink>
+                <ContactLink href="https://www.instagram.com/ngocam_tuviphongthuy/" external>
+                  Instagram
+                </ContactLink>
+              </div>
+            </div>
+
             <p className="mt-10 max-w-sm text-[13px] leading-relaxed text-ink/50">
-              Thông tin bạn chia sẻ được giữ riêng tư và chỉ dùng để chuẩn bị
-              cho cuộc trao đổi cùng Ngọc Âm.
+              Thông tin bạn chia sẻ được giữ riêng tư và chỉ được dùng để
+              Ngọc Âm chuẩn bị cho cuộc trao đổi cùng bạn.
             </p>
           </div>
 
@@ -100,6 +130,32 @@ export default function LienHeClient({
         </div>
       </div>
     </section>
+  );
+}
+
+function ContactLink({
+  href,
+  external = false,
+  children,
+}: {
+  href: string;
+  external?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="group inline-flex w-fit min-h-[28px] items-center gap-1.5 py-1 text-ink/75 transition-colors hover:text-gold-deep"
+    >
+      {children}
+      <span
+        aria-hidden="true"
+        className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+      >
+        →
+      </span>
+    </a>
   );
 }
 
@@ -341,7 +397,7 @@ function ReplyLetter({ interest, zaloUrl }: { interest: string; zaloUrl: string 
               href="/dich-vu"
               className="tracking-label border-b border-walnut/30 pb-1 text-[12px] font-semibold uppercase text-walnut/70 hover:text-gold-deep"
             >
-              Trở về trang dịch vụ
+              Trở về dịch vụ
             </Link>
           </div>
         </div>
