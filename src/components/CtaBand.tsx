@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Suspense } from "react";
 import Reveal from "./Reveal";
+import CtaBandActions from "./CtaBandActions";
 
 export default function CtaBand() {
   return (
@@ -22,19 +23,10 @@ export default function CtaBand() {
           </h2>
         </Reveal>
         <Reveal delay={120}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/dich-vu"
-              className="tracking-label bg-gold px-8 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
-            >
-              Đặt lịch tư vấn
-            </Link>
-            <Link
-              href="/dich-vu"
-              className="tracking-label border border-ivory/50 px-8 py-3.5 text-[11px] font-semibold uppercase text-ivory transition-colors hover:border-gold hover:text-gold"
-            >
-              Tìm hiểu dịch vụ
-            </Link>
+          <div className="mt-10">
+            <Suspense fallback={null}>
+              <CtaBandActions />
+            </Suspense>
           </div>
         </Reveal>
       </div>

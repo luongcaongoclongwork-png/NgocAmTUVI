@@ -17,7 +17,7 @@ export default function ServiceList({
     <section className={`${background} py-24 lg:py-28`}>
       <div className="mx-auto max-w-[900px] px-6 lg:px-10">
         <Reveal>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             {eyebrow}
           </p>
         </Reveal>

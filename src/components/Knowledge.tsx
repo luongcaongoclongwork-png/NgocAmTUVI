@@ -17,7 +17,7 @@ export default async function Knowledge() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <Reveal>
-              <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+              <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
                 Ngọc Âm Kiến Thức
               </p>
             </Reveal>

@@ -62,7 +62,7 @@ export default function PageBanner({
       )}
       <div className="relative mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             {eyebrow}
           </p>
         </Reveal>

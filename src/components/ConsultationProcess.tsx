@@ -26,7 +26,7 @@ export default function ConsultationProcess({
       )}
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             Trải nghiệm khai vấn
           </p>
         </Reveal>
@@ -40,7 +40,7 @@ export default function ConsultationProcess({
           {steps.map((s, idx) => (
             <Reveal key={s.n} delay={idx * 90}>
               <div className="relative border-t border-walnut/20 pt-6">
-                <span className="font-heading text-sm text-gold">{s.n}</span>
+                <span className="font-heading text-sm text-gold-deep">{s.n}</span>
                 <h3 className="tracking-label mt-3 text-[13px] font-semibold uppercase text-ink">
                   {s.label}
                 </h3>

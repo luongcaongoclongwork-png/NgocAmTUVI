@@ -17,7 +17,7 @@ export default function Philosophy() {
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 text-center lg:px-10">
         <Reveal>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             Tinh thần Ngọc Âm
           </p>
         </Reveal>

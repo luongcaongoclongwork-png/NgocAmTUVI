@@ -34,7 +34,7 @@ export default function ConsultantProfile({
         </Reveal>
 
         <Reveal delay={140}>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             {consultant.field}
           </p>
           <h2 className="mt-3 font-heading text-3xl leading-tight text-ink sm:text-4xl">

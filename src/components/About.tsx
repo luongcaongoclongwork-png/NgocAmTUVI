@@ -26,7 +26,7 @@ export default function About({ backdrop = false }: { backdrop?: boolean }) {
         </Reveal>
 
         <Reveal delay={140}>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             Hậu nhân Khâm Thiên Giám
           </p>
           <h2 className="mt-3 font-heading text-3xl leading-tight text-ink sm:text-4xl">

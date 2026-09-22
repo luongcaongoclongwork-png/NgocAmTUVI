@@ -16,7 +16,7 @@ export default async function Consultants() {
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold">
+          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
             Truyền nhân khai vấn
           </p>
         </Reveal>
@@ -35,7 +35,7 @@ export default async function Consultants() {
                 eyebrow={c.field}
                 title={c.name}
               >
-                <p className="tracking-label text-[11px] font-semibold uppercase text-gold">
+                <p className="tracking-label text-[11px] font-semibold uppercase text-gold-deep">
                   {ROLE_TAGLINE}
                 </p>
                 <p className="mt-4 text-[15px] leading-relaxed text-ink/80">

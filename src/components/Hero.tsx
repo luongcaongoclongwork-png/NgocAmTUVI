@@ -13,11 +13,11 @@ export default function Hero() {
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-transparent" />
 
       <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-20 pt-40 lg:px-10">
         <Reveal>
-          <p className="tracking-label mb-6 text-[12px] font-medium uppercase text-parchment/90">
+          <p className="tracking-label mb-6 text-[12px] font-medium uppercase text-ivory">
             Hậu Nhân Khâm Thiên Giám Vua Minh Mạng · Triều Nguyễn
           </p>
         </Reveal>

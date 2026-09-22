@@ -11,7 +11,7 @@ export default function ServiceCard({
   return (
     <Reveal delay={delay}>
       <NgocAmCard
-        href="/#lien-he"
+        href={`/?goi=${encodeURIComponent(title)}#lien-he`}
         title={title}
         description={desc}
         meta={
