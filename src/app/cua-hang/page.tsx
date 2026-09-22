@@ -62,7 +62,7 @@ export default async function CuaHangPage() {
               {cat.items.map((item, idx) => (
                 <Reveal key={item.id} delay={idx * 90}>
                   <NgocAmCard
-                    href="/#lien-he"
+                    href="/lien-he?topic=vat-pham"
                     title={item.name}
                     description={item.desc}
                     ctaLabel="Liên hệ để đặt"

@@ -1,0 +1,151 @@
+/* /lien-he — bespoke motion (distinct per-element durations the shared
+   .reveal utility doesn't support) + the topic-list / submit / success
+   states spec'd for this page. Every animation here is disabled outright
+   under prefers-reduced-motion, per that spec section. Nothing here
+   animates width/height/layout — opacity + transform only. */
+
+@keyframes lienheFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--lienhe-rise, 8px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lienheFadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lienheCheckIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lienheDotPulse {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.lienhe-eyebrow {
+  --lienhe-rise: 8px;
+  animation: lienheFadeUp 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.lienhe-h1 {
+  --lienhe-rise: 12px;
+  animation: lienheFadeUp 440ms cubic-bezier(0.22, 1, 0.36, 1) 70ms both;
+}
+
+.lienhe-intro {
+  --lienhe-rise: 12px;
+  animation: lienheFadeUp 440ms cubic-bezier(0.22, 1, 0.36, 1) 70ms both;
+}
+
+.lienhe-formcol {
+  --lienhe-rise: 14px;
+  animation: lienheFadeUp 520ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+/* ---------- Topic list: plain text rows, no card fill ---------- */
+
+.lienhe-topic-row {
+  position: relative;
+  border-left: 2px solid transparent;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+  transition:
+    color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lienhe-topic-row[data-selected="true"] {
+  border-left-color: var(--gold);
+  color: var(--walnut);
+  font-weight: 600;
+}
+
+.lienhe-topic-check {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.lienhe-topic-row[data-selected="true"] .lienhe-topic-check {
+  animation: lienheCheckIn 160ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- Submit button: three-dot pulse, never a spinner ---------- */
+
+.lienhe-dots {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.lienhe-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+  animation: lienheDotPulse 1200ms ease-in-out infinite;
+}
+
+.lienhe-dots span:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.lienhe-dots span:nth-child(3) {
+  animation-delay: 320ms;
+}
+
+/* ---------- Letter -> reply-letter transition ---------- */
+
+.lienhe-panel-exit {
+  animation: lienheFadeOut 180ms ease forwards;
+}
+
+.lienhe-reply-panel {
+  --lienhe-rise: 8px;
+  animation: lienheFadeUp 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lienhe-eyebrow,
+  .lienhe-h1,
+  .lienhe-intro,
+  .lienhe-formcol,
+  .lienhe-panel-exit,
+  .lienhe-reply-panel {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .lienhe-topic-row {
+    transition: none;
+  }
+  .lienhe-topic-row[data-selected="true"] .lienhe-topic-check {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .lienhe-dots span {
+    animation: none;
+    opacity: 0.6;
+  }
+}

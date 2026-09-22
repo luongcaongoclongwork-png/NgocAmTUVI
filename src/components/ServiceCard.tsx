@@ -6,12 +6,13 @@ export default function ServiceCard({
   title,
   desc,
   price,
+  group,
   delay = 0,
 }: Service & { delay?: number }) {
   return (
     <Reveal delay={delay}>
       <NgocAmCard
-        href={`/?goi=${encodeURIComponent(title)}#lien-he`}
+        href={`/lien-he?topic=${group}`}
         title={title}
         description={desc}
         meta={

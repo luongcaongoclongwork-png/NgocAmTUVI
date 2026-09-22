@@ -41,7 +41,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2 text-walnut sm:gap-4">
           <Link
-            href="/dich-vu"
+            href="/lien-he"
             className="tracking-label flex h-11 items-center whitespace-nowrap border border-walnut px-3 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold-deep hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:px-4"
           >
             Đặt lịch

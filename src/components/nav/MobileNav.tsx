@@ -140,7 +140,7 @@ export default function MobileNav() {
             </nav>
 
             <Link
-              href="/dich-vu"
+              href="/lien-he"
               onClick={() => setOpen(false)}
               className="tracking-label mt-8 flex h-12 items-center justify-center border border-walnut text-[12px] font-medium uppercase text-walnut transition-colors hover:border-gold hover:text-gold"
             >

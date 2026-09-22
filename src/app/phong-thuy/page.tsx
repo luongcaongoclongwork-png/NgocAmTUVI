@@ -72,6 +72,7 @@ export default async function PhongThuyPage() {
         image="/images/consultants/thay-tinh.webp"
         imageAlt="Hành lang gỗ bên hồ nước trong sân nhà cổ"
         reverse
+        contactTopic="phong-thuy"
       />
       <ServiceList
         eyebrow="Dịch vụ"

@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 function TraSanPhamCard({ item }: { item: TraSanPham }) {
   return (
     <NgocAmCard
-      href="/#lien-he"
+      href="/lien-he?topic=vat-pham"
       variant="tradao"
       title={item.name}
       ctaLabel="Liên hệ để đặt"

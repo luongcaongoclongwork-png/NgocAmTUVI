@@ -1,11 +1,10 @@
 import Image from "next/image";
-import { Suspense } from "react";
+import Link from "next/link";
 import Reveal from "./Reveal";
-import CtaBandActions from "./CtaBandActions";
 
 export default function CtaBand() {
   return (
-    <section id="lien-he" className="relative overflow-hidden bg-walnut py-24 lg:py-28">
+    <section id="dat-lich" className="relative overflow-hidden bg-walnut py-24 lg:py-28">
       <Image
         src="/images/06-dat-lich-mac-tram.png"
         alt=""
@@ -23,10 +22,19 @@ export default function CtaBand() {
           </h2>
         </Reveal>
         <Reveal delay={120}>
-          <div className="mt-10">
-            <Suspense fallback={null}>
-              <CtaBandActions />
-            </Suspense>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/lien-he"
+              className="tracking-label bg-gold px-8 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
+            >
+              Đặt lịch tư vấn
+            </Link>
+            <Link
+              href="/dich-vu"
+              className="tracking-label border border-ivory/50 px-8 py-3.5 text-[11px] font-semibold uppercase text-ivory transition-colors hover:border-gold hover:text-gold"
+            >
+              Tìm hiểu dịch vụ
+            </Link>
           </div>
         </Reveal>
       </div>

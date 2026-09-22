@@ -35,7 +35,7 @@ export default function Hero() {
         <Reveal delay={360}>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Link
-              href="/dich-vu"
+              href="/lien-he"
               className="tracking-label bg-gold px-7 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
             >
               Khám phá tư vấn

@@ -32,6 +32,9 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
             <Link href="/admin/tu-van-vien" className="hover:text-gold">
               Tư vấn viên
             </Link>
+            <Link href="/admin/lien-he" className="hover:text-gold">
+              Liên hệ
+            </Link>
             <Link href="/admin/san-pham" className="hover:text-gold">
               Sản phẩm
             </Link>

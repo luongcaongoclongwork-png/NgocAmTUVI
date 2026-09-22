@@ -31,7 +31,7 @@ const columns: {
     href: "/dich-vu",
     links: [
       { label: "Bảng giá", href: "/dich-vu" },
-      { label: "Đặt lịch tư vấn", href: "/dich-vu" },
+      { label: "Đặt lịch tư vấn", href: "/lien-he" },
     ],
   },
   {
@@ -59,7 +59,7 @@ const columns: {
     links: [
       { label: "Câu chuyện thương hiệu", href: "/ve-ngoc-am" },
       { label: "Đội ngũ khai vấn", href: "/ve-ngoc-am" },
-      { label: "Liên hệ", href: "/#lien-he" },
+      { label: "Liên hệ", href: "/lien-he" },
     ],
   },
 ];

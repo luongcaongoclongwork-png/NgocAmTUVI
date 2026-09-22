@@ -67,6 +67,20 @@ function openDb(): Database.Database {
       sort_order INTEGER NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS contact_leads (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      interest TEXT NOT NULL,
+      message TEXT NOT NULL,
+      consent INTEGER NOT NULL DEFAULT 0,
+      status TEXT NOT NULL DEFAULT 'new'
+        CHECK (status IN ('new', 'contacted', 'discussing', 'booked', 'closed')),
+      admin_note TEXT NOT NULL DEFAULT '',
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS product_categories (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       slug TEXT NOT NULL UNIQUE,
