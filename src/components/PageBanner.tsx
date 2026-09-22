@@ -31,26 +31,23 @@ export default function PageBanner({
   return (
     <section className="relative overflow-hidden border-b border-walnut/10 bg-parchment/50 pb-16 pt-36 lg:pb-20 lg:pt-44">
       {image && (
-        <>
-          <Image
-            src={image}
-            alt={imageAlt ?? ""}
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/80 to-parchment/45" />
-        </>
+        <Image
+          src={image}
+          alt={imageAlt ?? ""}
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
       )}
-      {!image && scrim && (
+      {(image || scrim) && (
         // Localized around the text column instead of a full-width
-        // left-to-right wash — the old gradient (still used for `image`
-        // above) dimmed the ENTIRE left half of the banner just because
-        // text happens to start there, leaving the right side looking
-        // accidentally much clearer by comparison. This one only fades
-        // the image right behind the eyebrow/heading/description; the
-        // rest of the background (both left of the text and the whole
-        // right side) stays as visible as that right side already was.
+        // left-to-right wash — a flat left-to-right gradient dims the
+        // ENTIRE left half of the banner just because text happens to
+        // start there, leaving the right side looking accidentally much
+        // clearer by comparison. This only fades the image right behind
+        // the eyebrow/heading/description; the rest of the image (both
+        // left of the text and the whole right side) stays as visible as
+        // it already was.
         <div
           className="absolute inset-0"
           style={{
