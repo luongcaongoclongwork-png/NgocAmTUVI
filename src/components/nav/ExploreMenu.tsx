@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { EXPLORE_NAV_ITEMS, isNavItemActive } from "./navItems";
 import "./exploreMenu.css";
 
-const EXIT_MS = 140;
+const EXIT_MS = 150;
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;

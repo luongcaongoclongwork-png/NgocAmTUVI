@@ -4,11 +4,12 @@
   --ivory: #f4ebdd;
   --parchment: #e8d7b9;
   --beige: #d7c19c;
+  --beige-light: #ece2d1; /* --beige với cùng hue/saturation (~38°, ~42%), độ sáng (L) tăng 20% tương đối */
   --earth-brown: #795a3a;
   --walnut: #3e2b1e;
   --ink: #25211b;
   --gold: #af8a50;
-  --gold-deep: #6f4e1b; /* vàng đậm cho chữ trên thanh menu có ảnh nền (tương phản ≥4,5) */
+  --gold-deep: #73592d; /* vàng đậm cho chữ trên thanh menu có ảnh nền (tương phản ≥4,5) — cùng tỷ lệ RGB với --gold (chỉ tối hơn), thay vì lệch tông sang cam như bản cũ #6f4e1b */
   --bronze: #80633e;
   --sage: #7a8068;
   --lacquer: #a13a2f;
@@ -18,6 +19,7 @@
   --color-ivory: var(--ivory);
   --color-parchment: var(--parchment);
   --color-beige: var(--beige);
+  --color-beige-light: var(--beige-light);
   --color-earth-brown: var(--earth-brown);
   --color-walnut: var(--walnut);
   --color-ink: var(--ink);

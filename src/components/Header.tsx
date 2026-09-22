@@ -42,7 +42,7 @@ export default function Header() {
         <div className="flex items-center gap-2 text-walnut sm:gap-4">
           <Link
             href="/lien-he"
-            className="tracking-label flex h-11 items-center whitespace-nowrap border border-walnut px-3 text-[11px] font-medium uppercase text-walnut transition-colors hover:border-gold-deep hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:px-4"
+            className="tracking-label flex h-11 items-center whitespace-nowrap border border-walnut/15 bg-beige-light px-3 text-[11px] font-semibold uppercase text-ink shadow-[0_4px_16px_rgba(49,34,21,0.1)] transition-colors hover:border-bronze hover:bg-bronze hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:px-4"
           >
             Đặt lịch
           </Link>
