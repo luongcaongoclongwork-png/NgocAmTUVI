@@ -1,0 +1,28 @@
+/* "Kham pha" disclosure dropdown — soft open/close instead of an instant
+   mount/unmount snap, same easing family as the rest of the site
+   (cubic-bezier(0.22, 1, 0.36, 1)). transform owns the horizontal centering
+   here (translateX(-50%)) instead of a Tailwind -translate-x-1/2 utility,
+   since this file needs to animate transform as a whole. */
+
+.explore-menu-panel {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-6px) scale(0.98);
+  transition:
+    opacity 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.explore-menu-panel[data-open="true"] {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.explore-menu-panel[data-open="false"] {
+  transition-duration: 140ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .explore-menu-panel {
+    transition: none;
+  }
+}
