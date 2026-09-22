@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TuViChart from "./TuViChart";
 import TargetYearStepper from "./TargetYearStepper";
-import { loadChartInput, type StoredChartInput } from "@/lib/tuvi/storage/chartInputStorage";
+import { loadChartInput, saveChartInput, type StoredChartInput } from "@/lib/tuvi/storage/chartInputStorage";
 import { generateChart } from "@/lib/tuvi/engine/chartEngine";
 import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 
@@ -79,6 +79,14 @@ export default function LaSoResultClient() {
 
   const { chart, birthInput } = state;
 
+  function handleTargetYearChange(year: number) {
+    setTargetYear(year);
+    // Keep sessionStorage in sync so a fresh page load — including the
+    // print route, which reads chart input independently in its own tab —
+    // picks up the year adjusted here, not the one from the original form.
+    saveChartInput({ birthInput, targetYear: year });
+  }
+
   return (
     <div className="la-so-result-page mx-auto max-w-[1320px] px-6 py-16 lg:px-10">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -96,7 +104,7 @@ export default function LaSoResultClient() {
           </h1>
         </div>
 
-        {targetYear !== null && <TargetYearStepper targetYear={targetYear} onTargetYearChange={setTargetYear} />}
+        {targetYear !== null && <TargetYearStepper targetYear={targetYear} onTargetYearChange={handleTargetYearChange} />}
       </div>
 
       <TuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear ?? undefined} />
