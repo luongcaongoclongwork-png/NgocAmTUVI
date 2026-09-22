@@ -68,6 +68,8 @@ const social: { label: string; href: string }[] = [
   { label: "TikTok", href: "https://www.tiktok.com/@ngocam.tuviphongthuy" },
   { label: "Facebook", href: "https://www.facebook.com/Tuviphongthuyngocam" },
   { label: "Instagram", href: "https://www.instagram.com/ngocam_tuviphongthuy/" },
+  { label: "trangsucngocam.work@gmail.com", href: "mailto:trangsucngocam.work@gmail.com" },
+  { label: "0775 448 989", href: "tel:+84775448989" },
 ];
 
 export default function Footer() {
@@ -123,18 +125,21 @@ export default function Footer() {
               Kết nối
             </h4>
             <ul className="mt-3 space-y-1.5">
-              {social.map((s) => (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-ivory/75 transition-colors hover:text-ivory"
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
+              {social.map((s) => {
+                const external = s.href.startsWith("http");
+                return (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener noreferrer" : undefined}
+                      className="text-sm text-ivory/75 transition-colors hover:text-ivory"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
