@@ -74,7 +74,7 @@ const social: { label: string; href: string }[] = [
 
 export default function Footer() {
   return (
-    <footer className="site-footer relative overflow-hidden text-ivory">
+    <footer className="relative overflow-hidden bg-earth-brown text-ivory">
       <svg
         className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.04]"
         aria-hidden="true"
