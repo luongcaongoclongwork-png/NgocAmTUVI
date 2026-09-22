@@ -251,7 +251,6 @@ export default function XtdTuViChart({
                 }}
                 onKeyDownPalace={handlePalaceKeyDown}
                 useVariableRowHeights
-                lantern
               />
             </section>
 

@@ -16,8 +16,7 @@
  *            Menh palace (--rv-i = order from Menh): each rises 6px into place
  *            while a faint dark tint over it lifts, like a lamp reaching it;
  *   560-820  the cuc's mineral pigment stroke draws under the "Cuc" value;
- *   640-1020 the two lamps (Chu Dang, Tuan Dang -> Tuy Dang) come on;
- *   780-1100 the Nien Trinh lantern appears on this year's Menh palace.
+ *   640-1020 the two lamps (Chu Dang, Tuan Dang -> Tuy Dang) come on.
  * Only transform/opacity animate (background of the lamp tint is a static
  * colour whose opacity fades), so it stays on the compositor.
  */
@@ -87,30 +86,6 @@
   pointer-events: none;
 }
 
-/* ---------- Nien Trinh lantern ---------- */
-
-.xtd-lantern {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 6;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
-  border-radius: 50%;
-  background: var(--color-lacquer, #a13a2f);
-  /* a thin gold ring, no blur/glow */
-  box-shadow: 0 0 0 2px rgba(175, 138, 80, 0.65);
-  pointer-events: none;
-  will-change: transform;
-  /* hidden until first seated on its palace (no flash at the grid's corner) */
-  opacity: 0;
-}
-
-.xtd-lantern--seated {
-  opacity: 1;
-}
-
 /* ---------- Reveal ---------- */
 
 @keyframes xtd-rv-fade {
@@ -171,7 +146,7 @@
 }
 
 /* pending: everything animated is hidden (opacity only — layout is untouched, so the fit guard still measures the real chart) */
-:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="pending"] :is(.rv-cell, .rv-center, .tuvi-structural-grid, .xtd-lantern) {
+:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="pending"] :is(.rv-cell, .rv-center, .tuvi-structural-grid) {
   opacity: 0;
 }
 
@@ -258,7 +233,7 @@
   animation-delay: calc((300ms + var(--rv-i, 0) * 24ms) * var(--rv-k));
 }
 
-/* run: pigment stroke, lamps, lantern */
+/* run: pigment stroke, lamps */
 :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .center-info-row--cuc .center-info-value::after {
   animation: xtd-rv-line-x calc(260ms * var(--rv-k)) var(--rv-ease) both;
   animation-delay: calc(560ms * var(--rv-k));
@@ -273,11 +248,6 @@
   animation-delay: calc(720ms * var(--rv-k));
 }
 
-:is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="run"] .xtd-lantern {
-  animation: xtd-rv-fade calc(320ms * var(--rv-k)) ease both;
-  animation-delay: calc(780ms * var(--rv-k));
-}
-
 @media (prefers-reduced-motion: reduce) {
   :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal],
   :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal] *,
@@ -286,7 +256,7 @@
     animation: none !important;
   }
 
-  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="pending"] :is(.rv-cell, .rv-center, .tuvi-structural-grid, .xtd-lantern) {
+  :is(.ngoc-am-chart, .mobile-tuvi-canvas)[data-reveal="pending"] :is(.rv-cell, .rv-center, .tuvi-structural-grid) {
     opacity: 1 !important;
   }
 }

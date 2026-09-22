@@ -68,7 +68,6 @@ export function XtdMobileTuViOverview({
             onSelectCenter={() => onSelect({ kind: "center" })}
             centerSelected={selection.kind === "center"}
             showAspectOverlay={selection.kind === "palace"}
-            lantern
           />
         </FitCanvas>
       </MobileScaleViewport>

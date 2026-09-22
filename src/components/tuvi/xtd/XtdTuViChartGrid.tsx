@@ -1,10 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
 import XtdPalaceCell from "./XtdPalaceCell";
 import XtdCenterPalace from "./XtdCenterPalace";
-import XtdLantern from "./XtdLantern";
-import { yearMenhIndex } from "./xtdMotion";
 import AspectOverlay from "../AspectOverlay";
 import StructuralGridSVG from "../StructuralGridSVG";
 import { computeRowLayout, UNIFORM_ROW_LAYOUT, type RowLayout } from "../chartRowLayout";
@@ -46,8 +43,6 @@ export interface XtdTuViChartGridProps {
   centerPrintSeal?: React.ReactNode;
   /** Measured row split (print's useXtdPrintFit); wins over computeRowLayout's estimate. */
   rowLayoutOverride?: RowLayout;
-  /** Show the Nien Trinh lantern (web charts only — never the print tree). */
-  lantern?: boolean;
 }
 
 const UNIFORM_COLUMN_BOUNDARIES: [number, number, number, number, number] = [0, 25, 50, 75, 100];
@@ -68,7 +63,6 @@ export default function XtdTuViChartGrid({
   columnBoundaries,
   centerPrintSeal,
   rowLayoutOverride,
-  lantern = false,
 }: XtdTuViChartGridProps) {
   const giapIndices: number[] = selectedIndex === null ? [] : giapCungIndices(selectedIndex);
   const tamHop: number[] = selectedIndex === null ? [] : tamHopIndices(selectedIndex);
@@ -80,22 +74,6 @@ export default function XtdTuViChartGrid({
 
   // Reveal order = an-cung order from the Menh palace (palace.index grows in that direction).
   const soulIndex = chart.palaces.find((p) => p.isSoulPalace)?.index ?? 0;
-
-  // Cell centres in % of the grid, for the lantern (only depends on the row/column edges).
-  const boundsKey = `${rowLayout.boundaries.join(",")}|${resolvedColumnBoundaries.join(",")}`;
-  const centers = useMemo(() => {
-    const rb = rowLayout.boundaries;
-    const cb = resolvedColumnBoundaries;
-    const out: Record<number, { x: number; y: number }> = {};
-    for (const p of chart.palaces) {
-      const { row, col } = BRANCH_GRID_POSITION[p.branch];
-      out[p.index] = { x: (cb[col - 1] + cb[col]) / 2, y: (rb[row - 1] + rb[row]) / 2 };
-    }
-    return out;
-    // boundsKey captures the boundary values; the arrays themselves are re-created every render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chart.palaces, boundsKey]);
-  const lanternIndex = lantern ? yearMenhIndex(horoscope) : undefined;
 
   function emphasisFor(index: number): "tam-hop" | "xung-chieu" | "giap-cung" | undefined {
     if (selectedIndex === null || index === selectedIndex) return undefined;
@@ -167,8 +145,6 @@ export default function XtdTuViChartGrid({
         ) : (
           center
         )}
-
-        {lanternIndex !== undefined && <XtdLantern targetIndex={lanternIndex} centers={centers} />}
       </div>
 
       {showAspectOverlay && (
