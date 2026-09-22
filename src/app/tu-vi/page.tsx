@@ -47,8 +47,8 @@ export default async function TuViPage() {
         eyebrow="Tử Vi Xuyên Tam Diệm"
         heading="Không phải để biết trước, mà để hiểu rõ hơn."
         description="Tử Vi tại Ngọc Âm không dừng ở việc dự đoán. Đó là một công cụ khai vấn — giúp bạn nhìn rõ bản thân, hoàn cảnh và những chu kỳ đang vận hành, để chủ động hơn trên hành trình của chính mình."
-        image="/images/01-hero-ngoc-am.webp"
-        imageAlt="Phong cảnh núi non Việt Nam trong sương sớm"
+        image="/images/tu-vi/page-banner.webp"
+        imageAlt="Lá số Tử Vi Xuyên Tam Diệm, ấn ngọc và trầm hương trên bàn gỗ cổ"
       />
       <PhilosophyPillars
         eyebrow="Triết lý"
