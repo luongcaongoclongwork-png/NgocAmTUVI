@@ -39,7 +39,7 @@ export default function PageBanner({
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/80 to-parchment/45" />
+          <div className="absolute inset-0 bg-gradient-to-r from-parchment via-parchment/80 to-parchment/35" />
         </>
       )}
       {!image && scrim && (
