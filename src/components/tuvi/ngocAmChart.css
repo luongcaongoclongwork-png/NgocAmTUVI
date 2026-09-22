@@ -148,6 +148,7 @@
    height; auto-density (below) is what's actually responsible for making
    that real height small enough to fit, same as it was always meant to. */
 .palace-header,
+.palace-than-tag,
 .palace-main-stars,
 .palace-minor-stars,
 .palace-adjective-stars,
@@ -215,6 +216,20 @@
   text-align: center;
   color: var(--na-cinnabar-dark);
   white-space: nowrap;
+}
+
+/* Than tag ("Hậu Thất"): its own line under the header, not appended inline
+ * to the palace name — that overflowed the header's Can-Chi/index columns
+ * in print (2026-09-22 "chữ đè nhau" fix). 85% of .palace-name's size so it
+ * still reads as a secondary tag, not competing with the palace name. */
+.palace-than-tag {
+  margin-top: 1px;
+  font-family: var(--font-heading);
+  font-size: calc(var(--na-palace-name-size) * 0.85);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  text-align: center;
+  color: var(--na-cinnabar-dark);
 }
 
 .palace-index {

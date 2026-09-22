@@ -117,6 +117,10 @@ export default function XtdPalaceCell({
   // (and that cell reserves one line of bottom padding).
   const badgeInFooter = hasZoneBadge && Boolean(horoscope);
   const badgeOwnLine = hasZoneBadge && !badgeInFooter;
+  // Than tag ("Hậu Thất"): its own line under the header — appended inline
+  // to the name overflowed the header's Can-Chi/index columns in print
+  // (2026-09-22 "chữ đè nhau" fix).
+  const hasThanTag = palace.isBodyPalace;
   const zoneBadge = !hasZoneBadge ? null : palace.tuan && palace.triet ? (
     <span className="palace-zone-badge palace-zone-badge--both">
       <span className="palace-zone-badge__tuan">{XTD_TUAN_TRIET_COMBINED.tuan}</span> <span className="palace-zone-badge__triet">{XTD_TUAN_TRIET_COMBINED.triet}</span>
@@ -128,8 +132,10 @@ export default function XtdPalaceCell({
   );
   const density = getPalaceDensity({
     majorCount: palace.majorStars.length,
-    // +1 only when the badge needs its own line (see badgeOwnLine above).
-    minorCount: minorStars.length + (badgeOwnLine ? 1 : 0),
+    // +1 per extra own-line row (zone badge, Than tag) so a busy cell that
+    // also carries one of these tightens its own spacing first instead of
+    // squeezing the whole chart.
+    minorCount: minorStars.length + (badgeOwnLine ? 1 : 0) + (hasThanTag ? 1 : 0),
     adjectiveCount: palace.adjectiveStars.length + natalCycleStars.length,
     annualCount,
   });
@@ -157,12 +163,11 @@ export default function XtdPalaceCell({
         <span className="palace-branch">
           {palace.heavenlyStem} {palace.branch}
         </span>
-        <span className="palace-name">
-          {xtdName}
-          {palace.isBodyPalace && ` · ${XTD_THAN_TAG}`}
-        </span>
+        <span className="palace-name">{xtdName}</span>
         <span className="palace-index">{palace.index + 1}</span>
       </header>
+
+      {hasThanTag && <div className="palace-than-tag">{XTD_THAN_TAG}</div>}
 
       <div id={`xtd-palace-detail-${palace.index}`} className="palace-main-stars">
         {palace.majorStars.length === 0 ? (

@@ -436,6 +436,16 @@
   color: var(--print-cinnabar);
 }
 
+/* Than tag ("Hậu Thất"), own line under the header — see .palace-than-tag's
+   comment in ngocAmChart.css. 85% of .palace-name's 10.3pt here since print
+   doesn't route .palace-name through --na-palace-name-size (the base rule's
+   calc()) — it sets the pt value directly, so this needs its own. */
+.print-chart .palace-than-tag {
+  margin-top: calc(0.3mm * var(--pz-space, 1) * var(--pz-scale, 1));
+  font-size: calc(10.3pt * 0.85);
+  color: var(--print-cinnabar);
+}
+
 .print-chart .palace-index {
   font-size: 7pt;
   text-align: right;
