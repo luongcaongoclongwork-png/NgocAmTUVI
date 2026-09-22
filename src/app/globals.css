@@ -104,3 +104,14 @@ body {
     url("/images/header-bg.webp") 50% 47% / cover no-repeat;
   background-color: var(--ivory);
 }
+
+/* Chân trang: tranh núi mực (public/images/footer-bg.webp, gốc "06-dat-lich-mac-tram" —
+   trước đây dùng ở CtaBand.tsx, nay đổi chỗ với tranh mây/sóng đang ở đó) — ảnh đã tối màu
+   sẵn (trung bình rgb ~48,36,25) nên chỉ cần lớp phủ nâu mỏng để giữ đúng tông --earth-brown,
+   không cần phủ dày như tranh sáng màu. */
+.site-footer {
+  background:
+    linear-gradient(rgba(121, 90, 58, 0.55), rgba(121, 90, 58, 0.55)),
+    url("/images/footer-bg.webp") 50% 30% / cover no-repeat;
+  background-color: var(--earth-brown);
+}
