@@ -3,6 +3,9 @@ import Link from "next/link";
 import Reveal from "./Reveal";
 
 export default function CtaBand() {
+  const zaloUrl = process.env.NEXT_PUBLIC_ZALO_CONTACT_URL || null;
+  const messengerUrl = process.env.NEXT_PUBLIC_MESSENGER_CONTACT_URL || null;
+
   return (
     <section id="dat-lich" className="relative overflow-hidden bg-walnut py-24 lg:py-28">
       <Image
@@ -37,6 +40,35 @@ export default function CtaBand() {
             </Link>
           </div>
         </Reveal>
+        {(zaloUrl || messengerUrl) && (
+          <Reveal delay={180}>
+            <p className="mt-6 text-[13.5px] leading-relaxed text-ivory/60">
+              Muốn trò chuyện nhanh hơn? Nhắn qua{" "}
+              {zaloUrl && (
+                <a
+                  href={zaloUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ivory/85 underline decoration-ivory/30 underline-offset-2 hover:text-gold"
+                >
+                  Zalo
+                </a>
+              )}
+              {zaloUrl && messengerUrl && " · "}
+              {messengerUrl && (
+                <a
+                  href={messengerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ivory/85 underline decoration-ivory/30 underline-offset-2 hover:text-gold"
+                >
+                  Messenger
+                </a>
+              )}
+              .
+            </p>
+          </Reveal>
+        )}
       </div>
     </section>
   );
