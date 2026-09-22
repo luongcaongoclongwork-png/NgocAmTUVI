@@ -63,8 +63,8 @@ export default async function TraDaoPage() {
         eyebrow="Trà Đạo"
         heading="Đạo Trong Một Chén Trà"
         description="Thuận trà · Thuận thủy · Thuận thời · Thuận tâm."
-        image="/images/pillars/tra-dao.png"
-        imageAlt="Bàn trà gỗ giữa vườn trà trên núi, nhìn ra thung lũng sương sớm"
+        image="/images/tra-dao/page-banner.webp"
+        imageAlt="Bàn trà gỗ trên hiên nhà nhìn ra sông núi lúc bình minh, ấm trà bốc hơi"
       />
 
       {/* ---------- Khương — Trà Sư ---------- */}
