@@ -1,5 +1,6 @@
 "use client";
 
+import KeepValuesForm from "./KeepValuesForm";
 import { useActionState } from "react";
 import type { Product, ProductCategory } from "@/lib/product-constants";
 import type { ProductFormState } from "@/app/admin/san-pham/actions";
@@ -19,7 +20,7 @@ export default function AdminProductForm({
   const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <KeepValuesForm action={formAction} className="flex flex-col gap-6">
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Danh mục
         <select
@@ -87,6 +88,6 @@ export default function AdminProductForm({
           {pending ? "Đang lưu…" : product ? "Lưu thay đổi" : "Tạo sản phẩm"}
         </button>
       </div>
-    </form>
+    </KeepValuesForm>
   );
 }

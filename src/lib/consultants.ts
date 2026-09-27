@@ -14,6 +14,7 @@ type ConsultantRow = {
   initials: string;
   bio: string;
   sort_order: number;
+  photo?: string;
 };
 
 function rowToConsultant(row: ConsultantRow): Consultant {
@@ -25,6 +26,7 @@ function rowToConsultant(row: ConsultantRow): Consultant {
     initials: row.initials,
     bio: row.bio,
     sortOrder: row.sort_order,
+    photo: row.photo ?? "",
   };
 }
 
@@ -90,6 +92,14 @@ export async function updateConsultant(id: number, input: Omit<ConsultantInput, 
   const consultant = await getConsultantByIdForAdmin(id);
   if (!consultant) throw new Error("Không tìm thấy tư vấn viên để cập nhật.");
   return consultant;
+}
+
+/** Sets or clears ("") the portrait; returns the previous path so the caller can delete that file. */
+export async function setConsultantPhoto(id: number, photo: string): Promise<string> {
+  const db = getDb();
+  const prev = (db.prepare("SELECT photo FROM consultants WHERE id = ?").get(id) as { photo: string } | undefined)?.photo ?? "";
+  db.prepare("UPDATE consultants SET photo = ? WHERE id = ?").run(photo, id);
+  return prev;
 }
 
 export async function deleteConsultant(id: number): Promise<Consultant | null> {

@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "./Reveal";
+import { getSiteSettings, isSafeHttpUrl } from "@/lib/site-settings";
 
-export default function CtaBand() {
-  const zaloUrl = process.env.NEXT_PUBLIC_ZALO_CONTACT_URL || null;
-  const messengerUrl = process.env.NEXT_PUBLIC_MESSENGER_CONTACT_URL || null;
+export default async function CtaBand() {
+  const settings = await getSiteSettings(); // editable in /admin/cai-dat
+  const zaloUrl = isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : null;
+  const messengerUrl = isSafeHttpUrl(settings.messengerUrl) ? settings.messengerUrl : null;
 
   return (
     <section id="dat-lich" className="relative overflow-hidden bg-walnut py-24 lg:py-28">

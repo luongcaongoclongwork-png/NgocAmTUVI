@@ -11,6 +11,8 @@ export type Consultant = {
   initials: string;
   bio: string;
   sortOrder: number;
+  /** Uploaded portrait path ("/uploads/…"), "" when none yet (initials badge is shown instead). */
+  photo: string;
 };
 
 export type ConsultantInput = {

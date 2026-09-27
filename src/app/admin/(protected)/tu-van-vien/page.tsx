@@ -23,11 +23,25 @@ export default async function AdminConsultantsPage() {
         <div className="mt-8 divide-y divide-walnut/10 border-y border-walnut/10">
           {consultants.map((consultant) => (
             <div key={consultant.id} className="flex items-center justify-between gap-4 py-4">
-              <div className="min-w-0">
-                <p className="truncate font-heading text-[16px] text-ink">{consultant.name}</p>
-                <p className="text-[12px] text-ink/50">
-                  {consultant.field} · thứ tự {consultant.sortOrder}
-                </p>
+              <div className="flex min-w-0 items-center gap-4">
+                {consultant.photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- 48px admin thumbnail
+                  <img src={consultant.photo} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover object-top" />
+                ) : (
+                  <span
+                    title="Chưa có ảnh chân dung"
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-walnut font-heading text-[14px] text-ivory"
+                  >
+                    {consultant.initials}
+                  </span>
+                )}
+                <div className="min-w-0">
+                  <p className="truncate font-heading text-[16px] text-ink">{consultant.name}</p>
+                  <p className="text-[12px] text-ink/50">
+                    {consultant.field}
+                    {!consultant.photo && <span className="text-lacquer"> · chưa có ảnh chân dung</span>}
+                  </p>
+                </div>
               </div>
               <div className="flex shrink-0 items-center gap-4 text-[13px]">
                 <Link href={`/admin/tu-van-vien/${consultant.id}`} className="text-walnut/70 hover:text-gold">

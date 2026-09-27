@@ -11,6 +11,7 @@ const NAV: { href: string; label: string; exact?: boolean; badge?: boolean }[] =
   { href: "/admin/dich-vu", label: "Dịch vụ" },
   { href: "/admin/tu-van-vien", label: "Tư vấn viên" },
   { href: "/admin/san-pham", label: "Sản phẩm" },
+  { href: "/admin/cai-dat", label: "Cài đặt" },
   { href: "/admin/tai-khoan", label: "Tài khoản" },
 ];
 

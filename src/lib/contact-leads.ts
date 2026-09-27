@@ -67,35 +67,12 @@ export async function updateLeadStatus(
 
 // ---------- Lead management extras: appointment + note history ----------
 //
-// Created lazily and idempotently here rather than in db.ts's schema block,
-// so it works on any existing database with no manual migration.
+// Columns/tables come from lib/schema-extras.ts (run by db.ts at boot).
 // `appointment_at` is a UTC ISO string, '' when there is no appointment.
 // `lead_notes` replaces overwriting the single admin_note field: each note
 // is kept with its author and time. An old admin_note is still shown.
 
-const extrasReady = new WeakSet<object>();
-
-function leadDb() {
-  const db = getDb();
-  if (!extrasReady.has(db)) {
-    const cols = db.prepare("PRAGMA table_info(contact_leads)").all() as { name: string }[];
-    if (!cols.some((c) => c.name === "appointment_at")) {
-      db.exec("ALTER TABLE contact_leads ADD COLUMN appointment_at TEXT NOT NULL DEFAULT ''");
-    }
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS lead_notes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        lead_id INTEGER NOT NULL REFERENCES contact_leads(id) ON DELETE CASCADE,
-        author TEXT NOT NULL,
-        body TEXT NOT NULL,
-        created_at TEXT NOT NULL
-      );
-      CREATE INDEX IF NOT EXISTS idx_lead_notes_lead ON lead_notes(lead_id, created_at);
-    `);
-    extrasReady.add(db);
-  }
-  return db;
-}
+const leadDb = getDb;
 
 export type LeadNote = { id: number; author: string; body: string; createdAt: string };
 export type AdminLead = ContactLead & { appointmentAt: string; noteCount: number };

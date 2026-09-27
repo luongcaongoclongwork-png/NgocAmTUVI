@@ -86,6 +86,9 @@ export async function updateProductCategoryAction(
       return { error: err instanceof UploadError ? err.message : "Không thể tải ảnh lên." };
     }
     if (existing.image) await deleteUploadedImage(existing.image);
+  } else if (formData.get("imageRemove") && existing.image) {
+    await deleteUploadedImage(existing.image);
+    image = null;
   }
 
   await updateProductCategory(id, {

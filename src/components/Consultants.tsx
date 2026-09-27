@@ -41,6 +41,7 @@ export default async function Consultants() {
                 variant="consultant"
                 href={CONSULTANT_ACTIONS[c.slug]?.href}
                 ctaLabel={CONSULTANT_ACTIONS[c.slug]?.cta}
+                image={c.photo ? { src: c.photo, alt: `Chân dung ${c.name}`, position: "center 22%" } : undefined}
                 avatarInitials={c.initials}
                 eyebrow={c.field}
                 title={c.name}

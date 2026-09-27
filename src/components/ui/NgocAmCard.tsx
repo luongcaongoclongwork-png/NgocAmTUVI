@@ -24,6 +24,8 @@ interface NgocAmCardImage {
   src: string;
   alt: string;
   sizes?: string;
+  /** CSS object-position, e.g. "center 20%" so a portrait's face survives the 4:3 crop. */
+  position?: string;
 }
 
 interface NgocAmCardProps {
@@ -74,6 +76,7 @@ export default function NgocAmCard({
             fill
             sizes={image.sizes ?? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
             className={`ngoc-am-card__media-img${imageLoaded ? " is-loaded" : ""}`}
+            style={image.position ? { objectPosition: image.position } : undefined}
             onLoad={() => setImageLoaded(true)}
           />
           <div className="ngoc-am-card__veil" aria-hidden="true" />

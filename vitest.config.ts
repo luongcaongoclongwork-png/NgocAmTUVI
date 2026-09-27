@@ -14,6 +14,10 @@ export default defineConfig({
   },
   test: {
     environment: "node",
+    // Several test files write to the one real SQLite file (data/articles.db,
+    // there is no separate test DB). Run files one after another so e.g. a
+    // "row count unchanged" assertion never sees another file's insert.
+    fileParallelism: false,
     include: ["src/lib/tuvi/tests/**/*.test.ts", "src/**/*.test.ts"],
   },
 });

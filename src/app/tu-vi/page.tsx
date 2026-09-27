@@ -57,8 +57,8 @@ export default async function TuViPage() {
       />
       <ConsultantProfile
         consultant={trang}
-        image="/images/consultants/minh-trang.webp"
-        imageAlt="Lá số Tử Vi viết tay trên bàn gỗ cổ"
+        image={trang.photo || "/images/consultants/minh-trang.webp"}
+        imageAlt={trang.photo ? `Chân dung ${trang.name}` : "Lá số Tử Vi viết tay trên bàn gỗ cổ"}
         contactTopic="tu-vi"
       />
       <ServiceList

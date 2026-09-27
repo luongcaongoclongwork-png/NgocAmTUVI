@@ -3,7 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { verifySession } from "@/lib/auth";
-import { createConsultant, updateConsultant } from "@/lib/consultants";
+import { createConsultant, setConsultantPhoto, updateConsultant } from "@/lib/consultants";
+import { UploadError, deleteUploadedImage, saveUploadedImage } from "@/lib/uploads";
 
 export type ConsultantFormState = { error: string | null };
 
@@ -26,6 +27,27 @@ function readCommonFields(formData: FormData): ReadFieldsResult {
   return { ok: true, fields: { name, field, initials, bio, sortOrder } };
 }
 
+/**
+ * Portrait from the form: a new file replaces the old one (whose file is
+ * then deleted), "photoRemove" clears it, nothing chosen keeps it.
+ * Returns an error message for a bad upload instead of throwing.
+ */
+async function applyPhoto(id: number, formData: FormData): Promise<string | null> {
+  const file = formData.get("photo");
+  if (file instanceof File && file.size > 0) {
+    try {
+      const path = await saveUploadedImage(file);
+      await deleteUploadedImage(await setConsultantPhoto(id, path));
+    } catch (e) {
+      if (e instanceof UploadError) return e.message;
+      throw e;
+    }
+  } else if (formData.get("photoRemove")) {
+    await deleteUploadedImage(await setConsultantPhoto(id, ""));
+  }
+  return null;
+}
+
 async function revalidateConsultantSurfaces() {
   revalidatePath("/admin/tu-van-vien");
   revalidatePath("/");
@@ -44,8 +66,10 @@ export async function createConsultantAction(
   const result = readCommonFields(formData);
   if (!result.ok) return { error: result.error };
 
-  await createConsultant(result.fields);
+  const created = await createConsultant(result.fields);
+  const photoError = await applyPhoto(created.id, formData);
   await revalidateConsultantSurfaces();
+  if (photoError) return { error: `Đã lưu tư vấn viên, nhưng ảnh chưa tải lên được: ${photoError}` };
   redirect("/admin/tu-van-vien");
 }
 
@@ -61,6 +85,8 @@ export async function updateConsultantAction(
   if (!result.ok) return { error: result.error };
 
   await updateConsultant(id, result.fields);
+  const photoError = await applyPhoto(id, formData);
   await revalidateConsultantSurfaces();
+  if (photoError) return { error: `Đã lưu thông tin, nhưng ảnh chưa tải lên được: ${photoError}` };
   redirect("/admin/tu-van-vien");
 }

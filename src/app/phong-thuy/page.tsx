@@ -69,8 +69,8 @@ export default async function PhongThuyPage() {
       />
       <ConsultantProfile
         consultant={tinh}
-        image="/images/consultants/thay-tinh.webp"
-        imageAlt="Hành lang gỗ bên hồ nước trong sân nhà cổ"
+        image={tinh.photo || "/images/consultants/thay-tinh.webp"}
+        imageAlt={tinh.photo ? `Chân dung ${tinh.name}` : "Hành lang gỗ bên hồ nước trong sân nhà cổ"}
         reverse
         contactTopic="phong-thuy"
       />

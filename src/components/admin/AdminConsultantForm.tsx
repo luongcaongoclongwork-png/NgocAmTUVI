@@ -1,8 +1,10 @@
 "use client";
 
+import KeepValuesForm from "./KeepValuesForm";
 import { useActionState } from "react";
 import type { Consultant } from "@/lib/consultant-constants";
 import type { ConsultantFormState } from "@/app/admin/tu-van-vien/actions";
+import ImageUploadField from "./ImageUploadField";
 
 const initialState: ConsultantFormState = { error: null };
 
@@ -17,7 +19,16 @@ export default function AdminConsultantForm({
   const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <KeepValuesForm action={formAction} className="flex flex-col gap-6">
+      <ImageUploadField
+        name="photo"
+        label="Ảnh chân dung"
+        currentUrl={consultant?.photo || null}
+        allowRemove
+        previewClassName="h-48 w-40 object-top"
+        hint="Nên dùng ảnh chân dung thật, ảnh dọc, ánh sáng dịu. Khi chưa có ảnh, website hiện chữ viết tắt bên dưới."
+      />
+
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Tên
         <input
@@ -89,6 +100,6 @@ export default function AdminConsultantForm({
           {pending ? "Đang lưu…" : consultant ? "Lưu thay đổi" : "Tạo tư vấn viên"}
         </button>
       </div>
-    </form>
+    </KeepValuesForm>
   );
 }

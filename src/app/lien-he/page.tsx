@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import LienHeClient from "@/components/contact/LienHeClient";
 import { resolveTopicFromQuery, topicLabel } from "@/lib/contact-leads-constants";
 import { getServiceById } from "@/lib/services";
+import { getSiteSettings, isSafeHttpUrl, socialLinks, telHref } from "@/lib/site-settings";
 
 export const metadata: Metadata = {
   title: "Gửi lời nhắn đến Ngọc Âm",
@@ -16,7 +17,10 @@ export default async function LienHePage({
 }) {
   const params = await searchParams;
   const topicId = resolveTopicFromQuery(params.topic);
-  const service = params.service ? await getServiceById(Number(params.service)) : null;
+  const [service, settings] = await Promise.all([
+    params.service ? getServiceById(Number(params.service)) : null,
+    getSiteSettings(),
+  ]);
 
   return (
     <LienHeClient
@@ -33,8 +37,15 @@ export default async function LienHePage({
             }
           : null
       }
-      zaloUrl={process.env.NEXT_PUBLIC_ZALO_CONTACT_URL || null}
-      messengerUrl={process.env.NEXT_PUBLIC_MESSENGER_CONTACT_URL || null}
+      zaloUrl={isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : null}
+      messengerUrl={isSafeHttpUrl(settings.messengerUrl) ? settings.messengerUrl : null}
+      contact={{
+        phone: settings.phone,
+        phoneHref: telHref(settings.phone),
+        email: settings.email,
+        // Zalo/Messenger already appear as chat links next to the form.
+        socials: socialLinks(settings).filter((s) => s.label !== "Zalo"),
+      }}
     />
   );
 }

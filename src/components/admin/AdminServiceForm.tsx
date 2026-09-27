@@ -1,5 +1,6 @@
 "use client";
 
+import KeepValuesForm from "./KeepValuesForm";
 import { useActionState } from "react";
 import { SERVICE_GROUPS, type Service } from "@/lib/service-constants";
 import type { ServiceFormState } from "@/app/admin/dich-vu/actions";
@@ -17,7 +18,7 @@ export default function AdminServiceForm({
   const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <KeepValuesForm action={formAction} className="flex flex-col gap-6">
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Nhóm
         <select
@@ -96,6 +97,6 @@ export default function AdminServiceForm({
           {pending ? "Đang lưu…" : service ? "Lưu thay đổi" : "Tạo dịch vụ"}
         </button>
       </div>
-    </form>
+    </KeepValuesForm>
   );
 }

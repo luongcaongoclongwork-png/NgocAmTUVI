@@ -46,12 +46,15 @@ export default function LienHeClient({
   selectedService = null,
   zaloUrl,
   messengerUrl,
+  contact,
 }: {
   initialTopicId: TopicId | null;
   initialInterestText: string;
   selectedService?: SelectedService | null;
   zaloUrl: string | null;
   messengerUrl: string | null;
+  /** From /admin/cai-dat; empty fields are simply not shown. */
+  contact: { phone: string; phoneHref: string; email: string; socials: { label: string; href: string }[] };
 }) {
   const [selectedTopicId, setSelectedTopicId] = useState<TopicId | null>(initialTopicId);
   const [state, formAction, pending] = useActionState(submitLeadAction, initialSubmitLeadState);
@@ -112,22 +115,18 @@ export default function LienHeClient({
                 Thông tin kết nối
               </p>
               <div className="mt-5 flex flex-col gap-2 text-[14px]">
-                <ContactLink href="tel:+84775448989">0775 448 989</ContactLink>
-                <ContactLink href="mailto:trangsucngocam.work@gmail.com">
-                  trangsucngocam.work@gmail.com
-                </ContactLink>
+                {contact.phone && <ContactLink href={contact.phoneHref}>{contact.phone}</ContactLink>}
+                {contact.email && <ContactLink href={`mailto:${contact.email}`}>{contact.email}</ContactLink>}
               </div>
-              <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-2 text-[13.5px] sm:grid-cols-2">
-                <ContactLink href="https://www.tiktok.com/@ngocam.tuviphongthuy" external>
-                  TikTok
-                </ContactLink>
-                <ContactLink href="https://www.facebook.com/Tuviphongthuyngocam" external>
-                  Facebook
-                </ContactLink>
-                <ContactLink href="https://www.instagram.com/ngocam_tuviphongthuy/" external>
-                  Instagram
-                </ContactLink>
-              </div>
+              {contact.socials.length > 0 && (
+                <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-2 text-[13.5px] sm:grid-cols-2">
+                  {contact.socials.map((s) => (
+                    <ContactLink key={s.label} href={s.href} external>
+                      {s.label}
+                    </ContactLink>
+                  ))}
+                </div>
+              )}
             </div>
 
             <p className="mt-10 max-w-sm text-[13px] leading-relaxed text-ink/50">

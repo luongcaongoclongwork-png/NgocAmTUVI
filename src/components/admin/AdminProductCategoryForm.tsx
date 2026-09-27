@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import KeepValuesForm from "./KeepValuesForm";
+import { useActionState } from "react";
 import type { ProductCategory } from "@/lib/product-constants";
 import type { ProductCategoryFormState } from "@/app/admin/san-pham/actions";
+import ImageUploadField from "./ImageUploadField";
 
 const initialState: ProductCategoryFormState = { error: null };
 
@@ -15,10 +17,9 @@ export default function AdminProductCategoryForm({
   category?: ProductCategory;
 }) {
   const [state, formAction, pending] = useActionState(action, initialState);
-  const [preview, setPreview] = useState<string | null>(category?.image ?? null);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <KeepValuesForm action={formAction} className="flex flex-col gap-6">
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Tên danh mục
         <input
@@ -41,23 +42,14 @@ export default function AdminProductCategoryForm({
         />
       </label>
 
-      <label className="flex flex-col gap-1.5 text-sm text-ink/80">
-        Ảnh danh mục {category ? "(để trống nếu giữ ảnh cũ, hoặc bỏ hẳn ảnh)" : "(không bắt buộc)"}
-        <input
-          name="image"
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) setPreview(URL.createObjectURL(file));
-          }}
-          className="border border-walnut/30 bg-transparent px-3 py-2 text-ink file:mr-3 file:border-0 file:bg-walnut/10 file:px-3 file:py-1.5"
-        />
-        {preview && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="Xem trước ảnh danh mục" className="mt-2 h-40 w-auto border border-walnut/15 object-cover" />
-        )}
-      </label>
+      <ImageUploadField
+        name="image"
+        label="Ảnh danh mục (không bắt buộc)"
+        currentUrl={category?.image ?? null}
+        allowRemove={!!category}
+        previewClassName="h-40 w-40"
+        hint="Ảnh vuông. Không chọn ảnh mới thì giữ ảnh cũ."
+      />
 
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Thứ tự hiển thị (số nhỏ hơn hiện trước)
@@ -85,6 +77,6 @@ export default function AdminProductCategoryForm({
           {pending ? "Đang lưu…" : category ? "Lưu thay đổi" : "Tạo danh mục"}
         </button>
       </div>
-    </form>
+    </KeepValuesForm>
   );
 }

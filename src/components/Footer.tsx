@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getSiteSettings, socialLinks, telHref } from "@/lib/site-settings";
 
 const columns: {
   title: string;
@@ -64,15 +65,16 @@ const columns: {
   },
 ];
 
-const social: { label: string; href: string }[] = [
-  { label: "TikTok", href: "https://www.tiktok.com/@ngocam.tuviphongthuy" },
-  { label: "Facebook", href: "https://www.facebook.com/Tuviphongthuyngocam" },
-  { label: "Instagram", href: "https://www.instagram.com/ngocam_tuviphongthuy/" },
-  { label: "trangsucngocam.work@gmail.com", href: "mailto:trangsucngocam.work@gmail.com" },
-  { label: "0775 448 989", href: "tel:+84775448989" },
-];
+export default async function Footer() {
+  // Contact details come from /admin/cai-dat (empty = not shown).
+  const settings = await getSiteSettings();
+  const social = [
+    ...socialLinks(settings),
+    ...(settings.email ? [{ label: settings.email, href: `mailto:${settings.email}` }] : []),
+    ...(settings.phone ? [{ label: settings.phone, href: telHref(settings.phone) }] : []),
+  ];
+  const legal = [settings.businessName, settings.taxCode && `MST: ${settings.taxCode}`].filter(Boolean).join(" · ");
 
-export default function Footer() {
   return (
     <footer className="site-footer relative overflow-hidden text-ivory">
       <div className="relative mx-auto max-w-[1280px] px-6 pb-10 pt-14 lg:px-10">
@@ -95,6 +97,12 @@ export default function Footer() {
               Nguyễn. Khai vấn, định hướng và đồng hành trên hành trình hiểu
               mình.
             </p>
+            {(settings.address || settings.workingHours) && (
+              <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-ivory/80 [text-shadow:0_1px_3px_rgba(30,20,10,0.55)]">
+                {settings.address && <span className="block">{settings.address}</span>}
+                {settings.workingHours && <span className="block">{settings.workingHours}</span>}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 items-center gap-x-8 gap-y-2 pointer-coarse:gap-y-0 sm:grid-cols-3 lg:grid-cols-6">
@@ -134,7 +142,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-ivory/15 pt-8 text-xs text-ivory/75 [text-shadow:0_1px_2px_rgba(30,20,10,0.5)] sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Ngọc Âm. Mọi quyền được bảo lưu.</p>
+          <p>
+            © {new Date().getFullYear()} Ngọc Âm. Mọi quyền được bảo lưu.
+            {legal && <span className="block pt-1 sm:inline sm:pl-2 sm:pt-0">{legal}</span>}
+          </p>
           <p>Nội dung Tử Vi, Phong Thuỷ mang tính tham khảo và định hướng, không thay thế quyết định của bạn.</p>
         </div>
       </div>

@@ -1,8 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import KeepValuesForm from "./KeepValuesForm";
+import { useActionState } from "react";
 import { CATEGORIES, type Article } from "@/lib/article-constants";
 import type { ArticleFormState } from "@/app/admin/bai-viet/actions";
+import ImageUploadField from "./ImageUploadField";
 
 const initialState: ArticleFormState = { error: null };
 
@@ -15,12 +17,11 @@ export default function AdminArticleForm({
   article?: Article;
 }) {
   const [state, formAction, pending] = useActionState(action, initialState);
-  const [preview, setPreview] = useState<string | null>(article?.image ?? null);
 
   const bodyDefault = article?.body.join("\n\n") ?? "";
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <KeepValuesForm action={formAction} className="flex flex-col gap-6">
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Tiêu đề
         <input
@@ -62,23 +63,13 @@ export default function AdminArticleForm({
         />
       </label>
 
-      <label className="flex flex-col gap-1.5 text-sm text-ink/80">
-        Ảnh bìa {article ? "(để trống nếu giữ ảnh cũ)" : ""}
-        <input
-          name="image"
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) setPreview(URL.createObjectURL(file));
-          }}
-          className="border border-walnut/30 bg-transparent px-3 py-2 text-ink file:mr-3 file:border-0 file:bg-walnut/10 file:px-3 file:py-1.5"
-        />
-        {preview && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="Xem trước ảnh bìa" className="mt-2 h-40 w-auto border border-walnut/15 object-cover" />
-        )}
-      </label>
+      <ImageUploadField
+        name="image"
+        label="Ảnh bìa"
+        currentUrl={article?.image ?? null}
+        previewClassName="h-40 w-auto"
+        hint={article ? "Không chọn ảnh mới thì giữ ảnh cũ." : "Ảnh ngang, tỷ lệ khoảng 16:9."}
+      />
 
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
         Nội dung (để 1 dòng trống giữa các đoạn văn)
@@ -117,6 +108,6 @@ export default function AdminArticleForm({
           {pending ? "Đang đăng…" : article ? "Lưu & đăng bài" : "Đăng bài"}
         </button>
       </div>
-    </form>
+    </KeepValuesForm>
   );
 }

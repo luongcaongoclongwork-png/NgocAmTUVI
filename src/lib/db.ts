@@ -7,6 +7,7 @@ import { seedArticles } from "@/data/seed-articles";
 import { seedServices } from "@/data/seed-services";
 import { seedConsultants } from "@/data/seed-consultants";
 import { seedProductCategories } from "@/data/seed-products";
+import { applySchemaExtras } from "@/lib/schema-extras";
 
 const DB_PATH = path.join(process.cwd(), "data", "articles.db");
 
@@ -104,6 +105,7 @@ function openDb(): Database.Database {
   seedServicesIfEmpty(db);
   seedConsultantsIfEmpty(db);
   seedProductsIfEmpty(db);
+  applySchemaExtras(db);
   return db;
 }
 
