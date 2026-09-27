@@ -3,6 +3,8 @@ import { getAllUsers } from "@/lib/users";
 import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 import CreateUserForm from "@/components/admin/CreateUserForm";
 import DeleteUserButton from "@/components/admin/DeleteUserButton";
+import TelegramSettings from "@/components/admin/TelegramSettings";
+import { telegramStatus } from "@/lib/telegram";
 
 export default async function AdminAccountsPage() {
   const [session, users] = await Promise.all([verifySession(), getAllUsers()]);
@@ -12,8 +14,20 @@ export default async function AdminAccountsPage() {
       <div>
         <h1 className="font-heading text-2xl text-ink">Tài khoản</h1>
         <p className="mt-2 max-w-lg text-sm text-ink/60">
-          Quản lý mật khẩu của bạn và các tài khoản có quyền truy cập trang quản trị.
+          Quản lý mật khẩu của bạn, các tài khoản có quyền truy cập trang quản trị và thông báo khi có khách mới.
         </p>
+      </div>
+
+      <div>
+        <h2 className="tracking-label text-[12px] font-semibold uppercase text-walnut/60">
+          Báo khách mới qua Telegram
+        </h2>
+        <p className="mt-2 max-w-lg text-sm text-ink/60">
+          Mỗi khi khách gửi lời nhắn ở trang Liên hệ, Telegram sẽ báo ngay kèm tên, số điện thoại, lời nhắn và nút nhắn Zalo cho khách.
+        </p>
+        <div className="mt-6 max-w-xl">
+          <TelegramSettings {...telegramStatus()} />
+        </div>
       </div>
 
       <div>

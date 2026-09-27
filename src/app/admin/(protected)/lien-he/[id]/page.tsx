@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import AdminLeadStatusForm from "@/components/admin/AdminLeadStatusForm";
 import { getLeadByIdForAdmin } from "@/lib/contact-leads";
+import { toLocalVietnamesePhone, zaloChatUrl } from "@/lib/phone";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleString("vi-VN", {
@@ -22,7 +23,11 @@ export default async function AdminLeadDetailPage({
   const lead = await getLeadByIdForAdmin(Number(id));
   if (!lead) notFound();
 
-  const zaloUrl = process.env.NEXT_PUBLIC_ZALO_CONTACT_URL || null;
+  // The CUSTOMER's Zalo, built from the phone they left. (This used to reuse
+  // NEXT_PUBLIC_ZALO_CONTACT_URL, which is Ngọc Âm's own Zalo, so the button
+  // opened a chat with ourselves.)
+  const zaloUrl = zaloChatUrl(lead.phone);
+  const telPhone = toLocalVietnamesePhone(lead.phone) ?? lead.phone;
 
   return (
     <div>
@@ -41,7 +46,7 @@ export default async function AdminLeadDetailPage({
               <dd className="mt-1 flex items-center gap-3 text-ink">
                 {lead.phone}
                 <a
-                  href={`tel:${lead.phone}`}
+                  href={`tel:${telPhone}`}
                   className="tracking-label border border-walnut/30 px-3 py-1.5 text-[11px] font-medium uppercase text-walnut hover:border-gold hover:text-gold"
                 >
                   Gọi ngay
@@ -53,7 +58,7 @@ export default async function AdminLeadDetailPage({
                     rel="noopener noreferrer"
                     className="tracking-label border border-walnut/30 px-3 py-1.5 text-[11px] font-medium uppercase text-walnut hover:border-gold hover:text-gold"
                   >
-                    Nhắn Zalo
+                    Nhắn Zalo cho khách
                   </a>
                 )}
               </dd>

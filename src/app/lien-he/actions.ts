@@ -1,6 +1,8 @@
 "use server";
 
+import { after } from "next/server";
 import { createLeadPublic } from "@/lib/contact-leads";
+import { notifyNewLead } from "@/lib/lead-notify";
 
 export type SubmitLeadState =
   | { status: "idle" }
@@ -28,5 +30,11 @@ export async function submitLeadAction(
   });
 
   if (!result.ok) return { status: "error", error: result.error };
-  return { status: "success", interest: result.lead.interest };
+
+  // Ping the admin (Telegram) after the visitor already has their reply;
+  // a slow or failing notification can never cost us the lead.
+  const lead = result.lead;
+  after(() => notifyNewLead(lead));
+
+  return { status: "success", interest: lead.interest };
 }

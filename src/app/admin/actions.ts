@@ -38,6 +38,7 @@ export async function deleteArticleAction(id: number) {
 
 async function revalidateServiceSurfaces() {
   revalidatePath("/admin/dich-vu");
+  revalidatePath("/"); // homepage "Dịch vụ tư vấn" section lists these too
   revalidatePath("/tu-vi");
   revalidatePath("/phong-thuy");
   revalidatePath("/dich-vu");

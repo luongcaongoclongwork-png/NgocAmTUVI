@@ -4,6 +4,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HideOnAdmin from "@/components/HideOnAdmin";
 import NavProgress from "@/components/NavProgress";
 
 const heading = Playfair_Display({
@@ -52,9 +53,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense fallback={null}>
           <NavProgress />
         </Suspense>
-        <Header />
+        {/* /admin has its own header (app/admin/(protected)/layout.tsx). */}
+        <HideOnAdmin>
+          <Header />
+        </HideOnAdmin>
         <main className="flex-1">{children}</main>
-        <Footer />
+        <HideOnAdmin>
+          <Footer />
+        </HideOnAdmin>
       </body>
     </html>
   );
