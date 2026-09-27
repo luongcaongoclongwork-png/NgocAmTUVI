@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/auth";
 import AdminHeader from "@/components/admin/AdminHeader";
 import { countLeadsByStatus } from "@/lib/contact-leads";
+import { after } from "next/server";
+import { maybeDailyBackup } from "@/lib/backup";
 
 /**
  * Real authorization boundary for every /admin page (src/proxy.ts is only
@@ -18,6 +20,8 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
   const session = await verifySession();
   if (!session) redirect("/admin/login");
   const { new: newLeads } = await countLeadsByStatus();
+  // Automatic daily database backup, run after the page is sent (never slows it down).
+  after(() => maybeDailyBackup());
 
   return (
     <div className="min-h-screen bg-ivory">

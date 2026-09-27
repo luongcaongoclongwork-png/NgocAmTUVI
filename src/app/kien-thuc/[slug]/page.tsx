@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import CtaBand from "@/components/CtaBand";
+import ArticleBody from "@/components/ArticleBody";
 import { getArticleBySlug, getArticleBySlugForAdmin } from "@/lib/articles";
 import { verifySession } from "@/lib/auth";
 
@@ -81,11 +82,7 @@ export default async function ArticlePage({
 
       <section className="bg-ivory py-16 lg:py-20">
         <div className="mx-auto max-w-[760px] space-y-6 px-6 text-[16px] leading-relaxed text-ink/80 lg:px-10">
-          {article.body.map((para, idx) => (
-            <Reveal key={idx} delay={idx * 60}>
-              <p>{para}</p>
-            </Reveal>
-          ))}
+          <ArticleBody paragraphs={article.body} />
         </div>
       </section>
 

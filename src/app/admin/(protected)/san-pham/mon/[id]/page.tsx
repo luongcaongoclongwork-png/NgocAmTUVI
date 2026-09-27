@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import AdminProductForm from "@/components/admin/AdminProductForm";
-import { getProductByIdForAdmin, getProductCategories } from "@/lib/products";
+import { getProductByIdForAdmin, getProductCategoriesForAdmin as getProductCategories } from "@/lib/products";
 import { updateProductAction } from "@/app/admin/san-pham/actions";
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {

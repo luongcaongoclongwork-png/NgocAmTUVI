@@ -18,6 +18,8 @@ export type Article = {
   excerpt: string;
   readTime: string;
   image: string;
+  /** Cover image description for screen readers / Google; "" = use the title. */
+  imageAlt: string;
   body: string[];
   status: ArticleStatus;
   authorId: number | null;
@@ -31,6 +33,7 @@ export type ArticleInput = {
   title: string;
   excerpt: string;
   image: string;
+  imageAlt?: string;
   body: string[];
   status: ArticleStatus;
   authorId: number | null;

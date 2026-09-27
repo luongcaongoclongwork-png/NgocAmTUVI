@@ -1,5 +1,6 @@
 import { getSiteSettings } from "@/lib/site-settings";
 import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
+import BackupSection from "@/components/admin/BackupSection";
 
 export default async function AdminSettingsPage() {
   const settings = await getSiteSettings();
@@ -11,6 +12,9 @@ export default async function AdminSettingsPage() {
       </p>
       <div className="mt-10">
         <SiteSettingsForm settings={settings} />
+      </div>
+      <div className="mt-16 border-t border-walnut/15 pt-10">
+        <BackupSection />
       </div>
     </div>
   );

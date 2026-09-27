@@ -1,6 +1,7 @@
 import "server-only";
 import { getDb } from "@/lib/db";
 import { toSlug } from "@/lib/articles";
+import { visibleSql } from "@/lib/admin-entities";
 import { ROLE_TAGLINE, type Consultant, type ConsultantInput } from "@/lib/consultant-constants";
 
 export { ROLE_TAGLINE };
@@ -45,19 +46,34 @@ function uniqueSlug(db: ReturnType<typeof getDb>, base: string, excludeId?: numb
 
 // ---------- Public reads ----------
 
+/** Shown on the website: not hidden, not in the trash. */
 export async function getConsultants(): Promise<Consultant[]> {
   const db = getDb();
-  const rows = db.prepare("SELECT * FROM consultants ORDER BY sort_order ASC, id ASC").all() as ConsultantRow[];
+  const rows = db
+    .prepare(`SELECT * FROM consultants WHERE ${visibleSql("consultant")} ORDER BY sort_order ASC, id ASC`)
+    .all() as ConsultantRow[];
   return rows.map(rowToConsultant);
 }
 
+/** null when the consultant is hidden or in the trash (the page then simply omits the profile). */
 export async function getConsultantBySlug(slug: string): Promise<Consultant | null> {
   const db = getDb();
-  const row = db.prepare("SELECT * FROM consultants WHERE slug = ?").get(slug) as ConsultantRow | undefined;
+  const row = db.prepare(`SELECT * FROM consultants WHERE slug = ? AND ${visibleSql("consultant")}`).get(slug) as
+    | ConsultantRow
+    | undefined;
   return row ? rowToConsultant(row) : null;
 }
 
 // ---------- Admin reads (used only behind a verified session) ----------
+
+/** Admin list: includes hidden ones, excludes the trash. */
+export async function getConsultantsForAdmin(): Promise<Consultant[]> {
+  const db = getDb();
+  const rows = db
+    .prepare("SELECT * FROM consultants WHERE deleted_at = '' ORDER BY sort_order ASC, id ASC")
+    .all() as ConsultantRow[];
+  return rows.map(rowToConsultant);
+}
 
 export async function getConsultantByIdForAdmin(id: number): Promise<Consultant | null> {
   const db = getDb();

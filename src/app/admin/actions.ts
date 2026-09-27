@@ -3,101 +3,53 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { verifySession, deleteSession } from "@/lib/auth";
-import { deleteArticle as deleteArticleFromDb, getArticleByIdForAdmin } from "@/lib/articles";
-import { deleteService as deleteServiceFromDb } from "@/lib/services";
-import { deleteConsultant as deleteConsultantFromDb } from "@/lib/consultants";
-import {
-  deleteProduct as deleteProductFromDb,
-  deleteProductCategory as deleteProductCategoryFromDb,
-  getProductCategoryByIdForAdmin,
-} from "@/lib/products";
+import { getArticleByIdForAdmin } from "@/lib/articles";
+import { ENTITIES, moveToTrash, type EntityKey } from "@/lib/admin-entities";
 import { deleteUser as deleteUserFromDb, getUserCount } from "@/lib/users";
-import { deleteUploadedImage } from "@/lib/uploads";
 
 export async function logoutAction() {
   await deleteSession();
   redirect("/admin/login");
 }
 
-export async function deleteArticleAction(id: number) {
+/**
+ * The "Xoá" buttons on the admin lists move items to the trash
+ * (/admin/thung-rac) instead of deleting them: they can be restored for
+ * 30 days, and images are only removed when the item is purged.
+ */
+async function trashAndRevalidate(key: EntityKey, id: number) {
   const session = await verifySession();
   if (!session) throw new Error("Unauthorized");
-
-  const article = await getArticleByIdForAdmin(id);
-  if (!article) return;
-
-  await deleteArticleFromDb(id);
-  await deleteUploadedImage(article.image);
-
-  revalidatePath("/admin"); // dashboard draft count
-  revalidatePath("/admin/bai-viet");
-  revalidatePath("/kien-thuc");
-  revalidatePath("/phat-hoc");
-  revalidatePath("/");
-  revalidatePath(`/kien-thuc/${article.slug}`);
+  moveToTrash(key, id);
+  for (const p of ENTITIES[key].revalidate) revalidatePath(p);
+  revalidatePath("/admin/thung-rac");
 }
 
-async function revalidateServiceSurfaces() {
-  revalidatePath("/admin/dich-vu");
-  revalidatePath("/"); // homepage "Dịch vụ tư vấn" section lists these too
-  revalidatePath("/tu-vi");
-  revalidatePath("/phong-thuy");
-  revalidatePath("/dich-vu");
+export async function deleteArticleAction(id: number) {
+  const article = await getArticleByIdForAdmin(id);
+  await trashAndRevalidate("article", id);
+  if (article) revalidatePath(`/kien-thuc/${article.slug}`);
 }
 
 export async function deleteServiceAction(id: number) {
-  const session = await verifySession();
-  if (!session) throw new Error("Unauthorized");
-
-  await deleteServiceFromDb(id);
-  await revalidateServiceSurfaces();
-}
-
-async function revalidateConsultantSurfaces() {
-  revalidatePath("/admin/tu-van-vien");
-  revalidatePath("/");
-  revalidatePath("/ve-ngoc-am");
-  revalidatePath("/tu-vi");
-  revalidatePath("/phong-thuy");
+  await trashAndRevalidate("service", id);
 }
 
 export async function deleteConsultantAction(id: number) {
-  const session = await verifySession();
-  if (!session) throw new Error("Unauthorized");
-
-  await deleteConsultantFromDb(id);
-  await revalidateConsultantSurfaces();
-}
-
-async function revalidateProductSurfaces() {
-  revalidatePath("/admin/san-pham");
-  revalidatePath("/");
-  revalidatePath("/cua-hang");
+  await trashAndRevalidate("consultant", id);
 }
 
 export async function deleteProductCategoryAction(id: number) {
-  const session = await verifySession();
-  if (!session) throw new Error("Unauthorized");
-
-  const category = await getProductCategoryByIdForAdmin(id);
-  if (!category) return;
-
-  await deleteProductCategoryFromDb(id);
-  if (category.image) await deleteUploadedImage(category.image);
-
-  await revalidateProductSurfaces();
+  await trashAndRevalidate("category", id);
 }
 
 export async function deleteProductAction(id: number) {
-  const session = await verifySession();
-  if (!session) throw new Error("Unauthorized");
-
-  await deleteProductFromDb(id);
-  await revalidateProductSurfaces();
+  await trashAndRevalidate("product", id);
 }
 
 /** Returns an error message instead of throwing — the delete button needs to
- * show these two guardrails inline rather than crash the page. */
+ * show these two guardrails inline rather than crash the page. Admin
+ * accounts are deleted for real (no trash for logins). */
 export async function deleteUserAction(id: number): Promise<{ error: string | null }> {
   const session = await verifySession();
   if (!session) return { error: "Phiên đăng nhập đã hết hạn." };

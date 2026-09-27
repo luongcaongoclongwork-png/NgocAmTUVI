@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/auth";
-import { addLeadNote, deleteLead, setLeadAppointment, setLeadStatus } from "@/lib/contact-leads";
+import { addLeadNote, setLeadAppointment, setLeadStatus } from "@/lib/contact-leads";
+import { moveToTrash } from "@/lib/admin-entities";
 import { isLeadStatus } from "@/lib/contact-leads-constants";
 import { formatVietnamTime, fromVietnamInputValue } from "@/lib/vn-time";
 
@@ -58,8 +59,9 @@ export async function addLeadNoteAction(id: number, _prev: LeadFormState, formDa
 export async function deleteLeadAction(id: number) {
   const session = await verifySession();
   if (!session) throw new Error("Unauthorized");
-  await deleteLead(id);
+  moveToTrash("lead", id); // restorable from /admin/thung-rac for 30 days
   revalidatePath("/admin");
   revalidatePath("/admin/lien-he");
+  revalidatePath("/admin/thung-rac");
   redirect("/admin/lien-he");
 }

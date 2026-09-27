@@ -11,7 +11,7 @@ export default function DeleteArticleButton({ id, title }: { id: number; title: 
       type="button"
       disabled={pending}
       onClick={() => {
-        if (!window.confirm(`Xoá bài viết "${title}"? Không thể hoàn tác.`)) return;
+        if (!window.confirm(`Chuyển bài viết "${title}" vào thùng rác? Có thể khôi phục trong 30 ngày.`)) return;
         startTransition(() => {
           deleteArticleAction(id);
         });

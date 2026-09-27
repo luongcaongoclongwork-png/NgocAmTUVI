@@ -11,7 +11,7 @@ export default function DeleteProductButton({ id, name }: { id: number; name: st
       type="button"
       disabled={pending}
       onClick={() => {
-        if (!window.confirm(`Xoá sản phẩm "${name}"? Không thể hoàn tác.`)) return;
+        if (!window.confirm(`Chuyển sản phẩm "${name}" vào thùng rác? Có thể khôi phục trong 30 ngày.`)) return;
         startTransition(() => {
           deleteProductAction(id);
         });

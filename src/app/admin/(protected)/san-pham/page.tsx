@@ -1,10 +1,16 @@
 import Link from "next/link";
-import { getProductCategoriesWithItems } from "@/lib/products";
+import { getProductCategoriesWithItemsForAdmin } from "@/lib/products";
+import { getHiddenIds } from "@/lib/admin-entities";
 import DeleteProductCategoryButton from "@/components/admin/DeleteProductCategoryButton";
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
+import SortableList from "@/components/admin/SortableList";
+
+const sectionTitle = "tracking-label text-[12px] font-semibold uppercase text-walnut/60";
 
 export default async function AdminProductsPage() {
-  const categories = await getProductCategoriesWithItems();
+  const categories = await getProductCategoriesWithItemsForAdmin();
+  const hiddenCategories = getHiddenIds("category");
+  const hiddenProducts = getHiddenIds("product");
 
   return (
     <div>
@@ -25,53 +31,67 @@ export default async function AdminProductsPage() {
           </Link>
         </div>
       </div>
+      <p className="mt-2 text-[13px] text-ink/55">Dùng ▲▼ (hoặc kéo ⋮⋮) để đổi thứ tự. Ẩn một danh mục là ẩn luôn các sản phẩm bên trong.</p>
 
-      {categories.length === 0 ? (
-        <p className="mt-10 text-sm text-ink/60">Chưa có danh mục nào.</p>
-      ) : (
-        <div className="mt-8 flex flex-col gap-10">
-          {categories.map((category) => (
-            <div key={category.id}>
-              <div className="flex items-center justify-between gap-4 border-b border-walnut/15 pb-3">
-                <div className="min-w-0">
-                  <p className="font-heading text-lg text-ink">{category.name}</p>
-                  <p className="text-[12px] text-ink/50">
-                    /cua-hang#{category.slug} · thứ tự {category.sortOrder}
-                    {!category.image && " · chưa có ảnh"}
-                  </p>
-                </div>
-                <div className="flex shrink-0 items-center gap-4 text-[13px]">
-                  <Link href={`/admin/san-pham/danh-muc/${category.id}`} className="text-walnut/70 hover:text-gold">
-                    Sửa danh mục
-                  </Link>
-                  <DeleteProductCategoryButton id={category.id} name={category.name} />
-                </div>
+      <section className="mt-8">
+        <h2 className={sectionTitle}>Thứ tự danh mục</h2>
+        <SortableList
+          entity="category"
+          emptyText="Chưa có danh mục nào."
+          items={categories.map((category) => ({
+            id: category.id,
+            hidden: hiddenCategories.has(category.id),
+            content: (
+              <div className="min-w-0">
+                <p className="truncate font-heading text-[16px] text-ink">{category.name}</p>
+                <p className="text-[12px] text-ink/50">
+                  {category.items.length} sản phẩm
+                  {!category.image && <span className="text-lacquer"> · chưa có ảnh</span>}
+                </p>
               </div>
+            ),
+            actions: (
+              <>
+                <Link href={`/admin/san-pham/danh-muc/${category.id}`} className="text-walnut/70 hover:text-gold">
+                  Sửa
+                </Link>
+                <DeleteProductCategoryButton id={category.id} name={category.name} />
+              </>
+            ),
+          }))}
+        />
+      </section>
 
-              {category.items.length === 0 ? (
-                <p className="mt-3 text-sm text-ink/60">Chưa có sản phẩm nào trong danh mục này.</p>
-              ) : (
-                <div className="mt-2 divide-y divide-walnut/10">
-                  {category.items.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between gap-4 py-3">
-                      <div className="min-w-0">
-                        <p className="truncate text-[15px] text-ink">{item.name}</p>
-                        <p className="truncate text-[12px] text-ink/50">{item.desc}</p>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-4 text-[13px]">
-                        <Link href={`/admin/san-pham/mon/${item.id}`} className="text-walnut/70 hover:text-gold">
-                          Sửa
-                        </Link>
-                        <DeleteProductButton id={item.id} name={item.name} />
-                      </div>
-                    </div>
-                  ))}
+      {categories.map((category) => (
+        <section key={category.id} className="mt-12">
+          <h2 className={sectionTitle}>
+            {category.name}
+            {hiddenCategories.has(category.id) && <span className="ml-2 normal-case tracking-normal text-ink/45">(danh mục đang ẩn)</span>}
+          </h2>
+          <SortableList
+            entity="product"
+            emptyText="Chưa có sản phẩm nào trong danh mục này."
+            items={category.items.map((item) => ({
+              id: item.id,
+              hidden: hiddenProducts.has(item.id),
+              content: (
+                <div className="min-w-0">
+                  <p className="truncate text-[15px] text-ink">{item.name}</p>
+                  <p className="truncate text-[12px] text-ink/50">{item.desc}</p>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+              ),
+              actions: (
+                <>
+                  <Link href={`/admin/san-pham/mon/${item.id}`} className="text-walnut/70 hover:text-gold">
+                    Sửa
+                  </Link>
+                  <DeleteProductButton id={item.id} name={item.name} />
+                </>
+              ),
+            }))}
+          />
+        </section>
+      ))}
     </div>
   );
 }

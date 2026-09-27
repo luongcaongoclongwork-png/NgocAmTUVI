@@ -11,7 +11,7 @@ export default function DeleteConsultantButton({ id, name }: { id: number; name:
       type="button"
       disabled={pending}
       onClick={() => {
-        if (!window.confirm(`Xoá tư vấn viên "${name}"? Không thể hoàn tác.`)) return;
+        if (!window.confirm(`Chuyển tư vấn viên "${name}" vào thùng rác? Có thể khôi phục trong 30 ngày.`)) return;
         startTransition(() => {
           deleteConsultantAction(id);
         });

@@ -1,5 +1,6 @@
 import "server-only";
 import { getDb } from "@/lib/db";
+import { visibleSql } from "@/lib/admin-entities";
 import { SERVICE_GROUPS, type Service, type ServiceGroup, type ServiceInput } from "@/lib/service-constants";
 
 export { SERVICE_GROUPS };
@@ -30,7 +31,7 @@ function rowToService(row: ServiceRow): Service {
 export async function getServicesByGroup(group: ServiceGroup): Promise<Service[]> {
   const db = getDb();
   const rows = db
-    .prepare("SELECT * FROM services WHERE group_id = ? ORDER BY sort_order ASC, id ASC")
+    .prepare(`SELECT * FROM services WHERE group_id = ? AND ${visibleSql("service")} ORDER BY sort_order ASC, id ASC`)
     .all(group) as ServiceRow[];
   return rows.map(rowToService);
 }
@@ -39,7 +40,7 @@ export async function getServicesByGroup(group: ServiceGroup): Promise<Service[]
 export async function getServiceById(id: number): Promise<Service | null> {
   if (!Number.isInteger(id) || id <= 0) return null;
   const db = getDb();
-  const row = db.prepare("SELECT * FROM services WHERE id = ?").get(id) as ServiceRow | undefined;
+  const row = db.prepare(`SELECT * FROM services WHERE id = ? AND ${visibleSql("service")}`).get(id) as ServiceRow | undefined;
   return row ? rowToService(row) : null;
 }
 
@@ -48,7 +49,7 @@ export async function getServiceById(id: number): Promise<Service | null> {
 export async function getAllServicesForAdmin(): Promise<Service[]> {
   const db = getDb();
   const rows = db
-    .prepare("SELECT * FROM services ORDER BY group_id ASC, sort_order ASC, id ASC")
+    .prepare("SELECT * FROM services WHERE deleted_at = '' ORDER BY group_id ASC, sort_order ASC, id ASC")
     .all() as ServiceRow[];
   return rows.map(rowToService);
 }

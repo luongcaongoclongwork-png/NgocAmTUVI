@@ -13,7 +13,7 @@ export default function DeleteProductCategoryButton({ id, name }: { id: number; 
       onClick={() => {
         if (
           !window.confirm(
-            `Xoá danh mục "${name}"? Toàn bộ sản phẩm trong danh mục này sẽ bị xoá theo. Không thể hoàn tác.`
+            `Chuyển danh mục "${name}" (kèm các sản phẩm bên trong) vào thùng rác? Có thể khôi phục trong 30 ngày.`
           )
         )
           return;

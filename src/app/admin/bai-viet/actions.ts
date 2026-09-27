@@ -11,23 +11,19 @@ import {
   type ArticleStatus,
 } from "@/lib/articles";
 import { saveUploadedImage, deleteUploadedImage, UploadError } from "@/lib/uploads";
+// Keeps single line breaks inside a paragraph (lists, quotes); see lib/article-markdown.ts.
+import { parseBody } from "@/lib/article-markdown";
 
 export type ArticleFormState = { error: string | null };
 
-function parseBody(raw: string): string[] {
-  return raw
-    .split(/\n\s*\n/)
-    .map((p) => p.replace(/\s+/g, " ").trim())
-    .filter(Boolean);
-}
-
-type ParsedFields = { title: string; category: string; excerpt: string; body: string[]; status: ArticleStatus };
+type ParsedFields = { title: string; category: string; excerpt: string; imageAlt: string; body: string[]; status: ArticleStatus };
 type ReadFieldsResult = { ok: true; fields: ParsedFields } | { ok: false; error: string };
 
 function readCommonFields(formData: FormData): ReadFieldsResult {
   const title = String(formData.get("title") || "").trim();
   const category = String(formData.get("category") || "");
   const excerpt = String(formData.get("excerpt") || "").trim();
+  const imageAlt = String(formData.get("imageAlt") || "").trim().slice(0, 200);
   const bodyRaw = String(formData.get("body") || "");
   const status = (formData.get("status") === "published" ? "published" : "draft") as ArticleStatus;
   const body = parseBody(bodyRaw);
@@ -39,7 +35,7 @@ function readCommonFields(formData: FormData): ReadFieldsResult {
   if (!excerpt) return { ok: false, error: "Vui lòng nhập mô tả ngắn." };
   if (body.length === 0) return { ok: false, error: "Vui lòng nhập nội dung bài viết." };
 
-  return { ok: true, fields: { title, category, excerpt, body, status } };
+  return { ok: true, fields: { title, category, excerpt, imageAlt, body, status } };
 }
 
 async function revalidateArticleSurfaces(slug: string) {
@@ -78,6 +74,7 @@ export async function createArticleAction(
     title: fields.title,
     category: fields.category,
     excerpt: fields.excerpt,
+    imageAlt: fields.imageAlt,
     body: fields.body,
     status: fields.status,
     image,
@@ -118,6 +115,7 @@ export async function updateArticleAction(
     title: fields.title,
     category: fields.category,
     excerpt: fields.excerpt,
+    imageAlt: fields.imageAlt,
     body: fields.body,
     status: fields.status,
     image,

@@ -13,6 +13,7 @@ type ArticleRow = {
   excerpt: string;
   read_time: string;
   image: string;
+  image_alt?: string;
   body: string;
   status: string;
   author_id: number | null;
@@ -29,6 +30,7 @@ function rowToArticle(row: ArticleRow): Article {
     excerpt: row.excerpt,
     readTime: row.read_time,
     image: row.image,
+    imageAlt: row.image_alt ?? "",
     body: JSON.parse(row.body) as string[],
     status: row.status as ArticleStatus,
     authorId: row.author_id,
@@ -81,7 +83,7 @@ export function computeReadTime(body: string[]): string {
 export async function getArticles(): Promise<Article[]> {
   const db = getDb();
   const rows = db
-    .prepare("SELECT * FROM articles WHERE status = 'published' ORDER BY created_at DESC")
+    .prepare("SELECT * FROM articles WHERE status = 'published' AND deleted_at = '' ORDER BY created_at DESC")
     .all() as ArticleRow[];
   return rows.map(rowToArticle);
 }
@@ -89,7 +91,7 @@ export async function getArticles(): Promise<Article[]> {
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const db = getDb();
   const row = db
-    .prepare("SELECT * FROM articles WHERE slug = ? AND status = 'published'")
+    .prepare("SELECT * FROM articles WHERE slug = ? AND status = 'published' AND deleted_at = ''")
     .get(slug) as ArticleRow | undefined;
   return row ? rowToArticle(row) : null;
 }
@@ -97,7 +99,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 export async function getFeaturedArticles(limit: number): Promise<Article[]> {
   const db = getDb();
   const rows = db
-    .prepare("SELECT * FROM articles WHERE status = 'published' ORDER BY created_at DESC LIMIT ?")
+    .prepare("SELECT * FROM articles WHERE status = 'published' AND deleted_at = '' ORDER BY created_at DESC LIMIT ?")
     .all(limit) as ArticleRow[];
   return rows.map(rowToArticle);
 }
@@ -105,7 +107,7 @@ export async function getFeaturedArticles(limit: number): Promise<Article[]> {
 export async function getArticlesByCategory(category: string): Promise<Article[]> {
   const db = getDb();
   const rows = db
-    .prepare("SELECT * FROM articles WHERE status = 'published' AND category = ? ORDER BY created_at DESC")
+    .prepare("SELECT * FROM articles WHERE status = 'published' AND deleted_at = '' AND category = ? ORDER BY created_at DESC")
     .all(category) as ArticleRow[];
   return rows.map(rowToArticle);
 }
@@ -114,7 +116,7 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
 
 export async function getAllArticlesForAdmin(): Promise<Article[]> {
   const db = getDb();
-  const rows = db.prepare("SELECT * FROM articles ORDER BY created_at DESC").all() as ArticleRow[];
+  const rows = db.prepare("SELECT * FROM articles WHERE deleted_at = '' ORDER BY created_at DESC").all() as ArticleRow[];
   return rows.map(rowToArticle);
 }
 
@@ -139,8 +141,8 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
   const now = new Date().toISOString();
   const info = db
     .prepare(
-      `INSERT INTO articles (slug, category, title, excerpt, read_time, image, body, status, author_id, created_at, updated_at)
-       VALUES (@slug, @category, @title, @excerpt, @readTime, @image, @body, @status, @authorId, @now, @now)`
+      `INSERT INTO articles (slug, category, title, excerpt, read_time, image, image_alt, body, status, author_id, created_at, updated_at)
+       VALUES (@slug, @category, @title, @excerpt, @readTime, @image, @imageAlt, @body, @status, @authorId, @now, @now)`
     )
     .run({
       slug,
@@ -149,6 +151,7 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
       excerpt: input.excerpt,
       readTime,
       image: input.image,
+      imageAlt: input.imageAlt ?? "",
       body: JSON.stringify(input.body),
       status: input.status,
       authorId: input.authorId,
@@ -170,7 +173,7 @@ export async function updateArticle(
   const now = new Date().toISOString();
   db.prepare(
     `UPDATE articles SET category = @category, title = @title, excerpt = @excerpt,
-       read_time = @readTime, image = @image, body = @body, status = @status, updated_at = @now
+       read_time = @readTime, image = @image, image_alt = @imageAlt, body = @body, status = @status, updated_at = @now
      WHERE id = @id`
   ).run({
     id,
@@ -179,6 +182,7 @@ export async function updateArticle(
     excerpt: input.excerpt,
     readTime,
     image: input.image,
+    imageAlt: input.imageAlt ?? "",
     body: JSON.stringify(input.body),
     status: input.status,
     now,

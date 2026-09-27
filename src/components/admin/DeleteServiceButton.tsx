@@ -11,7 +11,7 @@ export default function DeleteServiceButton({ id, title }: { id: number; title: 
       type="button"
       disabled={pending}
       onClick={() => {
-        if (!window.confirm(`Xoá dịch vụ "${title}"? Không thể hoàn tác.`)) return;
+        if (!window.confirm(`Chuyển dịch vụ "${title}" vào thùng rác? Có thể khôi phục trong 30 ngày.`)) return;
         startTransition(() => {
           deleteServiceAction(id);
         });

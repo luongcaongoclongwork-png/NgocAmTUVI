@@ -46,3 +46,6 @@ next-env.d.ts
 /data/*.db-*
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# Automatic / manual database backups (admin "Sao lưu dữ liệu")
+/data/backups/

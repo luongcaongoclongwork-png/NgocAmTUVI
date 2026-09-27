@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import PageBanner from "@/components/PageBanner";
 import PhilosophyPillars from "@/components/PhilosophyPillars";
 import ConsultantProfile from "@/components/ConsultantProfile";
@@ -39,7 +38,6 @@ export default async function TuViPage() {
     getConsultantBySlug("co-minh-trang"),
     getServicesByGroup("tu-vi"),
   ]);
-  if (!trang) notFound();
 
   return (
     <>
@@ -55,12 +53,15 @@ export default async function TuViPage() {
         heading="Bốn giai đoạn của một phiên khai vấn Tử Vi."
         pillars={pillars}
       />
-      <ConsultantProfile
-        consultant={trang}
-        image={trang.photo || "/images/consultants/minh-trang.webp"}
-        imageAlt={trang.photo ? `Chân dung ${trang.name}` : "Lá số Tử Vi viết tay trên bàn gỗ cổ"}
-        contactTopic="tu-vi"
-      />
+      {/* Hidden or trashed in /admin: the page stays, only the profile is omitted. */}
+      {trang && (
+        <ConsultantProfile
+          consultant={trang}
+          image={trang.photo || "/images/consultants/minh-trang.webp"}
+          imageAlt={trang.photo ? `Chân dung ${trang.name}` : "Lá số Tử Vi viết tay trên bàn gỗ cổ"}
+          contactTopic="tu-vi"
+        />
+      )}
       <ServiceList
         eyebrow="Dịch vụ"
         heading="Khai vấn Tử Vi"

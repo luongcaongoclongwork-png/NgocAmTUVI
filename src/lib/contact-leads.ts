@@ -93,14 +93,14 @@ export async function listLeadsForAdmin(status?: LeadStatus): Promise<AdminLead[
   const db = leadDb();
   const rows = (
     status
-      ? db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.status = ? ORDER BY l.created_at DESC`).all(status)
-      : db.prepare(`${ADMIN_LEAD_SELECT} ORDER BY l.created_at DESC`).all()
+      ? db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.deleted_at = '' AND l.status = ? ORDER BY l.created_at DESC`).all(status)
+      : db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.deleted_at = '' ORDER BY l.created_at DESC`).all()
   ) as AdminLeadRow[];
   return rows.map(rowToAdminLead);
 }
 
 export async function countLeadsByStatus(): Promise<Record<LeadStatus, number> & { all: number }> {
-  const rows = leadDb().prepare("SELECT status, COUNT(*) AS c FROM contact_leads GROUP BY status").all() as {
+  const rows = leadDb().prepare("SELECT status, COUNT(*) AS c FROM contact_leads WHERE deleted_at = '' GROUP BY status").all() as {
     status: LeadStatus;
     c: number;
   }[];
@@ -118,7 +118,7 @@ export async function getUpcomingAppointments(days = 14): Promise<AdminLead[]> {
   const until = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
   const rows = leadDb()
     .prepare(
-      `${ADMIN_LEAD_SELECT} WHERE l.appointment_at != '' AND l.appointment_at >= ? AND l.appointment_at <= ?
+      `${ADMIN_LEAD_SELECT} WHERE l.deleted_at = '' AND l.appointment_at != '' AND l.appointment_at >= ? AND l.appointment_at <= ?
        AND l.status != 'closed' ORDER BY l.appointment_at ASC`
     )
     .all(now.toISOString(), until.toISOString()) as AdminLeadRow[];
@@ -127,7 +127,7 @@ export async function getUpcomingAppointments(days = 14): Promise<AdminLead[]> {
 
 export async function getLeadDetailForAdmin(id: number): Promise<AdminLeadDetail | null> {
   const db = leadDb();
-  const row = db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.id = ?`).get(id) as AdminLeadRow | undefined;
+  const row = db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.id = ? AND l.deleted_at = ''`).get(id) as AdminLeadRow | undefined;
   if (!row) return null;
   const notes = (
     db.prepare("SELECT id, author, body, created_at FROM lead_notes WHERE lead_id = ? ORDER BY created_at DESC, id DESC").all(id) as {

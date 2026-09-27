@@ -19,7 +19,7 @@ export default function ArticleCard({
         description={article.excerpt}
         meta={<span>{article.readTime}</span>}
         ctaLabel="Đọc bài"
-        image={{ src: article.image, alt: article.title }}
+        image={{ src: article.image, alt: article.imageAlt || article.title }}
       />
     </Reveal>
   );

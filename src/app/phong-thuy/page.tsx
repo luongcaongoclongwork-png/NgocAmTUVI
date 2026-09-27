@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
 import PageBanner from "@/components/PageBanner";
 import PhilosophyPillars from "@/components/PhilosophyPillars";
@@ -43,7 +42,6 @@ export default async function PhongThuyPage() {
     getConsultantBySlug("thay-tinh"),
     getServicesByGroup("phong-thuy"),
   ]);
-  if (!tinh) notFound();
 
   return (
     <>
@@ -67,13 +65,16 @@ export default async function PhongThuyPage() {
         heading="Năm nguyên lý của Phong Thuỷ Là Tịnh."
         pillars={pillars}
       />
-      <ConsultantProfile
-        consultant={tinh}
-        image={tinh.photo || "/images/consultants/thay-tinh.webp"}
-        imageAlt={tinh.photo ? `Chân dung ${tinh.name}` : "Hành lang gỗ bên hồ nước trong sân nhà cổ"}
-        reverse
-        contactTopic="phong-thuy"
-      />
+      {/* Hidden or trashed in /admin: the page stays, only the profile is omitted. */}
+      {tinh && (
+        <ConsultantProfile
+          consultant={tinh}
+          image={tinh.photo || "/images/consultants/thay-tinh.webp"}
+          imageAlt={tinh.photo ? `Chân dung ${tinh.name}` : "Hành lang gỗ bên hồ nước trong sân nhà cổ"}
+          reverse
+          contactTopic="phong-thuy"
+        />
+      )}
       <ServiceList
         eyebrow="Dịch vụ"
         heading="Tư vấn Phong Thuỷ"

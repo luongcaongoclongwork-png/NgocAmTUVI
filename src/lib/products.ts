@@ -1,6 +1,7 @@
 import "server-only";
 import { getDb } from "@/lib/db";
 import { toSlug } from "@/lib/articles";
+import { visibleSql } from "@/lib/admin-entities";
 import type {
   Product,
   ProductCategory,
@@ -68,26 +69,42 @@ function uniqueCategorySlug(db: ReturnType<typeof getDb>, base: string, excludeI
 
 // ---------- Public reads ----------
 
+/**
+ * `forAdmin` = the admin lists: hidden items are included (marked there),
+ * trashed ones are not. Otherwise (the website): only visible items.
+ */
+function categoryRows(forAdmin: boolean): ProductCategory[] {
+  const where = forAdmin ? "deleted_at = ''" : visibleSql("category");
+  return (getDb().prepare(`SELECT * FROM product_categories WHERE ${where} ORDER BY sort_order ASC, id ASC`).all() as CategoryRow[]).map(
+    rowToCategory
+  );
+}
+
+function withItems(categories: ProductCategory[], forAdmin: boolean): ProductCategoryWithItems[] {
+  const where = forAdmin ? "deleted_at = ''" : visibleSql("product");
+  const items = (getDb().prepare(`SELECT * FROM products WHERE ${where} ORDER BY sort_order ASC, id ASC`).all() as ProductRow[]).map(
+    rowToProduct
+  );
+  return categories.map((category) => ({ ...category, items: items.filter((item) => item.categoryId === category.id) }));
+}
+
 export async function getProductCategories(): Promise<ProductCategory[]> {
-  const db = getDb();
-  const rows = db
-    .prepare("SELECT * FROM product_categories ORDER BY sort_order ASC, id ASC")
-    .all() as CategoryRow[];
-  return rows.map(rowToCategory);
+  return categoryRows(false);
 }
 
 export async function getProductCategoriesWithItems(): Promise<ProductCategoryWithItems[]> {
-  const categories = await getProductCategories();
-  const db = getDb();
-  const rows = db.prepare("SELECT * FROM products ORDER BY sort_order ASC, id ASC").all() as ProductRow[];
-  const items = rows.map(rowToProduct);
-  return categories.map((category) => ({
-    ...category,
-    items: items.filter((item) => item.categoryId === category.id),
-  }));
+  return withItems(categoryRows(false), false);
 }
 
 // ---------- Admin reads (used only behind a verified session) ----------
+
+export async function getProductCategoriesForAdmin(): Promise<ProductCategory[]> {
+  return categoryRows(true);
+}
+
+export async function getProductCategoriesWithItemsForAdmin(): Promise<ProductCategoryWithItems[]> {
+  return withItems(categoryRows(true), true);
+}
 
 export async function getProductCategoryByIdForAdmin(id: number): Promise<ProductCategory | null> {
   const db = getDb();

@@ -1,13 +1,16 @@
 import Link from "next/link";
-import { getConsultants } from "@/lib/consultants";
+import { getConsultantsForAdmin } from "@/lib/consultants";
+import { getHiddenIds } from "@/lib/admin-entities";
 import DeleteConsultantButton from "@/components/admin/DeleteConsultantButton";
+import SortableList from "@/components/admin/SortableList";
 
 export default async function AdminConsultantsPage() {
-  const consultants = await getConsultants();
+  const consultants = await getConsultantsForAdmin();
+  const hidden = getHiddenIds("consultant");
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-heading text-2xl text-ink">Tư vấn viên</h1>
         <Link
           href="/admin/tu-van-vien/moi"
@@ -16,13 +19,16 @@ export default async function AdminConsultantsPage() {
           Thêm tư vấn viên
         </Link>
       </div>
+      <p className="mt-2 text-[13px] text-ink/55">Dùng ▲▼ (hoặc kéo ⋮⋮) để đổi thứ tự hiển thị trên website. “Ẩn” để tạm không hiển thị mà không xoá.</p>
 
-      {consultants.length === 0 ? (
-        <p className="mt-10 text-sm text-ink/60">Chưa có tư vấn viên nào.</p>
-      ) : (
-        <div className="mt-8 divide-y divide-walnut/10 border-y border-walnut/10">
-          {consultants.map((consultant) => (
-            <div key={consultant.id} className="flex items-center justify-between gap-4 py-4">
+      <div className="mt-6">
+        <SortableList
+          entity="consultant"
+          emptyText="Chưa có tư vấn viên nào."
+          items={consultants.map((consultant) => ({
+            id: consultant.id,
+            hidden: hidden.has(consultant.id),
+            content: (
               <div className="flex min-w-0 items-center gap-4">
                 {consultant.photo ? (
                   // eslint-disable-next-line @next/next/no-img-element -- 48px admin thumbnail
@@ -43,16 +49,18 @@ export default async function AdminConsultantsPage() {
                   </p>
                 </div>
               </div>
-              <div className="flex shrink-0 items-center gap-4 text-[13px]">
+            ),
+            actions: (
+              <>
                 <Link href={`/admin/tu-van-vien/${consultant.id}`} className="text-walnut/70 hover:text-gold">
                   Sửa
                 </Link>
                 <DeleteConsultantButton id={consultant.id} name={consultant.name} />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+              </>
+            ),
+          }))}
+        />
+      </div>
     </div>
   );
 }

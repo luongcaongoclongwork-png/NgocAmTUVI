@@ -11,13 +11,15 @@ const NAV: { href: string; label: string; exact?: boolean; badge?: boolean }[] =
   { href: "/admin/dich-vu", label: "Dịch vụ" },
   { href: "/admin/tu-van-vien", label: "Tư vấn viên" },
   { href: "/admin/san-pham", label: "Sản phẩm" },
+  { href: "/admin/thung-rac", label: "Thùng rác" },
   { href: "/admin/cai-dat", label: "Cài đặt" },
   { href: "/admin/tai-khoan", label: "Tài khoản" },
 ];
 
 /**
- * Two rows on phones (brand + account actions, then a swipeable nav row),
- * one row from lg up. The old single flex row forced a 494px-wide page on a
+ * Two rows (brand + account actions, then a swipeable nav row) up to 2xl;
+ * one row only from 1536px, where all ten items truly fit (at 1024–1280px
+ * the single row pushed "Đăng xuất" off-screen). The old single flex row forced a 494px-wide page on a
  * 390px phone, broke every label onto several lines and cut off "Đăng xuất".
  */
 export default function AdminHeader({ username, newLeads }: { username: string; newLeads: number }) {
@@ -27,12 +29,12 @@ export default function AdminHeader({ username, newLeads }: { username: string; 
 
   return (
     <header className="sticky top-0 z-40 border-b border-walnut/15 bg-ivory/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-x-8 gap-y-1 px-4 pt-3 sm:px-6 lg:flex-nowrap lg:px-10 lg:py-3">
+      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-x-8 gap-y-1 px-4 pt-3 sm:px-6 lg:px-10 2xl:max-w-[1440px] 2xl:flex-nowrap 2xl:py-3">
         <Link href="/admin" className="shrink-0 whitespace-nowrap font-heading text-lg text-ink">
           Ngọc Âm · Quản trị
         </Link>
 
-        <div className="ml-auto flex shrink-0 items-center gap-4 text-[13px] text-walnut/70 lg:order-3">
+        <div className="ml-auto flex shrink-0 items-center gap-4 text-[13px] text-walnut/70 2xl:order-3">
           <span className="hidden sm:inline">{username}</span>
           <Link href="/" className="whitespace-nowrap hover:text-gold">
             Xem trang web ↗
@@ -46,7 +48,7 @@ export default function AdminHeader({ username, newLeads }: { username: string; 
 
         <nav
           aria-label="Quản trị"
-          className="-mx-4 flex w-[calc(100%+2rem)] gap-1 overflow-x-auto px-4 pb-2 pt-1 [scrollbar-width:none] sm:-mx-6 sm:w-[calc(100%+3rem)] sm:px-6 lg:order-2 lg:mx-0 lg:w-auto lg:flex-1 lg:overflow-visible lg:p-0"
+          className="-mx-4 flex w-[calc(100%+2rem)] gap-1 overflow-x-auto px-4 pb-2 pt-1 [scrollbar-width:none] sm:-mx-6 sm:w-[calc(100%+3rem)] sm:px-6 lg:-mx-10 lg:w-[calc(100%+5rem)] lg:px-10 2xl:order-2 2xl:mx-0 2xl:w-auto 2xl:flex-1 2xl:overflow-visible 2xl:p-0"
         >
           {NAV.map((item) => {
             const active = isActive(item);

@@ -132,12 +132,12 @@ export function DeleteLeadButton({ id, name }: { id: number; name: string }) {
       type="button"
       disabled={pending}
       onClick={() => {
-        if (!window.confirm(`Xoá vĩnh viễn khách “${name}” và toàn bộ ghi chú? Chỉ nên dùng cho tin rác hoặc tin thử.`)) return;
+        if (!window.confirm(`Chuyển khách “${name}” vào thùng rác? Có thể khôi phục trong 30 ngày.`)) return;
         startTransition(() => deleteLeadAction(id));
       }}
       className="text-[13px] text-lacquer hover:underline disabled:opacity-50"
     >
-      {pending ? "Đang xoá…" : "Xoá khách này (tin rác / tin thử)"}
+      {pending ? "Đang xoá…" : "Chuyển khách này vào thùng rác"}
     </button>
   );
 }

@@ -1,5 +1,5 @@
 import AdminProductForm from "@/components/admin/AdminProductForm";
-import { getProductCategories } from "@/lib/products";
+import { getProductCategoriesForAdmin as getProductCategories } from "@/lib/products";
 import { createProductAction } from "@/app/admin/san-pham/actions";
 
 export default async function NewProductPage() {

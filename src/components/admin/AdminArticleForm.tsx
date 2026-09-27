@@ -5,6 +5,7 @@ import { useActionState } from "react";
 import { CATEGORIES, type Article } from "@/lib/article-constants";
 import type { ArticleFormState } from "@/app/admin/bai-viet/actions";
 import ImageUploadField from "./ImageUploadField";
+import ArticleBodyEditor from "./ArticleBodyEditor";
 
 const initialState: ArticleFormState = { error: null };
 
@@ -72,15 +73,19 @@ export default function AdminArticleForm({
       />
 
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
-        Nội dung (để 1 dòng trống giữa các đoạn văn)
-        <textarea
-          name="body"
-          required
-          rows={14}
-          defaultValue={bodyDefault}
-          className="border border-walnut/30 bg-transparent px-3 py-2 font-mono text-[13px] leading-relaxed text-ink focus:border-gold focus:outline-none"
+        Mô tả ảnh bìa (không bắt buộc)
+        <input
+          name="imageAlt"
+          type="text"
+          maxLength={200}
+          defaultValue={article?.imageAlt}
+          placeholder="Ví dụ: Lá số Tử Vi viết tay trên bàn gỗ, ánh sáng buổi sớm"
+          className="border border-walnut/30 bg-transparent px-3 py-2 text-ink focus:border-gold focus:outline-none"
         />
+        <span className="text-[12px] text-ink/50">Mô tả ngắn điều có trong ảnh, giúp Google hiểu ảnh và người khiếm thị. Để trống thì dùng tiêu đề bài.</span>
       </label>
+
+      <ArticleBodyEditor defaultValue={bodyDefault} />
 
       {state.error && (
         <p role="alert" className="text-sm font-medium text-lacquer">
