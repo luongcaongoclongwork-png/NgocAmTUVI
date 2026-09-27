@@ -1,4 +1,7 @@
 import { toLocalVietnamesePhone, zaloChatUrl } from "@/lib/phone";
+import { formatVietnamTime } from "@/lib/vn-time";
+
+export { formatVietnamTime };
 
 export type NotifiableLead = {
   id: number;
@@ -10,18 +13,6 @@ export type NotifiableLead = {
 };
 
 const MESSAGE_PREVIEW_MAX = 600;
-
-/** Vietnam time regardless of the server's own timezone (hosting is often UTC). */
-export function formatVietnamTime(iso: string): string {
-  return new Date(iso).toLocaleString("vi-VN", {
-    timeZone: "Asia/Ho_Chi_Minh",
-    hour: "2-digit",
-    minute: "2-digit",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-}
 
 /**
  * Plain-text Telegram message for a new lead. Plain text on purpose: no

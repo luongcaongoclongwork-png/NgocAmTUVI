@@ -65,6 +65,163 @@ export async function updateLeadStatus(
   return lead;
 }
 
+// ---------- Lead management extras: appointment + note history ----------
+//
+// Created lazily and idempotently here rather than in db.ts's schema block,
+// so it works on any existing database with no manual migration.
+// `appointment_at` is a UTC ISO string, '' when there is no appointment.
+// `lead_notes` replaces overwriting the single admin_note field: each note
+// is kept with its author and time. An old admin_note is still shown.
+
+const extrasReady = new WeakSet<object>();
+
+function leadDb() {
+  const db = getDb();
+  if (!extrasReady.has(db)) {
+    const cols = db.prepare("PRAGMA table_info(contact_leads)").all() as { name: string }[];
+    if (!cols.some((c) => c.name === "appointment_at")) {
+      db.exec("ALTER TABLE contact_leads ADD COLUMN appointment_at TEXT NOT NULL DEFAULT ''");
+    }
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS lead_notes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        lead_id INTEGER NOT NULL REFERENCES contact_leads(id) ON DELETE CASCADE,
+        author TEXT NOT NULL,
+        body TEXT NOT NULL,
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_lead_notes_lead ON lead_notes(lead_id, created_at);
+    `);
+    extrasReady.add(db);
+  }
+  return db;
+}
+
+export type LeadNote = { id: number; author: string; body: string; createdAt: string };
+export type AdminLead = ContactLead & { appointmentAt: string; noteCount: number };
+export type AdminLeadDetail = AdminLead & { notes: LeadNote[] };
+
+type AdminLeadRow = LeadRow & { appointment_at: string; note_count: number };
+
+function rowToAdminLead(row: AdminLeadRow): AdminLead {
+  return { ...rowToLead(row), appointmentAt: row.appointment_at, noteCount: row.note_count };
+}
+
+const ADMIN_LEAD_SELECT = `
+  SELECT l.*, (SELECT COUNT(*) FROM lead_notes n WHERE n.lead_id = l.id) AS note_count
+  FROM contact_leads l`;
+
+/** Newest first. Filtering by text happens in the caller (accent-insensitive, see lead-admin.ts). */
+export async function listLeadsForAdmin(status?: LeadStatus): Promise<AdminLead[]> {
+  const db = leadDb();
+  const rows = (
+    status
+      ? db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.status = ? ORDER BY l.created_at DESC`).all(status)
+      : db.prepare(`${ADMIN_LEAD_SELECT} ORDER BY l.created_at DESC`).all()
+  ) as AdminLeadRow[];
+  return rows.map(rowToAdminLead);
+}
+
+export async function countLeadsByStatus(): Promise<Record<LeadStatus, number> & { all: number }> {
+  const rows = leadDb().prepare("SELECT status, COUNT(*) AS c FROM contact_leads GROUP BY status").all() as {
+    status: LeadStatus;
+    c: number;
+  }[];
+  const counts = { new: 0, contacted: 0, discussing: 0, booked: 0, closed: 0, all: 0 };
+  for (const r of rows) {
+    counts[r.status] = r.c;
+    counts.all += r.c;
+  }
+  return counts;
+}
+
+/** Appointments from now until `days` ahead, soonest first (closed leads excluded). */
+export async function getUpcomingAppointments(days = 14): Promise<AdminLead[]> {
+  const now = new Date();
+  const until = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+  const rows = leadDb()
+    .prepare(
+      `${ADMIN_LEAD_SELECT} WHERE l.appointment_at != '' AND l.appointment_at >= ? AND l.appointment_at <= ?
+       AND l.status != 'closed' ORDER BY l.appointment_at ASC`
+    )
+    .all(now.toISOString(), until.toISOString()) as AdminLeadRow[];
+  return rows.map(rowToAdminLead);
+}
+
+export async function getLeadDetailForAdmin(id: number): Promise<AdminLeadDetail | null> {
+  const db = leadDb();
+  const row = db.prepare(`${ADMIN_LEAD_SELECT} WHERE l.id = ?`).get(id) as AdminLeadRow | undefined;
+  if (!row) return null;
+  const notes = (
+    db.prepare("SELECT id, author, body, created_at FROM lead_notes WHERE lead_id = ? ORDER BY created_at DESC, id DESC").all(id) as {
+      id: number;
+      author: string;
+      body: string;
+      created_at: string;
+    }[]
+  ).map((n) => ({ id: n.id, author: n.author, body: n.body, createdAt: n.created_at }));
+  return { ...rowToAdminLead(row), notes };
+}
+
+/** Every note grouped by lead id (oldest first), for the CSV export. */
+export async function getAllLeadNotes(): Promise<Map<number, LeadNote[]>> {
+  const rows = leadDb().prepare("SELECT id, lead_id, author, body, created_at FROM lead_notes ORDER BY created_at ASC, id ASC").all() as {
+    id: number;
+    lead_id: number;
+    author: string;
+    body: string;
+    created_at: string;
+  }[];
+  const map = new Map<number, LeadNote[]>();
+  for (const r of rows) {
+    const list = map.get(r.lead_id) ?? [];
+    list.push({ id: r.id, author: r.author, body: r.body, createdAt: r.created_at });
+    map.set(r.lead_id, list);
+  }
+  return map;
+}
+
+export async function setLeadStatus(id: number, status: LeadStatus): Promise<void> {
+  leadDb()
+    .prepare("UPDATE contact_leads SET status = ?, updated_at = ? WHERE id = ?")
+    .run(status, new Date().toISOString(), id);
+}
+
+/**
+ * Sets (or clears, with null) the appointment. Setting one also moves a
+ * lead that is still new / contacted / discussing to "booked", which is
+ * what the admin means by entering a date.
+ */
+export async function setLeadAppointment(id: number, appointmentAt: string | null): Promise<void> {
+  const now = new Date().toISOString();
+  const db = leadDb();
+  if (appointmentAt) {
+    db.prepare(
+      `UPDATE contact_leads SET appointment_at = ?, updated_at = ?,
+         status = CASE WHEN status IN ('new', 'contacted', 'discussing') THEN 'booked' ELSE status END
+       WHERE id = ?`
+    ).run(appointmentAt, now, id);
+  } else {
+    db.prepare("UPDATE contact_leads SET appointment_at = '', updated_at = ? WHERE id = ?").run(now, id);
+  }
+}
+
+export async function addLeadNote(leadId: number, author: string, body: string): Promise<void> {
+  const now = new Date().toISOString();
+  const db = leadDb();
+  db.prepare("INSERT INTO lead_notes (lead_id, author, body, created_at) VALUES (?, ?, ?, ?)").run(leadId, author, body, now);
+  db.prepare("UPDATE contact_leads SET updated_at = ? WHERE id = ?").run(now, leadId);
+}
+
+/** Permanently deletes a lead (spam / test entries) and its notes. */
+export async function deleteLead(id: number): Promise<void> {
+  const db = leadDb();
+  db.transaction(() => {
+    db.prepare("DELETE FROM lead_notes WHERE lead_id = ?").run(id);
+    db.prepare("DELETE FROM contact_leads WHERE id = ?").run(id);
+  })();
+}
+
 // ---------- Public create path ----------
 
 export type CreateLeadResult = { ok: true; lead: ContactLead } | { ok: false; error: string };

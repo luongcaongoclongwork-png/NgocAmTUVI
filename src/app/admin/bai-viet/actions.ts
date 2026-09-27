@@ -43,7 +43,8 @@ function readCommonFields(formData: FormData): ReadFieldsResult {
 }
 
 async function revalidateArticleSurfaces(slug: string) {
-  revalidatePath("/admin");
+  revalidatePath("/admin"); // dashboard draft count
+  revalidatePath("/admin/bai-viet");
   revalidatePath("/kien-thuc");
   revalidatePath("/phat-hoc");
   revalidatePath("/");
@@ -84,7 +85,7 @@ export async function createArticleAction(
   });
 
   await revalidateArticleSurfaces(article.slug);
-  redirect("/admin");
+  redirect("/admin/bai-viet");
 }
 
 export async function updateArticleAction(
@@ -124,5 +125,5 @@ export async function updateArticleAction(
   });
 
   await revalidateArticleSurfaces(article.slug);
-  redirect("/admin");
+  redirect("/admin/bai-viet");
 }

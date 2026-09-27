@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/auth";
 import AdminHeader from "@/components/admin/AdminHeader";
+import { countLeadsByStatus } from "@/lib/contact-leads";
 
 /**
  * Real authorization boundary for every /admin page (src/proxy.ts is only
@@ -16,10 +17,11 @@ import AdminHeader from "@/components/admin/AdminHeader";
 export default async function AdminProtectedLayout({ children }: { children: ReactNode }) {
   const session = await verifySession();
   if (!session) redirect("/admin/login");
+  const { new: newLeads } = await countLeadsByStatus();
 
   return (
     <div className="min-h-screen bg-ivory">
-      <AdminHeader username={session.username} />
+      <AdminHeader username={session.username} newLeads={newLeads} />
       <div className="mx-auto max-w-[1100px] px-4 py-8 sm:px-6 lg:px-10 lg:py-10">{children}</div>
     </div>
   );

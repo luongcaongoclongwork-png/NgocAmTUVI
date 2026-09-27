@@ -5,6 +5,7 @@ import CreateUserForm from "@/components/admin/CreateUserForm";
 import DeleteUserButton from "@/components/admin/DeleteUserButton";
 import NotifyChannelSettings from "@/components/admin/NotifyChannelSettings";
 import { channelStatus } from "@/lib/notify-channels";
+import { formatVietnamDate } from "@/lib/vn-time";
 
 export default async function AdminAccountsPage() {
   const [session, users] = await Promise.all([verifySession(), getAllUsers()]);
@@ -67,7 +68,7 @@ export default async function AdminAccountsPage() {
                   )}
                 </p>
                 <p className="text-[12px] text-ink/50">
-                  Tạo lúc {new Date(user.createdAt).toLocaleDateString("vi-VN")}
+                  Tạo lúc {formatVietnamDate(user.createdAt)}
                 </p>
               </div>
               {session?.userId !== user.id && (

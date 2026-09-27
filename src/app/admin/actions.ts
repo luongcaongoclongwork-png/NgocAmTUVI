@@ -29,7 +29,8 @@ export async function deleteArticleAction(id: number) {
   await deleteArticleFromDb(id);
   await deleteUploadedImage(article.image);
 
-  revalidatePath("/admin");
+  revalidatePath("/admin"); // dashboard draft count
+  revalidatePath("/admin/bai-viet");
   revalidatePath("/kien-thuc");
   revalidatePath("/phat-hoc");
   revalidatePath("/");

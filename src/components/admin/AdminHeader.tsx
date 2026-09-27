@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/admin/actions";
 
-const NAV = [
-  { href: "/admin", label: "Bài viết", match: (p: string) => p === "/admin" || p.startsWith("/admin/bai-viet") },
-  { href: "/admin/lien-he", label: "Liên hệ" },
+const NAV: { href: string; label: string; exact?: boolean; badge?: boolean }[] = [
+  { href: "/admin", label: "Tổng quan", exact: true },
+  { href: "/admin/lien-he", label: "Khách liên hệ", badge: true },
+  { href: "/admin/bai-viet", label: "Bài viết" },
   { href: "/admin/dich-vu", label: "Dịch vụ" },
   { href: "/admin/tu-van-vien", label: "Tư vấn viên" },
   { href: "/admin/san-pham", label: "Sản phẩm" },
@@ -18,10 +19,10 @@ const NAV = [
  * one row from lg up. The old single flex row forced a 494px-wide page on a
  * 390px phone, broke every label onto several lines and cut off "Đăng xuất".
  */
-export default function AdminHeader({ username }: { username: string }) {
+export default function AdminHeader({ username, newLeads }: { username: string; newLeads: number }) {
   const pathname = usePathname() ?? "";
   const isActive = (item: (typeof NAV)[number]) =>
-    item.match ? item.match(pathname) : pathname === item.href || pathname.startsWith(item.href + "/");
+    item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(item.href + "/");
 
   return (
     <header className="sticky top-0 z-40 border-b border-walnut/15 bg-ivory/95 backdrop-blur">
@@ -58,6 +59,14 @@ export default function AdminHeader({ username }: { username: string }) {
                 }`}
               >
                 {item.label}
+                {item.badge && newLeads > 0 && (
+                  <span
+                    aria-label={`${newLeads} khách mới`}
+                    className="ml-1.5 inline-flex min-w-5 items-center justify-center rounded-full bg-lacquer px-1.5 text-[11px] font-semibold leading-5 text-ivory"
+                  >
+                    {newLeads}
+                  </span>
+                )}
               </Link>
             );
           })}
