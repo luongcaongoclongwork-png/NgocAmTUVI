@@ -3,8 +3,8 @@ import { getAllUsers } from "@/lib/users";
 import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 import CreateUserForm from "@/components/admin/CreateUserForm";
 import DeleteUserButton from "@/components/admin/DeleteUserButton";
-import TelegramSettings from "@/components/admin/TelegramSettings";
-import { telegramStatus } from "@/lib/telegram";
+import NotifyChannelSettings from "@/components/admin/NotifyChannelSettings";
+import { channelStatus } from "@/lib/notify-channels";
 
 export default async function AdminAccountsPage() {
   const [session, users] = await Promise.all([verifySession(), getAllUsers()]);
@@ -20,14 +20,24 @@ export default async function AdminAccountsPage() {
 
       <div>
         <h2 className="tracking-label text-[12px] font-semibold uppercase text-walnut/60">
-          Báo khách mới qua Telegram
+          Báo khách mới qua Zalo
         </h2>
         <p className="mt-2 max-w-lg text-sm text-ink/60">
-          Mỗi khi khách gửi lời nhắn ở trang Liên hệ, Telegram sẽ báo ngay kèm tên, số điện thoại, lời nhắn và nút nhắn Zalo cho khách.
+          Mỗi khi khách gửi lời nhắn ở trang Liên hệ, một bot Zalo sẽ nhắn ngay cho bạn: tên, số điện thoại, gói quan tâm, lời nhắn và link nhắn Zalo cho khách.
+          Bot được tạo từ tài khoản Zalo cá nhân (tính năng Zalo Bot, đang thử nghiệm), không cần Zalo OA.
         </p>
         <div className="mt-6 max-w-xl">
-          <TelegramSettings {...telegramStatus()} />
+          <NotifyChannelSettings status={channelStatus("zalo")} />
         </div>
+
+        <details className="mt-10 max-w-xl border-t border-walnut/10 pt-6">
+          <summary className="cursor-pointer text-sm text-walnut/70 hover:text-gold">
+            Thêm kênh Telegram (tuỳ chọn, nhận song song với Zalo)
+          </summary>
+          <div className="mt-6">
+            <NotifyChannelSettings status={channelStatus("telegram")} />
+          </div>
+        </details>
       </div>
 
       <div>
