@@ -1,12 +1,14 @@
 import Reveal from "./Reveal";
 import NgocAmCard from "./ui/NgocAmCard";
-import type { Service } from "@/lib/service-constants";
+import { formatPrice, type Service } from "@/lib/service-constants";
 
 export default function ServiceCard({
   id,
   title,
   desc,
   price,
+  duration,
+  note,
   group,
   delay = 0,
 }: Service & { delay?: number }) {
@@ -16,15 +18,13 @@ export default function ServiceCard({
         // `service` carries the exact package to /lien-he so the visitor
         // sees what they are asking about and the lead records it.
         href={`/lien-he?topic=${group}&service=${id}`}
+        eyebrow={note || undefined}
         title={title}
         description={desc}
         meta={
           <span>
-            Từ
-            <b>
-              {price}
-              {price !== "Liên hệ" && " đ"}
-            </b>
+            <b>{formatPrice(price)}</b>
+            {duration && <span className="ml-2 text-ink/50">· {duration}</span>}
           </span>
         }
         ctaLabel="Đặt lịch"

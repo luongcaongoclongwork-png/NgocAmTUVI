@@ -6,13 +6,18 @@ export default function PhilosophyPillars({
   eyebrow,
   heading,
   pillars,
+  footnote,
+  background = "bg-ivory",
 }: {
   eyebrow: string;
   heading: string;
   pillars: Pillar[];
+  /** Small centered attribution line under the grid, e.g. "Xuyên Giả: Nguyễn Minh Trang". */
+  footnote?: string;
+  background?: string;
 }) {
   return (
-    <section className="bg-ivory py-24 lg:py-28">
+    <section className={`${background} py-24 lg:py-28`}>
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         <Reveal>
           <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
@@ -37,6 +42,14 @@ export default function PhilosophyPillars({
             </Reveal>
           ))}
         </div>
+
+        {footnote && (
+          <Reveal delay={pillars.length * 90}>
+            <p className="tracking-label mt-16 text-center text-[11px] uppercase text-walnut/45">
+              {footnote}
+            </p>
+          </Reveal>
+        )}
       </div>
     </section>
   );

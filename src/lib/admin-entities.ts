@@ -47,7 +47,7 @@ export const ENTITIES: Record<EntityKey, EntityDef> = {
     sortable: true,
     scopeCol: "group_id",
     imageCols: [],
-    revalidate: ["/admin/dich-vu", "/", "/tu-vi", "/phong-thuy", "/dich-vu"],
+    revalidate: ["/admin/dich-vu", "/", "/tu-vi", "/phong-thuy", "/dai-chu-su", "/dich-vu"],
     editPath: (id) => `/admin/dich-vu/${id}`,
   },
   consultant: {

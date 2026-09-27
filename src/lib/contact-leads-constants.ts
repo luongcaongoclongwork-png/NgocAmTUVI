@@ -41,6 +41,7 @@ const TOPIC_QUERY_ALIASES: Record<string, TopicId> = {
   "tu-vi": "su-nghiep-huong-di",
   "phong-thuy": "khong-gian-song",
   "vat-pham": "vat-pham-dong-hanh",
+  "dai-chu-su": "su-nghiep-huong-di",
 };
 
 export function resolveTopicFromQuery(value: string | null | undefined): TopicId | null {

@@ -61,12 +61,32 @@ export default function AdminServiceForm({
       </label>
 
       <label className="flex flex-col gap-1.5 text-sm text-ink/80">
-        Giá (nhập số, ví dụ 1.000.000 — hoặc &ldquo;Liên hệ&rdquo;)
+        Giá (ví dụ 1.000.000, &ldquo;Từ 1.500.000&rdquo; hoặc &ldquo;Liên hệ&rdquo; — web tự thêm &ldquo;đ&rdquo;)
         <input
           name="price"
           type="text"
           required
           defaultValue={service?.price}
+          className="border border-walnut/30 bg-transparent px-3 py-2 text-ink focus:border-gold focus:outline-none"
+        />
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm text-ink/80">
+        Thời lượng (vd &ldquo;45 phút&rdquo; — có thể để trống)
+        <input
+          name="duration"
+          type="text"
+          defaultValue={service?.duration}
+          className="border border-walnut/30 bg-transparent px-3 py-2 text-ink focus:border-gold focus:outline-none"
+        />
+      </label>
+
+      <label className="flex flex-col gap-1.5 text-sm text-ink/80">
+        Ghi chú điều kiện (vd &ldquo;Dành cho Chủ Sự đã Xuyên Vấn tại Ngọc Âm&rdquo; — có thể để trống)
+        <input
+          name="note"
+          type="text"
+          defaultValue={service?.note}
           className="border border-walnut/30 bg-transparent px-3 py-2 text-ink focus:border-gold focus:outline-none"
         />
       </label>

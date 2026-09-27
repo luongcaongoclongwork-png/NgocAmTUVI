@@ -7,7 +7,15 @@ import { SERVICE_GROUPS, createService, updateService, type ServiceGroup } from 
 
 export type ServiceFormState = { error: string | null };
 
-type ParsedFields = { group: ServiceGroup; title: string; desc: string; price: string; sortOrder: number };
+type ParsedFields = {
+  group: ServiceGroup;
+  title: string;
+  desc: string;
+  price: string;
+  duration: string;
+  note: string;
+  sortOrder: number;
+};
 type ReadFieldsResult = { ok: true; fields: ParsedFields } | { ok: false; error: string };
 
 function readCommonFields(formData: FormData): ReadFieldsResult {
@@ -15,6 +23,8 @@ function readCommonFields(formData: FormData): ReadFieldsResult {
   const title = String(formData.get("title") || "").trim();
   const desc = String(formData.get("desc") || "").trim();
   const price = String(formData.get("price") || "").trim();
+  const duration = String(formData.get("duration") || "").trim();
+  const note = String(formData.get("note") || "").trim();
   const sortOrder = Number.parseInt(String(formData.get("sortOrder") || "0"), 10);
 
   if (!SERVICE_GROUPS.some((g) => g.value === group)) {
@@ -25,7 +35,7 @@ function readCommonFields(formData: FormData): ReadFieldsResult {
   if (!price) return { ok: false, error: 'Vui lòng nhập giá (hoặc "Liên hệ").' };
   if (!Number.isFinite(sortOrder)) return { ok: false, error: "Thứ tự hiển thị không hợp lệ." };
 
-  return { ok: true, fields: { group: group as ServiceGroup, title, desc, price, sortOrder } };
+  return { ok: true, fields: { group: group as ServiceGroup, title, desc, price, duration, note, sortOrder } };
 }
 
 async function revalidateServiceSurfaces() {
@@ -33,6 +43,7 @@ async function revalidateServiceSurfaces() {
   revalidatePath("/"); // homepage "Dịch vụ tư vấn" section lists these too
   revalidatePath("/tu-vi");
   revalidatePath("/phong-thuy");
+  revalidatePath("/dai-chu-su");
   revalidatePath("/dich-vu");
 }
 

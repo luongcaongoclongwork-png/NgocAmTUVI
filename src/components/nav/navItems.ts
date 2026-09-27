@@ -17,6 +17,7 @@ export const PRIMARY_NAV_ITEMS: NavItem[] = [
 export const EXPLORE_NAV_ITEMS: NavItem[] = [
   { label: "Phật học", href: "/phat-hoc" },
   { label: "Kiến thức", href: "/kien-thuc" },
+  { label: "Đại Chủ Sự", href: "/dai-chu-su" },
   { label: "Cửa hàng", href: "/cua-hang" },
   { label: "Về Ngọc Âm", href: "/ve-ngoc-am" },
   { label: "Liên hệ", href: "/lien-he" },

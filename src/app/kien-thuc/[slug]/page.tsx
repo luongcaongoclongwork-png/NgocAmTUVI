@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
@@ -76,6 +77,18 @@ export default async function ArticlePage({
             <h1 className="mt-3 font-heading text-3xl leading-tight text-ink sm:text-4xl">
               {article.title}
             </h1>
+          </Reveal>
+          <Reveal delay={180}>
+            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden border border-walnut/15">
+              <Image
+                src={article.image}
+                alt={article.imageAlt || article.title}
+                fill
+                sizes="(min-width: 1024px) 760px, 100vw"
+                priority
+                className="object-cover"
+              />
+            </div>
           </Reveal>
         </div>
       </article>

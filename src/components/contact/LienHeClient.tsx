@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { submitLeadAction, type SubmitLeadState } from "@/app/lien-he/actions";
 import { CONTACT_TOPICS, normalizeVietnamesePhone, type TopicId } from "@/lib/contact-leads-constants";
+import { formatPrice } from "@/lib/service-constants";
 import "./lienHe.css";
 
 type PanelPhase = "active" | "exiting" | "reply";
@@ -257,8 +258,7 @@ function LetterForm({
           <p className="mt-1.5 font-heading text-lg leading-snug text-ink">{selectedService.title}</p>
           <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
             <p className="text-[13.5px] text-ink/70">
-              {selectedService.price}
-              {selectedService.price !== "Liên hệ" && " đ"}
+              {formatPrice(selectedService.price)}
               {selectedService.duration && ` · ${selectedService.duration}`}
             </p>
             <Link

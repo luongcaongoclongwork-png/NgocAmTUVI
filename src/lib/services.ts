@@ -12,6 +12,8 @@ type ServiceRow = {
   title: string;
   description: string;
   price: string;
+  duration: string;
+  note: string;
   sort_order: number;
 };
 
@@ -22,6 +24,8 @@ function rowToService(row: ServiceRow): Service {
     title: row.title,
     desc: row.description,
     price: row.price,
+    duration: row.duration,
+    note: row.note,
     sortOrder: row.sort_order,
   };
 }
@@ -66,8 +70,8 @@ export async function createService(input: ServiceInput): Promise<Service> {
   const db = getDb();
   const info = db
     .prepare(
-      `INSERT INTO services (group_id, title, description, price, sort_order)
-       VALUES (@group, @title, @desc, @price, @sortOrder)`
+      `INSERT INTO services (group_id, title, description, price, duration, note, sort_order)
+       VALUES (@group, @title, @desc, @price, @duration, @note, @sortOrder)`
     )
     .run(input);
   const service = await getServiceByIdForAdmin(Number(info.lastInsertRowid));
@@ -79,7 +83,7 @@ export async function updateService(id: number, input: ServiceInput): Promise<Se
   const db = getDb();
   db.prepare(
     `UPDATE services SET group_id = @group, title = @title, description = @desc,
-       price = @price, sort_order = @sortOrder WHERE id = @id`
+       price = @price, duration = @duration, note = @note, sort_order = @sortOrder WHERE id = @id`
   ).run({ ...input, id });
   const service = await getServiceByIdForAdmin(id);
   if (!service) throw new Error("Không tìm thấy dịch vụ để cập nhật.");

@@ -9,6 +9,7 @@ export default function ConsultantProfile({
   imageAlt,
   reverse = false,
   contactTopic,
+  ctaVerb = "khai vấn",
 }: {
   consultant: Consultant;
   image: string;
@@ -16,6 +17,8 @@ export default function ConsultantProfile({
   reverse?: boolean;
   /** Which /lien-he topic alias this consultant's own CTA should carry. */
   contactTopic: "tu-vi" | "phong-thuy";
+  /** The verb in "Đặt lịch {ctaVerb} cùng {name}" — defaults to the site-wide "khai vấn". */
+  ctaVerb?: string;
 }) {
   return (
     <section className="bg-parchment/60 py-24 lg:py-32">
@@ -53,7 +56,7 @@ export default function ConsultantProfile({
             href={`/lien-he?topic=${contactTopic}`}
             className="tracking-label mt-8 inline-flex w-fit items-center gap-2 border-b border-gold pb-1 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
           >
-            Đặt lịch khai vấn cùng {consultant.name}
+            Đặt lịch {ctaVerb} cùng {consultant.name}
             <span aria-hidden="true">→</span>
           </Link>
         </Reveal>

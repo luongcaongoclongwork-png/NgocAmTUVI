@@ -51,10 +51,12 @@ function openDb(): Database.Database {
 
     CREATE TABLE IF NOT EXISTS services (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      group_id TEXT NOT NULL CHECK (group_id IN ('tu-vi', 'phong-thuy')),
+      group_id TEXT NOT NULL CHECK (group_id IN ('tu-vi', 'phong-thuy', 'dai-chu-su')),
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       price TEXT NOT NULL,
+      duration TEXT NOT NULL DEFAULT '',
+      note TEXT NOT NULL DEFAULT '',
       sort_order INTEGER NOT NULL
     );
 
@@ -101,12 +103,133 @@ function openDb(): Database.Database {
     );
   `);
 
+  migrateServicesColumns(db);
+  widenServiceGroups(db);
   seedIfEmpty(db);
   seedServicesIfEmpty(db);
   seedConsultantsIfEmpty(db);
   seedProductsIfEmpty(db);
   applySchemaExtras(db);
+  migrateToXuyenVanMenu(db);
   return db;
+}
+
+/** `CREATE TABLE IF NOT EXISTS` above never retrofits columns onto a table
+ * that already existed before `duration`/`note` were added — needed for any
+ * dev DB created before this migration. Safe to run on every boot. */
+function migrateServicesColumns(db: Database.Database) {
+  const columns = db.prepare("PRAGMA table_info(services)").all() as { name: string }[];
+  const names = new Set(columns.map((c) => c.name));
+  if (!names.has("duration")) {
+    db.exec("ALTER TABLE services ADD COLUMN duration TEXT NOT NULL DEFAULT ''");
+  }
+  if (!names.has("note")) {
+    db.exec("ALTER TABLE services ADD COLUMN note TEXT NOT NULL DEFAULT ''");
+  }
+}
+
+/**
+ * Databases created before the "Đại Chủ Sự" group have a CHECK constraint
+ * that only allows 'tu-vi' / 'phong-thuy'. SQLite cannot alter a CHECK, so
+ * the table is rebuilt once with the same columns and rows (ids kept).
+ */
+function widenServiceGroups(db: Database.Database) {
+  const row = db.prepare("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'services'").get() as
+    | { sql: string }
+    | undefined;
+  if (!row || row.sql.includes("'dai-chu-su'")) return;
+  const newSql = row.sql
+    .replace("CHECK (group_id IN ('tu-vi', 'phong-thuy'))", "CHECK (group_id IN ('tu-vi', 'phong-thuy', 'dai-chu-su'))")
+    .replace(/CREATE TABLE\s+"?services"?/, "CREATE TABLE services_new");
+  if (!newSql.includes("'dai-chu-su'")) throw new Error("services: unexpected group CHECK, not migrated");
+  const cols = (db.prepare("PRAGMA table_info(services)").all() as { name: string }[]).map((c) => c.name).join(", ");
+  db.transaction(() => {
+    db.exec(newSql);
+    db.exec(`INSERT INTO services_new (${cols}) SELECT ${cols} FROM services`);
+    db.exec("DROP TABLE services");
+    db.exec("ALTER TABLE services_new RENAME TO services");
+  })();
+}
+
+/** Runs `fn` once per database, ever: recorded in `app_migrations`. */
+function runOnce(db: Database.Database, name: string, fn: () => void) {
+  db.exec("CREATE TABLE IF NOT EXISTS app_migrations (name TEXT PRIMARY KEY, applied_at TEXT NOT NULL)");
+  if (db.prepare("SELECT 1 FROM app_migrations WHERE name = ?").get(name)) return;
+  db.transaction(() => {
+    fn();
+    db.prepare("INSERT INTO app_migrations (name, applied_at) VALUES (?, ?)").run(name, new Date().toISOString());
+  })();
+}
+
+/** The original Tử Vi seed rows (old "Khai vấn / lá số" wording) → new title. */
+const OLD_TU_VI_SEED: { title: string; desc: string; newTitle: string }[] = [
+  {
+    title: "Phiên khai vấn chuyên sâu một vấn đề",
+    desc: "Đào sâu một chủ đề cụ thể trong lá số — sự nghiệp, tình duyên, sức khoẻ hoặc một quyết định bạn đang cân nhắc.",
+    newTitle: "Phiên Xuyên vấn chuyên sâu một vấn đề",
+  },
+  {
+    title: "Phiên khai vấn tổng hợp toàn lá số",
+    desc: "Nhìn toàn cảnh 12 cung trên lá số, các giai đoạn vận trình và những điểm cần lưu tâm trong hành trình sắp tới.",
+    newTitle: "Phiên Xuyên vấn Tổng hợp toàn Diệm Bản",
+  },
+  {
+    title: "Phiên khai vấn tổng hợp hai lá số cùng thời điểm",
+    desc: "Đối chiếu hai lá số trong cùng một giai đoạn — phù hợp cho vợ chồng, đối tác hoặc các quyết định chung.",
+    newTitle: "Phiên Xuyên vấn 2 Diệm Bản cùng thời điểm",
+  },
+  {
+    title: "Khai vấn Ngày / Giờ Hoàng Đạo",
+    desc: "Chọn ngày và giờ tốt cho các việc hệ trọng — khai trương, cưới hỏi, nhập trạch, xuất hành hoặc ký kết.",
+    newTitle: "Xuyên vấn ngày/giờ đẹp",
+  },
+];
+
+/**
+ * One-time content migration to the brand's "Xuyên vấn / Diệm Bản" price menu
+ * (seed-services.ts holds the new copy). Runs once per database and only
+ * touches rows still holding the exact old seed text, so anything edited,
+ * added or removed in /admin is left alone; it never deletes a row.
+ *   - old Tử Vi seed rows → new title/description/duration
+ *   - adds any new Tử Vi / Đại Chủ Sự package not already present by title
+ *   - Phong Thuỷ plain-number prices get "Từ " (the site used to print "Từ"
+ *     before every price; it now shows the price exactly as typed in admin)
+ */
+function migrateToXuyenVanMenu(db: Database.Database) {
+  runOnce(db, "2026-09-xuyen-van-menu", () => {
+    const seedByTitle = new Map(seedServices.map((s) => [s.title, s]));
+    const update = db.prepare(
+      `UPDATE services SET title = @title, description = @desc, duration = @duration, note = @note
+       WHERE group_id = 'tu-vi' AND title = @oldTitle AND description = @oldDesc`
+    );
+    for (const old of OLD_TU_VI_SEED) {
+      const next = seedByTitle.get(old.newTitle);
+      if (next) update.run({ ...next, oldTitle: old.title, oldDesc: old.desc });
+    }
+
+    const exists = db.prepare("SELECT 1 FROM services WHERE group_id = ? AND title = ?");
+    const nextOrder = db.prepare("SELECT COALESCE(MAX(sort_order), -1) + 1 AS n FROM services WHERE group_id = ?");
+    const insert = db.prepare(
+      `INSERT INTO services (group_id, title, description, price, duration, note, sort_order)
+       VALUES (@group, @title, @desc, @price, @duration, @note, @sortOrder)`
+    );
+    for (const s of seedServices) {
+      if (s.group === "phong-thuy" || exists.get(s.group, s.title)) continue;
+      insert.run({ ...s, sortOrder: (nextOrder.get(s.group) as { n: number }).n });
+    }
+
+    db.prepare(
+      "UPDATE services SET price = 'Từ ' || price WHERE group_id = 'phong-thuy' AND price GLOB '[0-9]*' AND price NOT GLOB '*[^0-9.]*'"
+    ).run();
+
+    db.prepare("UPDATE consultants SET field = ? WHERE slug = 'co-minh-trang' AND field = ?").run(
+      "Xuyên vấn Tử Vi",
+      "Khai vấn Tử Vi"
+    );
+    db.prepare(
+      "UPDATE consultants SET bio = REPLACE(bio, 'trong lá số thành cơ hội', 'trong Diệm Bản thành cơ hội') WHERE slug = 'co-minh-trang' AND bio LIKE '%trong lá số thành cơ hội%'"
+    ).run();
+  });
 }
 
 function seedIfEmpty(db: Database.Database) {
@@ -161,8 +284,8 @@ function seedServicesIfEmpty(db: Database.Database) {
   if (count > 0) return;
 
   const insert = db.prepare(
-    `INSERT INTO services (group_id, title, description, price, sort_order)
-     VALUES (@group, @title, @desc, @price, @sortOrder)`
+    `INSERT INTO services (group_id, title, description, price, duration, note, sort_order)
+     VALUES (@group, @title, @desc, @price, @duration, @note, @sortOrder)`
   );
   const insertMany = db.transaction((rows: typeof seedServices) => {
     const counters: Record<string, number> = {};

@@ -7,17 +7,18 @@ import ConsultationProcess from "@/components/ConsultationProcess";
 import CtaBand from "@/components/CtaBand";
 import { getServicesByGroup } from "@/lib/services";
 import { getConsultantBySlug } from "@/lib/consultants";
+import { BASE_GLOSSARY_TERMS } from "@/data/xuyenVanGlossary";
 
 export const metadata: Metadata = {
   title: "Tử Vi Xuyên Tam Diệm — Ngọc Âm",
   description:
-    "Khai vấn Tử Vi tại Ngọc Âm: khai vấn, định hướng, phát triển nội lực và chuyển hoá điều bất như ý, cùng cô Nguyễn Minh Trang.",
+    "Xuyên vấn Tử Vi tại Ngọc Âm: Xuyên vấn, định hướng, phát triển nội lực và chuyển hoá điều bất như ý, cùng Xuyên giả Nguyễn Minh Trang.",
 };
 
 const pillars = [
   {
-    word: "Khai vấn",
-    desc: "Không phải xem để biết trước, mà để mở ra một cuộc đối thoại — giữa bạn với chính lá số của mình, giữa hiện tại với những gì đã qua.",
+    word: "Xuyên vấn",
+    desc: "Không phải xem để biết trước, mà để mở ra một cuộc đối thoại — giữa bạn với chính Diệm Bản của mình, giữa hiện tại với những gì đã qua.",
   },
   {
     word: "Định hướng",
@@ -29,7 +30,7 @@ const pillars = [
   },
   {
     word: "Chuyển hoá điều bất như ý",
-    desc: "Những giai đoạn khó khăn trong lá số không phải để né tránh, mà để chuẩn bị — và chuyển hoá thành bài học trưởng thành.",
+    desc: "Những giai đoạn khó khăn trong Diệm Bản không phải để né tránh, mà để chuẩn bị — và chuyển hoá thành bài học trưởng thành.",
   },
 ];
 
@@ -44,13 +45,13 @@ export default async function TuViPage() {
       <PageBanner
         eyebrow="Tử Vi Xuyên Tam Diệm"
         heading="Không phải để biết trước, mà để hiểu rõ hơn."
-        description="Tử Vi tại Ngọc Âm không dừng ở việc dự đoán. Đó là một công cụ khai vấn — giúp bạn nhìn rõ bản thân, hoàn cảnh và những chu kỳ đang vận hành, để chủ động hơn trên hành trình của chính mình."
+        description="Tử Vi tại Ngọc Âm không dừng ở việc dự đoán. Đó là một công cụ Xuyên vấn — giúp bạn nhìn rõ bản thân, hoàn cảnh và những chu kỳ đang vận hành, để chủ động hơn trên hành trình của chính mình."
         image="/images/tu-vi/page-banner.webp"
-        imageAlt="Lá số Tử Vi Xuyên Tam Diệm, ấn ngọc và trầm hương trên bàn gỗ cổ"
+        imageAlt="Diệm Bản Tử Vi Xuyên Tam Diệm, ấn ngọc và trầm hương trên bàn gỗ cổ"
       />
       <PhilosophyPillars
         eyebrow="Triết lý"
-        heading="Bốn giai đoạn của một phiên khai vấn Tử Vi."
+        heading="Bốn giai đoạn của một phiên Xuyên vấn Tử Vi."
         pillars={pillars}
       />
       {/* Hidden or trashed in /admin: the page stays, only the profile is omitted. */}
@@ -58,15 +59,23 @@ export default async function TuViPage() {
         <ConsultantProfile
           consultant={trang}
           image={trang.photo || "/images/consultants/minh-trang.webp"}
-          imageAlt={trang.photo ? `Chân dung ${trang.name}` : "Lá số Tử Vi viết tay trên bàn gỗ cổ"}
+          imageAlt={trang.photo ? `Chân dung ${trang.name}` : "Diệm Bản Tử Vi viết tay trên bàn gỗ cổ"}
           contactTopic="tu-vi"
+          ctaVerb="Xuyên vấn"
         />
       )}
       <ServiceList
         eyebrow="Dịch vụ"
-        heading="Khai vấn Tử Vi"
+        heading="Xuyên vấn Tử Vi"
         items={tuViServices}
         background="bg-ivory"
+      />
+      <PhilosophyPillars
+        eyebrow="Chú giải thuật ngữ"
+        heading="Ngôn ngữ riêng của Ngọc Âm."
+        pillars={BASE_GLOSSARY_TERMS}
+        footnote="Xuyên Giả: Nguyễn Minh Trang"
+        background="bg-parchment/60"
       />
       <ConsultationProcess />
       <CtaBand />

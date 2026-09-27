@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SERVICE_GROUPS, getAllServicesForAdmin } from "@/lib/services";
+import { formatPrice } from "@/lib/service-constants";
 import { getHiddenIds } from "@/lib/admin-entities";
 import DeleteServiceButton from "@/components/admin/DeleteServiceButton";
 import SortableList from "@/components/admin/SortableList";
@@ -41,8 +42,7 @@ export default async function AdminServicesPage() {
                     <div className="min-w-0">
                       <p className="truncate font-heading text-[16px] text-ink">{service.title}</p>
                       <p className="text-[12px] text-ink/50">
-                        {service.price}
-                        {service.price !== "Liên hệ" && " đ"}
+                        {formatPrice(service.price)}
                         {duration && ` · ${duration}`}
                       </p>
                     </div>
