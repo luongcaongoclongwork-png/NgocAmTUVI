@@ -9,7 +9,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import "./NgocAmCard.css";
 
 export type NgocAmCardVariant =
@@ -59,6 +59,11 @@ export default function NgocAmCard({
   children,
   className = "",
 }: NgocAmCardProps) {
+  // Fades the photo in once decoded instead of letting it pop onto the
+  // parchment placeholder (heavy sources like the Trà Đạo card took a
+  // visible moment to arrive).
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const body = (
     <>
       {image && (
@@ -68,7 +73,8 @@ export default function NgocAmCard({
             alt={image.alt}
             fill
             sizes={image.sizes ?? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
-            className="ngoc-am-card__media-img"
+            className={`ngoc-am-card__media-img${imageLoaded ? " is-loaded" : ""}`}
+            onLoad={() => setImageLoaded(true)}
           />
           <div className="ngoc-am-card__veil" aria-hidden="true" />
           <div className="ngoc-am-card__paper-light" aria-hidden="true" />
@@ -118,8 +124,10 @@ export default function NgocAmCard({
     );
   }
 
+  // No tabIndex: a card without href does nothing when activated, so it must
+  // not be a keyboard stop (Tab would land on it and Enter would do nothing).
   return (
-    <div className={classes} data-variant={variant} tabIndex={0}>
+    <div className={classes} data-variant={variant}>
       {body}
     </div>
   );

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NavProgress from "@/components/NavProgress";
 
 const heading = Playfair_Display({
   variable: "--font-heading",
@@ -37,8 +39,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="vi"
       data-scroll-behavior="smooth"
       className={`${heading.variable} ${body.variable} h-full antialiased`}
+      // The inline script below adds `js` before first paint; React must not
+      // treat that extra class as a hydration mismatch.
+      suppressHydrationWarning
     >
+      <head>
+        {/* Marks "JavaScript is running" so scroll-reveal content is only
+            hidden when something will reveal it again (see .js .reveal). */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="min-h-full flex flex-col bg-ivory text-ink font-body">
+        <Suspense fallback={null}>
+          <NavProgress />
+        </Suspense>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

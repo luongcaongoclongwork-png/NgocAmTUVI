@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import { EXPLORE_NAV_ITEMS, isNavItemActive } from "./navItems";
 import "./exploreMenu.css";
 
-const EXIT_MS = 150;
+// Must match --dur-fast (globals.css), which the panel fade and the chevron
+// rotation both use.
+const EXIT_MS = 200;
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined") return false;
@@ -21,7 +23,7 @@ function ChevronIcon({ open }: { open: boolean }) {
       viewBox="0 0 10 10"
       fill="none"
       aria-hidden="true"
-      className={`transition-transform duration-150 ${open ? "-rotate-180" : ""}`}
+      className={`transition-transform ${open ? "-rotate-180" : ""}`}
     >
       <path d="M1.5 3.5L5 7l3.5-3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
@@ -94,7 +96,7 @@ export default function ExploreMenu() {
         aria-expanded={open}
         aria-controls={menuId}
         onClick={() => setOpen((v) => !v)}
-        className={`tracking-label flex items-center gap-1 text-[11px] font-medium uppercase transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
+        className={`tracking-label flex min-h-7 items-center gap-1 text-[11px] font-medium uppercase transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
           active ? "text-gold-deep" : "text-walnut"
         }`}
       >

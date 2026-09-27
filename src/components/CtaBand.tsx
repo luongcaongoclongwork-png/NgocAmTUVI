@@ -28,13 +28,13 @@ export default function CtaBand() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/lien-he"
-              className="tracking-label bg-gold px-8 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
+              className="btn-motion tracking-label bg-gold px-8 py-3.5 text-[11px] font-semibold uppercase text-ink hover:bg-gold-deep hover:text-ivory"
             >
               Đặt lịch tư vấn
             </Link>
             <Link
               href="/dich-vu"
-              className="tracking-label border border-ivory/50 px-8 py-3.5 text-[11px] font-semibold uppercase text-ivory transition-colors hover:border-gold hover:text-gold"
+              className="btn-motion tracking-label border border-ivory/50 px-8 py-3.5 text-[11px] font-semibold uppercase text-ivory hover:border-gold hover:text-gold"
             >
               Tìm hiểu dịch vụ
             </Link>

@@ -23,7 +23,9 @@ export default function Reveal({
           observer.unobserve(el);
         }
       },
-      { threshold: 0.15 }
+      // -8% bottom margin: the element reveals once it is clearly on screen,
+      // so the motion plays where the reader sees it, not at the fold edge.
+      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();

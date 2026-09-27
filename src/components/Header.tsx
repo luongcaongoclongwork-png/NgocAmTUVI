@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 site-header border-b border-walnut/10">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
-        <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="Ngọc Âm — Trang chủ">
+        <Link href="/" className="flex min-h-11 min-w-11 items-center gap-3" aria-label="Ngọc Âm — Trang chủ">
           <Image src="/images/logo-mark.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0" />
           <span className="hidden whitespace-nowrap font-heading text-lg tracking-[0.2em] text-ink sm:inline">
             NGỌC ÂM
@@ -28,7 +28,7 @@ export default function Header() {
                 key={item.label}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`tracking-label text-[11px] font-medium uppercase transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
+                className={`tap tracking-label text-[11px] font-medium uppercase transition-colors hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory ${
                   active ? "text-gold-deep" : "text-walnut"
                 }`}
               >

@@ -56,7 +56,15 @@
 .ngoc-am-card__media-img {
   object-fit: cover;
   transform: scale(1);
-  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity var(--dur-slow) var(--ease-out);
+}
+
+/* Fade in once loaded. Scoped to .js so a page without JavaScript never
+   hides its photos. */
+.js .ngoc-am-card__media-img:not(.is-loaded) {
+  opacity: 0;
 }
 
 /* custom illustration content (e.g. an SVG mark) in the media slot */

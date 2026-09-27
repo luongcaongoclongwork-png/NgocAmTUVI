@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import Reveal from "./Reveal";
+import type { CSSProperties } from "react";
+
+// Staggered entrance delay for .hero-in (globals.css).
+const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 export default function Hero() {
   return (
@@ -11,43 +14,40 @@ export default function Hero() {
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className="hero-settle object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/45 to-transparent" />
 
+      {/* CSS-only entrance (.hero-in), not <Reveal>: the first screen must
+          never wait for hydration + IntersectionObserver to show its text. */}
       <div className="relative mx-auto w-full max-w-[1280px] px-6 pb-20 pt-40 lg:px-10">
-        <Reveal>
-          <p className="tracking-label mb-6 text-[12px] font-medium uppercase text-ivory">
-            Hậu Nhân Khâm Thiên Giám Vua Minh Mạng · Triều Nguyễn
-          </p>
-        </Reveal>
-        <Reveal delay={120}>
-          <h1 className="max-w-3xl font-heading text-4xl leading-[1.15] text-ivory sm:text-5xl lg:text-6xl">
-            Hiểu mình - Thuận thế - Vững bước.
-          </h1>
-        </Reveal>
-        <Reveal delay={240}>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg">
-            Từ sự quan sát, khai vấn và định hướng. Tìm ra sự hài hoà giữa
-            con người và hoàn cảnh từ đó vượt qua những điều bất như ý.
-          </p>
-        </Reveal>
-        <Reveal delay={360}>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href="/lien-he"
-              className="tracking-label bg-gold px-7 py-3.5 text-[11px] font-semibold uppercase text-ink transition-colors hover:bg-ivory"
-            >
-              Khám phá tư vấn
-            </Link>
-            <Link
-              href="/ve-ngoc-am"
-              className="tracking-label border border-ivory/60 px-7 py-3.5 text-[11px] font-semibold uppercase text-ivory transition-colors hover:border-gold hover:text-gold"
-            >
-              Tìm hiểu Ngọc Âm
-            </Link>
-          </div>
-        </Reveal>
+        <p className="hero-in tracking-label mb-6 text-[12px] font-medium uppercase text-ivory" style={d(150)}>
+          Hậu Nhân Khâm Thiên Giám Vua Minh Mạng · Triều Nguyễn
+        </p>
+        <h1
+          className="hero-in max-w-3xl font-heading text-4xl leading-[1.15] text-ivory sm:text-5xl lg:text-6xl"
+          style={d(300)}
+        >
+          Hiểu mình - Thuận thế - Vững bước.
+        </h1>
+        <p className="hero-in mt-6 max-w-xl text-base leading-relaxed text-ivory/85 sm:text-lg" style={d(480)}>
+          Từ sự quan sát, khai vấn và định hướng. Tìm ra sự hài hoà giữa
+          con người và hoàn cảnh từ đó vượt qua những điều bất như ý.
+        </p>
+        <div className="hero-in mt-10 flex flex-wrap items-center gap-4" style={d(640)}>
+          <Link
+            href="/lien-he"
+            className="btn-motion tracking-label bg-gold px-7 py-3.5 text-[11px] font-semibold uppercase text-ink hover:bg-gold-deep hover:text-ivory"
+          >
+            Khám phá tư vấn
+          </Link>
+          <Link
+            href="/ve-ngoc-am"
+            className="btn-motion tracking-label border border-ivory/60 px-7 py-3.5 text-[11px] font-semibold uppercase text-ivory hover:border-gold hover:text-gold"
+          >
+            Tìm hiểu Ngọc Âm
+          </Link>
+        </div>
       </div>
     </section>
   );

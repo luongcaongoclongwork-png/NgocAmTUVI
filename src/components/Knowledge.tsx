@@ -30,7 +30,7 @@ export default async function Knowledge() {
           <Reveal delay={120}>
             <Link
               href="/kien-thuc"
-              className="tracking-label border-b border-gold pb-1 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
+              className="hit tracking-label border-b border-gold pb-1 text-[11px] font-semibold uppercase text-walnut transition-colors hover:text-gold"
             >
               Xem tất cả
             </Link>

@@ -1,13 +1,37 @@
 "use client";
 
-import { useActionState, useEffect, useState, type ReactNode } from "react";
+import { useActionState, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { submitLeadAction, type SubmitLeadState } from "@/app/lien-he/actions";
-import { CONTACT_TOPICS, type TopicId } from "@/lib/contact-leads-constants";
+import { CONTACT_TOPICS, normalizeVietnamesePhone, type TopicId } from "@/lib/contact-leads-constants";
 import "./lienHe.css";
 
 type PanelPhase = "active" | "exiting" | "reply";
+
+export type SelectedService = { title: string; price: string; duration: string };
+
+type FieldName = "name" | "phone" | "interest" | "message" | "consent";
+type FieldErrors = Partial<Record<FieldName, string>>;
+const FIELD_ORDER: FieldName[] = ["name", "phone", "interest", "message", "consent"];
+
+// Same rules as validateLeadInput on the server (which still runs), checked
+// here first so every problem shows at once, in Vietnamese, next to its
+// field, instead of the browser's own one-at-a-time bubble whose language
+// depends on the visitor's browser settings.
+function validateLetter(fd: FormData): FieldErrors {
+  const errors: FieldErrors = {};
+  const name = String(fd.get("name") || "").trim();
+  if (name.length < 2) errors.name = "Vui lòng cho Ngọc Âm biết tên bạn.";
+  const phone = String(fd.get("phone") || "").trim();
+  if (!phone) errors.phone = "Vui lòng để lại số điện thoại để Ngọc Âm hồi đáp.";
+  else if (!normalizeVietnamesePhone(phone)) errors.phone = "Số điện thoại chưa đúng, ví dụ: 0912 345 678.";
+  if (!fd.get("interest")) errors.interest = "Vui lòng chọn điều bạn muốn cùng quan sát.";
+  if (String(fd.get("message") || "").trim().length < 5)
+    errors.message = "Vui lòng chia sẻ đôi dòng (ít nhất 5 ký tự) để Ngọc Âm hiểu thêm.";
+  if (!fd.get("consent")) errors.consent = "Vui lòng đồng ý để Ngọc Âm liên hệ lại.";
+  return errors;
+}
 
 const initialSubmitLeadState: SubmitLeadState = { status: "idle" };
 
@@ -19,11 +43,13 @@ function prefersReducedMotion(): boolean {
 export default function LienHeClient({
   initialTopicId,
   initialInterestText,
+  selectedService = null,
   zaloUrl,
   messengerUrl,
 }: {
   initialTopicId: TopicId | null;
   initialInterestText: string;
+  selectedService?: SelectedService | null;
   zaloUrl: string | null;
   messengerUrl: string | null;
 }) {
@@ -114,6 +140,7 @@ export default function LienHeClient({
             {panelPhase !== "reply" ? (
               <div className={panelPhase === "exiting" ? "lienhe-panel-exit" : undefined}>
                 <LetterForm
+                  selectedService={selectedService}
                   selectedTopicId={selectedTopicId}
                   onSelectTopic={setSelectedTopicId}
                   formAction={formAction}
@@ -175,6 +202,7 @@ function LetterFrame({ children }: { children: ReactNode }) {
 }
 
 function LetterForm({
+  selectedService,
   selectedTopicId,
   onSelectTopic,
   formAction,
@@ -183,6 +211,7 @@ function LetterForm({
   zaloUrl,
   messengerUrl,
 }: {
+  selectedService: SelectedService | null;
   selectedTopicId: TopicId | null;
   onSelectTopic: (id: TopicId) => void;
   formAction: (formData: FormData) => void;
@@ -191,13 +220,67 @@ function LetterForm({
   zaloUrl: string | null;
   messengerUrl: string | null;
 }) {
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const form = e.currentTarget;
+    const found = validateLetter(new FormData(form));
+    const first = FIELD_ORDER.find((f) => found[f]);
+    if (!first) {
+      setErrors({});
+      return; // let the form action run
+    }
+    e.preventDefault();
+    setErrors(found);
+    const target = form.elements.namedItem(first);
+    const el = target instanceof RadioNodeList ? (target[0] as HTMLElement | undefined) : (target as HTMLElement | null);
+    el?.focus();
+  };
+
+  // Clear a field's message as soon as the visitor edits that field.
+  const clearError = (e: FormEvent<HTMLFormElement>) => {
+    const name = (e.target as HTMLInputElement).name as FieldName;
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
+  };
+
+  const err = (field: FieldName) =>
+    errors[field] ? { "aria-invalid": true as const, "aria-describedby": `lienhe-err-${field}` } : {};
+
   return (
     <LetterFrame>
       <h2 className="tracking-label pr-12 text-[13px] font-semibold uppercase text-walnut">
         Đôi dòng chia sẻ
       </h2>
 
-      <form action={formAction} className="mt-8 flex flex-col gap-7">
+      {selectedService && (
+        <div className="lienhe-service mt-6 border border-gold/40 bg-ivory/60 px-5 py-4">
+          <p className="tracking-label text-[11px] font-semibold uppercase text-gold-deep">Bạn đang hỏi về</p>
+          <p className="mt-1.5 font-heading text-lg leading-snug text-ink">{selectedService.title}</p>
+          <div className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <p className="text-[13.5px] text-ink/70">
+              {selectedService.price}
+              {selectedService.price !== "Liên hệ" && " đ"}
+              {selectedService.duration && ` · ${selectedService.duration}`}
+            </p>
+            <Link
+              href="/dich-vu"
+              className="hit text-[13px] text-walnut underline decoration-walnut/30 underline-offset-2 hover:text-gold-deep"
+            >
+              Chọn gói khác
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <form
+        action={formAction}
+        noValidate
+        onSubmit={handleSubmit}
+        onChange={clearError}
+        className="mt-8 flex flex-col gap-7"
+      >
+        {selectedService && <input type="hidden" name="service" value={selectedService.title} />}
+
         {/* Honeypot — invisible and unreachable by keyboard for a real visitor. */}
         <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden">
           <label htmlFor="lienhe-website">Để trống trường này</label>
@@ -215,7 +298,9 @@ function LetterForm({
             autoComplete="name"
             placeholder="Họ và tên"
             className={inputClass}
+            {...err("name")}
           />
+          <FieldError field="name" message={errors.name} />
         </label>
 
         <label className="flex flex-col gap-1.5 text-[14px] text-ink/80">
@@ -225,12 +310,15 @@ function LetterForm({
             type="tel"
             required
             autoComplete="tel"
+            inputMode="tel"
             placeholder="Ví dụ: 09xx xxx xxx"
             className={inputClass}
+            {...err("phone")}
           />
+          <FieldError field="phone" message={errors.phone} />
         </label>
 
-        <fieldset className="flex flex-col gap-1">
+        <fieldset className="flex flex-col gap-1" {...err("interest")}>
           <legend className="text-[14px] text-ink/80">Điều bạn muốn cùng chúng tôi quan sát</legend>
           <div className="mt-3 flex flex-col divide-y divide-walnut/10 border-y border-walnut/10">
             {CONTACT_TOPICS.map((topic) => {
@@ -260,6 +348,7 @@ function LetterForm({
               );
             })}
           </div>
+          <FieldError field="interest" message={errors.interest} />
         </fieldset>
 
         <label className="flex flex-col gap-1.5 text-[14px] text-ink/80">
@@ -272,18 +361,24 @@ function LetterForm({
             rows={4}
             placeholder="Bạn có thể bắt đầu từ điều đang khiến mình băn khoăn nhất…"
             className={`${inputClass} resize-y`}
+            {...err("message")}
           />
+          <FieldError field="message" message={errors.message} />
         </label>
 
-        <label className="flex items-start gap-3 text-[13.5px] leading-relaxed text-ink/80">
-          <input
-            type="checkbox"
-            name="consent"
-            required
-            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--gold)]"
-          />
-          <span>Tôi đồng ý để Ngọc Âm liên hệ lại về lời nhắn này.</span>
-        </label>
+        <div>
+          <label className="flex items-start gap-3 text-[13.5px] leading-relaxed text-ink/80">
+            <input
+              type="checkbox"
+              name="consent"
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--gold)]"
+              {...err("consent")}
+            />
+            <span>Tôi đồng ý để Ngọc Âm liên hệ lại về lời nhắn này.</span>
+          </label>
+          <FieldError field="consent" message={errors.consent} />
+        </div>
 
         {error && (
           <p role="alert" className="text-[13.5px] font-medium text-lacquer">
@@ -362,7 +457,16 @@ function QuietChatLinks({
 }
 
 const inputClass =
-  "min-h-11 border border-walnut/30 bg-transparent px-3 py-2.5 text-[15px] text-ink transition-colors duration-150 focus:border-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold";
+  "min-h-11 border border-walnut/30 bg-transparent px-3 py-2.5 text-[15px] text-ink transition-colors focus:border-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold aria-invalid:border-lacquer/70";
+
+function FieldError({ field, message }: { field: FieldName; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={`lienhe-err-${field}`} className="lienhe-field-error mt-1 text-[13px] leading-snug text-lacquer">
+      {message}
+    </p>
+  );
+}
 
 function ReplyLetter({ interest, zaloUrl }: { interest: string; zaloUrl: string | null }) {
   return (

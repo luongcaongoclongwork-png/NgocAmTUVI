@@ -4,17 +4,17 @@
    here (translateX(-50%)) instead of a Tailwind -translate-x-1/2 utility,
    since this file needs to animate transform as a whole.
 
-   150ms both ways, deliberately matching the trigger's own chevron
-   rotation (see ChevronIcon's duration-150) — the two elements react to
-   the exact same click, so they now move on the exact same beat instead
-   of two close-but-different durations. */
+   --dur-fast (200ms) both ways, deliberately matching the trigger's own
+   chevron rotation (ChevronIcon uses the same default transition token)
+   and EXIT_MS in ExploreMenu.tsx: the two elements react to the exact same
+   click, so they move on the exact same beat. */
 
 .explore-menu-panel {
   opacity: 0;
   transform: translateX(-50%) translateY(-6px) scale(0.98);
   transition:
-    opacity 150ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .explore-menu-panel[data-open="true"] {

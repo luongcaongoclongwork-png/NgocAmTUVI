@@ -70,8 +70,8 @@
   border-left: 2px solid transparent;
   color: color-mix(in srgb, var(--ink) 78%, transparent);
   transition:
-    color 150ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
 }
 
 .lienhe-topic-row[data-selected="true"] {
@@ -147,5 +147,24 @@
   .lienhe-dots span {
     animation: none;
     opacity: 0.6;
+  }
+}
+
+/* Inline field errors and the "Bạn đang hỏi về" package note: a short
+   settle-in so a new message is noticed without jolting the layout.
+   (Reduced motion is handled by the site-wide rule in globals.css.) */
+.lienhe-field-error,
+.lienhe-service {
+  animation: lienhe-settle-in var(--dur-base) var(--ease-out) both;
+}
+
+@keyframes lienhe-settle-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }

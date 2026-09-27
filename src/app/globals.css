@@ -13,6 +13,14 @@
   --bronze: #80633e;
   --sage: #7a8068;
   --lacquer: #a13a2f;
+
+  /* Motion tokens: one easing and three speeds for the whole site. The
+     easing is the same ease-out-quint NgocAmCard.css already used for card
+     hover, so every movement on the page shares one character. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 200ms; /* hover, colour, press */
+  --dur-base: 360ms; /* scroll reveal, small panels */
+  --dur-slow: 800ms; /* hero entrance, image fade-in */
 }
 
 @theme inline {
@@ -30,6 +38,10 @@
   --color-lacquer: var(--lacquer);
   --font-heading: var(--font-heading);
   --font-body: var(--font-body);
+  /* Every bare `transition-*` utility (transition-colors etc.) runs on the
+     site's motion tokens instead of Tailwind's 150ms default. */
+  --default-transition-duration: var(--dur-fast);
+  --default-transition-timing-function: var(--ease-out);
 }
 
 html {
@@ -41,22 +53,188 @@ body {
   color: var(--ink);
 }
 
-.reveal {
+/* Scroll reveal. Only hidden once the inline script in layout.tsx has put
+   `js` on <html>: if JavaScript fails or is slow, content stays readable
+   instead of sitting at opacity 0 forever. */
+.js .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
 }
 
-.reveal.is-visible {
+.js .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
+/* Hero entrance: pure CSS (no IntersectionObserver), so the first screen
+   never waits on hydration to show its headline. Stagger via --d. */
+.hero-in {
+  animation: hero-in var(--dur-slow) var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
     opacity: 1;
     transform: none;
-    transition: none;
+  }
+}
+
+/* The hero photo settles once, very slowly: a breath, not a looping zoom. */
+.hero-settle {
+  animation: hero-settle 2400ms var(--ease-out) both;
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Buttons and button-like links: colour changes on the shared timing, and a
+   1px press on click so the hand feels the button answer. */
+.btn-motion {
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.btn-motion:active {
+  transform: translateY(1px);
+}
+
+/* Keyboard focus, site-wide. Components with their own focus treatment
+   (NgocAmCard, form inputs using ring utilities) set outline:none with
+   higher specificity and keep theirs. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible,
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Small text links (footer, "Xem tất cả"): on touch screens the hit area
+   grows to the 44px guideline; with a mouse, at least 28px. The visible
+   text does not move. */
+.tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+@media (pointer: coarse) {
+  .tap {
+    min-height: 44px;
+  }
+}
+
+/* Stand-alone underlined links ("Xem tất cả"): enlarge the invisible hit
+   area around the link instead of its box, so the underline stays hugging
+   the text. Only for links with no close neighbours. */
+.hit {
+  position: relative;
+}
+
+.hit::after {
+  content: "";
+  position: absolute;
+  inset: -8px -6px;
+}
+
+@media (pointer: coarse) {
+  .hit::after {
+    inset: -14px -10px;
+  }
+}
+
+/* In-page anchors (#dich-vu, #dat-lich) land below the sticky header. */
+section[id] {
+  scroll-margin-top: 88px;
+}
+
+/* Route change feedback, driven by components/NavProgress.tsx. */
+.nav-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: 2px;
+  background: var(--gold);
+  transform-origin: left center;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+.nav-progress[data-state="loading"] {
+  animation:
+    nav-progress-load 2800ms var(--ease-out) forwards,
+    nav-progress-timeout 400ms linear 10s forwards;
+}
+
+/* Safety net: a click that never navigated must not leave the bar stuck. */
+@keyframes nav-progress-timeout {
+  to {
+    opacity: 0;
+  }
+}
+
+.nav-progress[data-state="done"] {
+  animation: nav-progress-done 520ms var(--ease-out) forwards;
+}
+
+@keyframes nav-progress-load {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(0.85);
+  }
+}
+
+@keyframes nav-progress-done {
+  0% {
+    transform: scaleX(0.85);
+    opacity: 1;
+  }
+  45% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* One switch for everyone who asked their OS for less motion: nothing
+   moves anywhere on the site, content simply appears. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
 

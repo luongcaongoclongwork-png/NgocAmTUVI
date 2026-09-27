@@ -4,6 +4,14 @@ import NgocAmCard from "./ui/NgocAmCard";
 import { getConsultants } from "@/lib/consultants";
 import { ROLE_TAGLINE } from "@/lib/consultant-constants";
 
+// Where each person's card leads. Unknown slugs (e.g. someone newly added in
+// /admin) render as a plain, non-clickable card until they get an entry here.
+const CONSULTANT_ACTIONS: Record<string, { href: string; cta: string }> = {
+  "co-minh-trang": { href: "/lien-he?topic=tu-vi", cta: "Đặt lịch khai vấn cùng Cô Trang" },
+  "thay-tinh": { href: "/lien-he?topic=phong-thuy", cta: "Đặt lịch tư vấn cùng Thầy Tịnh" },
+  khuong: { href: "/tra-dao", cta: "Tìm hiểu Trà Đạo" },
+};
+
 export default async function Consultants() {
   const consultants = await getConsultants();
 
@@ -31,6 +39,8 @@ export default async function Consultants() {
             <Reveal key={c.id} delay={idx * 140}>
               <NgocAmCard
                 variant="consultant"
+                href={CONSULTANT_ACTIONS[c.slug]?.href}
+                ctaLabel={CONSULTANT_ACTIONS[c.slug]?.cta}
                 avatarInitials={c.initials}
                 eyebrow={c.field}
                 title={c.name}

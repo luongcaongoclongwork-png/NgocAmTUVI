@@ -35,6 +35,14 @@ export async function getServicesByGroup(group: ServiceGroup): Promise<Service[]
   return rows.map(rowToService);
 }
 
+/** The package a visitor clicked "Đặt lịch" on, shown back to them on /lien-he. */
+export async function getServiceById(id: number): Promise<Service | null> {
+  if (!Number.isInteger(id) || id <= 0) return null;
+  const db = getDb();
+  const row = db.prepare("SELECT * FROM services WHERE id = ?").get(id) as ServiceRow | undefined;
+  return row ? rowToService(row) : null;
+}
+
 // ---------- Admin reads (used only behind a verified session) ----------
 
 export async function getAllServicesForAdmin(): Promise<Service[]> {

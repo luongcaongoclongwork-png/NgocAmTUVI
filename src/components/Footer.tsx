@@ -97,12 +97,12 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 items-center gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 items-center gap-x-8 gap-y-2 pointer-coarse:gap-y-0 sm:grid-cols-3 lg:grid-cols-6">
             {columns.map((col) => (
               <Link
                 key={col.title}
                 href={col.href}
-                className="tracking-label text-[11px] font-semibold uppercase text-beige [text-shadow:0_1px_3px_rgba(30,20,10,0.55)] transition-colors hover:text-ivory"
+                className="tap tracking-label text-[11px] font-semibold uppercase text-beige [text-shadow:0_1px_3px_rgba(30,20,10,0.55)] transition-colors hover:text-ivory"
               >
                 {col.title}
               </Link>
@@ -113,7 +113,7 @@ export default function Footer() {
             <h4 className="tracking-label text-[11px] font-semibold uppercase text-beige [text-shadow:0_1px_3px_rgba(30,20,10,0.55)]">
               Kết nối
             </h4>
-            <ul className="mt-3 space-y-1.5">
+            <ul className="mt-2 space-y-0.5 pointer-coarse:space-y-0">
               {social.map((s) => {
                 const external = s.href.startsWith("http");
                 return (
@@ -122,7 +122,7 @@ export default function Footer() {
                       href={s.href}
                       target={external ? "_blank" : undefined}
                       rel={external ? "noopener noreferrer" : undefined}
-                      className="text-sm text-ivory/95 [text-shadow:0_1px_3px_rgba(30,20,10,0.55)] transition-colors hover:text-ivory"
+                      className="tap text-sm text-ivory/95 [text-shadow:0_1px_3px_rgba(30,20,10,0.55)] transition-colors hover:text-ivory"
                     >
                       {s.label}
                     </a>
