@@ -1,17 +1,14 @@
-import { Cormorant_Garamond, Noto_Serif_Display } from "next/font/google";
 import type { Service } from "@/lib/service-constants";
 import { formatPrice } from "@/lib/service-constants";
-import { isSafeHttpUrl, socialLinks } from "@/lib/site-settings";
+import { isSafeHttpUrl } from "@/lib/site-settings";
 import { getHomeData, LINEAGE, PATHS } from "./data";
-import { calendarLeaf, dailyLine, lunarDateLabel, vietnamToday } from "./calendar";
+import { calendarLeaf, dailyLine, vietnamToday } from "./calendar";
 import { ASKS, servicesFor } from "./asks";
 import type { AskItem } from "./Ask";
 import InkHome, { type Branch, type Person } from "./InkHome";
 import "./thuy-mac.css";
 import "./leaf.css";
 
-const display = Cormorant_Garamond({ subsets: ["latin", "vietnamese"], weight: ["400", "500", "600"], style: ["normal", "italic"], variable: "--de-display" });
-const numerals = Noto_Serif_Display({ subsets: ["latin", "vietnamese"], weight: ["300", "500"], variable: "--dd-num" });
 
 /** The lowest numeric price in a group, as shown ("500.000 đ"); "" when none is numeric. */
 function fromPrice(items: readonly Service[]): string {
@@ -35,7 +32,7 @@ function firstSentence(text: string): string {
 
 /** Server side of the Thuỷ Mặc home: gathers everything from the database, today's leaf, and hands it to the client scene. */
 export default async function HomeV2() {
-  const { groups, trang, tinh, khuong, articles, settings } = await getHomeData();
+  const { groups, trang, tinh, khuong, settings } = await getHomeData();
   const { y, m, d } = vietnamToday();
 
   const branches: Branch[] = PATHS.map((p) => ({
@@ -64,10 +61,7 @@ export default async function HomeV2() {
   if (trang) people.push({ slug: trang.slug, name: trang.name, role: "Xuyên giả Tử Vi Xuyên Tam Diệm", photo: trang.photo, line: firstSentence(trang.bio), href: "/lien-he?topic=tu-vi", cta: "Đặt lịch Xuyên vấn cùng cô" });
   if (tinh) people.push({ slug: tinh.slug, name: tinh.name, role: tinh.field, photo: tinh.photo, line: firstSentence(tinh.bio), href: "/lien-he?topic=phong-thuy", cta: "Đặt lịch tư vấn cùng thầy" });
 
-  const legal = [settings.businessName, settings.taxCode && `MST ${settings.taxCode}`].filter(Boolean).join(", ");
-
   return (
-    <div className={`${display.variable} ${numerals.variable}`}>
       <InkHome
         branches={branches}
         lineage={{ title: LINEAGE.title, quote: LINEAGE.quote, body: LINEAGE.body }}
@@ -76,17 +70,7 @@ export default async function HomeV2() {
         askItems={askItems}
         people={people}
         tea={khuong ? { name: khuong.name, photo: khuong.photo } : null}
-        notes={articles.map((a) => ({ slug: a.slug, title: a.title, date: lunarDateLabel(a.createdAt) }))}
-        groups={groups.map((g) => ({ id: g.id, name: g.name, items: [...g.items] }))}
-        contact={{
-          address: settings.address,
-          phone: settings.phone,
-          hours: settings.workingHours,
-          zaloUrl: isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "",
-          socials: socialLinks(settings),
-          legal,
-        }}
+        contact={{ phone: settings.phone, zaloUrl: isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "" }}
       />
-    </div>
   );
 }

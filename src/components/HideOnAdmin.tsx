@@ -2,20 +2,17 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { isBareRoute } from "@/components/thuy-mac/nav";
 
 export function isAdminPath(pathname: string | null): boolean {
   return !!pathname && (pathname === "/admin" || pathname.startsWith("/admin/"));
 }
 
 /**
- * Renders the public site chrome (e.g. the server-rendered <Footer />
- * passed in as children) everywhere except /admin, which has its own
- * header — otherwise admin pages showed two stacked menus plus the public
- * "Đặt lịch" button and footer.
+ * Renders the public site chrome (e.g. the server-rendered footer passed in
+ * as children) everywhere except /admin, which has its own header, and the
+ * printable lá số, which is a bare sheet.
  */
 export default function HideOnAdmin({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-  // The Thuỷ Mặc home draws its own compass menu and footer.
-  const ownChrome = pathname === "/";
-  return isAdminPath(pathname) || ownChrome ? null : children;
+  return isBareRoute(usePathname()) ? null : children;
 }

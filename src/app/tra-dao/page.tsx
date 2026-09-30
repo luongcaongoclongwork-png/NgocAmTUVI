@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
-import ArticleCard from "@/components/ArticleCard";
-import Reveal from "@/components/Reveal";
-import CtaBand from "@/components/CtaBand";
-import NgocAmCard from "@/components/ui/NgocAmCard";
-import { StillLifeStone } from "@/components/illustrations";
+import Image from "next/image";
+import Link from "next/link";
 import { getArticlesByCategory } from "@/lib/articles";
+import { InkClose, InkHero, InkNotes, InkPage, InkProse, InkSection } from "@/components/thuy-mac/kit";
 import {
   khuong,
   traDaoNgocAmIntro,
@@ -31,292 +28,141 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Trà Đạo — Ngọc Âm",
-  description:
-    "Trà Đạo Ngọc Âm cùng Trà Sư Khương — thuận tự nhiên mà pha, tĩnh tâm mà uống, chân thành mà đối đãi.",
+  description: "Trà Đạo Ngọc Âm cùng Trà Sư Khương: thuận tự nhiên mà pha, tĩnh tâm mà uống, chân thành mà đối đãi.",
 };
 
-function TraSanPhamCard({ item }: { item: TraSanPham }) {
+function TeaItems({ items }: { items: TraSanPham[] }) {
   return (
-    <NgocAmCard
-      href="/lien-he?topic=vat-pham"
-      variant="tradao"
-      title={item.name}
-      ctaLabel="Liên hệ để đặt"
-      image={item.image ? { src: item.image, alt: item.imageAlt ?? item.name } : undefined}
-      media={!item.image ? <StillLifeStone /> : undefined}
-    >
-      {item.desc.map((d, i) => (
-        <p key={i} className="text-[13.5px] leading-relaxed text-ink/70">
-          {d}
-        </p>
+    <div className="ipCols">
+      {items.map((item) => (
+        <div key={item.name} className="ipItem ip-r">
+          {item.image && (
+            <span className="ipFigure">
+              <Image src={item.image} alt={item.imageAlt ?? item.name} fill sizes="(min-width: 900px) 30vw, 90vw" />
+            </span>
+          )}
+          <h3>{item.name}</h3>
+          {item.desc.map((d, i) => (
+            <p key={i}>{d}</p>
+          ))}
+          <Link href="/lien-he?topic=vat-pham" className="ipLink">Liên hệ để đặt</Link>
+        </div>
       ))}
-    </NgocAmCard>
+    </div>
   );
 }
 
 export default async function TraDaoPage() {
-  const traDaoArticles = await getArticlesByCategory("Trà đạo");
+  const articles = await getArticlesByCategory("Trà đạo");
 
   return (
-    <>
-      <PageBanner
-        eyebrow="Trà Đạo"
-        heading="Đạo Trong Một Chén Trà"
-        description="Thuận trà · Thuận thủy · Thuận thời · Thuận tâm."
+    <InkPage>
+      <InkHero
         image="/images/tra-dao/page-banner.webp"
-        imageAlt="Bàn trà gỗ trên hiên nhà nhìn ra sông núi lúc bình minh, ấm trà bốc hơi"
+        alt="Bàn trà gỗ trên hiên nhà nhìn ra sông núi lúc bình minh, ấm trà bốc hơi"
+        scrolls={["Đạo trong", "một chén trà"]}
+        lede={<p>{khuong.signature}</p>}
       />
 
-      {/* ---------- Khương — Trà Sư ---------- */}
-      <section className="bg-ivory py-24 lg:py-28">
-        <div className="mx-auto max-w-[760px] px-6 lg:px-10">
-          <Reveal>
-            <p className="tracking-label text-center text-[12px] font-medium uppercase text-gold">
-              {khuong.title}
-            </p>
-          </Reveal>
-          <Reveal delay={60}>
-            <h2 className="mt-3 text-center font-heading text-4xl text-ink sm:text-5xl">{khuong.name}</h2>
-          </Reveal>
-          <Reveal delay={100}>
-            <p className="tracking-label mt-4 text-center text-[13px] font-semibold uppercase text-bronze">
-              {khuong.signature}
-            </p>
-          </Reveal>
+      <InkSection id="tra-su" narrow title={`${khuong.name}, Trà Sư Ngọc Âm`}>
+        <blockquote className="ipVows ip-r" style={{ margin: "40px 0" }}>
+          {khuong.poem.map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
+        </blockquote>
+        <InkProse>
+          {khuong.introBeforeThuan.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </InkProse>
+        <p className="ipBig ip-r">{khuong.thuanWord}</p>
+        <InkProse>
+          {khuong.introAfterThuan.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </InkProse>
+      </InkSection>
 
-          <Reveal delay={160}>
-            <blockquote className="mt-12 border-y border-walnut/15 py-8 text-center font-heading text-xl italic leading-relaxed text-walnut sm:text-2xl">
-              {khuong.poem.map((line, i) => (
-                <span key={i} className="block">
-                  {line}
-                </span>
+      <InkSection tone="raised" id="tra-dao-ngoc-am" narrow title="Trà là đầu câu chuyện">
+        <InkProse>
+          {traDaoNgocAmIntro.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+          <p>Tinh thần trà của Ngọc Âm được Khương gói lại trong hai câu:</p>
+          <blockquote>
+            {traDaoSpiritQuote.map((line, i) => (
+              <span key={i} style={{ display: "block" }}>{line}</span>
+            ))}
+          </blockquote>
+          <p>Và thêm một điều tưởng nhỏ, nhưng quan trọng:</p>
+          <blockquote>{traDaoSpiritExtra}</blockquote>
+          <p>{traDaoSpiritClosing}</p>
+        </InkProse>
+      </InkSection>
+
+      <InkSection id="tai-quan" title="Trà Đạo tại quán" intro={taiQuanIntro.map((p, i) => <p key={i}>{p}</p>)}>
+        <div className="ipCols">
+          {traDaoTaiQuan.map((item) => (
+            <div key={item.title} className="ipItem ip-r">
+              <h3>{item.title}</h3>
+              {item.desc.map((d, i) => (
+                <p key={i}>{d}</p>
               ))}
-            </blockquote>
-          </Reveal>
-
-          <div className="mt-12 space-y-4 text-[15px] leading-relaxed text-ink/80">
-            {khuong.introBeforeThuan.map((p, i) => (
-              <Reveal key={i} delay={i * 20}>
-                <p>{p}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal>
-            <p className="mt-14 text-center font-heading text-5xl tracking-[0.15em] text-gold sm:text-6xl">
-              {khuong.thuanWord}
-            </p>
-          </Reveal>
-
-          <div className="mt-14 space-y-4 text-[15px] leading-relaxed text-ink/80">
-            {khuong.introAfterThuan.map((p, i) => (
-              <Reveal key={i} delay={i * 20}>
-                <p>{p}</p>
-              </Reveal>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </InkSection>
 
-      {/* ---------- Trà Đạo Ngọc Âm ---------- */}
-      <section className="bg-parchment/60 py-24 lg:py-28">
-        <div className="mx-auto max-w-[760px] px-6 lg:px-10">
-          <Reveal>
-            <p className="tracking-label text-[12px] font-medium uppercase text-gold">Trà Đạo Ngọc Âm</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mt-3 font-heading text-3xl leading-tight text-ink sm:text-4xl">
-              Trà là đầu câu chuyện.
-            </h2>
-          </Reveal>
+      <InkSection tone="raised" id="tra-u-lanh" title="Trà ủ lạnh" intro={traUlLanhIntro.map((p, i) => <p key={i}>{p}</p>)}>
+        <TeaItems items={traUlLanh} />
+      </InkSection>
 
-          <div className="mt-10 space-y-4 text-[15px] leading-relaxed text-ink/80">
-            {traDaoNgocAmIntro.map((p, i) => (
-              <Reveal key={i} delay={i * 20}>
-                <p>{p}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal>
-            <p className="mt-10 text-[15px] leading-relaxed text-ink/80">
-              Tinh thần trà của Ngọc Âm được Khương gói lại trong hai câu:
-            </p>
-          </Reveal>
-          <Reveal delay={40}>
-            <blockquote className="mt-6 border-l-2 border-gold pl-6 font-heading text-xl italic leading-relaxed text-walnut">
-              {traDaoSpiritQuote.map((line, i) => (
-                <span key={i} className="block">
-                  {line}
-                </span>
-              ))}
-            </blockquote>
-          </Reveal>
-
-          <Reveal delay={80}>
-            <p className="mt-10 text-[15px] leading-relaxed text-ink/80">
-              Và thêm một điều tưởng nhỏ, nhưng quan trọng:
-            </p>
-          </Reveal>
-          <Reveal delay={120}>
-            <blockquote className="mt-6 border-l-2 border-gold pl-6 font-heading text-xl italic leading-relaxed text-walnut">
-              {traDaoSpiritExtra}
-            </blockquote>
-          </Reveal>
-
-          <Reveal delay={160}>
-            <p className="mt-10 text-[15px] leading-relaxed text-ink/80">{traDaoSpiritClosing}</p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ---------- 01 · Trà Đạo Tại Quán ---------- */}
-      <section className="bg-ivory py-24 lg:py-28">
-        <div className="mx-auto max-w-[1000px] px-6 lg:px-10">
-          <Reveal>
-            <p className="tracking-label text-[12px] font-medium uppercase text-gold">01</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mt-3 max-w-2xl font-heading text-3xl leading-tight text-ink sm:text-4xl">
-              Trà Đạo Tại Quán
-            </h2>
-          </Reveal>
-          <div className="mt-6 max-w-2xl space-y-2 text-[15px] leading-relaxed text-ink/70">
-            {taiQuanIntro.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-
-          <div className="mt-14 divide-y divide-walnut/15">
-            {traDaoTaiQuan.map((item, idx) => (
-              <Reveal key={item.title} delay={idx * 60}>
-                <div className="grid gap-3 py-8 first:pt-0 sm:grid-cols-[220px_1fr] sm:gap-10">
-                  <h3 className="font-heading text-xl text-walnut">{item.title}</h3>
-                  <div className="space-y-3 text-[15px] leading-relaxed text-ink/75">
-                    {item.desc.map((d, i) => (
-                      <p key={i}>{d}</p>
-                    ))}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- 02 · Trà Ủ Lạnh ---------- */}
-      <section className="bg-parchment/60 py-24 lg:py-28">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-          <Reveal>
-            <p className="tracking-label text-[12px] font-medium uppercase text-gold">02</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mt-3 max-w-2xl font-heading text-3xl leading-tight text-ink sm:text-4xl">Trà Ủ Lạnh</h2>
-          </Reveal>
-          <div className="mt-6 max-w-2xl space-y-2 text-[15px] leading-relaxed text-ink/70">
-            {traUlLanhIntro.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-
-          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {traUlLanh.map((item, idx) => (
-              <Reveal key={item.name} delay={idx * 90}>
-                <TraSanPhamCard item={item} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- 03 · Trà Biếu ---------- */}
-      <section className="bg-ivory py-24 lg:py-28">
-        <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-          <Reveal>
-            <p className="tracking-label text-[12px] font-medium uppercase text-gold">03</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h2 className="mt-3 max-w-2xl font-heading text-3xl leading-tight text-ink sm:text-4xl">Trà Biếu</h2>
-          </Reveal>
-
-          <div className="mt-6 max-w-xl space-y-2 text-[15px] leading-relaxed text-ink/70">
+      <InkSection
+        id="tra-bieu"
+        title="Trà biếu"
+        intro={
+          <>
             {traBieuIntro.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
-            <p className="font-heading italic text-walnut">&ldquo;{traBieuQuote}&rdquo;</p>
+            <p style={{ fontFamily: "var(--display)", fontStyle: "italic", fontSize: "1.3rem", color: "var(--ink)" }}>“{traBieuQuote}”</p>
             {traBieuIntro2.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
-            <p className="font-medium text-ink">{traBieuCriteria}</p>
-          </div>
-
-          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {traBieuList.map((item, idx) => (
-              <Reveal key={item.name} delay={idx * 90}>
-                <TraSanPhamCard item={item} />
-              </Reveal>
-            ))}
-          </div>
-
-          <div className="mt-14 max-w-xl space-y-2 text-[15px] leading-relaxed text-ink/70">
-            {traBieuClosing.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
+            <p style={{ color: "var(--ink)", fontWeight: 500 }}>{traBieuCriteria}</p>
+          </>
+        }
+      >
+        <TeaItems items={traBieuList} />
+        <div className="ipIntro">
+          {traBieuClosing.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
         </div>
-      </section>
+      </InkSection>
 
-      {/* ---------- Một chén trà ---------- */}
-      <section className="bg-parchment/60 py-24 lg:py-28">
-        <div className="mx-auto max-w-[700px] px-6 text-center lg:px-10">
-          <div className="space-y-3 text-[15px] leading-relaxed text-ink/80">
-            {motChenTraClosing.map((p, i) => (
-              <Reveal key={i} delay={i * 30}>
-                <p>{p}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <div className="mt-10 space-y-1">
-            {motChenTraVows.map((v, i) => (
-              <Reveal key={i} delay={i * 40}>
-                <p className="font-heading text-xl text-walnut sm:text-2xl">{v}</p>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={160}>
-            <p className="mt-10 font-heading text-2xl text-gold sm:text-3xl">Lấy trà làm đầu câu chuyện.</p>
-          </Reveal>
-
-          <Reveal delay={200}>
-            <p className="tracking-label mt-8 text-[12px] font-semibold uppercase text-bronze">— {khuong.name}, {khuong.title}</p>
-          </Reveal>
+      <InkSection tone="ink" narrow>
+        <div className="ipIntro" style={{ marginInline: "auto", textAlign: "center" }}>
+          {motChenTraClosing.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
         </div>
-      </section>
+        <div className="ipVows ip-r" style={{ marginTop: 40 }}>
+          {motChenTraVows.map((v, i) => (
+            <p key={i}>{v}</p>
+          ))}
+        </div>
+        <p className="ipBig" style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)", letterSpacing: 0 }}>Lấy trà làm đầu câu chuyện.</p>
+        <p className="ipSign">{khuong.name}, Trà Sư Ngọc Âm</p>
+      </InkSection>
 
-      {/* ---------- Bài viết Trà Đạo ---------- */}
-      {traDaoArticles.length > 0 && (
-        <section className="bg-ivory py-24 lg:py-28">
-          <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-            <Reveal>
-              <p className="tracking-label text-[12px] font-medium uppercase text-gold">Đọc thêm</p>
-            </Reveal>
-            <Reveal delay={80}>
-              <h2 className="mt-3 max-w-xl font-heading text-3xl leading-tight text-ink sm:text-4xl">
-                Góc nhìn về Trà từ Ngọc Âm Kiến Thức.
-              </h2>
-            </Reveal>
-            <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {traDaoArticles.map((a, idx) => (
-                <ArticleCard key={a.slug} article={a} delay={idx * 90} />
-              ))}
-            </div>
-          </div>
-        </section>
+      {articles.length > 0 && (
+        <InkSection id="doc-them" title="Đọc thêm về trà">
+          <InkNotes articles={articles} />
+        </InkSection>
       )}
 
-      <CtaBand />
-    </>
+      <InkClose href="/lien-he?topic=vat-pham" label="Hỏi về trà" title="Một chén trà mở đầu câu chuyện." />
+    </InkPage>
   );
 }

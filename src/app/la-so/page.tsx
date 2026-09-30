@@ -7,5 +7,10 @@ export const metadata: Metadata = {
 };
 
 export default function LaSoPage() {
-  return <LaSoResultClient />;
+  // room for the floating brand and la bàn above the chart
+  return (
+    <div style={{ paddingTop: 84 }}>
+      <LaSoResultClient />
+    </div>
+  );
 }

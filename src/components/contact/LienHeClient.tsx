@@ -81,20 +81,10 @@ export default function LienHeClient({
   const replyInterest = state.status === "success" ? state.interest : initialInterestText;
 
   return (
-    <section className="bg-ivory py-16 lg:py-24">
+    // The page title and intro live in the Thuỷ Mặc hero (app/lien-he/page.tsx).
+    <section className="lienhe-v2 py-16 lg:py-24">
       <div className="mx-auto max-w-[1220px] px-6 lg:px-10">
-        <p className="lienhe-eyebrow tracking-label text-[12px] font-medium uppercase text-gold-deep">
-          Gửi lời nhắn đến Ngọc Âm
-        </p>
-        <h1 className="lienhe-h1 mt-3 max-w-2xl text-[34px] font-heading leading-[1.2] text-ink sm:text-[38px] lg:text-5xl">
-          Mỗi cuộc trao đổi đều bắt đầu từ sự lắng nghe.
-        </h1>
-        <p className="lienhe-intro mt-5 max-w-xl text-[15px] leading-relaxed text-ink/70">
-          Hãy để lại đôi dòng về điều bạn đang cân nhắc. Ngọc Âm sẽ đọc kỹ những
-          chia sẻ ấy và chuẩn bị một góc nhìn phù hợp với hoàn cảnh của bạn.
-        </p>
-
-        <div className="mt-12 grid gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
           <div className="order-2 lg:order-1">
             <p className="tracking-label text-[12px] font-semibold uppercase text-walnut/70">
               Một cuộc trao đổi được chuẩn bị riêng

@@ -1,0 +1,81 @@
+/* Thuỷ Mặc site chrome: brand mark, la bàn menu, floating booking button,
+   and the ink footer — shared by every public page. One deliberate light
+   look (a painting on dó paper); the footer is the ink that stayed. */
+.tm, .eInk, .ip {
+  --ink: #2b1f17; --muted: #5a4738; --paper: #ece2ce; --raised: #f6efe2; --accent: #6b4a2f;
+  --accent-soft: #e4d5bd; --bronze: #94733a; --line: rgba(107, 74, 47, 0.3);
+  --display: var(--de-display), "Cormorant Garamond", Georgia, serif;
+  --num: var(--dd-num), "Noto Serif Display", Georgia, serif;
+  --han: "Noto Serif TC", "Songti TC", "MingLiU", "PMingLiU", "SimSun", serif;
+  color-scheme: light;
+}
+.tm a { color: inherit; }
+.tm a:focus-visible, .tm button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.tmBrand { position: fixed; z-index: 50; top: 12px; left: clamp(10px, 3vw, 30px); display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; border-radius: 999px; background: color-mix(in srgb, var(--paper) 84%, transparent); backdrop-filter: blur(6px); color: var(--ink); text-decoration: none; font-family: var(--display); font-size: 1.5rem; font-weight: 600; transition: opacity var(--dur-base) var(--ease-out); }
+
+.tmCompass { position: fixed; z-index: 55; top: 12px; right: clamp(10px, 3vw, 30px); display: flex; flex-direction: column; align-items: flex-end; color: var(--ink); }
+.tmCompass-btn { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 84%, transparent); backdrop-filter: blur(6px); color: var(--ink); padding: 6px; cursor: pointer; }
+.tmCompass-btn svg { width: 100%; height: 100%; }
+.tmNeedle { transform-origin: 32px 32px; transition: transform var(--dur-slow) var(--ease-out); }
+.tmCompass.is-open .tmNeedle { transform: rotate(180deg); }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tmCompass:not(.is-open) .tmNeedle { animation: tmSpin linear both; animation-timeline: scroll(root); }
+  }
+}
+@keyframes tmSpin { to { transform: rotate(540deg); } }
+.tmCompass-menu { margin-top: 10px; width: min(340px, calc(100vw - 20px)); max-height: calc(100svh - 90px); overflow: auto; background: var(--paper); border: 1px solid var(--line); padding: 8px 22px 18px; box-shadow: 0 18px 40px -24px rgba(43, 31, 23, 0.55); }
+.tmCompass-menu ul { list-style: none; margin: 0; padding: 0; }
+.tmCompass-menu li { border-bottom: 1px solid var(--line); }
+.tmCompass-menu li a { display: block; padding: 14px 0; font-family: var(--display); font-size: 1.55rem; font-weight: 600; line-height: 1.2; text-decoration: none; }
+.tmCompass-menu a:hover, .tmCompass-menu a[aria-current="page"] { color: var(--accent); }
+.tmCompass-menu a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 6px; }
+.tmCompass-more { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; margin: 12px 0 0; font-size: 15px; }
+.tmCompass-more a { min-height: 42px; display: inline-flex; align-items: center; text-decoration: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .tmCompass-menu li, .tmCompass-more { animation: tmUp 420ms var(--ease-out) backwards; }
+  .tmCompass-menu li:nth-child(2) { animation-delay: 50ms; }
+  .tmCompass-menu li:nth-child(3) { animation-delay: 100ms; }
+  .tmCompass-more { animation-delay: 150ms; }
+}
+@keyframes tmUp { from { opacity: 0; transform: translateY(8px); } }
+
+.tmPill { position: fixed; z-index: 55; right: clamp(10px, 3vw, 30px); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 22px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; box-shadow: 0 12px 30px -14px rgba(43, 31, 23, 0.7); transition: opacity var(--dur-base) var(--ease-out), background-color var(--dur-fast); }
+.tmPill:hover { background: var(--accent); }
+.tmPill-dot { width: 8px; height: 8px; border-radius: 50%; background: #c9a25a; }
+@media (prefers-reduced-motion: no-preference) { .tmPill-dot { animation: tmPulse 2.4s ease-in-out infinite; } }
+@keyframes tmPulse { 50% { box-shadow: 0 0 0 6px rgba(201, 162, 90, 0.25); } }
+
+/* the home's last scene turns the whole screen to ink: step aside */
+html[data-ink-scene="6"] .tmBrand { opacity: 0; pointer-events: none; }
+
+/* footer */
+.tmFoot { --ink: #efe3d1; --muted: #b9a78f; --line: rgba(239, 227, 209, 0.18); --accent: #d6b98f; background: #1f1712; color: var(--muted); padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px) 96px; font-size: 15px; line-height: 1.6; }
+.tmFoot a { color: var(--ink); text-decoration: none; }
+.tmFoot a:hover { color: var(--accent); }
+.tmFoot-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr 1.3fr; gap: 48px; }
+.tmFoot-grid p { margin: 0 0 8px; }
+.tmFoot-brand { font-family: var(--display); font-size: 1.9rem; color: var(--ink); }
+.tmFoot-h { font-weight: 600; color: var(--ink); margin: 0 0 12px !important; }
+.tmFoot ul { list-style: none; margin: 0; padding: 0; }
+.tmFoot nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+.tmFoot nav a { display: inline-flex; min-height: 36px; align-items: center; }
+.tmFoot-notes li a { display: flex; flex-direction: column; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.tmFoot-notes small { color: var(--muted); }
+.tmFoot-prices { max-width: 1280px; margin: 56px auto 0; }
+.tmFoot-prices details { border-bottom: 1px solid var(--line); }
+.tmFoot-prices details:first-of-type { border-top: 1px solid var(--line); }
+.tmFoot-prices summary { display: flex; align-items: baseline; gap: 16px; padding: 16px 0; min-height: 48px; cursor: pointer; list-style: none; font-family: var(--display); font-size: 1.45rem; font-weight: 600; color: var(--ink); }
+.tmFoot-prices summary::-webkit-details-marker { display: none; }
+.tmFoot-prices summary span { margin-left: auto; font-family: var(--font-body), sans-serif; font-size: 14px; font-weight: 400; color: var(--muted); }
+.tmFoot-prices summary::after { content: "+"; font-family: var(--font-body), sans-serif; font-weight: 300; color: var(--accent); }
+.tmFoot-prices details[open] summary::after { content: "−"; }
+.tmFoot-prices details ul { margin: 0 0 14px; }
+.tmFoot-prices li a { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px dotted var(--line); }
+.tmFoot-prices li b { display: flex; flex-direction: column; align-items: flex-end; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink); }
+.tmFoot-prices small { color: var(--muted); font-weight: 400; font-size: 14px; }
+.tmFoot-social { max-width: 1280px; margin: 40px auto 0; display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.tmFoot-social a { min-height: 40px; display: inline-flex; align-items: center; }
+.tmFoot-legal { max-width: 1280px; margin: 12px auto 0; font-size: 13px; }
+@media (max-width: 860px) { .tmFoot-grid { grid-template-columns: 1fr; gap: 32px; } }

@@ -1,28 +1,49 @@
 import type { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
-import Services from "@/components/Services";
-import ConsultationProcess from "@/components/ConsultationProcess";
-import CtaBand from "@/components/CtaBand";
+import Link from "next/link";
+import { getServicesByGroup } from "@/lib/services";
+import { InkClose, InkHero, InkPage, InkSection, InkServices, InkSteps } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = {
-  title: "Dịch vụ tư vấn — Ngọc Âm",
+  title: "Bảng giá — Ngọc Âm",
   description:
-    "Các phiên khai vấn Tử Vi và tư vấn Phong Thuỷ tại Ngọc Âm — từ một vấn đề chuyên sâu đến tổng quan toàn lá số hoặc không gian sống.",
+    "Toàn bộ các phiên Xuyên vấn Tử Vi, tư vấn Phong Thuỷ và Xuyên Vấn Đại Chủ Sự tại Ngọc Âm, kèm giá và thời lượng.",
 };
 
-export default function DichVuPage() {
+const GROUPS = [
+  { id: "tu-vi", name: "Tử Vi Xuyên Tam Diệm", href: "/tu-vi", line: "Xuyên vấn, định hướng, phát triển nội lực, chuyển hoá điều bất như ý." },
+  { id: "phong-thuy", name: "Phong Thuỷ Là Tịnh", href: "/phong-thuy", line: "Hoà hợp quy luật của đất, tịnh hoá không gian và nội tâm." },
+  { id: "dai-chu-su", name: "Xuyên Vấn Đại Chủ Sự", href: "/dai-chu-su", line: "Vững vàng trước khi dẫn dắt người khác." },
+] as const;
+
+export default async function BangGiaPage() {
+  const lists = await Promise.all(GROUPS.map((g) => getServicesByGroup(g.id)));
+
   return (
-    <>
-      <PageBanner
-        eyebrow="Dịch vụ tư vấn"
-        heading="Chọn phiên khai vấn phù hợp với điều bạn đang tìm kiếm."
-        description="Mỗi phiên khai vấn tại Ngọc Âm được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn — không có câu trả lời soạn sẵn."
-        image="/images/27-homepage-phong-thuy-dia-the.webp"
-        imageAlt="Phong cảnh núi sông Việt Nam trong sương sớm"
+    <InkPage>
+      <InkHero
+        compact
+        image="/images/14-song-huong-binh-minh-3d.webp"
+        alt="Sông Hương lúc bình minh"
+        scrolls={["Bảng giá"]}
+        lede={
+          <>
+            <p>Chọn phiên hợp với điều bạn đang tìm kiếm.</p>
+            <small>Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn.</small>
+          </>
+        }
       />
-      <Services />
-      <ConsultationProcess />
-      <CtaBand />
-    </>
+
+      {GROUPS.map((g, i) => (
+        <InkSection key={g.id} id={g.id} tone={i % 2 ? "raised" : "paper"} title={g.name} intro={<p>{g.line} <Link href={g.href} className="ipLink">Tìm hiểu thêm</Link></p>}>
+          <InkServices items={lists[i]} />
+        </InkSection>
+      ))}
+
+      <InkSection id="quy-trinh" title="Một phiên diễn ra thế nào">
+        <InkSteps />
+      </InkSection>
+
+      <InkClose />
+    </InkPage>
   );
 }

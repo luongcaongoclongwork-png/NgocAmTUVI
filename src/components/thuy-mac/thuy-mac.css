@@ -17,25 +17,6 @@
 .eInk a:focus-visible, .eInk button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .eInk h1, .eInk h2 { font-family: var(--display); font-weight: 600; line-height: 1.08; margin: 0; text-wrap: balance; }
 
-/* chrome */
-.eBrand { position: fixed; z-index: 50; top: 12px; left: clamp(10px, 3vw, 30px); display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; border-radius: 999px; background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(6px); text-decoration: none; font-family: var(--display); font-size: 1.5rem; font-weight: 600; }
-.eCompass { position: fixed; z-index: 55; top: 12px; right: clamp(12px, 3vw, 32px); display: flex; flex-direction: column; align-items: flex-end; }
-.eCompass-btn { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(4px); color: var(--ink); padding: 6px; cursor: pointer; }
-.eCompass-btn svg { width: 100%; height: 100%; }
-.eNeedle { transform-origin: 32px 32px; transform: rotate(calc(var(--p) * 540deg)); }
-.eCompass.is-open .eNeedle { transform: rotate(0deg); transition: transform var(--dur-slow) var(--ease-out); }
-.eCompass-menu { margin-top: 10px; min-width: 280px; background: var(--paper); border: 1px solid var(--line); padding: 10px 22px 16px; box-shadow: 0 18px 40px -24px rgba(43, 31, 23, 0.5); }
-.eCompass-menu ul { list-style: none; margin: 0; padding: 0; }
-.eCompass-menu li { border-bottom: 1px solid var(--line); }
-.eCompass-menu li a { display: block; padding: 14px 0; font-family: var(--display); font-size: 1.5rem; font-weight: 600; text-decoration: none; }
-.eCompass-menu li a:hover { color: var(--accent); }
-.eCompass-more { display: flex; gap: 18px; margin: 12px 0 0; font-size: 15px; }
-.eCompass-more a { min-height: 40px; display: inline-flex; align-items: center; }
-@media (prefers-reduced-motion: no-preference) {
-  .eCompass-menu li { animation: eFadeUp 420ms var(--ease-out) backwards; }
-  .eCompass-menu li:nth-child(2) { animation-delay: 60ms; }
-  .eCompass-menu li:nth-child(3) { animation-delay: 120ms; }
-}
 
 .ePill { position: fixed; z-index: 55; right: clamp(12px, 3vw, 32px); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 22px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; box-shadow: 0 12px 30px -14px rgba(43, 31, 23, 0.7); transition: background-color var(--dur-fast); }
 .ePill:hover { background: var(--accent); }
@@ -215,22 +196,4 @@
 .eS6-h { margin-top: 36px !important; font-size: clamp(1.8rem, 3.8vw, 3rem); font-weight: 500; color: var(--accent); }
 .eS6-end > p { color: var(--muted); margin: 12px 0 0; }
 
-/* footer: the ink that stayed */
-.eFoot { --ink: #efe3d1; --muted: #b9a78f; --line: rgba(239, 227, 209, 0.18); --accent: #d6b98f; background: #1f1712; color: var(--muted); padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px) 40px; font-size: 15px; }
-.eFoot a { color: var(--ink); text-decoration: none; }
-.eFoot a:hover { color: var(--accent); }
-.eFoot-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr 1.3fr; gap: 48px; }
-.eFoot-grid p { margin: 0 0 8px; }
-.eFoot-brand { font-family: var(--display); font-size: 1.8rem; color: var(--ink); }
-.eFoot-h { font-weight: 600; color: var(--ink); margin: 0 0 12px !important; }
-.eFoot ul { list-style: none; margin: 0; padding: 0; }
-.eFoot nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 20px; }
-.eFoot nav a { display: inline-flex; min-height: 36px; align-items: center; }
-.eFoot-notes li a { display: flex; flex-direction: column; padding: 8px 0; border-bottom: 1px solid var(--line); }
-.eFoot-notes small { color: var(--muted); }
-.eFoot-prices { max-width: 1280px; margin: 56px auto 0; }
-.eFoot-social { max-width: 1280px; margin: 40px auto 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
-.eFoot-social a { min-height: 40px; display: inline-flex; align-items: center; }
-.eFoot-legal { max-width: 1280px; margin: 12px auto 0; font-size: 13px; }
-@media (max-width: 860px) { .eFoot-grid { grid-template-columns: 1fr; gap: 32px; } }
 

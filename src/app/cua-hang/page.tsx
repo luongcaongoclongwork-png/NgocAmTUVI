@@ -1,81 +1,53 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import PageBanner from "@/components/PageBanner";
-import Reveal from "@/components/Reveal";
-import CtaBand from "@/components/CtaBand";
-import NgocAmCard from "@/components/ui/NgocAmCard";
-import { StillLifeStone } from "@/components/illustrations";
+import Link from "next/link";
 import { getProductCategoriesWithItems } from "@/lib/products";
+import { InkClose, InkHero, InkPage, InkSection } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = {
   title: "Vật phẩm Ngọc Âm",
   description:
-    "Ngọc phỉ thuý, ngọc Hoà Điền, đá phong thuỷ và đồ phong thuỷ được Ngọc Âm tuyển chọn — liên hệ để được tư vấn trực tiếp trước khi đặt.",
+    "Ngọc phỉ thuý, ngọc Hoà Điền, đá phong thuỷ và đồ phong thuỷ được Ngọc Âm tuyển chọn. Liên hệ để được tư vấn trực tiếp trước khi đặt.",
 };
 
-export default async function CuaHangPage() {
-  const productCategories = await getProductCategoriesWithItems();
+export default async function VatPhamPage() {
+  const categories = await getProductCategoriesWithItems();
 
   return (
-    <>
-      <PageBanner
-        eyebrow="Vật phẩm Ngọc Âm"
-        heading="Vật phẩm đồng hành, không phải trọng tâm."
-        description="Mỗi vật phẩm tại Ngọc Âm đều đi kèm tư vấn trực tiếp — về chất liệu, ý nghĩa và cách sử dụng phù hợp với bản mệnh hoặc không gian của bạn. Đây không phải một gian hàng để chọn mua nhanh."
-        image="/images/06-thuy-mac-song-huong.webp"
-        imageAlt="Tranh thuỷ mặc sông núi Việt Nam"
+    <InkPage>
+      <InkHero
+        compact
+        image="/images/24-homepage-jade-still-life.webp"
+        alt="Tĩnh vật ngọc và đá trên nền gỗ trầm"
+        scrolls={["Vật phẩm"]}
+        lede={
+          <>
+            <p>Vật phẩm đồng hành, không phải trọng tâm.</p>
+            <small>Mỗi vật phẩm tại Ngọc Âm đều đi kèm tư vấn trực tiếp về chất liệu, ý nghĩa và cách dùng phù hợp với bản mệnh hoặc không gian của bạn. Đây không phải một gian hàng để chọn mua nhanh.</small>
+          </>
+        }
       />
 
-      {productCategories.map((cat, catIdx) => (
-        <section
-          key={cat.id}
-          id={cat.slug}
-          className={`py-20 lg:py-24 ${
-            catIdx % 2 === 0 ? "bg-ivory" : "bg-parchment/60"
-          }`}
-        >
-          <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-            <Reveal>
-              <h2 className="font-heading text-2xl text-ink sm:text-3xl">
-                {cat.name}
-              </h2>
-              <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-ink/70">
-                {cat.intro}
-              </p>
-            </Reveal>
-
-            {cat.image && (
-              <Reveal delay={90}>
-                <div className="relative mt-8 h-64 w-full overflow-hidden border border-walnut/15 sm:h-80 lg:h-96">
-                  <Image
-                    src={cat.image}
-                    alt={cat.imageAlt ?? cat.name}
-                    fill
-                    sizes="(min-width: 1024px) 1200px, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-              </Reveal>
-            )}
-
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {cat.items.map((item, idx) => (
-                <Reveal key={item.id} delay={idx * 90}>
-                  <NgocAmCard
-                    href="/lien-he?topic=vat-pham"
-                    title={item.name}
-                    description={item.desc}
-                    ctaLabel="Liên hệ để đặt"
-                    media={<StillLifeStone />}
-                  />
-                </Reveal>
-              ))}
-            </div>
+      {categories.map((cat, i) => (
+        <InkSection key={cat.id} id={cat.slug} tone={i % 2 ? "raised" : "paper"} title={cat.name} intro={cat.intro ? <p>{cat.intro}</p> : undefined}>
+          {cat.image && (
+            <span className="ipFigure ip-r" style={{ display: "block", aspectRatio: "21 / 9", marginTop: 32 }}>
+              <Image src={cat.image} alt={cat.imageAlt ?? cat.name} fill sizes="(min-width: 1200px) 1180px, 100vw" />
+            </span>
+          )}
+          <div className="ipCols">
+            {cat.items.map((item) => (
+              <div key={item.id} className="ipItem ip-r">
+                <h3>{item.name}</h3>
+                <p>{item.desc}</p>
+                <Link href="/lien-he?topic=vat-pham" className="ipLink">Hỏi về vật phẩm này</Link>
+              </div>
+            ))}
           </div>
-        </section>
+        </InkSection>
       ))}
 
-      <CtaBand />
-    </>
+      <InkClose href="/lien-he?topic=vat-pham" label="Hỏi về vật phẩm" title="Chọn vật phẩm cùng người hiểu nó." text="Ngọc Âm tư vấn trực tiếp trước khi bạn đặt, trong một ngày làm việc." />
+    </InkPage>
   );
 }

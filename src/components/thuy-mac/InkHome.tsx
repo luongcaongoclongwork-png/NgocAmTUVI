@@ -3,12 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { formatPrice, type Service } from "@/lib/service-constants";
 import { CloudBand, CuuDinhLandscape, PATH_ICONS } from "./ornaments";
 import { createInk } from "./inkShader";
 import { PAINTING, PAINTING_ALT, PAINTING_LAYERS } from "./layers";
 import type { CalendarLeaf } from "./calendar";
-import Compass from "./Compass";
 import Leaf from "./Leaf";
 import Ask, { type AskItem } from "./Ask";
 
@@ -22,9 +20,7 @@ export type HomeProps = {
   askItems: AskItem[];
   people: Person[];
   tea: { name: string; photo: string } | null;
-  notes: { slug: string; title: string; date: string }[];
-  groups: { id: string; name: string; items: Service[] }[];
-  contact: { address: string; phone: string; hours: string; zaloUrl: string; socials: { label: string; href: string }[]; legal: string };
+  contact: { phone: string; zaloUrl: string };
 };
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
@@ -54,7 +50,7 @@ const BRANCH_PATHS: Record<Branch["id"], string> = {
  * scene 6 has its own track (--f/--g/--h). Everything readable is real HTML.
  */
 export default function InkHome(props: HomeProps) {
-  const { branches, lineage, leaf, dailyLine, askItems, people, tea, notes, groups, contact } = props;
+  const { branches, lineage, leaf, dailyLine, askItems, people, tea, contact } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
@@ -132,7 +128,9 @@ export default function InkHome(props: HomeProps) {
       set("--h", smooth(0.72, 0.86, s6));
       set("--th", smooth(0.2, 0.3, s6) * (1 - smooth(0.4, 0.48, s6)));
 
-      root.dataset.scene = re.top < vh * 0.6 ? "6" : r.bottom > vh * 0.5 ? (p < 0.3 ? "1" : p < 0.66 ? "2" : "3") : "4";
+      const scene = re.top < vh * 0.6 ? "6" : r.bottom > vh * 0.5 ? (p < 0.3 ? "1" : p < 0.66 ? "2" : "3") : "4";
+      root.dataset.scene = scene;
+      document.documentElement.dataset.inkScene = scene;
 
       // ease-in-out over ~4s, so the drop visibly spreads before it fills the page
       const rt = t0 === null ? 0 : clamp01((now - t0 - 400) / 4200);
@@ -163,6 +161,7 @@ export default function InkHome(props: HomeProps) {
       window.clearTimeout(giveUp);
       window.removeEventListener("pointermove", onMove);
       seen.disconnect();
+      delete document.documentElement.dataset.inkScene;
       ink?.destroy();
     };
   }, []);
@@ -178,11 +177,6 @@ export default function InkHome(props: HomeProps) {
         </filter>
       </svg>
 
-      <Link href="/" className="eBrand">
-        <Image src="/images/logo-mark.png" alt="" width={34} height={34} />
-        <span>Ngọc Âm</span>
-      </Link>
-      <Compass branches={branches} />
 
       <div ref={trackRef} className="eTrack">
         <div className="eStage">
@@ -316,69 +310,6 @@ export default function InkHome(props: HomeProps) {
         </div>
       </div>
 
-      <footer className="eFoot">
-        <div className="eFoot-grid">
-          <div>
-            <p className="eFoot-brand">Ngọc Âm</p>
-            <p>Tử Vi, Phong Thuỷ hậu nhân Khâm Thiên Giám, vua Minh Mạng, triều Nguyễn.</p>
-            <p>{contact.address}</p>
-            <p>{contact.phone}, {contact.hours}</p>
-          </div>
-          <nav aria-label="Các trang">
-            <p className="eFoot-h">Các trang</p>
-            <ul>
-              {[["Tử Vi", "/tu-vi"], ["Phong Thuỷ", "/phong-thuy"], ["Đại Chủ Sự", "/dai-chu-su"], ["Lập lá số", "/lap-la-so"], ["Sổ tay", "/kien-thuc"], ["Trà Đạo", "/tra-dao"], ["Phật học", "/phat-hoc"], ["Cửa hàng", "/cua-hang"], ["Về Ngọc Âm", "/ve-ngoc-am"], ["Liên hệ", "/lien-he"]].map(([l, h]) => (
-                <li key={h}><Link href={h}>{l}</Link></li>
-              ))}
-            </ul>
-          </nav>
-          <div>
-            <p className="eFoot-h">Mới trong Sổ tay</p>
-            <ul className="eFoot-notes">
-              {notes.map((n) => (
-                <li key={n.slug}>
-                  <Link href={`/kien-thuc/${n.slug}`}>
-                    <small>{n.date}</small>
-                    {n.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="dD-prices eFoot-prices">
-          <p className="eFoot-h">Toàn bộ bảng giá</p>
-          {groups.map((g) => (
-            <details key={g.id}>
-              <summary>
-                {g.name}
-                <span>{g.items.length} phiên</span>
-              </summary>
-              <ul>
-                {g.items.map((s) => (
-                  <li key={s.id}>
-                    <Link href={`/lien-he?topic=${s.group}&service=${s.id}`}>
-                      <span>{s.title}</span>
-                      <b>
-                        {formatPrice(s.price)}
-                        {s.duration && <small>{s.duration}</small>}
-                      </b>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          ))}
-        </div>
-
-        <p className="eFoot-social">
-          {contact.socials.map((s) => (
-            <a key={s.label} href={s.href}>{s.label}</a>
-          ))}
-        </p>
-        <p className="eFoot-legal">{contact.legal}</p>
-      </footer>
 
       <Link href={hotBranch ? `/lien-he?topic=${hotBranch.id}` : "/lien-he"} className="ePill">
         <span className="ePill-dot" aria-hidden="true" />
