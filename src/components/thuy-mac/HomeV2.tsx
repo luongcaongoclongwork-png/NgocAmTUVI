@@ -11,7 +11,7 @@ import "./leaf.css";
 
 
 /** The lowest numeric price in a group, as shown ("500.000 đ"); "" when none is numeric. */
-function fromPrice(items: readonly Service[]): string {
+export function fromPrice(items: readonly Service[]): string {
   let best: Service | null = null;
   let bestN = Infinity;
   for (const s of items) {
@@ -25,7 +25,7 @@ function fromPrice(items: readonly Service[]): string {
 }
 
 /** First sentence of a bio, for the portrait caption. */
-function firstSentence(text: string): string {
+export function firstSentence(text: string): string {
   const m = text.match(/^.*?[.!?](\s|$)/);
   return (m ? m[0] : text).trim();
 }

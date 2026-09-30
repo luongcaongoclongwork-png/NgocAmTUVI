@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import HomeV2 from "@/components/thuy-mac/HomeV2";
+import HomeV3 from "@/components/thuy-mac/home/HomeV3";
 
 export const metadata: Metadata = {
   title: "Ngọc Âm — Tử Vi, Phong Thuỷ hậu nhân Khâm Thiên Giám",
@@ -11,5 +11,5 @@ export const metadata: Metadata = {
 export const revalidate = 600;
 
 export default function Home() {
-  return <HomeV2 />;
+  return <HomeV3 />;
 }

@@ -13,17 +13,31 @@ export const MORE_LINKS = [
   { href: "/phat-hoc", label: "Phật học" },
   { href: "/cua-hang", label: "Vật phẩm" },
   { href: "/ve-ngoc-am", label: "Về Ngọc Âm" },
+  { href: "/tranh-cuon", label: "Tranh cuộn" },
   { href: "/lien-he", label: "Liên hệ" },
 ] as const;
 
-/** What the floating booking button says (and where it goes) on each page. */
-export function bookingFor(pathname: string): { label: string; href: string } | null {
-  // the home has its own; the form is already here; on a lá số chart it would cover the palaces
-  if (pathname === "/" || pathname.startsWith("/lien-he") || pathname.startsWith("/la-so")) return null;
-  if (pathname.startsWith("/phong-thuy")) return { label: "Đặt lịch tư vấn Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
-  if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
-  if (pathname.startsWith("/cua-hang") || pathname.startsWith("/tra-dao")) return { label: "Hỏi về vật phẩm", href: "/lien-he?topic=vat-pham" };
-  return { label: "Đặt lịch Xuyên vấn", href: "/lien-he?topic=tu-vi" };
+/** The labelled links always in view on a wide screen (v1's strength); the la bàn holds the rest. */
+export const HEADER_LINKS = [
+  { href: "/tu-vi", label: "Tử Vi" },
+  { href: "/phong-thuy", label: "Phong Thuỷ" },
+  { href: "/dai-chu-su", label: "Đại Chủ Sự" },
+  { href: "/dich-vu", label: "Bảng giá" },
+  { href: "/lap-la-so", label: "Lập lá số" },
+  { href: "/kien-thuc", label: "Sổ tay" },
+] as const;
+
+export type Booking = { label: string; short: string; href: string };
+
+/** What the booking button says (and where it goes) on each page; `short` fits the phone's bottom bar. */
+export function bookingFor(pathname: string): Booking | null {
+  // the form is already here; on a lá số chart it would cover the palaces; the scroll painting has its own
+  if (pathname.startsWith("/lien-he") || pathname.startsWith("/la-so") || pathname.startsWith("/tranh-cuon")) return null;
+  if (pathname.startsWith("/phong-thuy")) return { label: "Đặt lịch tư vấn Phong Thuỷ", short: "Đặt lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
+  if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt lịch Đại Chủ Sự", short: "Đặt lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
+  if (pathname.startsWith("/cua-hang") || pathname.startsWith("/tra-dao")) return { label: "Hỏi về vật phẩm", short: "Hỏi về vật phẩm", href: "/lien-he?topic=vat-pham" };
+  if (pathname.startsWith("/tu-vi")) return { label: "Đặt lịch Xuyên vấn Tử Vi", short: "Đặt lịch Tử Vi", href: "/lien-he?topic=tu-vi" };
+  return { label: "Đặt lịch Xuyên vấn", short: "Đặt lịch Xuyên vấn", href: "/lien-he" };
 }
 
 /** Pages that draw no site chrome at all. */

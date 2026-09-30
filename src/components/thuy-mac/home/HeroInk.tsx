@@ -1,0 +1,110 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { createInk } from "../inkShader";
+
+const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
+
+/** Phones on save-data, few cores or little memory get the still painting: the page must feel light first. */
+function canAffordInk(): boolean {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+  const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
+  if (nav.connection?.saveData) return false;
+  if (nav.deviceMemory !== undefined && nav.deviceMemory < 4) return false;
+  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) return false;
+  return true;
+}
+
+/**
+ * The home's opening painting (v1's Huế pavilion): a drop of ink spreads into
+ * it in about a second, and the water ripples under the pointer. Drawn on
+ * demand only: nothing runs while the page sits still, so an idle tab costs
+ * nothing (v1's lightness), and it stops entirely once scrolled away.
+ */
+export default function HeroInk({ src, alt }: { src: string; alt: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [mode, setMode] = useState<"pending" | "ink" | "still">("pending");
+
+  useEffect(() => {
+    const canvas = canvasRef.current!;
+    let ink: ReturnType<typeof createInk> = null;
+    let t0: number | null = null;
+    let raf = 0;
+    let visible = true;
+    const mouse: [number, number] = [0.5, 0.5];
+    let mouseAmt = 0;
+
+    const still = () => setMode("still");
+    if (!canAffordInk()) {
+      still();
+      return;
+    }
+
+    const frame = (now: number) => {
+      raf = 0;
+      if (!ink || t0 === null || !visible) return;
+      const rt = clamp01((now - t0) / 1200);
+      const reveal = rt < 0.5 ? 4 * rt * rt * rt : 1 - Math.pow(-2 * rt + 2, 3) / 2;
+      mouseAmt *= 0.94;
+      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse, mouseAmt, focusX: window.innerWidth < 700 ? 0.7 : 0.5 });
+      // keep drawing only while something is still moving
+      if (rt < 1 || mouseAmt > 0.01) raf = requestAnimationFrame(frame);
+    };
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
+
+    try {
+      ink = createInk(canvas, { painting: src, layers: [] }, () => {
+        t0 = performance.now();
+        setMode("ink");
+        kick();
+      });
+    } catch (err) {
+      console.error("Thuỷ mặc: WebGL unavailable, showing the still painting.", err);
+      ink = null;
+    }
+    if (!ink) {
+      still();
+      return;
+    }
+    // a painting that is slow to arrive must not leave a blank hero
+    const giveUp = window.setTimeout(() => {
+      if (t0 === null) still();
+    }, 1500);
+
+    const onMove = (e: PointerEvent) => {
+      const r = canvas.getBoundingClientRect();
+      mouse[0] = (e.clientX - r.left) / r.width;
+      mouse[1] = (e.clientY - r.top) / r.height;
+      mouseAmt = 1;
+      kick();
+    };
+    const host = canvas.parentElement!;
+    host.addEventListener("pointermove", onMove, { passive: true });
+    const onResize = () => kick();
+    window.addEventListener("resize", onResize);
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) kick();
+    });
+    io.observe(host);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(giveUp);
+      host.removeEventListener("pointermove", onMove);
+      window.removeEventListener("resize", onResize);
+      io.disconnect();
+      ink?.destroy();
+    };
+  }, [src]);
+
+  return (
+    <div className="hHero-paint" data-mode={mode}>
+      <Image src={src} alt={alt} fill priority sizes="100vw" className="hHero-still" />
+      <canvas ref={canvasRef} className="hHero-canvas" aria-hidden="true" />
+    </div>
+  );
+}

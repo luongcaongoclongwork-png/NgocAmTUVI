@@ -1,0 +1,143 @@
+/* v3 home, "Thuỷ Mặc Dễ Dùng". Tokens come from .ip (chrome.css). Nothing is
+   pinned: every section scrolls like an ordinary page. */
+
+.hBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 16px; white-space: nowrap; transition: background-color var(--dur-fast); }
+.hBtn:hover { background: var(--accent); }
+.hBtn--ghost { background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink) !important; border: 1px solid var(--accent); }
+.hBtn--ghost:hover { background: var(--raised); }
+.hBtn--small { min-height: 44px; padding: 0 18px; font-size: 15px; }
+
+/* ---------- 1 · hero ---------- */
+.hHero { position: relative; isolation: isolate; min-height: max(620px, 94svh); display: flex; align-items: flex-end; overflow: hidden; background: var(--paper); }
+.hHero-paint { position: absolute; inset: 0; z-index: -1; }
+.hHero-still { object-fit: cover; object-position: 50% 55%; }
+.js .hHero-paint[data-mode="pending"] .hHero-still, .js .hHero-paint[data-mode="ink"] .hHero-still { opacity: 0; }
+.hHero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 300ms; }
+.hHero-paint[data-mode="ink"] .hHero-canvas { opacity: 1; }
+/* a paper wash on the text side, so dark ink text reads over the painting */
+.hHero-paint::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(236, 226, 206, 0.93) 0%, rgba(236, 226, 206, 0.74) 38%, rgba(236, 226, 206, 0.05) 70%), linear-gradient(0deg, rgba(236, 226, 206, 0.9) 0%, rgba(236, 226, 206, 0) 30%); }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* a slight push into the painting as the page starts to move */
+    .hHero-paint { animation: hPush linear both; animation-timeline: scroll(root); animation-range: 0 90vh; }
+  }
+}
+@keyframes hPush { to { transform: scale(1.08); } }
+
+.hHero-body { width: 100%; max-width: 1280px; margin: 0 auto; padding: 104px clamp(16px, 4vw, 48px) 40px; display: grid; grid-template-columns: minmax(0, 36em) minmax(0, 1fr); grid-template-areas: "kick ." "h1 ." "lede ." "cta ." "paths paths" "also also"; }
+.hHero-kicker { grid-area: kick; margin: 0 0 22px; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.hHero-h1 { grid-area: h1; font-size: clamp(2rem, 3.4vw, 3.3rem) !important; margin-bottom: 26px !important; }
+.hHero-lede { grid-area: lede; margin: 0; font-family: var(--display); font-size: clamp(1.3rem, 1.9vw, 1.6rem); line-height: 1.45; color: var(--ink); text-shadow: 0 0 14px rgba(236, 226, 206, 0.9); }
+.hHero-cta { grid-area: cta; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.hHero-paths { grid-area: paths; list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.hHero-paths li + li { border-left: 1px solid var(--line); }
+.hHero-paths a { display: flex; flex-direction: column; gap: 2px; padding: 14px 18px; min-height: 64px; text-decoration: none; background: color-mix(in srgb, var(--raised) 62%, transparent); transition: background-color var(--dur-fast); }
+.hHero-paths a:hover { background: var(--raised); }
+.hHero-paths b { font-family: var(--display); font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.2; }
+.hHero-paths span { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 500; }
+.hHero-also { grid-area: also; margin: 14px 0 0; font-size: 15px; color: var(--muted); }
+.hHero-also a { color: var(--accent); font-weight: 500; text-underline-offset: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .hHero-lede, .js .hHero-cta, .js .hHero-paths, .js .hHero-also { animation: ipFade 0.8s ease 0.6s backwards; }
+}
+
+@media (max-width: 860px) {
+  .hHero { min-height: 0; }
+  .hHero-body { padding-top: 84px; padding-bottom: 28px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "kick" "h1" "lede" "cta" "paths" "also"; }
+  .hHero-still { object-position: 70% 55%; }
+  .hHero-paint::after { background: linear-gradient(180deg, rgba(236, 226, 206, 0.55) 0%, rgba(236, 226, 206, 0.8) 40%, rgba(236, 226, 206, 0.96) 70%); }
+  .hHero-kicker { font-size: 12.5px; margin-bottom: 18px; }
+  .hHero-h1 { font-size: 1.9rem !important; margin-bottom: 20px !important; }
+  .hHero-lede { font-size: 1.2rem; }
+  .hHero-cta .hBtn { flex: 1; padding: 0 14px; }
+  .hHero-paths { margin-top: 22px; grid-template-columns: minmax(0, 1fr); }
+  .hHero-paths li + li { border-left: 0; border-top: 1px solid var(--line); }
+  .hHero-paths a { flex-direction: row; justify-content: space-between; align-items: baseline; padding: 11px 14px; min-height: 48px; }
+  .hHero-paths b { font-size: 1.15rem; }
+}
+
+/* ---------- 2 · clouds and the Cửu Đỉnh carving ---------- */
+.hBand { position: relative; overflow: hidden; min-height: 86svh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px); background: var(--paper); text-align: center; }
+.hCloud { position: absolute; left: -10%; width: 120% !important; color: var(--accent); opacity: 0.4; pointer-events: none; }
+.hCloud--1 { top: 4%; }
+.hCloud--2 { bottom: 2%; opacity: 0.3; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* the clouds part as the band scrolls through, the way v2's scene 2 did, without holding the page */
+    .hCloud--1 { animation: hCloudL linear both; animation-timeline: view(); }
+    .hCloud--2 { animation: hCloudR linear both; animation-timeline: view(); }
+  }
+}
+@keyframes hCloudL { from { transform: translateX(8%) scale(1.3); } to { transform: translateX(-14%) scale(1); } }
+@keyframes hCloudR { from { transform: translateX(-8%) scale(1.2); } to { transform: translateX(14%) scale(1); } }
+.hBand-carve { width: min(1100px, 130vw); color: var(--accent); opacity: 0.8; --orn-fill: var(--paper); view-timeline-name: --carve; }
+.hBand-carve svg { display: block; width: 100%; height: auto; }
+.hBand-carve .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hBand-carve .draw { animation: ipCarve linear both; animation-timeline: --carve; animation-range: entry 10% cover 50%; }
+  }
+}
+.hBand-text { position: relative; max-width: 40em; margin-top: -2vw; }
+.hBand-text h2 { font-family: var(--display); font-size: clamp(2rem, 4vw, 3.3rem); font-weight: 500; line-height: 1.15; color: var(--accent); margin: 0; text-wrap: balance; }
+.hBand-text p { margin: 18px auto 0; max-width: 34em; font-family: var(--display); font-style: italic; font-size: clamp(1.2rem, 1.8vw, 1.45rem); line-height: 1.5; color: var(--ink); }
+
+/* ---------- 3 · leaf and question ---------- */
+.hAsk .eS4-grid { align-items: center; }
+.hLeaf { position: relative; perspective: 1800px; }
+.hLeaf-prev { display: none; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* yesterday's sheet lifts off the pad and falls away once, as the leaf scrolls in */
+    .hLeaf-prev { display: block; position: absolute; inset: 0; transform-origin: 50% 0; backface-visibility: hidden; pointer-events: none; animation: hTurn linear both; animation-timeline: view(); animation-range: entry 70% cover 45%; }
+    .hLeaf-prev .dD-leaf { height: 100%; box-shadow: none; }
+  }
+}
+@keyframes hTurn {
+  0%, 30% { transform: none; opacity: 1; }
+  85% { transform: rotateX(-100deg); opacity: 1; }
+  100% { transform: rotateX(-110deg); opacity: 0; }
+}
+
+/* ---------- 4 · paths and Trà Đạo ---------- */
+.hPaths { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 36px); }
+.hPath { display: flex; flex-direction: column; background: color-mix(in srgb, var(--raised) 92%, transparent); border: 1px solid var(--line); }
+.hPath-img { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; }
+.hPath-img img { object-fit: cover; transition: transform 900ms var(--ease-out); }
+.hPath:hover .hPath-img img { transform: scale(1.04); }
+.hPath-text { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 20px; flex: 1; }
+.hPath-text h3 { font-size: 1.7rem !important; }
+.hPath-text h3 a { text-decoration: none; color: var(--ink); }
+.hPath-text p { margin: 0; color: var(--muted); }
+.hPath-price { color: var(--ink) !important; }
+.hPath-price b { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+.hPath-cta { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.hTea { margin-top: clamp(20px, 3vw, 36px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: center; background: color-mix(in srgb, var(--raised) 92%, transparent); border: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+.hTea-img { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; }
+.hTea-img img { object-fit: cover; }
+.hTea-text { display: flex; flex-direction: column; gap: 6px; padding: 24px clamp(20px, 3vw, 40px); }
+.hTea-text small { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.hTea-text b { font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 600; line-height: 1.1; }
+.hTea-text span { color: var(--muted); }
+.hTea:hover b { color: var(--accent); }
+@media (max-width: 1023px) { .hPaths { grid-template-columns: minmax(0, 1fr); } .hPath { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); } .hPath-img { aspect-ratio: auto; min-height: 220px; } }
+@media (max-width: 640px) { .hPath, .hTea { display: flex; flex-direction: column; } .hPath-img { aspect-ratio: 16 / 9; min-height: 0; } }
+
+/* ---------- 8 · about ---------- */
+.hAbout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.hAbout-img { aspect-ratio: 4 / 3 !important; max-width: none !important; }
+.hAbout-img img { object-position: center !important; }
+.hAbout p { color: var(--muted); font-size: 1.05rem; }
+.hAbout .hAbout-quote { font-family: var(--display); font-style: italic; font-size: clamp(1.3rem, 2vw, 1.6rem); line-height: 1.5; color: var(--ink); margin: 20px 0 12px; }
+@media (max-width: 860px) { .hAbout { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- 10 · goods ---------- */
+.hGoods { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.hGoods a { display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: var(--ink); }
+.hGoods-img { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border: 1px solid var(--line); background: var(--raised); }
+.hGoods-stone { width: 100%; height: 100%; }
+.hGoods-img img { object-fit: cover; transition: transform 900ms var(--ease-out); }
+.hGoods a:hover img { transform: scale(1.05); }
+.hGoods b { font-family: var(--display); font-size: 1.35rem; font-weight: 600; }
+.hGoods-more { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 28px 0 0; }
+@media (max-width: 860px) { .hGoods { grid-template-columns: repeat(2, 1fr); } }

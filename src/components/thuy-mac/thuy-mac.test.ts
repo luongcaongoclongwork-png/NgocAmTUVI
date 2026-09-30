@@ -40,7 +40,9 @@ describe("site chrome", () => {
   it("labels the booking button per page and steps aside where it would be in the way", () => {
     expect(bookingFor("/phong-thuy")?.href).toBe("/lien-he?topic=phong-thuy");
     expect(bookingFor("/dai-chu-su")?.label).toBe("Đặt lịch Đại Chủ Sự");
-    expect(bookingFor("/")).toBeNull();
+    expect(bookingFor("/tu-vi")?.short).toBe("Đặt lịch Tử Vi");
+    expect(bookingFor("/")?.href).toBe("/lien-he");
+    expect(bookingFor("/tranh-cuon")).toBeNull();
     expect(bookingFor("/lien-he")).toBeNull();
     expect(bookingFor("/la-so/xuyen-tam-diem")).toBeNull();
   });

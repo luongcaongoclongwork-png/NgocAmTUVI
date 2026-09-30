@@ -22,8 +22,8 @@ export default async function BangGiaPage() {
     <InkPage>
       <InkHero
         compact
-        image="/images/14-song-huong-binh-minh-3d.webp"
-        alt="Sông Hương lúc bình minh"
+        image="/images/27-homepage-phong-thuy-dia-the.webp"
+        alt="Phong cảnh núi sông Việt Nam trong sương sớm"
         scrolls={["Bảng giá"]}
         lede={
           <>

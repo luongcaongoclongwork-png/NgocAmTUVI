@@ -12,14 +12,18 @@
 /* ---------- hero ---------- */
 .ipHero { position: relative; min-height: 94svh; display: flex; align-items: flex-start; overflow: hidden; background: var(--paper); }
 .ipHero--compact { min-height: 64svh; }
+/* the page paints its own background (Lập lá số keeps the v1 outer-bg across banner and form) */
+.ipHero.ipHero--bare { background: transparent; min-height: 0; }
+.ipHero--bare .ipHero-body { padding-bottom: 32px; }
+.lap-la-so-outer .ipTool { background: transparent; }
 .ipHero-paint { position: absolute; inset: 0;
   -webkit-mask-image: radial-gradient(circle at 70% 72%, #000 var(--ipr), transparent calc(var(--ipr) + 22%));
   mask-image: radial-gradient(circle at 70% 72%, #000 var(--ipr), transparent calc(var(--ipr) + 22%)); }
-/* photographs and paintings alike are washed into the same ink tone */
-.ipHero-paint img { object-fit: cover; filter: sepia(0.38) saturate(0.62) contrast(0.96) brightness(1.04); }
-.ipHero-paint::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(236, 226, 206, 0.92) 0%, rgba(236, 226, 206, 0.7) 40%, rgba(236, 226, 206, 0) 74%), linear-gradient(0deg, var(--paper) 0%, rgba(236, 226, 206, 0) 22%); }
+/* the v1 photographs keep their own colour; only a light warm wash ties them to the paper */
+.ipHero-paint img { object-fit: cover; filter: sepia(0.12) saturate(0.92); }
+.ipHero-paint::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(236, 226, 206, 0.95) 0%, rgba(236, 226, 206, 0.86) 42%, rgba(236, 226, 206, 0.35) 64%, rgba(236, 226, 206, 0) 80%), linear-gradient(0deg, var(--paper) 0%, rgba(236, 226, 206, 0) 22%); }
 @media (prefers-reduced-motion: no-preference) {
-  .js .ipHero-paint { animation: ipBleed 3.2s cubic-bezier(0.5, 0, 0.3, 1) 0.15s both; }
+  .js .ipHero-paint { animation: ipBleed 1.2s cubic-bezier(0.5, 0, 0.3, 1) 0.1s both; }
 }
 @keyframes ipBleed { from { --ipr: 0%; } to { --ipr: 160%; } }
 @supports (animation-timeline: scroll()) {
@@ -39,10 +43,10 @@
 .ipScroll:nth-child(3) { margin-top: 1.2em; }
 .ipScroll > span { display: block; line-height: 1.08; }
 @media (prefers-reduced-motion: no-preference) {
-  .js .ipScroll { animation: ipBrush 1.2s cubic-bezier(0.6, 0, 0.2, 1) 0.9s backwards; }
-  .js .ipScroll:nth-child(2) { animation-delay: 1.15s; }
-  .js .ipScroll:nth-child(3) { animation-delay: 1.4s; }
-  .js .ipHero-lede, .js .ipHero-quote { animation: ipFade 1s ease 1.8s backwards; }
+  .js .ipScroll { animation: ipBrush 0.9s cubic-bezier(0.6, 0, 0.2, 1) 0.3s backwards; }
+  .js .ipScroll:nth-child(2) { animation-delay: 0.45s; }
+  .js .ipScroll:nth-child(3) { animation-delay: 0.6s; }
+  .js .ipHero-lede, .js .ipHero-quote { animation: ipFade 0.8s ease 0.7s backwards; }
 }
 @keyframes ipBrush { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes ipFade { from { opacity: 0; } }
@@ -59,6 +63,11 @@
 /* ---------- sections ---------- */
 .ipSec { position: relative; padding: clamp(80px, 11vw, 150px) clamp(16px, 4vw, 48px); }
 .ipSec--raised { background: var(--raised); }
+/* v1's section paintings, under the same 78% paper veil v1 used, so text sits on paper, not on the picture */
+.ipSec--backdrop { isolation: isolate; overflow: hidden; }
+.ipSec-bg { object-fit: cover; z-index: -2; }
+.ipSec--backdrop::before { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--paper) 78%, transparent); }
+.ipSec--raised.ipSec--backdrop::before { background: color-mix(in srgb, var(--raised) 80%, transparent); }
 .ipSec--ink { --ink: #efe3d1; --muted: #c2b198; --accent: #d6b98f; --line: rgba(239, 227, 209, 0.2); --raised: #2a201a; background: #1f1712; color: var(--ink); }
 .ipSec-inner { max-width: 1180px; margin: 0 auto; }
 .ipSec-inner--narrow { max-width: 760px; }
@@ -169,8 +178,13 @@
 .ipProse--drop > p:first-of-type::first-letter { float: left; font-family: var(--display); font-size: 4.4em; line-height: 0.82; padding: 0.06em 0.12em 0 0; color: var(--accent); }
 
 /* ---------- close ---------- */
-.ipClose { position: relative; padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px) clamp(96px, 12vw, 160px); text-align: center; overflow: hidden; background: var(--paper); }
-.ipClose .ipEngrave { position: absolute; left: 50%; bottom: 0; width: min(1200px, 150vw); transform: translateX(-50%); opacity: 0.35; }
+.ipClose { --ink: #efe3d1; --paper: #1f1712; --muted: #e2d4bf; --accent: #e3c89c; position: relative; isolation: isolate; padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px) clamp(96px, 12vw, 160px); text-align: center; overflow: hidden; background: #3a2a1f; color: var(--ink); }
+/* v1 booking band: the mặc trầm painting under a walnut veil, so the ivory text keeps its contrast */
+.ipClose-bg { object-fit: cover; object-position: bottom; z-index: -2; }
+.ipClose::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(31, 23, 18, 0.62), rgba(31, 23, 18, 0.28)); }
+.ipClose-body { text-shadow: 0 1px 18px rgba(31, 23, 18, 0.8); }
+.ipClose .ipEngrave { position: absolute; left: 50%; bottom: 0; width: min(1200px, 150vw); transform: translateX(-50%); opacity: 0.18; }
+.ipClose .ipLink { color: var(--ink); }
 .ipClose-body { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .ipClose h2 { font-size: clamp(2rem, 4.4vw, 3.4rem) !important; font-weight: 500 !important; color: var(--accent); max-width: 16em; }
 .ipClose p { color: var(--muted); margin: 0; }

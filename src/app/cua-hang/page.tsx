@@ -17,8 +17,8 @@ export default async function VatPhamPage() {
     <InkPage>
       <InkHero
         compact
-        image="/images/24-homepage-jade-still-life.webp"
-        alt="Tĩnh vật ngọc và đá trên nền gỗ trầm"
+        image="/images/06-thuy-mac-song-huong.webp"
+        alt="Tranh thuỷ mặc sông núi Việt Nam"
         scrolls={["Vật phẩm"]}
         lede={
           <>

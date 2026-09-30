@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 export default function LapLaSoPage() {
   return (
     <InkPage>
+      {/* v1's single outer-bg.jpg behind both the title and the form (see .lap-la-so-outer in globals.css) */}
+      <div className="lap-la-so-outer relative w-full">
       <InkHero
         compact
-        image="/images/21-homepage-tu-vi-manuscript.webp"
-        alt="Bản chép tay Tử Vi, bút lông và nghiên mực trên án thư"
         scrolls={["Lập", "lá số"]}
         lede={
           <>
@@ -25,6 +25,7 @@ export default function LapLaSoPage() {
       />
       <div className="ipTool">
         <LapLaSoClient />
+      </div>
       </div>
     </InkPage>
   );

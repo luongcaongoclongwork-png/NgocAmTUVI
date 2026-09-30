@@ -29,15 +29,16 @@ export function InkPage({ children }: { children: ReactNode }) {
  */
 export function InkHero({
   image,
-  alt,
+  alt = "",
   scrolls,
   lede,
   quote,
   compact = false,
   focus = "50% 50%",
 }: {
-  image: string;
-  alt: string;
+  /** Leave out when the page draws its own background behind the hero (Lập lá số). */
+  image?: string;
+  alt?: string;
   /** The H1, one hanging scroll per phrase. */
   scrolls: string[];
   lede?: ReactNode;
@@ -46,10 +47,12 @@ export function InkHero({
   focus?: string;
 }) {
   return (
-    <header className={`ipHero ${compact ? "ipHero--compact" : ""}`}>
-      <div className="ipHero-paint">
-        <Image src={image} alt={alt} fill priority sizes="100vw" style={{ objectPosition: focus }} />
-      </div>
+    <header className={`ipHero ${compact ? "ipHero--compact" : ""} ${image ? "" : "ipHero--bare"}`}>
+      {image && (
+        <div className="ipHero-paint">
+          <Image src={image} alt={alt} fill priority sizes="100vw" style={{ objectPosition: focus }} />
+        </div>
+      )}
       <div className="ipHero-body">
         <h1 className="ipScrolls">
           {scrolls.map((s) => (
@@ -67,7 +70,7 @@ export function InkHero({
   );
 }
 
-/** A section with a brush-reveal heading. */
+/** A section with a brush-reveal heading; `backdrop` lays one of v1's section paintings under a paper veil. */
 export function InkSection({
   id,
   title,
@@ -75,6 +78,7 @@ export function InkSection({
   children,
   tone = "paper",
   narrow = false,
+  backdrop,
 }: {
   id?: string;
   title?: string;
@@ -82,10 +86,13 @@ export function InkSection({
   children?: ReactNode;
   tone?: "paper" | "raised" | "ink";
   narrow?: boolean;
+  /** position: where the painting's detail sits, so it survives a phone crop (v1's SectionBackdrop). */
+  backdrop?: { image: string; position?: string };
 }) {
   const hid = id ? `${id}-h` : undefined;
   return (
-    <section id={id} className={`ipSec ipSec--${tone}`} aria-labelledby={title ? hid : undefined}>
+    <section id={id} className={`ipSec ipSec--${tone} ${backdrop ? "ipSec--backdrop" : ""}`} aria-labelledby={title ? hid : undefined}>
+      {backdrop && <Image src={backdrop.image} alt="" fill sizes="100vw" className="ipSec-bg" style={{ objectPosition: backdrop.position ?? "center" }} />}
       <div className={`ipSec-inner ${narrow ? "ipSec-inner--narrow" : ""}`}>
         {title && (
           <h2 id={hid} className="ipH2 ip-r">
@@ -255,7 +262,7 @@ export function InkProse({ children }: { children: ReactNode }) {
   return <div className="ipProse">{children}</div>;
 }
 
-/** Closing: a drop of ink that opens into the booking button. */
+/** Closing: a drop of ink that opens into the booking button, over the v1 "mặc trầm" painting. */
 export async function InkClose({
   title = "Mỗi cuộc trao đổi bắt đầu từ sự lắng nghe.",
   text = "Để lại đôi dòng, Ngọc Âm hồi đáp trong một ngày làm việc.",
@@ -271,6 +278,7 @@ export async function InkClose({
   const zalo = isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "";
   return (
     <section className="ipClose" aria-labelledby="ipClose-h">
+      <Image src="/images/06-dat-lich-mac-tram.png" alt="" fill sizes="100vw" className="ipClose-bg" />
       <InkEngrave />
       <div className="ipClose-body ip-r">
         <h2 id="ipClose-h">{title}</h2>

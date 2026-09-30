@@ -1,4 +1,4 @@
-/* Thuỷ Mặc site chrome: brand mark, la bàn menu, floating booking button,
+/* Thuỷ Mặc site chrome: labelled header, la bàn menu, booking button, phone bottom bar,
    and the ink footer — shared by every public page. One deliberate light
    look (a painting on dó paper); the footer is the ink that stayed. */
 .tm, .eInk, .ip {
@@ -12,11 +12,30 @@
 .tm a { color: inherit; }
 .tm a:focus-visible, .tm button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-.tmBrand { position: fixed; z-index: 50; top: 12px; left: clamp(10px, 3vw, 30px); display: flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; border-radius: 999px; background: color-mix(in srgb, var(--paper) 84%, transparent); backdrop-filter: blur(6px); color: var(--ink); text-decoration: none; font-family: var(--display); font-size: 1.5rem; font-weight: 600; transition: opacity var(--dur-base) var(--ease-out); }
+/* ---------- header: labelled links over v1's header-bg painting (cream veil 72%, as v1) ---------- */
+.tmSkip { position: fixed; z-index: 80; top: 8px; left: 8px; padding: 10px 16px; background: var(--ink); color: var(--paper) !important; transform: translateY(-160%); transition: transform var(--dur-fast); }
+.tmSkip:focus { transform: none; }
 
-.tmCompass { position: fixed; z-index: 55; top: 12px; right: clamp(10px, 3vw, 30px); display: flex; flex-direction: column; align-items: flex-end; color: var(--ink); }
-.tmCompass-btn { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 84%, transparent); backdrop-filter: blur(6px); color: var(--ink); padding: 6px; cursor: pointer; }
-.tmCompass-btn svg { width: 100%; height: 100%; }
+.tmHead { position: fixed; z-index: 50; inset: 0 0 auto; height: 68px; display: flex; align-items: center; gap: clamp(12px, 2vw, 28px); padding: 0 clamp(12px, 3vw, 40px);
+  background: linear-gradient(rgba(246, 239, 226, 0.72), rgba(246, 239, 226, 0.72)), url("/images/header-bg.webp") 50% 47% / cover no-repeat var(--raised);
+  border-bottom: 1px solid transparent; color: var(--ink); transition: box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base), opacity var(--dur-base); }
+.tmHead.is-scrolled { border-bottom-color: var(--line); box-shadow: 0 10px 28px -22px rgba(43, 31, 23, 0.55); }
+
+.tmBrand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-family: var(--display); font-size: 1.6rem; font-weight: 600; white-space: nowrap; }
+
+.tmNav { margin-right: auto; }
+.tmNav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(4px, 1vw, 14px); }
+.tmNav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; font-size: 15.5px; font-weight: 500; text-decoration: none; white-space: nowrap; }
+/* the current page and hover: a short brush stroke under the word */
+.tmNav a::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 2px; border-radius: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease-out); }
+.tmNav a:hover::after, .tmNav a[aria-current="page"]::after { transform: none; }
+.tmNav a[aria-current="page"] { color: var(--accent); }
+
+.tmCompass { position: relative; color: var(--ink); }
+.tmCompass-btn { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 14px 0 6px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink); font: 500 15px var(--font-body), sans-serif; cursor: pointer; }
+.tmCompass-btn:hover { border-color: var(--accent); }
+.tmCompass-btn svg { width: 34px; height: 34px; }
+.tmCompass-word--narrow { display: none; }
 .tmNeedle { transform-origin: 32px 32px; transition: transform var(--dur-slow) var(--ease-out); }
 .tmCompass.is-open .tmNeedle { transform: rotate(180deg); }
 @supports (animation-timeline: scroll()) {
@@ -25,33 +44,50 @@
   }
 }
 @keyframes tmSpin { to { transform: rotate(540deg); } }
-.tmCompass-menu { margin-top: 10px; width: min(340px, calc(100vw - 20px)); max-height: calc(100svh - 90px); overflow: auto; background: var(--paper); border: 1px solid var(--line); padding: 8px 22px 18px; box-shadow: 0 18px 40px -24px rgba(43, 31, 23, 0.55); }
+.tmCompass-menu { position: absolute; right: 0; top: calc(100% + 12px); width: min(360px, calc(100vw - 24px)); max-height: calc(100svh - 96px); overflow: auto; background: var(--paper); border: 1px solid var(--line); padding: 8px 22px 18px; box-shadow: 0 18px 40px -24px rgba(43, 31, 23, 0.55); }
 .tmCompass-menu ul { list-style: none; margin: 0; padding: 0; }
 .tmCompass-menu li { border-bottom: 1px solid var(--line); }
 .tmCompass-menu li a { display: block; padding: 14px 0; font-family: var(--display); font-size: 1.55rem; font-weight: 600; line-height: 1.2; text-decoration: none; }
 .tmCompass-menu a:hover, .tmCompass-menu a[aria-current="page"] { color: var(--accent); }
 .tmCompass-menu a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 6px; }
-.tmCompass-more { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; margin: 12px 0 0; font-size: 15px; }
-.tmCompass-more a { min-height: 42px; display: inline-flex; align-items: center; text-decoration: none; }
+.tmCompass-more { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; margin: 12px 0 0; font-size: 15.5px; }
+.tmCompass-more a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .tmCompass-menu li, .tmCompass-more { animation: tmUp 420ms var(--ease-out) backwards; }
-  .tmCompass-menu li:nth-child(2) { animation-delay: 50ms; }
-  .tmCompass-menu li:nth-child(3) { animation-delay: 100ms; }
-  .tmCompass-more { animation-delay: 150ms; }
+  .tmCompass-menu:not([hidden]) { animation: tmUp 360ms var(--ease-out) backwards; }
 }
 @keyframes tmUp { from { opacity: 0; transform: translateY(8px); } }
 
-.tmPill { position: fixed; z-index: 55; right: clamp(10px, 3vw, 30px); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 22px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; box-shadow: 0 12px 30px -14px rgba(43, 31, 23, 0.7); transition: opacity var(--dur-base) var(--ease-out), background-color var(--dur-fast); }
-.tmPill:hover { background: var(--accent); }
-.tmPill-dot { width: 8px; height: 8px; border-radius: 50%; background: #c9a25a; }
+/* the booking button names this page's service (v2's strength) and stays in the header (v1's) */
+.tmBook { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 15px; white-space: nowrap; transition: background-color var(--dur-fast); }
+.tmBook:hover { background: var(--accent); }
+.tmPill-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: #c9a25a; }
 @media (prefers-reduced-motion: no-preference) { .tmPill-dot { animation: tmPulse 2.4s ease-in-out infinite; } }
 @keyframes tmPulse { 50% { box-shadow: 0 0 0 6px rgba(201, 162, 90, 0.25); } }
 
-/* the home's last scene turns the whole screen to ink: step aside */
-html[data-ink-scene="6"] .tmBrand { opacity: 0; pointer-events: none; }
+/* phone: booking and Zalo in the thumb zone */
+.tmBar { display: none; }
+
+@media (max-width: 1279px) { .tmNav li:nth-child(n + 5) { display: none; } }
+@media (max-width: 1023px) { .tmNav { display: none; } .tmCompass { margin-left: auto; } }
+@media (max-width: 859px) {
+  .tmHead { height: 60px; }
+  .tmBrand { font-size: 1.4rem; }
+  .tmBrand img { width: 32px; height: 32px; }
+  .tmBook { display: none; }
+  .tmCompass-word--wide { display: none; }
+  .tmCompass-word--narrow { display: inline; }
+  .tmBar { position: fixed; z-index: 50; inset: auto 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); background: color-mix(in srgb, var(--raised) 94%, transparent); backdrop-filter: blur(8px); border-top: 1px solid var(--line); }
+  .tmBar a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 999px; font-weight: 500; font-size: 15.5px; text-decoration: none; }
+  .tmBar-book { flex: 1.6; background: var(--ink); color: var(--paper) !important; }
+  .tmBar-alt { flex: 1; border: 1px solid var(--accent); color: var(--accent) !important; }
+}
+
+/* the scroll painting's last scene turns the whole screen to ink: step aside */
+html[data-ink-scene="6"] .tmHead { opacity: 0; pointer-events: none; }
 
 /* footer */
-.tmFoot { --ink: #efe3d1; --muted: #b9a78f; --line: rgba(239, 227, 209, 0.18); --accent: #d6b98f; background: #1f1712; color: var(--muted); padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px) 96px; font-size: 15px; line-height: 1.6; }
+/* v1 footer painting (footer-bg.webp) under a deep ink veil: the painting shows through, the text keeps its contrast */
+.tmFoot { --ink: #efe3d1; --muted: #c4b39b; --line: rgba(239, 227, 209, 0.18); --accent: #d6b98f; background: linear-gradient(rgba(31, 23, 18, 0.88), rgba(31, 23, 18, 0.94)), url("/images/footer-bg.webp") 50% 55% / cover no-repeat #1f1712; color: var(--muted); padding: clamp(64px, 8vw, 104px) clamp(16px, 4vw, 48px) 96px; font-size: 15px; line-height: 1.6; }
 .tmFoot a { color: var(--ink); text-decoration: none; }
 .tmFoot a:hover { color: var(--accent); }
 .tmFoot-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr 1.3fr; gap: 48px; }

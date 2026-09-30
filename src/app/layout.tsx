@@ -7,6 +7,7 @@ import NavProgress from "@/components/NavProgress";
 import SiteChrome from "@/components/thuy-mac/SiteChrome";
 import InkFooter from "@/components/thuy-mac/InkFooter";
 import { SITE_URL } from "@/lib/site-url";
+import { getSiteSettings, isSafeHttpUrl } from "@/lib/site-settings";
 
 // Playfair stays for /admin and the lá số tool, which keep the v1 look.
 const heading = Playfair_Display({
@@ -59,7 +60,8 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", images: ["/og/ngoc-am.jpg"] },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSiteSettings();
   return (
     <html
       lang="vi"
@@ -79,8 +81,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <NavProgress />
         </Suspense>
         {/* /admin has its own header; the printable chart has none. */}
-        <SiteChrome />
-        <main className="flex-1">{children}</main>
+        <SiteChrome zalo={{ url: isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "", phone: settings.phone }} />
+        <main id="noi-dung" className="flex-1">{children}</main>
         <HideOnAdmin>
           <InkFooter />
         </HideOnAdmin>

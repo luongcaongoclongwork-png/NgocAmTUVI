@@ -11,6 +11,27 @@
 
 Sửa gì trong admin của v2 **không ảnh hưởng** web cũ, và ngược lại. Hai bộ dữ liệu là bản sao ngày 30/9/2026. Khi v2 chính thức thay web cũ, cần chọn giữ bộ dữ liệu nào (thường là bộ của web cũ, vì khách đặt lịch vào đó).
 
+## Nhánh `v3`: "Thuỷ Mặc Dễ Dùng" (kết hợp v1 và v2)
+Cùng thư mục này, nhánh `v3` (bản v2 nguyên vẹn vẫn nằm ở nhánh `v2`).
+- **Ảnh nền bản 1 trở lại đúng chỗ.**
+  - Trang chủ: nhà lầu Huế ở phần mở đầu. Ba con đường và Trà Đạo có ảnh trụ cột, trên nền tranh sông Hương. Các phần tiếp theo dùng lại ảnh nền bản 1: truyền nhân, dịch vụ, trải nghiệm, hậu nhân Khâm Thiên Giám kèm ảnh thư phòng, tinh thần Ngọc Âm, Sổ tay, vật phẩm.
+  - Khối đặt lịch cuối mọi trang: tranh mặc trầm.
+  - Thanh đầu trang và chân trang: `header-bg` và `footer-bg`.
+  - Vật phẩm, Bảng giá, Lập lá số: ảnh mở trang của bản 1. Lập lá số dùng `outer-bg` trải từ tiêu đề xuống form.
+  - Ảnh chỉ còn phủ nhẹ tông giấy, giữ màu gốc.
+- **Khung mới.**
+  - Thanh đầu trang có chữ (Tử Vi, Phong Thuỷ, Đại Chủ Sự, Bảng giá, Lập lá số, Sổ tay) cùng la bàn "Khám phá" chứa đủ các trang.
+  - Nút đặt lịch đổi chữ theo trang.
+  - Điện thoại: nút "Menu", và thanh đáy "Đặt lịch + Nhắn Zalo" (không có Zalo thì hiện "Gọi").
+  - Có đường tắt "Chuyển đến nội dung" cho người dùng bàn phím và trình đọc màn hình.
+- **Trang chủ mới** (`src/components/thuy-mac/home/`), không ghim trang.
+  - Màn đầu có đủ nút đặt lịch và giá khởi điểm của ba con đường.
+  - Mực loang khoảng 1 giây. Mặt nước gợn theo chuột. Máy yếu hoặc máy bật tiết kiệm dữ liệu dùng ảnh tĩnh, và hiệu ứng chỉ vẽ khi có chuyển động.
+  - Tiếp theo là dải mây và nét Cửu Đỉnh tự khắc, rồi tờ lịch (tờ hôm qua lật đi) kèm câu hỏi.
+  - Sau đó: ba con đường cùng Trà Đạo, Xuyên giả, phiên tiêu biểu, quy trình, Về Ngọc Âm, Khương – Lạc – Tịnh, Sổ tay, Vật phẩm, khối đặt lịch.
+- **Trang chủ 6 cảnh của v2** chuyển sang `/tranh-cuon` (có trong menu).
+- Hiệu ứng mở trang ở các trang con rút từ 3,2 giây còn 1,2 giây.
+
 ## Chạy
 ```bash
 npm run dev -- -p 3001

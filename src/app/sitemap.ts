@@ -17,6 +17,7 @@ const PAGES: { path: string; priority: number }[] = [
   { path: "/phat-hoc", priority: 0.6 },
   { path: "/cua-hang", priority: 0.5 },
   { path: "/ve-ngoc-am", priority: 0.6 },
+  { path: "/tranh-cuon", priority: 0.4 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

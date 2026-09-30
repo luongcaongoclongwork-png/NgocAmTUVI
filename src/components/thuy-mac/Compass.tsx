@@ -5,10 +5,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { MORE_LINKS, PATH_LINKS } from "./nav";
 
-/** The menu as a la bàn: tap it and the three paths open, with the rest of the site below them. */
+/** The full menu as a la bàn, with a word beside it ("Khám phá", or "Menu" on a phone) so nobody has to guess. */
 export default function Compass() {
   const [open, setOpen] = useState(false);
   const id = useId();
+  const root = useRef<HTMLDivElement>(null);
   const btn = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
@@ -20,16 +21,23 @@ export default function Compass() {
         btn.current?.focus();
       }
     };
+    const onDown = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false);
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onDown);
+    };
   }, [open]);
 
   const current = (href: string) => (pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined);
 
   return (
-    <div className={`tmCompass ${open ? "is-open" : ""}`}>
-      <button ref={btn} type="button" aria-expanded={open} aria-controls={id} aria-label={open ? "Đóng la bàn" : "Mở la bàn: các trang"} onClick={() => setOpen((o) => !o)} className="tmCompass-btn">
-        <svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.2">
+    <div ref={root} className={`tmCompass ${open ? "is-open" : ""}`}>
+      <button ref={btn} type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen((o) => !o)} className="tmCompass-btn">
+        <svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4">
           <circle cx="32" cy="32" r="29" />
           <circle cx="32" cy="32" r="21" strokeDasharray="1.5 3.2" />
           <circle cx="32" cy="32" r="13" />
@@ -37,8 +45,10 @@ export default function Compass() {
           <path className="tmNeedle" d="M32 14 L36 32 L32 50 L28 32 Z" fill="currentColor" fillOpacity="0.18" />
           <circle cx="32" cy="32" r="2" fill="currentColor" />
         </svg>
+        <span className="tmCompass-word tmCompass-word--wide">{open ? "Đóng" : "Khám phá"}</span>
+        <span className="tmCompass-word tmCompass-word--narrow">{open ? "Đóng" : "Menu"}</span>
       </button>
-      <nav id={id} aria-label="Các trang" className="tmCompass-menu" hidden={!open}>
+      <nav id={id} aria-label="Tất cả các trang" className="tmCompass-menu" hidden={!open}>
         <ul>
           {PATH_LINKS.map((l) => (
             <li key={l.href}>
