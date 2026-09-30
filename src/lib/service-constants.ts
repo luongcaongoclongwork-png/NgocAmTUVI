@@ -44,5 +44,5 @@ export const SERVICE_GROUPS: { value: ServiceGroup; label: string }[] = [
  */
 export function formatPrice(price: string): string {
   const p = price.trim();
-  return /d/.test(p) && !/(đ|vnđ|vnd)s*$/i.test(p) ? `${p} đ` : p;
+  return /\d/.test(p) && !/(đ|vnđ|vnd)\s*$/i.test(p) ? `${p} đ` : p;
 }
