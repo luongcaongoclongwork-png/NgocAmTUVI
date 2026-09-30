@@ -1,5 +1,6 @@
 import TuViChartGrid from "../TuViChartGrid";
 import { MobileScaleViewport } from "./MobileScaleViewport";
+import { useChartReveal } from "../useChartReveal";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 export type MobileSelection = { kind: "palace"; index: number } | { kind: "center" };
@@ -24,12 +25,13 @@ export function MobileTuViOverview({
   selection: MobileSelection;
   onSelect: (selection: MobileSelection) => void;
 }) {
+  const reveal = useChartReveal();
   return (
     <section className="mobile-tuvi-overview">
       <div className="mobile-chart-hint">Toàn cảnh lá số · Chạm một cung để xem chi tiết</div>
 
       <MobileScaleViewport>
-        <div className="mobile-tuvi-canvas">
+        <div className="mobile-tuvi-canvas" data-reveal={reveal}>
           <TuViChartGrid
             chart={chart}
             birthTime={birthTime}

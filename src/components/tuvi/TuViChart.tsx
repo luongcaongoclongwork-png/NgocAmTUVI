@@ -11,7 +11,10 @@ import { exportChartAsImage, exportChartAsPdf } from "@/lib/tuvi/export/chartExp
 import { generateHoroscope } from "@/lib/tuvi/engine/chartEngine";
 import A4TuViPrintRenderer from "./print/A4TuViPrintRenderer";
 import type { BirthInput, VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
+import { useChartReveal } from "./useChartReveal";
 import "./ngocAmChart.css";
+// the grid entrance shared with the Xuyên Tam Diệm chart (scoped to data-reveal, never print/export)
+import "./xtd/xtdMotion.css";
 import "./mobile/tuviMobile.css";
 
 function exportFileBaseName(chart: VietnameseChartDTO): string {
@@ -33,6 +36,7 @@ export default function TuViChart({
   /** "Năm xem" — the stepper for this lives in BirthForm's "Thông tin lá số" card, not here. */
   targetYear?: number;
 }) {
+  const reveal = useChartReveal();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
@@ -183,7 +187,7 @@ export default function TuViChart({
               type="button"
               title="Xuất ảnh"
               onClick={handleExportImage}
-              disabled={exporting !== null}
+              disabled={exporting !== null || reveal !== undefined}
               className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "image" ? "Đang xuất…" : "Xuất ảnh"}
@@ -235,7 +239,7 @@ export default function TuViChart({
       <div className="h-0 overflow-hidden opacity-0 md:h-auto md:overflow-visible md:opacity-100">
         <div className="ngoc-am-chart-scroll">
           <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px` }}>
-            <section className="ngoc-am-chart">
+            <section className="ngoc-am-chart" data-reveal={reveal}>
               <TuViChartGrid
                 chart={chart}
                 birthTime={birthTime}

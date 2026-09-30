@@ -105,8 +105,11 @@ export default function TuViChartGrid({
     return undefined;
   }
 
+  // palaces are brushed on in an-cung order from Mệnh (xtd/xtdMotion.css)
+  const soulIndex = chart.palaces.find((p) => p.isSoulPalace)?.index ?? 0;
+
   const center = (
-    <div style={{ gridArea: CENTER_GRID_AREA }}>
+    <div className="rv-center" style={{ gridArea: CENTER_GRID_AREA }}>
       <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} printSeal={centerPrintSeal} />
     </div>
   );
@@ -128,7 +131,16 @@ export default function TuViChartGrid({
         {chart.palaces.map((p) => {
           const palaceHoroscope = buildPalaceHoroscopeView(horoscope, p.index);
           return (
-            <div key={p.index} style={{ gridArea: `${BRANCH_GRID_POSITION[p.branch].row} / ${BRANCH_GRID_POSITION[p.branch].col} / span 1 / span 1` }}>
+            <div
+              key={p.index}
+              className="rv-cell"
+              style={
+                {
+                  gridArea: `${BRANCH_GRID_POSITION[p.branch].row} / ${BRANCH_GRID_POSITION[p.branch].col} / span 1 / span 1`,
+                  "--rv-i": (p.index - soulIndex + 12) % 12,
+                } as CSSProperties
+              }
+            >
               <PalaceCell
                 palace={p}
                 selected={selectedIndex === p.index}
@@ -150,7 +162,7 @@ export default function TuViChartGrid({
             aria-pressed={centerSelected}
             aria-label="Trung cung — thông tin lá số. Chạm để xem chi tiết."
             data-selected={centerSelected || undefined}
-            className="center-palace-trigger"
+            className="center-palace-trigger rv-center"
             style={{ gridArea: CENTER_GRID_AREA }}
           >
             <CenterPalace chart={chart} birthTime={birthTime} horoscope={horoscope ?? undefined} printSeal={centerPrintSeal} />

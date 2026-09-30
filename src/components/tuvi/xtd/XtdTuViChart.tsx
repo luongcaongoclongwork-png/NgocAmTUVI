@@ -115,7 +115,7 @@ export default function XtdTuViChart({
   }, [revealPhase]);
   useEffect(() => {
     if (revealPhase !== "run") return;
-    const t = setTimeout(() => setRevealPhase("off"), 2000);
+    const t = setTimeout(() => setRevealPhase("off"), 2600);
     return () => clearTimeout(t);
   }, [revealPhase]);
 

@@ -97,7 +97,7 @@ export default function AspectOverlay({
     <svg
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      className="rv-late pointer-events-none absolute inset-0 h-full w-full"
       aria-hidden="true"
     >
       {lines.map((line, i) => {

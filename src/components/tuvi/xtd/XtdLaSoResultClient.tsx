@@ -6,7 +6,7 @@ import XtdTuViChart from "./XtdTuViChart";
 import TargetYearStepper from "../TargetYearStepper";
 import { loadChartInput, saveChartInput, type StoredChartInput } from "@/lib/tuvi/storage/chartInputStorage";
 import { generateChart } from "@/lib/tuvi/engine/chartEngine";
-import { clearReveal, peekReveal } from "./xtdMotion";
+import { clearReveal } from "./xtdMotion";
 import type { VietnameseChartDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 type LoadState =
@@ -27,7 +27,8 @@ export default function XtdLaSoResultClient() {
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [targetYear, setTargetYear] = useState<number | null>(null);
   // Came from the form's submit? (the flag is only PEEKED here — idempotent under StrictMode — and cleared once the chart is up)
-  const [reveal] = useState(() => (typeof window === "undefined" ? false : peekReveal()));
+  // the ink entrance plays on every visit, like every other page (reduced motion: skipped in XtdTuViChart)
+  const reveal = true;
 
   useEffect(() => {
     const saved = loadChartInput();
