@@ -237,6 +237,51 @@
 .ipTool .ipToolSubmit { height: 56px; border-radius: 999px; border-color: var(--ink); background: var(--ink); font-size: 15.5px; text-transform: none; letter-spacing: 0.02em; }
 .ipTool .ipToolSubmit:hover { background: var(--accent); }
 
-.ipResult { padding: 76px 0 48px; background: var(--paper); }
+.ipResult { padding: 68px 0 0; background: var(--paper); }
 .ipResult .ipToolH1 { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 500; color: var(--accent); }
 .ipResult .la-so-result-page { padding-top: 32px; }
+
+/* the result page and the form share the site's controls: sentence case, rounded, ink on paper */
+:is(.ipResult, .ipTool) :is(.ipToolAct, .ipToolBack, .ipToolYear) { text-transform: none; letter-spacing: 0; }
+:is(.ipResult, .ipTool) .ipToolAct { height: 44px; padding: 0 18px; border-radius: 999px; border-color: var(--line); background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink); font-size: 15px; font-weight: 500; transition: border-color var(--dur-fast), background-color var(--dur-fast), color var(--dur-fast); }
+:is(.ipResult, .ipTool) .ipToolAct:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--raised); }
+:is(.ipResult, .ipTool) .ipToolBack { min-height: 44px; font-size: 15px; font-weight: 500; color: var(--accent); }
+:is(.ipResult, .ipTool) .ipToolBack:hover { color: var(--ink); }
+:is(.ipResult, .ipTool) .ipToolYear { font-size: 15px; color: var(--muted); }
+:is(.ipResult, .ipTool) .ipToolYear span { font-family: var(--num); font-size: 1.35rem; color: var(--accent); }
+:is(.ipResult, .ipTool) .ipToolStep { border-radius: 50%; border-color: var(--line); color: var(--ink); }
+:is(.ipResult, .ipTool) .ipToolStep:hover { border-color: var(--accent); color: var(--accent); }
+.ipResult .ipToolHint { font-size: 14px; color: var(--muted); }
+.ipResult .ipToolState p { font-family: var(--display); font-size: 1.5rem; text-transform: none; letter-spacing: 0; color: var(--accent); }
+.ipResult .ipToolH1 span { font-family: var(--display); color: var(--muted); }
+
+/* same entrance as every other page: the title is brushed on, then the tools fade in */
+@media (prefers-reduced-motion: no-preference) {
+  .js .ipResult .ipToolH1 { animation: ipBrush 0.9s cubic-bezier(0.6, 0, 0.2, 1) 0.2s backwards; }
+  .js .ipResult .ipToolBack, .js .ipResult .ipToolYear, .js .ipResult .ipToolHint, .js .ipResult .ipToolAct { animation: ipFade 0.8s ease 0.6s backwards; }
+  .js .ipResult .ipToolState p { animation: ipFade 1.4s ease-in-out infinite alternate; }
+}
+
+/* 404 and error pages */
+.ipWays { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin: 0; }
+.ipWays button { border: 0; cursor: pointer; font: inherit; }
+.ipOops { padding-top: 60px; }
+
+/* ---------- Liên hệ: v1's form, in the site's voice (sentence case, ink buttons) ---------- */
+.lienhe-v2 .uppercase { text-transform: none; }
+.lienhe-v2 .tracking-label { letter-spacing: 0; }
+.lienhe-v2 .font-heading { font-family: var(--display); }
+.lienhe-v2 h2.tracking-label, .lienhe-v2 p.tracking-label { font-family: var(--display); font-size: 1.35rem; font-weight: 600; color: var(--accent); }
+.lienhe-v2 button[type="submit"] { height: 54px; padding: 0 30px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 15.5px; }
+.lienhe-v2 button[type="submit"]:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
+@media (prefers-reduced-motion: no-preference) {
+  .js .lienhe-v2 { animation: ipRise 0.8s var(--ease-out) 0.5s backwards; }
+}
+
+/* ---------- article: the same entrance as every other page ---------- */
+.ipArticle-cover img { filter: sepia(0.12) saturate(0.92); }
+@media (prefers-reduced-motion: no-preference) {
+  .js .ipArticle-head h1 { animation: ipBrush 0.9s cubic-bezier(0.6, 0, 0.2, 1) 0.2s backwards; }
+  .js .ipArticle-meta, .js .ipArticle-excerpt { animation: ipFade 0.8s ease 0.6s backwards; }
+  .js .ipArticle-cover { animation: ipBleed 1.2s cubic-bezier(0.5, 0, 0.3, 1) 0.3s both; -webkit-mask-image: radial-gradient(circle at 30% 70%, #000 var(--ipr), transparent calc(var(--ipr) + 22%)); mask-image: radial-gradient(circle at 30% 70%, #000 var(--ipr), transparent calc(var(--ipr) + 22%)); }
+}

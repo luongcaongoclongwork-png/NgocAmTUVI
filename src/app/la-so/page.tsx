@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/components/thuy-mac/kit.css";
+import { InkClose } from "@/components/thuy-mac/kit";
 import LaSoResultClient from "@/components/tuvi/LaSoResultClient";
 
 export const metadata: Metadata = {
@@ -8,10 +8,16 @@ export const metadata: Metadata = {
 };
 
 export default function LaSoPage() {
-  // paper, and room for the floating brand and la bàn above the chart
+  // paper under the fixed header; the chart, then an invitation to read it with a Xuyên giả
   return (
     <div className="ip ipResult">
       <LaSoResultClient />
+      <InkClose
+        title="Tấm bản đồ đã có, cùng đọc nó với Xuyên giả."
+        text="Một phiên Xuyên vấn luận Diệm Bản này theo câu hỏi và hoàn cảnh của bạn."
+        href="/lien-he?topic=tu-vi"
+        label="Đặt phiên luận Diệm Bản"
+      />
     </div>
   );
 }

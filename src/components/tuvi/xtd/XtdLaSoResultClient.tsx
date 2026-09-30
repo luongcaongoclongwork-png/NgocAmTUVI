@@ -51,7 +51,7 @@ export default function XtdLaSoResultClient() {
 
   if (state.status === "loading") {
     return (
-      <div className="mx-auto max-w-[1320px] px-6 py-24 text-center lg:px-10">
+      <div className="ipToolState mx-auto max-w-[1320px] px-6 py-24 text-center lg:px-10">
         <p className="tracking-label text-[13px] font-medium uppercase text-walnut/60">Đang lập lá số…</p>
       </div>
     );
@@ -59,14 +59,14 @@ export default function XtdLaSoResultClient() {
 
   if (state.status === "error") {
     return (
-      <div className="mx-auto max-w-[1320px] px-6 py-24 text-center lg:px-10">
+      <div className="ipToolState mx-auto max-w-[1320px] px-6 py-24 text-center lg:px-10">
         <p className="text-[15px] font-medium text-lacquer">
           Không thể lập lá số với thông tin đã lưu. Vui lòng kiểm tra lại ngày giờ sinh và thử lại.
         </p>
         <button
           type="button"
           onClick={() => router.push("/lap-la-so")}
-          className="tracking-label mt-6 inline-flex h-11 items-center border border-walnut/30 px-4 text-[13px] uppercase text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+          className="ipToolAct tracking-label mt-6 inline-flex h-11 items-center border border-walnut/30 px-4 text-[13px] uppercase text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
         >
           ← Quay lại nhập thông tin
         </button>
@@ -86,12 +86,12 @@ export default function XtdLaSoResultClient() {
 
   return (
     <div className="la-so-result-page mx-auto max-w-[1320px] px-6 py-16 lg:px-10">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+      <div className="ipToolHead mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <button
             type="button"
             onClick={() => router.push("/lap-la-so")}
-            className="tracking-label mb-1.5 flex items-center gap-1.5 text-[11px] font-medium uppercase text-walnut/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+            className="ipToolBack tracking-label mb-1.5 flex items-center gap-1.5 text-[11px] font-medium uppercase text-walnut/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
           >
             <span aria-hidden="true">←</span> Chỉnh thông tin
           </button>

@@ -31,8 +31,10 @@ export type Booking = { label: string; short: string; href: string };
 
 /** What the booking button says (and where it goes) on each page; `short` fits the phone's bottom bar. */
 export function bookingFor(pathname: string): Booking | null {
-  // the form is already here; on a lá số chart it would cover the palaces; the scroll painting has its own
-  if (pathname.startsWith("/lien-he") || pathname.startsWith("/la-so") || pathname.startsWith("/tranh-cuon")) return null;
+  // the form is already here; the scroll painting has its own
+  if (pathname.startsWith("/lien-he") || pathname.startsWith("/tranh-cuon")) return null;
+  // after a chart: read it with a Xuyên giả (the button sits in the header now, never over the palaces)
+  if (pathname.startsWith("/la-so") || pathname.startsWith("/lap-la-so")) return { label: "Đặt phiên luận lá số", short: "Luận lá số", href: "/lien-he?topic=tu-vi" };
   if (pathname.startsWith("/phong-thuy")) return { label: "Đặt lịch tư vấn Phong Thuỷ", short: "Đặt lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
   if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt lịch Đại Chủ Sự", short: "Đặt lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
   if (pathname.startsWith("/cua-hang") || pathname.startsWith("/tra-dao")) return { label: "Hỏi về vật phẩm", short: "Hỏi về vật phẩm", href: "/lien-he?topic=vat-pham" };

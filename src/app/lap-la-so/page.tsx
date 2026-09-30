@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import LapLaSoClient from "@/components/tuvi/LapLaSoClient";
-import { InkHero, InkPage } from "@/components/thuy-mac/kit";
+import { InkClose, InkHero, InkPage } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = {
   title: "Lập Lá Số Tử Vi — Ngọc Âm",
@@ -27,6 +27,12 @@ export default function LapLaSoPage() {
         <LapLaSoClient />
       </div>
       </div>
+      <InkClose
+        title="Lá số là tấm bản đồ, Xuyên vấn là cùng đọc nó."
+        text="Muốn hiểu sâu Diệm Bản của mình, hãy đặt một phiên cùng Xuyên giả."
+        href="/lien-he?topic=tu-vi"
+        label="Đặt phiên Xuyên vấn"
+      />
     </InkPage>
   );
 }

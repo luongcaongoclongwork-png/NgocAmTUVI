@@ -181,7 +181,7 @@ export default function XtdTuViChart({
     <XtdRevealContext.Provider value={revealPhase}>
     <div className="ngoc-am-chart-root flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="hidden text-[13px] text-walnut/70 md:block">
+        <p className="ipToolHint hidden text-[13px] text-walnut/70 md:block">
           Chạm vào một khám để xem {XTD_RELATION_LABELS.tamHop} (viền vàng, nét đứt), {XTD_RELATION_LABELS.xungChieu} (viền đỏ, nét liền) và {XTD_RELATION_LABELS.giapCung} (viền lục, nét chấm).
         </p>
         <div className="flex flex-wrap items-center gap-3">
@@ -191,7 +191,7 @@ export default function XtdTuViChart({
               title="Xuất ảnh"
               onClick={handleExportImage}
               disabled={exporting !== null || revealPhase !== "off"}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "image" ? "Đang xuất…" : "Xuất ảnh"}
             </button>
@@ -200,7 +200,7 @@ export default function XtdTuViChart({
               title="Xuất PDF"
               onClick={handleExportPdf}
               disabled={exporting !== null}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "pdf" ? "Đang xuất…" : "Xuất PDF"}
             </button>
@@ -208,7 +208,7 @@ export default function XtdTuViChart({
               type="button"
               title="In lá số"
               onClick={handlePrint}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+              className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
             >
               In lá số
             </button>

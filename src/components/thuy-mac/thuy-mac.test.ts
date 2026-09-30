@@ -44,7 +44,7 @@ describe("site chrome", () => {
     expect(bookingFor("/")?.href).toBe("/lien-he");
     expect(bookingFor("/tranh-cuon")).toBeNull();
     expect(bookingFor("/lien-he")).toBeNull();
-    expect(bookingFor("/la-so/xuyen-tam-diem")).toBeNull();
+    expect(bookingFor("/la-so/xuyen-tam-diem")?.short).toBe("Luận lá số");
   });
 
   it("draws no chrome on admin or the print sheet", () => {
