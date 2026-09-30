@@ -1,14 +1,15 @@
 import Link from "next/link";
 
 const DRAFTS = [
-  { id: "d", name: "D · Lịch Khâm Thiên Giám" },
+  { id: "e", name: "E · Thuỷ Mặc Sống" },
+  { id: "d", name: "D" },
   { id: "a", name: "A" },
   { id: "b", name: "B" },
   { id: "c", name: "C" },
 ];
 
 /** Fixed switcher on every draft, so the owner can flip between directions. */
-export default function DraftBar({ current }: { current: "a" | "b" | "c" | "d" }) {
+export default function DraftBar({ current }: { current: "a" | "b" | "c" | "d" | "e" }) {
   return (
     <nav
       aria-label="Chọn hướng giao diện"

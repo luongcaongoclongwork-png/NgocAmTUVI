@@ -1,0 +1,142 @@
+/* Hướng E · Thuỷ Mặc Sống — one ink painting the visitor scrolls into.
+   Deliberately a single light look: it is a painting on dó paper.
+   Scroll drives --s1/--s2/--s3 (each scene's 0→1) set by InkHome.tsx. */
+.eInk {
+  --ink: #2b1f17; --muted: #5a4738; --paper: #ece2ce; --accent: #6b4a2f; --line: rgba(107, 74, 47, 0.35);
+  --display: var(--de-display), "Cormorant Garamond", Georgia, serif;
+  --p: 0; --s1: 0; --s2: 0; --s2b: 0; --s2d: 0; --s3: 0; --s3d: 0;
+  color-scheme: light;
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; line-height: 1.6;
+}
+.eInk a { color: inherit; }
+.eInk a:focus-visible, .eInk button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.eInk h1, .eInk h2 { font-family: var(--display); font-weight: 600; line-height: 1.08; margin: 0; text-wrap: balance; }
+
+/* chrome */
+.eBrand { position: fixed; z-index: 50; top: 18px; left: clamp(16px, 3vw, 36px); display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-size: 1.5rem; font-weight: 600; }
+.eCompass { position: fixed; z-index: 55; top: 12px; right: clamp(12px, 3vw, 32px); display: flex; flex-direction: column; align-items: flex-end; }
+.eCompass-btn { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(4px); color: var(--ink); padding: 6px; cursor: pointer; }
+.eCompass-btn svg { width: 100%; height: 100%; }
+.eNeedle { transform-origin: 32px 32px; transform: rotate(calc(var(--p) * 540deg)); }
+.eCompass.is-open .eNeedle { transform: rotate(0deg); transition: transform var(--dur-slow) var(--ease-out); }
+.eCompass-menu { margin-top: 10px; min-width: 280px; background: var(--paper); border: 1px solid var(--line); padding: 10px 22px 16px; box-shadow: 0 18px 40px -24px rgba(43, 31, 23, 0.5); }
+.eCompass-menu ul { list-style: none; margin: 0; padding: 0; }
+.eCompass-menu li { border-bottom: 1px solid var(--line); }
+.eCompass-menu li a { display: block; padding: 14px 0; font-family: var(--display); font-size: 1.5rem; font-weight: 600; text-decoration: none; }
+.eCompass-menu li a:hover { color: var(--accent); }
+.eCompass-more { display: flex; gap: 18px; margin: 12px 0 0; font-size: 15px; }
+.eCompass-more a { min-height: 40px; display: inline-flex; align-items: center; }
+@media (prefers-reduced-motion: no-preference) {
+  .eCompass-menu li { animation: eFadeUp 420ms var(--ease-out) backwards; }
+  .eCompass-menu li:nth-child(2) { animation-delay: 60ms; }
+  .eCompass-menu li:nth-child(3) { animation-delay: 120ms; }
+}
+
+.ePill { position: fixed; z-index: 55; right: clamp(12px, 3vw, 32px); bottom: calc(66px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 10px; min-height: 50px; padding: 0 22px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; box-shadow: 0 12px 30px -14px rgba(43, 31, 23, 0.7); transition: background-color var(--dur-fast); }
+.ePill:hover { background: var(--accent); }
+.ePill-dot { width: 8px; height: 8px; border-radius: 50%; background: #c9a25a; }
+@media (prefers-reduced-motion: no-preference) { .ePill-dot { animation: ePulse 2.4s ease-in-out infinite; } }
+@keyframes ePulse { 50% { box-shadow: 0 0 0 6px rgba(201, 162, 90, 0.25); } }
+
+/* the pinned stage */
+.eTrack { position: relative; height: 520vh; }
+.eStage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.eStill { object-fit: cover; object-position: 50% 60%; }
+.js .eInk:not([data-mode="still"]) .eStill { opacity: 0; }
+.eCanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 400ms; }
+.eInk[data-mode="ink"] .eCanvas { opacity: 1; }
+@media (max-width: 700px) { .eStill { object-position: 80% 60%; } }
+
+.eScene { position: absolute; inset: 0; pointer-events: none; }
+.eInk[data-scene="1"] .eS1, .eInk[data-scene="2"] .eS2, .eInk[data-scene="3"] .eS3 { pointer-events: auto; }
+
+/* scene 1: three hanging boards, written in on arrival */
+.eS1 { opacity: calc(1 - var(--s1) * 1.7); transform: translateY(calc(var(--s1) * -14vh)); }
+.eS1-head { position: absolute; top: max(96px, 13vh); left: clamp(16px, 8vw, 132px); display: flex; flex-direction: column; gap: clamp(20px, 3vh, 36px); }
+.eBoards { display: flex; align-items: flex-start; gap: clamp(14px, 2vw, 28px); font-size: clamp(2.2rem, 4.4vw, 4.1rem); font-weight: 600; }
+/* hanging scrolls: a wooden rod top and bottom, paper fading into the painting */
+.eBoard { position: relative; display: flex; flex-direction: column; align-items: center; padding: 0.42em 0.26em 0.5em; background: linear-gradient(rgba(240, 232, 216, 0.9), rgba(240, 232, 216, 0.55)); }
+.eBoard::before, .eBoard::after { content: ""; position: absolute; left: -7px; right: -7px; height: 5px; border-radius: 3px; background: #4a3526; }
+.eBoard::before { top: -3px; }
+.eBoard::after { bottom: -3px; height: 4px; left: -4px; right: -4px; }
+.eBoard:nth-child(2) { margin-top: 0.7em; }
+.eBoard:nth-child(3) { margin-top: 1.4em; }
+.eBoard > span { display: block; }
+.js .eInk .eBoard { clip-path: inset(0 0 100% 0); }
+.eInk.is-intro .eBoard { clip-path: inset(0 0 0 0); }
+@media (prefers-reduced-motion: no-preference) {
+  .eInk.is-intro .eBoard { animation: eBrush 1.3s cubic-bezier(0.6, 0, 0.2, 1) backwards; }
+  .eInk.is-intro .eBoard:nth-child(2) { animation-delay: 0.3s; }
+  .eInk.is-intro .eBoard:nth-child(3) { animation-delay: 0.6s; }
+}
+@keyframes eBrush { from { clip-path: inset(0 0 100% 0); } }
+.eS1-sub { max-width: 24em; margin: 0; text-shadow: 0 0 14px rgba(236, 226, 206, 0.9); font-family: var(--display); font-style: italic; font-size: clamp(1.15rem, 1.8vw, 1.45rem); color: var(--ink); }
+.js .eInk .eS1-sub, .js .eInk .eHint { opacity: 0; transition: opacity 1s 1.2s; }
+.eInk.is-intro .eS1-sub, .eInk.is-intro .eHint { opacity: 1; }
+.eHint { position: absolute; left: 50%; bottom: 9vh; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0; font-size: 14px; color: var(--muted); }
+.eHint span { width: 1px; height: 38px; background: linear-gradient(var(--ink), transparent); }
+@media (prefers-reduced-motion: no-preference) { .eHint span { animation: eDrip 2.2s ease-in-out infinite; transform-origin: top; } }
+@keyframes eDrip { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+@media (max-width: 700px) { .eS1-head { right: 16px; } .eS1-sub { font-size: 1.1rem; } .eHint { bottom: 14vh; } }
+
+/* scene 2: through the clouds; the urn engravings carve themselves */
+/* clouds rush past the camera: they grow and leave the frame, fading before they reach the text */
+.eClouds { position: absolute; inset: 0; pointer-events: none; opacity: calc(var(--s2b) * (1 - var(--s2) * 0.6)); color: rgba(107, 74, 47, 0.38); }
+.eCloud { position: absolute; left: -10%; width: 120% !important; transform-origin: 50% 50%; }
+.eCloud--1 { top: 6%; transform: translateY(calc(var(--s2) * -30vh)) scale(calc(1.6 + var(--s2) * 3)); }
+.eCloud--2 { top: 58%; transform: translateX(calc(var(--s2) * -12vw)) scale(calc(1.2 + var(--s2) * 1.8)); opacity: 0.7; }
+.eCloud--3 { top: 90%; transform: translateY(calc(var(--s2) * 20vh)) scale(calc(1.4 + var(--s2) * 2.4)); opacity: 0.8; }
+.eS2 { opacity: var(--s2b); }
+.eEngrave { position: absolute; left: 50%; bottom: 0; width: min(1200px, 150vw); max-height: 44vh; transform: translateX(-50%); color: var(--accent); --orn-fill: #ece2ce; -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
+.eInk .eEngrave .draw { stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--s2d)); }
+.eS2-text { position: absolute; top: 17vh; text-shadow: 0 0 22px #ece2ce, 0 0 8px #ece2ce; left: 50%; transform: translate(-50%, calc((0.5 - var(--s2)) * 8vh)); width: min(900px, calc(100vw - 32px)); text-align: center; }
+.eS2-text h2 { font-size: clamp(2.4rem, 6.2vw, 5.4rem); font-weight: 500; }
+.eS2-text p { margin: 20px auto 0; max-width: 34em; font-family: var(--display); font-style: italic; font-size: clamp(1.2rem, 2vw, 1.6rem); line-height: 1.45; }
+
+/* scene 3: one river, three branches */
+.eS3 { opacity: clamp(0, calc(var(--s3) * 3), 1); }
+.eS3-h { position: absolute; top: max(92px, 11vh); left: 50%; transform: translateX(-50%); width: min(900px, calc(100vw - 32px)); text-align: center; font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 500; }
+.eRiver { position: absolute; left: 50%; bottom: 5vh; width: min(1000px, 94vw); aspect-ratio: 1000 / 600; transform: translateX(-50%); }
+.eRiver-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.eBranch-line, .eBranch-wash { stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--s3d)); transition: stroke-width var(--dur-base) var(--ease-out), stroke var(--dur-base); }
+.eBranch-line { stroke: #3a2a1e; stroke-width: 2.4; }
+.eBranch-wash { stroke: rgba(58, 42, 30, 0.13); stroke-width: 26; }
+.eBranch.is-hot .eBranch-line { stroke-width: 4.5; }
+.eBranch.is-hot .eBranch-wash { stroke: rgba(58, 42, 30, 0.26); stroke-width: 46; }
+
+.eForks { list-style: none; margin: 0; padding: 0; }
+.eFork { position: absolute; transform: translate(-50%, -100%); width: min(300px, 30vw); opacity: clamp(0, calc((var(--s3) - 0.5) * 4), 1); }
+.eFork--tu-vi { left: 17%; top: 28.3%; }
+.eFork--phong-thuy { left: 50%; top: 21.7%; }
+.eFork--dai-chu-su { left: 83%; top: 28.3%; }
+.eFork a { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: 14px 12px 26px; text-decoration: none; }
+.eFork-icon { width: 42px; height: 42px; color: var(--accent); }
+.eFork b { font-family: var(--display); font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 600; line-height: 1.15; }
+.eFork span { color: var(--muted); font-size: 15px; }
+.eFork small { font-size: 15px; font-weight: 600; margin-top: 4px; }
+.eFork a:hover b, .eFork a:focus-visible b { color: var(--accent); }
+.eBlot { position: absolute; left: 50%; bottom: -9px; width: 20px; height: 20px; margin-left: -10px; border-radius: 50%; background: radial-gradient(circle, #2b1f17 30%, rgba(43, 31, 23, 0.35) 62%, transparent 72%); transform: scale(0.5); transition: transform var(--dur-base) var(--ease-out); }
+.eFork a:hover .eBlot, .eFork a:focus-visible .eBlot { transform: scale(1.6); }
+
+@media (max-width: 760px) {
+  .eS3-h { top: 84px; }
+  .eRiver { bottom: auto; top: calc(84px + 22vw + 40px); width: 70vw; }
+  .eForks { position: absolute; top: calc(100% + 8px); left: -15vw; width: 100vw; display: grid; gap: 0; }
+  .eFork { position: static; transform: none; width: auto; }
+  .eFork a { flex-direction: row; flex-wrap: wrap; text-align: left; align-items: center; gap: 2px 12px; padding: 10px 20px; border-top: 1px solid var(--line); }
+  .eFork-icon { width: 32px; height: 32px; }
+  .eFork span { flex-basis: 100%; }
+  .eBlot { display: none; }
+}
+
+/* after the painting */
+.eNext { padding: 18vh clamp(16px, 5vw, 64px) 22vh; text-align: center; background: var(--paper); }
+.eNext-kicker { color: var(--muted); margin: 0 0 14px; }
+.eNext h2 { max-width: 22em; margin: 0 auto; font-size: clamp(1.8rem, 3.6vw, 2.8rem); font-weight: 500; }
+.eLink { display: inline-flex; min-height: 44px; align-items: center; margin-top: 22px; color: var(--accent) !important; text-decoration: underline; text-underline-offset: 6px; }
+
+@keyframes eFadeUp { from { opacity: 0; transform: translateY(8px); } }
+
+/* the draft switcher wraps to two rows on phones; keep the pill above it */
+@media (max-width: 600px) { .ePill { bottom: calc(104px + env(safe-area-inset-bottom, 0px)); } }
