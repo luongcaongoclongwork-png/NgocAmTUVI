@@ -15,7 +15,7 @@ export function isAdminPath(pathname: string | null): boolean {
  */
 export default function HideOnAdmin({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  // /thu-nghiem/* are the v2 redesign drafts; each draws its own header and footer.
-  const isDraft = !!pathname && pathname.startsWith("/thu-nghiem");
-  return isAdminPath(pathname) || isDraft ? null : children;
+  // The Thuỷ Mặc home draws its own compass menu and footer.
+  const ownChrome = pathname === "/";
+  return isAdminPath(pathname) || ownChrome ? null : children;
 }

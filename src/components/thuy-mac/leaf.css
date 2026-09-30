@@ -1,37 +1,11 @@
-/* Hướng D · Lịch Khâm Thiên Giám — the first screen is today's calendar leaf
-   beside one question. One orchestrated moment: yesterday's leaf turns away. */
-.dD {
-  --ink: #2b1f17; --muted: #6e5a49; --paper: #efe5d5; --raised: #f7f0e4; --line: #d8c7af;
-  --accent: #6b4a2f; --accent-soft: #e6d6bf; --bronze: #94733a;
-  --num: var(--dd-num), "Noto Serif Display", Georgia, serif;
-  --display: var(--dd-display), "Cormorant Garamond", Georgia, serif;
-  --han: "Noto Serif TC", "Songti TC", "MingLiU", "PMingLiU", "SimSun", serif;
-  background: var(--paper); color: var(--ink);
-  font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; line-height: 1.65;
-  min-height: 100vh; padding-bottom: 72px;
-}
-@media (prefers-color-scheme: dark) {
-  .dD { --ink: #efe3d1; --muted: #b39e87; --paper: #1b1410; --raised: #251c16; --line: #3b2e24; --accent: #d6b98f; --accent-soft: #33271e; --bronze: #c9a25a; }
-}
-.dD a { color: inherit; }
-.dD a:focus-visible, .dD button:focus-visible, .dD summary:focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
-.dD h1, .dD h2 { font-family: var(--display); font-weight: 600; color: var(--accent); line-height: 1.12; text-wrap: balance; margin: 0; }
-
-.dD-head { display: flex; align-items: center; gap: 28px; padding: 14px clamp(16px, 4vw, 48px); }
-.dD-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-size: 1.45rem; font-weight: 600; color: var(--accent); }
-.dD-nav { display: flex; gap: 26px; margin-left: auto; font-size: 15px; }
-.dD-nav a { text-decoration: none; padding: 10px 0; }
-.dD-nav a:hover { color: var(--accent); }
-@media (max-width: 900px) { .dD-nav { display: none; } .dD-head .dD-btn--small { margin-left: auto; } }
+/* Tờ lịch (calendar leaf), the question and its answers — used by scene 4 of
+   the Thuỷ Mặc home. Tokens come from .eInk (thuy-mac.css). */
 
 .dD-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 22px; background: var(--accent); color: var(--paper) !important; text-decoration: none; font-weight: 500; border-radius: 2px; white-space: nowrap; }
 .dD-btn:hover { background: color-mix(in srgb, var(--accent) 85%, var(--ink)); }
 .dD-btn--small { min-height: 42px; padding: 0 16px; font-size: 15px; }
 .dD-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent) !important; text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 6px; }
 
-/* first screen: leaf + question */
-.dD-first { display: grid; grid-template-columns: minmax(320px, 440px) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; max-width: 1280px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 48px) 0; }
-@media (max-width: 860px) { .dD-first { grid-template-columns: minmax(0, 1fr); } }
 
 .dD-leafstack { position: relative; perspective: 1800px; }
 .dD-leaf {
@@ -69,16 +43,6 @@
 .dD-line { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: 1.3rem; line-height: 1.45; color: var(--ink); }
 .dD-caption { margin: 22px 0 0; color: var(--muted); font-size: 14px; text-align: center; }
 
-/* yesterday's leaf lies on top and turns away once */
-.dD-leaf--turn { position: absolute; inset: 0 0 auto 0; height: calc(100% - 44px); overflow: hidden; transform-origin: 50% 0; backface-visibility: hidden; pointer-events: none; opacity: 0; }
-@media (prefers-reduced-motion: no-preference) {
-  .dD-leaf--turn { opacity: 1; animation: dD-turn 1.25s cubic-bezier(0.55, 0, 0.75, 0.3) 0.6s forwards; }
-}
-@keyframes dD-turn {
-  70% { opacity: 1; }
-  to { transform: rotateX(-110deg) translateY(-20px); opacity: 0; visibility: hidden; }
-}
-
 /* phones: a shorter leaf so the question comes sooner */
 @media (max-width: 600px) {
   .dD-leaf { padding-top: 30px; }
@@ -108,7 +72,7 @@
 .dD-reply { font-family: var(--display); font-style: italic; font-size: clamp(1.35rem, 2.2vw, 1.7rem); line-height: 1.45; margin: 18px 0 0; max-width: 32em; }
 .dD-offers { list-style: none; margin: 24px 0 0; padding: 0; }
 .dD-offers li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; padding: 20px 0; border-top: 1px solid var(--line); }
-.dD-offers h2 { font-size: 1.4rem; }
+.dD-offers h3 { font-size: 1.4rem; }
 .dD-offers p { margin: 6px 0 0; color: var(--muted); }
 .dD-offers .dD-offer-note { color: var(--accent); font-size: 15px; }
 .dD-offer-buy { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-variant-numeric: tabular-nums; }
@@ -122,30 +86,6 @@
 .dD-who span { display: flex; flex-direction: column; font-size: 15px; color: var(--muted); }
 .dD-who b { color: var(--ink); }
 
-/* below the first screen */
-.dD-house, .dD-notes, .dD-prices { max-width: 1280px; margin: 0 auto; padding: clamp(88px, 11vw, 144px) clamp(16px, 4vw, 48px) 0; }
-.dD-house { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
-.dD-house h2, .dD-notes h2, .dD-prices h2 { font-size: clamp(2rem, 3.6vw, 2.8rem); }
-.dD-house-lead { font-family: var(--display); font-size: clamp(1.35rem, 2.2vw, 1.65rem); line-height: 1.45; margin: 16px 0 0; }
-.dD-house p { max-width: 34em; }
-.dD-house-text > p:last-child { color: var(--muted); }
-.dD-doors { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.dD-doors li { border-bottom: 1px solid var(--line); }
-.dD-doors a { display: flex; gap: 20px; align-items: center; padding: 20px 0; text-decoration: none; }
-.dD-doors a:hover b { color: var(--accent); text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 5px; }
-.dD-door-icon { width: 48px; height: 48px; flex: none; color: var(--bronze); }
-.dD-doors span { display: flex; flex-direction: column; color: var(--muted); }
-.dD-doors b { font-family: var(--display); font-size: 1.5rem; font-weight: 600; color: var(--ink); }
-@media (max-width: 860px) { .dD-house { grid-template-columns: minmax(0, 1fr); } }
-
-.dD-notes ol { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); }
-.dD-notes li a { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 4px 32px; padding: 22px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
-.dD-notes time { grid-row: span 2; color: var(--muted); font-size: 15px; padding-top: 4px; }
-.dD-notes b { font-family: var(--display); font-size: 1.55rem; font-weight: 600; color: var(--accent); line-height: 1.25; }
-.dD-notes li a:hover b { text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 5px; }
-.dD-notes li span { color: var(--muted); }
-.dD-notes-more { display: flex; flex-wrap: wrap; gap: 4px 28px; margin-top: 16px; }
-@media (max-width: 640px) { .dD-notes li a { grid-template-columns: minmax(0, 1fr); } .dD-notes time { grid-row: auto; } }
 
 .dD-prices details { border-bottom: 1px solid var(--line); }
 .dD-prices details:first-of-type { border-top: 1px solid var(--line); margin-top: 28px; }
@@ -159,7 +99,5 @@
 .dD-prices li a:hover span { color: var(--accent); }
 .dD-prices li b { display: flex; flex-direction: column; align-items: flex-end; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .dD-prices small { color: var(--muted); font-weight: 400; font-size: 14px; }
-
-.dD-foot { max-width: 1280px; margin: clamp(88px, 11vw, 144px) auto 0; padding: 28px clamp(16px, 4vw, 48px) 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
-.dD-foot p { margin: 4px 0; }
-.dD-foot b { font-family: var(--display); font-size: 1.25rem; color: var(--accent); margin-right: 10px; }
+.dD-offers h3 { font-family: var(--display); font-weight: 600; color: var(--accent); line-height: 1.2; margin: 0; }
+.dD-question { font-family: var(--display); font-weight: 500; color: var(--accent); line-height: 1.12; text-wrap: balance; margin: 0; }

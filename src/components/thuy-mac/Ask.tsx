@@ -9,7 +9,7 @@ type Person = { name: string; role: string; photo: string };
 export type AskItem = { id: string; label: string; hint: string; reply: string; services: Service[]; who: Person | null };
 
 /**
- * The page's H1 is a question. Picking an answer folds the list away and
+ * The scene heading is a question. Picking an answer folds the list away and
  * shows the packages that fit, the Xuyên giả, and a booking link that
  * carries the exact package to /lien-he.
  */
@@ -29,7 +29,7 @@ export default function Ask({ items, zalo }: { items: AskItem[]; zalo: { url: st
 
   return (
     <div className="dD-ask">
-      <h1 className="dD-question">Điều gì đang khiến bạn cân nhắc?</h1>
+      <h2 className="dD-question">Điều gì đang khiến bạn cân nhắc?</h2>
 
       {!picked && (
         <ul className="dD-options">
@@ -57,7 +57,7 @@ export default function Ask({ items, zalo }: { items: AskItem[]; zalo: { url: st
               {picked.services.map((s) => (
                 <li key={s.id}>
                   <div>
-                    <h2>{s.title}</h2>
+                    <h3>{s.title}</h3>
                     <p>{s.desc}</p>
                     {s.note && <p className="dD-offer-note">{s.note}</p>}
                   </div>
