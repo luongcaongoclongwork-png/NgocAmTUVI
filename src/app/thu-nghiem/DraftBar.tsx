@@ -1,13 +1,14 @@
 import Link from "next/link";
 
 const DRAFTS = [
-  { id: "a", name: "A · Song cửa Thiền" },
-  { id: "b", name: "B · Cửu Đỉnh" },
-  { id: "c", name: "C · Sông Hương" },
+  { id: "d", name: "D · Lịch Khâm Thiên Giám" },
+  { id: "a", name: "A" },
+  { id: "b", name: "B" },
+  { id: "c", name: "C" },
 ];
 
 /** Fixed switcher on every draft, so the owner can flip between directions. */
-export default function DraftBar({ current }: { current: "a" | "b" | "c" }) {
+export default function DraftBar({ current }: { current: "a" | "b" | "c" | "d" }) {
   return (
     <nav
       aria-label="Chọn hướng giao diện"
@@ -27,7 +28,7 @@ export default function DraftBar({ current }: { current: "a" | "b" | "c" }) {
         font: "500 13px/1.3 var(--font-body), system-ui, sans-serif",
       }}
     >
-      <span style={{ opacity: 0.75, marginRight: 6 }}>Bản phác giao diện v2 (chưa phải web thật):</span>
+      <span style={{ opacity: 0.75, marginRight: 6 }}>Bản phác v2:</span>
       {DRAFTS.map((d) => (
         <Link
           key={d.id}
