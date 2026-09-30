@@ -14,5 +14,8 @@ export function isAdminPath(pathname: string | null): boolean {
  * "Đặt lịch" button and footer.
  */
 export default function HideOnAdmin({ children }: { children: ReactNode }) {
-  return isAdminPath(usePathname()) ? null : children;
+  const pathname = usePathname();
+  // /thu-nghiem/* are the v2 redesign drafts; each draws its own header and footer.
+  const isDraft = !!pathname && pathname.startsWith("/thu-nghiem");
+  return isAdminPath(pathname) || isDraft ? null : children;
 }
