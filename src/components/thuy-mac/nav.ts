@@ -18,7 +18,8 @@ export const MORE_LINKS = [
 
 /** What the floating booking button says (and where it goes) on each page. */
 export function bookingFor(pathname: string): { label: string; href: string } | null {
-  if (pathname === "/" || pathname.startsWith("/lien-he")) return null; // the home has its own; the form is already here
+  // the home has its own; the form is already here; on a lá số chart it would cover the palaces
+  if (pathname === "/" || pathname.startsWith("/lien-he") || pathname.startsWith("/la-so")) return null;
   if (pathname.startsWith("/phong-thuy")) return { label: "Đặt lịch tư vấn Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
   if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
   if (pathname.startsWith("/cua-hang") || pathname.startsWith("/tra-dao")) return { label: "Hỏi về vật phẩm", href: "/lien-he?topic=vat-pham" };

@@ -5,6 +5,8 @@ import { getFeaturedArticles } from "@/lib/articles";
 import { getSiteSettings, socialLinks } from "@/lib/site-settings";
 import { lunarDateLabel } from "./calendar";
 import { MORE_LINKS, PATH_LINKS } from "./nav";
+import { absoluteUrl } from "@/lib/site-url";
+import JsonLd from "./JsonLd";
 
 const GROUPS = [
   { id: "tu-vi", name: "Tử Vi Xuyên Tam Diệm" },
@@ -21,8 +23,26 @@ export default async function InkFooter() {
   ]);
   const legal = [settings.businessName, settings.taxCode && `MST ${settings.taxCode}`].filter(Boolean).join(", ");
 
+  const socials = socialLinks(settings);
+  // The business, as search engines and AI assistants should read it; only facts from Cài đặt.
+  const business: Record<string, unknown> = {
+    "@type": "LocalBusiness",
+    name: "Ngọc Âm",
+    description: "Tử Vi và Phong Thuỷ của hậu nhân Khâm Thiên Giám, vua Minh Mạng, triều Nguyễn.",
+    url: absoluteUrl("/"),
+    image: absoluteUrl("/og/ngoc-am.jpg"),
+    logo: absoluteUrl("/images/logo-mark.png"),
+  };
+  if (settings.phone) business.telephone = settings.phone;
+  if (settings.email) business.email = settings.email;
+  if (settings.address) business.address = { "@type": "PostalAddress", streetAddress: settings.address, addressCountry: "VN" };
+  if (socials.length) business.sameAs = socials.map((s) => s.href);
+  if (settings.businessName) business.legalName = settings.businessName;
+  if (settings.taxCode) business.taxID = settings.taxCode;
+
   return (
     <footer className="tm tmFoot">
+      <JsonLd data={business} />
       <div className="tmFoot-grid">
         <div>
           <p className="tmFoot-brand">Ngọc Âm</p>
@@ -80,7 +100,7 @@ export default async function InkFooter() {
       </div>
 
       <p className="tmFoot-social">
-        {socialLinks(settings).map((s) => (
+        {socials.map((s) => (
           <a key={s.label} href={s.href}>{s.label}</a>
         ))}
       </p>

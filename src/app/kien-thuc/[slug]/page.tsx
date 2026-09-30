@@ -7,6 +7,8 @@ import { getArticleBySlug, getArticleBySlugForAdmin } from "@/lib/articles";
 import { verifySession } from "@/lib/auth";
 import { lunarDateLabel } from "@/components/thuy-mac/calendar";
 import { InkClose, InkPage, InkProse } from "@/components/thuy-mac/kit";
+import JsonLd from "@/components/thuy-mac/JsonLd";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
 
@@ -35,6 +37,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${article.title} — Sổ tay Ngọc Âm`,
     description: article.excerpt,
+    // the cover is the share preview for this article
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description: article.excerpt,
+      images: [{ url: article.image, alt: article.imageAlt || article.title }],
+    },
   };
 }
 
@@ -45,6 +54,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <InkPage>
+      {article.status === "published" && (
+        <JsonLd
+          data={{
+            "@type": "Article",
+            headline: article.title,
+            description: article.excerpt,
+            image: absoluteUrl(article.image),
+            datePublished: article.createdAt,
+            dateModified: article.updatedAt || article.createdAt,
+            author: { "@type": "Organization", name: "Ngọc Âm", url: absoluteUrl("/") },
+            publisher: { "@type": "Organization", name: "Ngọc Âm", logo: { "@type": "ImageObject", url: absoluteUrl("/images/logo-mark.png") } },
+            mainEntityOfPage: absoluteUrl(`/kien-thuc/${article.slug}`),
+          }}
+        />
+      )}
       <article className="ipArticle">
         <header className="ipArticle-head">
           <Link href="/kien-thuc" className="ipLink">← Sổ tay</Link>

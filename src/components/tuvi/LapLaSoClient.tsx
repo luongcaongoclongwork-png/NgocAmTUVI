@@ -51,7 +51,7 @@ export default function LapLaSoClient() {
     <div className="relative mx-auto max-w-[1320px] px-6 py-4 lg:px-10">
       {/* INNER background slot — scoped to just the form card's own box. */}
       <div
-        className="relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
+        className="ipToolCard relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
         style={{ backgroundImage: "url(/images/lap-la-so/inner-bg.jpg)" }}
       >
         {/* Scrim between the background (this card's own inner-bg, or —

@@ -12,7 +12,7 @@ import { daysInSolarMonth, daysInLunarMonth, convertOnCalendarSwitch } from "@/l
 
 const inputClass =
   "min-h-11 w-full border border-walnut/25 bg-ivory px-3 py-2.5 text-[16px] text-ink outline-none transition-colors focus:border-gold focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory";
-const labelClass = "tracking-label mb-1.5 block text-[10px] font-medium uppercase text-walnut/60";
+const labelClass = "ipToolLabel tracking-label mb-1.5 block text-[10px] font-medium uppercase text-walnut/60";
 
 function CheckIcon() {
   return (
@@ -120,7 +120,7 @@ export default function BirthForm({
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-[620px] space-y-7">
-      <h2 className="tracking-label text-center text-[13px] font-medium uppercase text-gold">
+      <h2 className="ipToolTitle tracking-label text-center text-[13px] font-medium uppercase text-gold">
         Thông tin lá số
       </h2>
 
@@ -167,7 +167,7 @@ export default function BirthForm({
       </div>
 
       <div className="space-y-3" ref={dateFieldsRef} {...touchProps(1)}>
-        <p className="tracking-label text-[10px] font-medium uppercase text-walnut/60">Ngày sinh</p>
+        <p className="ipToolGroup tracking-label text-[10px] font-medium uppercase text-walnut/60">Ngày sinh</p>
         <BirthDateFields
           calendarType={calendarType}
           day={day}
@@ -189,7 +189,7 @@ export default function BirthForm({
       </div>
 
       <div className="space-y-3" {...touchProps(2)}>
-        <p className="tracking-label text-[10px] font-medium uppercase text-walnut/60">Giờ sinh</p>
+        <p className="ipToolGroup tracking-label text-[10px] font-medium uppercase text-walnut/60">Giờ sinh</p>
         <TimeSelect time={time} onChange={setTime} />
         <TuViHourPicker time={time} onChange={setTime} />
       </div>
@@ -203,7 +203,7 @@ export default function BirthForm({
       <button
         type="submit"
         disabled={busy}
-        className="tracking-label flex h-[50px] w-full items-center justify-center gap-2 border border-walnut bg-walnut text-[13px] font-medium uppercase text-ivory transition-[background-color,transform] duration-100 hover:bg-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:scale-[0.98] disabled:cursor-wait disabled:opacity-70"
+        className="ipToolSubmit tracking-label flex h-[50px] w-full items-center justify-center gap-2 border border-walnut bg-walnut text-[13px] font-medium uppercase text-ivory transition-[background-color,transform] duration-100 hover:bg-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:scale-[0.98] disabled:cursor-wait disabled:opacity-70"
       >
         {SUBMIT_LABEL[status]}
         {!busy && <span aria-hidden="true">→</span>}

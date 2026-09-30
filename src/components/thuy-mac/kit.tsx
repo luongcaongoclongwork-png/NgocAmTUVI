@@ -6,6 +6,8 @@ import type { Article } from "@/lib/article-constants";
 import { getSiteSettings, isSafeHttpUrl } from "@/lib/site-settings";
 import { CuuDinhLandscape } from "./ornaments";
 import { lunarDateLabel } from "./calendar";
+import JsonLd, { priceNumber } from "./JsonLd";
+import { absoluteUrl } from "@/lib/site-url";
 import "./chrome.css";
 import "./kit.css";
 
@@ -113,24 +115,45 @@ export function Scrolls({ items }: { items: { word: string; desc: string }[] }) 
 
 /** Packages as points along an ink river. */
 export function InkServices({ items }: { items: readonly Service[] }) {
+  // Each package as a schema.org Service with its price, so search results and assistants quote it right.
+  const services = {
+    "@type": "ItemList",
+    itemListElement: items.map((s, i) => {
+      const price = priceNumber(s.price);
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "Service",
+          name: s.title,
+          description: s.desc,
+          provider: { "@type": "LocalBusiness", name: "Ngọc Âm", url: absoluteUrl("/") },
+          ...(price ? { offers: { "@type": "Offer", price, priceCurrency: "VND", url: absoluteUrl(`/lien-he?topic=${s.group}&service=${s.id}`) } } : {}),
+        },
+      };
+    }),
+  };
   return (
-    <ol className="ipRiver">
-      {items.map((s) => (
-        <li key={s.id} className="ipRiver-item ip-r">
-          <span className="ipRiver-node" aria-hidden="true" />
-          <div className="ipRiver-text">
-            <h3>{s.title}</h3>
-            <p>{s.desc}</p>
-            {s.note && <p className="ipRiver-note">{s.note}</p>}
-          </div>
-          <div className="ipRiver-buy">
-            <b>{formatPrice(s.price)}</b>
-            {s.duration && <span>{s.duration}</span>}
-            <Link href={`/lien-he?topic=${s.group}&service=${s.id}`} className="ipBtn">Đặt phiên này</Link>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <>
+      <JsonLd data={services} />
+      <ol className="ipRiver">
+        {items.map((s) => (
+          <li key={s.id} className="ipRiver-item ip-r">
+            <span className="ipRiver-node" aria-hidden="true" />
+            <div className="ipRiver-text">
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
+              {s.note && <p className="ipRiver-note">{s.note}</p>}
+            </div>
+            <div className="ipRiver-buy">
+              <b>{formatPrice(s.price)}</b>
+              {s.duration && <span>{s.duration}</span>}
+              <Link href={`/lien-he?topic=${s.group}&service=${s.id}`} className="ipBtn">Đặt phiên này</Link>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </>
   );
 }
 

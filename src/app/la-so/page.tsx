@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/components/thuy-mac/kit.css";
 import LaSoResultClient from "@/components/tuvi/LaSoResultClient";
 
 export const metadata: Metadata = {
@@ -7,9 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function LaSoPage() {
-  // room for the floating brand and la bàn above the chart
+  // paper, and room for the floating brand and la bàn above the chart
   return (
-    <div style={{ paddingTop: 84 }}>
+    <div className="ip ipResult">
       <LaSoResultClient />
     </div>
   );

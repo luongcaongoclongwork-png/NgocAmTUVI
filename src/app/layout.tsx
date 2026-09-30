@@ -6,6 +6,7 @@ import HideOnAdmin from "@/components/HideOnAdmin";
 import NavProgress from "@/components/NavProgress";
 import SiteChrome from "@/components/thuy-mac/SiteChrome";
 import InkFooter from "@/components/thuy-mac/InkFooter";
+import { SITE_URL } from "@/lib/site-url";
 
 // Playfair stays for /admin and the lá số tool, which keep the v1 look.
 const heading = Playfair_Display({
@@ -44,9 +45,18 @@ const inkNumerals = Noto_Serif_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Ngọc Âm — Tử Vi · Phong Thuỷ",
   description:
     "Ngọc Âm – Tử Vi, Phong Thuỷ Hậu Nhân Khâm Thiên Giám, Vua Minh Mạng, Triều Nguyễn. Xuyên vấn Tử Vi, tư vấn Phong Thuỷ, tri thức Phật học và vật phẩm phong thuỷ.",
+  // The share preview for Zalo, Facebook and the like; pages may override the image.
+  openGraph: {
+    siteName: "Ngọc Âm",
+    locale: "vi_VN",
+    type: "website",
+    images: [{ url: "/og/ngoc-am.jpg", width: 1200, height: 630, alt: "Tranh thuỷ mặc sông Hương, Ngọc Âm" }],
+  },
+  twitter: { card: "summary_large_image", images: ["/og/ngoc-am.jpg"] },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

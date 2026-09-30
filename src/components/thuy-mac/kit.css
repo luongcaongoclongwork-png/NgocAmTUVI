@@ -211,3 +211,18 @@
 /* ---------- tool pages keep their own UI, on paper ---------- */
 .ipTool { background: var(--paper); padding-bottom: 80px; }
 .lienhe-v2 { background: var(--paper); }
+
+/* ---------- the lá số tool, dressed as a hanging scroll (its logic untouched) ---------- */
+.ipToolCard { border: 0 !important; background-color: var(--raised); box-shadow: 0 34px 60px -42px rgba(43, 31, 23, 0.5); padding-top: 44px !important; padding-bottom: 40px !important; }
+.ipToolCard::before, .ipToolCard::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; height: 6px; border-radius: 3px; background: #4a3526; }
+.ipToolCard::before { top: 0; }
+.ipToolCard::after { bottom: 0; height: 5px; }
+.ipTool .ipToolTitle { font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--accent); }
+.ipTool .ipToolGroup { font-family: var(--display); font-size: 1.35rem; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ink); padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.ipTool .ipToolLabel { font-size: 13.5px; text-transform: none; letter-spacing: 0; color: var(--muted); }
+.ipTool .ipToolSubmit { height: 56px; border-radius: 999px; border-color: var(--ink); background: var(--ink); font-size: 15.5px; text-transform: none; letter-spacing: 0.02em; }
+.ipTool .ipToolSubmit:hover { background: var(--accent); }
+
+.ipResult { padding: 76px 0 48px; background: var(--paper); }
+.ipResult .ipToolH1 { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 500; color: var(--accent); }
+.ipResult .la-so-result-page { padding-top: 32px; }

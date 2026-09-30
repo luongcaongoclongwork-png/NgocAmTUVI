@@ -25,10 +25,16 @@ Mật khẩu admin giống web cũ (file `.env.local` được chép sang, khôn
   - Nội dung: triết lý và thuật ngữ dạng cuộn thư, bảng giá dạng dòng sông mực, chân dung hiện ra như mực loang, nét Cửu Đỉnh tự khắc khi cuộn, quy trình, khối đặt lịch.
   - Các trang: Tử Vi, Phong Thuỷ, Đại Chủ Sự, Bảng giá, Trà Đạo, Phật học, Sổ tay (Kiến thức), bài viết, Vật phẩm, Về Ngọc Âm, Liên hệ, Lập lá số.
 - **Khung chung** cho mọi trang (`SiteChrome.tsx`, `InkFooter.tsx`): dấu Ngọc Âm, la bàn (menu đủ các trang), nút đặt lịch nổi đổi chữ theo trang, chân trang mực.
-- **Giữ giao diện cũ:** trang admin, phần bên trong công cụ lập lá số và trang kết quả lá số, bản in lá số.
+- **Công cụ lập lá số:** thẻ form thành cuộn thư có trục gỗ, tiêu đề và nút theo phong cách mực; trang kết quả trên nền giấy dó. Phần tính lá số và lưới 12 cung giữ nguyên.
+- **Giữ giao diện cũ:** trang admin, lưới lá số và bản in lá số.
+- **Sẵn sàng cho Google và AI:** `robots.txt`, `sitemap.xml`, `llms.txt` (tự lấy giá và liên hệ từ admin), ảnh xem trước khi chia sẻ link (`public/og/ngoc-am.jpg`; bài viết dùng ảnh bìa riêng), dữ liệu schema.org cho doanh nghiệp, từng gói dịch vụ kèm giá, và từng bài viết.
+
+## Trước khi đưa lên mạng
+1. **Điền `SITE_URL`** (ví dụ `SITE_URL=https://tenmien.vn`) vào `.env.local` hoặc cấu hình máy chủ. Chưa có dòng này thì mọi đường dẫn trong sitemap, robots, llms.txt, ảnh chia sẻ đều ghi `localhost`.
+2. Chọn bộ dữ liệu giữ lại (thường là của web cũ), gộp nhánh `v2` vào `main`.
+3. Sau khi chạy: khai báo sitemap với Google Search Console, tạo hoặc cập nhật Google Business Profile đúng địa chỉ, điện thoại trong Cài đặt.
 
 ## Việc tiếp theo
 1. Tạo 4 lớp tranh và đặt vẽ nét Cửu Đỉnh: xem `docs/V2-TU-LIEU-HINH-ANH.md`.
 2. Chủ web duyệt câu chữ mới: 30 câu chiêm nghiệm (`calendar.ts`), 7 lựa chọn và câu trả lời (`asks.ts`), tên "Sổ tay" thay cho "Kiến thức".
-3. Nếu muốn: làm lại giao diện bên trong công cụ lập lá số và trang kết quả theo cùng phong cách.
-4. Khi sẵn sàng thay web cũ: chọn bộ dữ liệu giữ lại, gộp nhánh `v2` vào `main`.
+3. Sửa trong admin: nội dung 4 bài viết còn chữ "khai vấn", tiêu đề bài "XUYÊN TAM DIỆM - 川三焰" đang viết hoa toàn bộ.
