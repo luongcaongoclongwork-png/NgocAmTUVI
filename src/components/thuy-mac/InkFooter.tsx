@@ -62,7 +62,7 @@ export default async function InkFooter() {
           </ul>
         </nav>
         <div>
-          <p className="tmFoot-h">Mới trong Sổ tay</p>
+          <p className="tmFoot-h">Mới trong Sổ Tay</p>
           <ul className="tmFoot-notes">
             {notes.map((n) => (
               <li key={n.slug}>

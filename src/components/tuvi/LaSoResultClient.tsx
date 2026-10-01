@@ -71,7 +71,7 @@ export default function LaSoResultClient() {
           onClick={() => router.push("/lap-la-so")}
           className="ipToolAct tracking-label mt-6 inline-flex h-11 items-center border border-walnut/30 px-4 text-[13px] uppercase text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
         >
-          ← Quay lại nhập thông tin
+          ← Quay Lại Nhập Thông Tin
         </button>
       </div>
     );
@@ -96,7 +96,7 @@ export default function LaSoResultClient() {
             onClick={() => router.push("/lap-la-so")}
             className="ipToolBack tracking-label mb-1.5 flex items-center gap-1.5 text-[11px] font-medium uppercase text-walnut/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
           >
-            <span aria-hidden="true">←</span> Chỉnh thông tin
+            <span aria-hidden="true">←</span> Chỉnh Thông Tin
           </button>
           <h1 className="ipToolH1 font-heading text-[28px] font-semibold text-walnut">
             Lá số Tử Vi

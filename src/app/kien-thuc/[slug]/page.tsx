@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = await loadArticle(slug);
   if (!article) return {};
   return {
-    title: `${article.title} — Sổ tay Ngọc Âm`,
+    title: `${article.title} — Sổ Tay Ngọc Âm`,
     description: article.excerpt,
     // the cover is the share preview for this article
     openGraph: {
@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       )}
       <article className="ipArticle">
         <header className="ipArticle-head">
-          <Link href="/kien-thuc" className="ipLink">← Sổ tay</Link>
+          <Link href="/kien-thuc" className="ipLink">← Sổ Tay</Link>
           {article.status === "draft" && <p className="ipArticle-draft">Bản nháp, chỉ bạn thấy được</p>}
           <p className="ipArticle-meta">
             {article.category}, viết ngày {solarDate(article.createdAt)} ({lunarDateLabel(article.createdAt)}), {computeReadTime(article.body)}

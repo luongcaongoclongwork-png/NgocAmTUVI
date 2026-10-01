@@ -5,11 +5,11 @@ import { InkHero, InkPage, InkSection } from "@/components/thuy-mac/kit";
 export const metadata: Metadata = { title: "Không tìm thấy trang — Ngọc Âm" };
 
 const WAYS = [
-  { href: "/", label: "Trang chủ" },
+  { href: "/", label: "Trang Chủ" },
   { href: "/dich-vu", label: "Bảng Giá" },
   { href: "/lap-la-so", label: "Lập Lá Số" },
   { href: "/kien-thuc", label: "Sổ Tay" },
-  { href: "/lien-he", label: "Gửi đôi dòng" },
+  { href: "/lien-he", label: "Gửi Đôi Dòng" },
 ];
 
 /** A wrong address still lands on paper, with the way back in view. */

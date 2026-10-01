@@ -23,9 +23,9 @@ function CheckIcon() {
 }
 
 const SUBMIT_LABEL: Record<GenerationStatus, string> = {
-  idle: "Lập lá số ngay",
+  idle: "Lập Lá Số Ngay",
   validating: "Đang kiểm tra…",
-  error: "Lập lá số ngay",
+  error: "Lập Lá Số Ngay",
 };
 
 export default function BirthForm({

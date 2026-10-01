@@ -46,7 +46,7 @@ export default async function DaiChuSuPage() {
             photo={trang.photo}
             bio={trang.bio}
             href="/lien-he?topic=dai-chu-su"
-            cta="Đặt lịch Đại Chủ Sự cùng cô"
+            cta="Đặt Lịch Đại Chủ Sự Cùng Cô"
           />
         </InkSection>
       )}
@@ -65,7 +65,7 @@ export default async function DaiChuSuPage() {
         <InkSteps />
       </InkSection>
 
-      <InkClose href="/lien-he?topic=dai-chu-su" label="Đặt lịch Đại Chủ Sự" />
+      <InkClose href="/lien-he?topic=dai-chu-su" label="Đặt Lịch Đại Chủ Sự" />
     </InkPage>
   );
 }

@@ -39,14 +39,14 @@ describe("priceNumber", () => {
 describe("site chrome", () => {
   it("labels the booking button per page and steps aside where it would be in the way", () => {
     expect(bookingFor("/phong-thuy")?.href).toBe("/lien-he?topic=phong-thuy");
-    expect(bookingFor("/dai-chu-su")?.label).toBe("Đặt lịch Đại Chủ Sự");
-    expect(bookingFor("/tu-vi")?.short).toBe("Đặt lịch Tử Vi");
+    expect(bookingFor("/dai-chu-su")?.label).toBe("Đặt Lịch Đại Chủ Sự");
+    expect(bookingFor("/tu-vi")?.short).toBe("Đặt Lịch Tử Vi");
     expect(bookingFor("/")?.href).toBe("/lien-he");
     expect(bookingFor("/lien-he")).toBeNull();
-    expect(bookingFor("/la-so/xuyen-tam-diem")?.short).toBe("Luận lá số");
+    expect(bookingFor("/la-so/xuyen-tam-diem")?.short).toBe("Luận Lá Số");
     // tea and pieces are asked about, each on its own topic
-    expect(bookingFor("/tra-dao")).toEqual({ label: "Hỏi về trà", short: "Hỏi về trà", href: "/lien-he?topic=tra" });
-    expect(bookingFor("/xuyen-gia/khuong")?.label).toBe("Hỏi về trà");
+    expect(bookingFor("/tra-dao")).toEqual({ label: "Hỏi Về Trà", short: "Hỏi Về Trà", href: "/lien-he?topic=tra" });
+    expect(bookingFor("/xuyen-gia/khuong")?.label).toBe("Hỏi Về Trà");
     expect(bookingFor("/cua-hang")?.href).toBe("/lien-he?topic=vat-pham");
   });
 

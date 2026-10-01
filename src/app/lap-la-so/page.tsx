@@ -15,7 +15,7 @@ export default function LapLaSoPage() {
       <div className="lap-la-so-outer relative w-full">
       <InkHero
         compact
-        scrolls={["Lập", "lá số"]}
+        scrolls={["Lập", "Lá Số"]}
         lede={
           <>
             <p>Tử Vi Xuyên Tam Diệm</p>
@@ -34,7 +34,7 @@ export default function LapLaSoPage() {
         title="Lá số là tấm bản đồ, Xuyên vấn là cùng đọc nó."
         text="Muốn hiểu sâu Diệm Bản của mình, hãy đặt một phiên cùng Xuyên giả."
         href="/lien-he?topic=tu-vi"
-        label="Đặt phiên Xuyên vấn"
+        label="Đặt Phiên Xuyên Vấn"
       />
     </InkPage>
   );

@@ -59,8 +59,9 @@ export function InkHero({
         <h1 className="ipScrolls">
           {scrolls.map((s) => (
             <span key={s} className="ipScroll">
+              {/* each word ends with a space: invisible in the stacked layout, but read as separate words by search engines and screen readers */}
               {s.split(" ").map((w, i) => (
-                <span key={i}>{w}</span>
+                <span key={i}>{w} </span>
               ))}
             </span>
           ))}
@@ -157,7 +158,7 @@ export function InkServices({ items }: { items: readonly Service[] }) {
             <div className="ipRiver-buy">
               <b>{formatPrice(s.price)}</b>
               {s.duration && <span>{s.duration}</span>}
-              <Link href={`/lien-he?topic=${s.group}&service=${s.id}`} className="ipBtn">Đặt phiên này</Link>
+              <Link href={`/lien-he?topic=${s.group}&service=${s.id}`} className="ipBtn">Đặt Phiên Này</Link>
             </div>
           </li>
         ))}

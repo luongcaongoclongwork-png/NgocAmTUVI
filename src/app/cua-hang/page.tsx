@@ -5,7 +5,7 @@ import { getProductCategoriesWithItems } from "@/lib/products";
 import { InkClose, InkHero, InkPage, InkSection } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = {
-  title: "Vật phẩm Ngọc Âm",
+  title: "Vật Phẩm Ngọc Âm",
   description:
     "Ngọc phỉ thuý, ngọc Hoà Điền, đá phong thuỷ và đồ phong thuỷ được Ngọc Âm tuyển chọn. Liên hệ để được tư vấn trực tiếp trước khi đặt.",
 };
@@ -24,7 +24,7 @@ export default async function VatPhamPage() {
         compact
         image="/images/06-thuy-mac-song-huong.webp"
         alt="Tranh thuỷ mặc sông núi Việt Nam"
-        scrolls={["Vật phẩm"]}
+        scrolls={["Vật Phẩm"]}
         lede={
           <>
             <p>Vật phẩm đồng hành, không phải trọng tâm.</p>
@@ -52,7 +52,7 @@ export default async function VatPhamPage() {
         </InkSection>
       ))}
 
-      <InkClose href="/lien-he?topic=vat-pham" label="Hỏi về vật phẩm" title="Chọn vật phẩm cùng người hiểu nó." text="Ngọc Âm tư vấn trực tiếp trước khi bạn đặt, trong một ngày làm việc." />
+      <InkClose href="/lien-he?topic=vat-pham" label="Hỏi Về Vật Phẩm" title="Chọn vật phẩm cùng người hiểu nó." text="Ngọc Âm tư vấn trực tiếp trước khi bạn đặt, trong một ngày làm việc." />
     </InkPage>
   );
 }

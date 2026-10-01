@@ -33,14 +33,14 @@ export function bookingFor(pathname: string): Booking | null {
   // the form is already here
   if (pathname.startsWith("/lien-he")) return null;
   // after a chart: read it with a Xuyên giả (the button sits in the header now, never over the palaces)
-  if (pathname.startsWith("/la-so") || pathname.startsWith("/lap-la-so")) return { label: "Đặt phiên luận lá số", short: "Luận lá số", href: "/lien-he?topic=tu-vi" };
-  if (pathname.startsWith("/phong-thuy")) return { label: "Đặt lịch tư vấn Phong Thuỷ", short: "Đặt lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
-  if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt lịch Đại Chủ Sự", short: "Đặt lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
+  if (pathname.startsWith("/la-so") || pathname.startsWith("/lap-la-so")) return { label: "Đặt Phiên Luận Lá Số", short: "Luận Lá Số", href: "/lien-he?topic=tu-vi" };
+  if (pathname.startsWith("/phong-thuy")) return { label: "Đặt Lịch Tư Vấn Phong Thuỷ", short: "Đặt Lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
+  if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt Lịch Đại Chủ Sự", short: "Đặt Lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
   // tea and pieces are asked about, not booked; each opens the form on its own topic
-  if (pathname.startsWith("/tra-dao") || pathname.startsWith("/xuyen-gia/khuong")) return { label: "Hỏi về trà", short: "Hỏi về trà", href: "/lien-he?topic=tra" };
-  if (pathname.startsWith("/cua-hang")) return { label: "Hỏi về vật phẩm", short: "Hỏi về vật phẩm", href: "/lien-he?topic=vat-pham" };
-  if (pathname.startsWith("/xuyen-gia/thay-tinh")) return { label: "Đặt lịch tư vấn Phong Thuỷ", short: "Đặt lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
-  if (pathname.startsWith("/tu-vi")) return { label: "Đặt lịch Xuyên vấn Tử Vi", short: "Đặt lịch Tử Vi", href: "/lien-he?topic=tu-vi" };
+  if (pathname.startsWith("/tra-dao") || pathname.startsWith("/xuyen-gia/khuong")) return { label: "Hỏi Về Trà", short: "Hỏi Về Trà", href: "/lien-he?topic=tra" };
+  if (pathname.startsWith("/cua-hang")) return { label: "Hỏi Về Vật Phẩm", short: "Hỏi Về Vật Phẩm", href: "/lien-he?topic=vat-pham" };
+  if (pathname.startsWith("/xuyen-gia/thay-tinh")) return { label: "Đặt Lịch Tư Vấn Phong Thuỷ", short: "Đặt Lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
+  if (pathname.startsWith("/tu-vi")) return { label: "Đặt Lịch Xuyên Vấn Tử Vi", short: "Đặt Lịch Tử Vi", href: "/lien-he?topic=tu-vi" };
   return { label: "Đặt Lịch Xuyên Vấn", short: "Đặt Lịch Xuyên Vấn", href: "/lien-he" };
 }
 

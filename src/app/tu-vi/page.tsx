@@ -47,7 +47,7 @@ export default async function TuViPage() {
             photo={trang.photo}
             bio={trang.bio}
             href="/lien-he?topic=tu-vi"
-            cta="Đặt lịch Xuyên vấn cùng cô"
+            cta="Đặt Lịch Xuyên Vấn Cùng Cô"
           />
         </InkSection>
       )}
@@ -58,7 +58,7 @@ export default async function TuViPage() {
 
       <InkSection tone="ink" id="dung-thu" title="Xem trước Diệm Bản của bạn" intro={<p>Công cụ lập lá số miễn phí của Ngọc Âm cho bạn thấy tấm bản đồ 12 cung. Phiên Xuyên vấn là lúc cùng Xuyên giả đọc tấm bản đồ ấy.</p>}>
         <p>
-          <Link href="/lap-la-so" className="ipBtn">Lập lá số miễn phí</Link>
+          <Link href="/lap-la-so" className="ipBtn">Lập Lá Số Miễn Phí</Link>
         </p>
       </InkSection>
 

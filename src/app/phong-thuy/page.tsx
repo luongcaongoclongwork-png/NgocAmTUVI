@@ -36,7 +36,7 @@ export default async function PhongThuyPage() {
 
       {tinh && (
         <InkSection tone="raised">
-          <InkPerson name={tinh.name} role={tinh.field} photo={tinh.photo} bio={tinh.bio} href="/lien-he?topic=phong-thuy" cta="Đặt lịch tư vấn cùng thầy" reverse />
+          <InkPerson name={tinh.name} role={tinh.field} photo={tinh.photo} bio={tinh.bio} href="/lien-he?topic=phong-thuy" cta="Đặt Lịch Tư Vấn Cùng Thầy" reverse />
         </InkSection>
       )}
 
@@ -50,7 +50,7 @@ export default async function PhongThuyPage() {
         <InkSteps />
       </InkSection>
 
-      <InkClose href="/lien-he?topic=phong-thuy" label="Đặt lịch tư vấn Phong Thuỷ" />
+      <InkClose href="/lien-he?topic=phong-thuy" label="Đặt Lịch Tư Vấn Phong Thuỷ" />
     </InkPage>
   );
 }

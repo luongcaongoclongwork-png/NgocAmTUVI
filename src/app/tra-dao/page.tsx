@@ -168,7 +168,7 @@ export default async function TraDaoPage() {
         </InkSection>
       )}
 
-      <InkClose href="/lien-he?topic=tra" label="Hỏi về trà" title="Một chén trà mở đầu câu chuyện." />
+      <InkClose href="/lien-he?topic=tra" label="Hỏi Về Trà" title="Một chén trà mở đầu câu chuyện." />
     </InkPage>
   );
 }

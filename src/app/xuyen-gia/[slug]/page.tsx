@@ -14,9 +14,10 @@ export const revalidate = 600;
 
 /** The booking action keeps one name across the site: "Đặt lịch …". */
 function bookingLabel(p: Portrait): string {
-  if (p.group === "tu-vi") return `Đặt lịch Xuyên vấn cùng ${p.address}`;
-  if (p.group === "phong-thuy") return `Đặt lịch tư vấn cùng ${p.address}`;
-  return "Hỏi về trà";
+  const who = p.address.charAt(0).toUpperCase() + p.address.slice(1);
+  if (p.group === "tu-vi") return `Đặt Lịch Xuyên Vấn Cùng ${who}`;
+  if (p.group === "phong-thuy") return `Đặt Lịch Tư Vấn Cùng ${who}`;
+  return "Hỏi Về Trà";
 }
 
 async function load(slug: string) {

@@ -15,9 +15,9 @@ const spirit = [
 ];
 
 const ROLE: Record<string, { role: string; href?: string; cta?: string }> = {
-  "co-minh-trang": { role: "Xuyên giả Tử Vi Xuyên Tam Diệm", href: "/lien-he?topic=tu-vi", cta: "Đặt lịch Xuyên vấn cùng cô" },
-  "thay-tinh": { role: "Tư vấn Phong Thuỷ", href: "/lien-he?topic=phong-thuy", cta: "Đặt lịch tư vấn cùng thầy" },
-  khuong: { role: "Trà Sư Ngọc Âm", href: "/tra-dao", cta: "Đến với Trà Đạo" },
+  "co-minh-trang": { role: "Xuyên giả Tử Vi Xuyên Tam Diệm", href: "/lien-he?topic=tu-vi", cta: "Đặt Lịch Xuyên Vấn Cùng Cô" },
+  "thay-tinh": { role: "Tư vấn Phong Thuỷ", href: "/lien-he?topic=phong-thuy", cta: "Đặt Lịch Tư Vấn Cùng Thầy" },
+  khuong: { role: "Trà Sư Ngọc Âm", href: "/tra-dao", cta: "Đến Với Trà Đạo" },
 };
 
 export default async function VeNgocAmPage() {

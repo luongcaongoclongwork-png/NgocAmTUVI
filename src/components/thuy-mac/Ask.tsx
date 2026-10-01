@@ -64,7 +64,7 @@ export default function Ask({ items, zalo }: { items: AskItem[]; zalo: { url: st
                   <div className="dD-offer-buy">
                     <b>{formatPrice(s.price)}</b>
                     {s.duration && <span>{s.duration}</span>}
-                    <Link href={`/lien-he?topic=${s.group}&service=${s.id}`} className="dD-btn">Đặt phiên này</Link>
+                    <Link href={`/lien-he?topic=${s.group}&service=${s.id}`} className="dD-btn">Đặt Phiên Này</Link>
                   </div>
                 </li>
               ))}

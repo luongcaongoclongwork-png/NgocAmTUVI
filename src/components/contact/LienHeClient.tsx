@@ -410,7 +410,7 @@ function LetterForm({
                 </span>
               </>
             ) : (
-              "Gửi yêu cầu đặt lịch"
+              "Gửi Yêu Cầu Đặt Lịch"
             )}
           </button>
           <p className="mt-3 text-[13px] leading-relaxed text-ink/55">
@@ -502,14 +502,14 @@ function ReplyLetter({ interest, zaloUrl }: { interest: string; zaloUrl: string 
                 rel="noopener noreferrer"
                 className="tracking-label border-b border-gold pb-1 text-[12px] font-semibold uppercase text-walnut hover:text-gold-deep"
               >
-                Nhắn Zalo ngay
+                Nhắn Zalo Ngay
               </a>
             )}
             <Link
               href="/dich-vu"
               className="tracking-label border-b border-walnut/30 pb-1 text-[12px] font-semibold uppercase text-walnut/70 hover:text-gold-deep"
             >
-              Trở về dịch vụ
+              Trở Về Dịch Vụ
             </Link>
           </div>
         </div>

@@ -78,7 +78,7 @@ export default async function HomeV3() {
             {["Hiểu mình", "Thuận thế", "Vững bước"].map((s) => (
               <span key={s} className="ipScroll">
                 {s.split(" ").map((w) => (
-                  <span key={w}>{w}</span>
+                  <span key={w}>{w} </span>
                 ))}
               </span>
             ))}
@@ -110,8 +110,8 @@ export default async function HomeV3() {
           backdrop={i === 0 ? { image: "/images/02-truyen-nhan-khai-van.png", position: "right bottom" } : undefined}
           portraitHref={`/xuyen-gia/${p.slug}`}
         >
-          <Link href={`/xuyen-gia/${p.slug}`} className="mBtn mBtn--line">Chân dung và các phiên cùng {p.address}</Link>
-          <Link href={`/lien-he?topic=${p.topic}`} className="ipLink">{p.group === "tu-vi" ? `Đặt lịch Xuyên vấn cùng ${p.address}` : `Đặt lịch tư vấn cùng ${p.address}`}</Link>
+          <Link href={`/xuyen-gia/${p.slug}`} className="mBtn mBtn--line">Chân Dung Và Các Phiên</Link>
+          <Link href={`/lien-he?topic=${p.topic}`} className="ipLink">{p.group === "tu-vi" ? "Đặt Lịch Xuyên Vấn Cùng Cô" : "Đặt Lịch Tư Vấn Cùng Thầy"}</Link>
         </Chapter>
       ))}
 
@@ -151,7 +151,7 @@ export default async function HomeV3() {
                 {p.from && <p className="hPath-price">Từ <b>{p.from}</b></p>}
                 <div className="hPath-cta">
                   <Link href={p.href} className="ipLink">{p.cta}</Link>
-                  <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt lịch</Link>
+                  <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt Lịch</Link>
                 </div>
               </div>
             </li>
@@ -163,7 +163,7 @@ export default async function HomeV3() {
       <InkSection
         id="phien-tieu-bieu"
         title="Phiên Xuyên vấn tiêu biểu"
-        intro={<p>Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn. <Link href="/dich-vu" className="ipLink">Xem toàn bộ bảng giá</Link></p>}
+        intro={<p>Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn. <Link href="/dich-vu" className="ipLink">Xem toàn bộ Bảng Giá</Link></p>}
         backdrop={{ image: "/images/03-dich-vu-tu-van.png", position: "bottom" }}
       >
         <InkServices items={featured} />
@@ -193,7 +193,7 @@ export default async function HomeV3() {
           backdrop={{ image: "/images/pillars/tra-dao.png" }}
           portraitHref="/tra-dao"
         >
-          <Link href="/tra-dao" className="mBtn mBtn--line">Tìm hiểu Trà Đạo</Link>
+          <Link href="/tra-dao" className="mBtn mBtn--line">Tìm Hiểu Trà Đạo</Link>
           <Link href={`/xuyen-gia/${tea.slug}`} className="ipLink">Chân dung {tea.name}</Link>
         </Chapter>
       )}
@@ -220,7 +220,7 @@ export default async function HomeV3() {
       {articles.length > 0 && (
         <InkSection
           id="so-tay"
-          title="Mới trong Sổ tay"
+          title="Mới trong Sổ Tay"
           intro={<Link href="/kien-thuc" className="ipLink">Xem tất cả bài viết</Link>}
           tone="raised"
           backdrop={{ image: "/images/06-thuy-mac-song-huong.webp" }}

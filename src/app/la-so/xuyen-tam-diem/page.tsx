@@ -16,7 +16,7 @@ export default function LaSoXuyenTamDiemPage() {
         title="Tấm bản đồ đã có, cùng đọc nó với Xuyên giả."
         text="Một phiên Xuyên vấn luận Diệm Bản này theo câu hỏi và hoàn cảnh của bạn."
         href="/lien-he?topic=tu-vi"
-        label="Đặt phiên luận Diệm Bản"
+        label="Đặt Phiên Luận Diệm Bản"
       />
     </div>
   );

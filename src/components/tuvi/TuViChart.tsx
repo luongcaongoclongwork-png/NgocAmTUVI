@@ -190,7 +190,7 @@ export default function TuViChart({
               disabled={exporting !== null || reveal !== undefined}
               className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
-              {exporting === "image" ? "Đang xuất…" : "Xuất ảnh"}
+              {exporting === "image" ? "Đang xuất…" : "Xuất Ảnh"}
             </button>
             <button
               type="button"
@@ -207,7 +207,7 @@ export default function TuViChart({
               onClick={handlePrint}
               className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
             >
-              In lá số
+              In Lá Số
             </button>
           </div>
         </div>

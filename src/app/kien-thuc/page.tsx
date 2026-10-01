@@ -5,7 +5,7 @@ import { InkClose, InkEngrave, InkHero, InkNotes, InkPage, InkSection, Scrolls }
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Sổ tay Ngọc Âm: Kiến thức và Phật học",
+  title: "Sổ Tay Ngọc Âm: Kiến thức và Phật học",
   description:
     "Sổ tay Ngọc Âm gồm hai phần. Kiến thức: Tử Vi, Phong Thuỷ, văn hoá và phát triển nội lực. Phật học: vô thường, nhân quả, tỉnh thức và buông xả trong cách Ngọc Âm Xuyên vấn.",
 };
@@ -31,11 +31,11 @@ export default async function SoTayPage() {
         compact
         image="/images/09-trang-an-son-thuy-3d.webp"
         alt="Sông núi Tràng An trong sương sớm"
-        scrolls={["Sổ tay", "Ngọc Âm"]}
+        scrolls={["Sổ Tay", "Ngọc Âm"]}
         lede={
           <>
             <p>Tri thức phương Đông, đọc theo nhịp sống hiện đại.</p>
-            <small>Sổ tay có hai phần: Kiến thức và Phật học. Những bài viết ngắn không phải để tin ngay, mà để suy ngẫm. Mỗi bài ghi ngày theo âm lịch.</small>
+            <small>Sổ Tay có hai phần: Kiến thức và Phật học. Những bài viết ngắn không phải để tin ngay, mà để suy ngẫm. Mỗi bài ghi ngày theo âm lịch.</small>
           </>
         }
       />

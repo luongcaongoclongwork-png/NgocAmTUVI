@@ -36,6 +36,8 @@
 .ip :is(.ipHero-lede small) { font-size: 1em; }
 /* the long serif statements: a lead, not a second headline */
 .ip :is(.ipHero-lede, .hHero-lede) { font-size: 21px; }
+/* Cormorant reads small for its size: on a wide screen the lead needs 25px to sit above the 17px text under it */
+@media (min-width: 1024px) { .ip :is(.ipHero-lede, .hHero-lede) { font-size: 25px; } }
 .ip :is(.mMaster-view, .mPro-view p) { font-size: 20px; line-height: 1.55; }
 .ip .mLine p { font-size: clamp(22px, 1.1rem + 0.9vw, 28px); }
 
