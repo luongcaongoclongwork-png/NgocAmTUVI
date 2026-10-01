@@ -323,3 +323,30 @@
 @media (prefers-reduced-motion: reduce) {
   .ip :is(.ipLink, .dD-link, .dD-change) { transition: none; }
 }
+
+/* Outlined buttons (Về Ngọc Âm, Chân Dung Và Các Phiên, Đặt Lịch in the cards): at rest the faint line and thin
+   paper ground of the Khám Phá button. On hover or keyboard focus an ink wash opens from where the pointer came in
+   and closes towards where it left (InkButtons.tsx writes --x / --y). Slow on purpose: stillness, not speed.
+   A press answers at once. */
+.ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line) {
+  --x: 50%; --y: 50%;
+  position: relative; isolation: isolate; overflow: hidden;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--raised) 70%, transparent);
+  color: var(--ink) !important;
+  transition: color 360ms var(--ease-out), border-color 360ms var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line)::before { content: ""; position: absolute; inset: -1px; z-index: -1; background: var(--ink); clip-path: circle(0 at var(--x) var(--y)); transition: clip-path 550ms var(--ease-out); }
+.ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line):is(:hover, :focus-visible) { background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--paper) !important; border-color: var(--ink); }
+.ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line):is(:hover, :focus-visible)::before { clip-path: circle(150% at var(--x) var(--y)); }
+.ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line):active { transform: translateY(1px); }
+/* touch screens have no hover: only the press answers */
+@media (hover: none) {
+  .ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line)::before { display: none; }
+  .ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line):is(:hover, :focus-visible) { color: var(--ink) !important; border-color: var(--line); }
+  .ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line):active { background: var(--accent-soft); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line), .ip a:is(.hBtn--ghost, .hBtn--small, .mBtn--line)::before { transition: none; }
+}

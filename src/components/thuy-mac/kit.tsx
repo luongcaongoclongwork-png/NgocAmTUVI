@@ -10,6 +10,7 @@ import { lunarDateLabel } from "./calendar";
 import JsonLd, { priceNumber } from "./JsonLd";
 import { absoluteUrl } from "@/lib/site-url";
 import "./chrome.css";
+import InkButtons from "./InkButtons";
 import "./kit.css";
 import "./type.css";
 
@@ -22,7 +23,12 @@ import "./type.css";
 
 /** Page root: paper, tokens, fonts. */
 export function InkPage({ children }: { children: ReactNode }) {
-  return <div className="ip">{children}</div>;
+  return (
+    <div className="ip">
+      {children}
+      <InkButtons />
+    </div>
+  );
 }
 
 /**
