@@ -87,14 +87,16 @@
 .hPath-cat { margin: 0 0 10px; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep, #73592d); }
 .hPath-text h3 { white-space: nowrap; }
 .hPath-text h3 a { text-decoration: none; color: var(--ink); }
-.hPath-words { list-style: none; margin: 18px 0 28px; padding: 0; display: grid; gap: 8px; color: var(--muted); }
-.hPath-words li { display: grid; grid-template-columns: 5px 1fr; align-items: center; gap: 14px; line-height: 1.4; }
-.hPath-words li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--bronze); }
+/* key words run on, a dot between them, two lines in every card. Each word carries its dot in its own left
+   padding and the list is clipped by that padding, so a dot never opens a line. */
+.hPath-words { --dot: 24px; list-style: none; margin: 14px 0 26px calc(-1 * var(--dot)); padding: 0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 4px 0; clip-path: inset(0 0 0 var(--dot)); font-size: 15px; line-height: 24px; min-height: 52px; color: var(--gold-deep, #73592d); }
+.hPath-words li { position: relative; padding-left: var(--dot); white-space: nowrap; }
+.hPath-words li::before { content: ""; position: absolute; left: calc(var(--dot) / 2 - 2px); top: 10px; width: 4px; height: 4px; border-radius: 50%; background: var(--bronze); }
 .hPath-cta { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .hPath-more { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--ink) !important; font-size: 16px; font-weight: 500; text-decoration: none; white-space: nowrap; }
 .hPath-more span { color: var(--bronze); transition: transform var(--dur-base) var(--ease-out); }
 .hPath-more:hover span { transform: translateX(5px); }
-@media (max-width: 1180px) { .hPath-text { padding: 24px 20px 18px; } .hPath-text h3 { white-space: normal; } }
+@media (max-width: 1180px) { .hPath-text { padding: 24px 20px 18px; } .hPath-text h3 { white-space: normal; } .hPath-words { --dot: 16px; font-size: 14px; } }
 @media (max-width: 1023px) { .hPaths { grid-template-columns: minmax(0, 1fr); } .hPath { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); } .hPath-img { aspect-ratio: auto; min-height: 220px; } }
 @media (max-width: 640px) { .hPath { display: flex; flex-direction: column; } .hPath-img { aspect-ratio: 16 / 9; min-height: 0; } }
 @media (prefers-reduced-motion: reduce) { .hPath, .hPath:hover { transform: none; transition: none; } }
