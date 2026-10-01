@@ -98,7 +98,7 @@ export default async function HomeV3() {
       <InkSection
         id="ba-con-duong"
         eyebrow="Ba trụ cột triết học"
-        title="Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại."
+        title={<>Kế thừa tri thức cổ,<br /> ứng dụng vào đời sống hiện đại.</>}
         backdrop={{ image: "/images/29-homepage-thuy-mac-song-huong.webp" }}
       >
         <ul className="hPaths">
@@ -116,7 +116,8 @@ export default async function HomeV3() {
                   ))}
                 </ul>
                 <div className="hPath-cta">
-                  <Link href={p.href} className="hPath-more">{PILLARS[p.id].cta}<span aria-hidden="true">→</span></Link>
+                  {/* the card's name says what; the short label keeps this and the button on one row at every width */}
+                  <Link href={p.href} className="hPath-more" aria-label={PILLARS[p.id].cta}>Tìm hiểu<span aria-hidden="true">→</span></Link>
                   <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt Lịch</Link>
                 </div>
               </div>

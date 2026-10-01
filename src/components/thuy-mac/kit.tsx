@@ -87,7 +87,8 @@ export function InkSection({
   id?: string;
   /** A short label above the title, only where it names the group (v1's "Ba trụ cột triết học"). */
   eyebrow?: string;
-  title?: string;
+  /** Usually a string; a node where the title has a set line break. */
+  title?: ReactNode;
   intro?: ReactNode;
   children?: ReactNode;
   tone?: "paper" | "raised" | "ink";
