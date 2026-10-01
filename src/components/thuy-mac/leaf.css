@@ -33,6 +33,8 @@
 .dD-hours-title { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; margin: 0 0 8px; font-weight: 600; font-size: 15px; }
 .dD-now { font-weight: 400; color: var(--muted); }
 .dD-hours ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+@media (max-width: 480px) { .dD-hours ol { grid-template-columns: repeat(4, 1fr); gap: 6px; } }
+.dD-hours li span { white-space: nowrap; }
 .dD-hours li { display: flex; flex-direction: column; align-items: center; padding: 6px 0; border: 1px solid transparent; color: var(--muted); }
 .dD-hours li b { font-weight: 500; font-size: 15px; }
 .dD-hours li span { font-size: 12px; font-variant-numeric: tabular-nums; }

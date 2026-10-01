@@ -11,6 +11,7 @@ import JsonLd, { priceNumber } from "./JsonLd";
 import { absoluteUrl } from "@/lib/site-url";
 import "./chrome.css";
 import InkButtons from "./InkButtons";
+import { glue } from "./glue";
 import "./kit.css";
 import "./type.css";
 
@@ -110,7 +111,7 @@ export function InkSection({
         {eyebrow && <p className="ipEyebrow ip-r">{eyebrow}</p>}
         {title && (
           <h2 id={hid} className="ipH2 ip-r">
-            {title}
+            {typeof title === "string" ? glue(title) : title}
           </h2>
         )}
         {intro && <div className="ipIntro ip-r">{intro}</div>}

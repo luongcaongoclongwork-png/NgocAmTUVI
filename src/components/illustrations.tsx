@@ -149,16 +149,13 @@ export function CourtyardScene({ className = "" }: { className?: string }) {
 export function StillLifeStone({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 400 400" className={className} aria-hidden="true">
-      <rect width="400" height="400" fill="#25211b" />
-      <ellipse cx="200" cy="300" rx="150" ry="18" fill="#3e2b1e" />
-      <path
-        d="M120,300 C110,230 150,190 200,190 C250,190 290,230 280,300 Z"
-        fill="#7a8068"
-        opacity="0.85"
-      />
-      <ellipse cx="200" cy="230" rx="42" ry="16" fill="#f4ebdd" opacity="0.15" />
-      <circle cx="200" cy="150" r="3" fill="#af8a50" />
-      <line x1="200" y1="153" x2="200" y2="190" stroke="#af8a50" strokeWidth="1" />
+      {/* a stand-in until a real photograph is uploaded: paper ground, one brown line, so it sits quietly in the page */}
+      <rect width="400" height="400" fill="#f6efe2" />
+      <ellipse cx="200" cy="300" rx="150" ry="18" fill="none" stroke="#6b4a2f" strokeOpacity="0.45" strokeWidth="1.5" />
+      <path d="M120,300 C110,230 150,190 200,190 C250,190 290,230 280,300 Z" fill="#e4d5bd" fillOpacity="0.6" stroke="#6b4a2f" strokeWidth="1.5" />
+      <path d="M150,262 C160,232 180,216 204,214" fill="none" stroke="#6b4a2f" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="200" cy="150" r="3" fill="#94733a" />
+      <line x1="200" y1="153" x2="200" y2="190" stroke="#94733a" strokeWidth="1" />
     </svg>
   );
 }

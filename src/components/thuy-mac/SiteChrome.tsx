@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Compass from "./Compass";
 import { bookingFor, HEADER_LINKS, isBareRoute } from "./nav";
 import "./chrome.css";
@@ -24,6 +24,22 @@ export default function SiteChrome({ zalo }: { zalo: { url: string; phone: strin
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // On a page whose opening already offers booking, the phone's bar would say it twice:
+  // it waits below the screen until that button has scrolled away.
+  // The class is set on the element itself: it follows the scroll, not React state.
+  const bar = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = bar.current;
+    const cta = document.querySelector("[data-hero-cta]");
+    if (!el || !cta || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => el.classList.toggle("is-tucked", entry.isIntersecting), { threshold: 0.2 });
+    io.observe(cta);
+    return () => {
+      io.disconnect();
+      el.classList.remove("is-tucked");
+    };
+  }, [pathname]);
 
   if (isBareRoute(pathname)) return null;
   const booking = bookingFor(pathname);
@@ -57,7 +73,7 @@ export default function SiteChrome({ zalo }: { zalo: { url: string; phone: strin
       </header>
 
       {booking && (
-        <nav aria-label="Đặt lịch nhanh" className="tmBar">
+        <nav aria-label="Đặt lịch nhanh" ref={bar} className="tmBar">
           <Link href={booking.href} className="tmBar-book">{booking.short}</Link>
           {zalo.url ? (
             <a href={zalo.url} className="tmBar-alt">Nhắn Zalo</a>

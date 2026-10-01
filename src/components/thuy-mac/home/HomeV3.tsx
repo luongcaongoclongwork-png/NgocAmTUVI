@@ -12,6 +12,7 @@ import { fromPrice } from "../HomeV2";
 import { InkClose, InkPage, InkSection, STEPS } from "../kit";
 import Philosophy from "@/components/Philosophy";
 import { Chapter } from "../maison/Maison";
+import { glue } from "../glue";
 import { toPortrait } from "../maison/people";
 import { StillLifeStone } from "@/components/illustrations";
 import HeroInk from "./HeroInk";
@@ -87,7 +88,7 @@ export default async function HomeV3() {
             ))}
           </h1>
           <p className="hHero-lede">Từ sự quan sát, Xuyên vấn và định hướng, tìm ra sự hài hoà giữa con người và hoàn cảnh để vượt qua những điều bất như ý.</p>
-          <div className="hHero-cta">
+          <div className="hHero-cta" data-hero-cta>
             {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Dịch Vụ, not on the first screen. */}
             <Link href="/lien-he" className="hBtn">Đặt Lịch Xuyên Vấn</Link>
             <Link href="/ve-ngoc-am" className="hBtn hBtn--ghost">Về Ngọc Âm</Link>
@@ -169,7 +170,7 @@ export default async function HomeV3() {
       <InkSection
         id="trai-nghiem"
         eyebrow="Dịch vụ tư vấn"
-        title={<>Mỗi phiên Xuyên vấn là một góc nhìn<br className="hWay-br" /> được chuẩn bị riêng cho bạn.</>}
+        title={<>{glue("Mỗi phiên Xuyên vấn là một góc nhìn")}<br className="hWay-br" /> được chuẩn bị riêng cho bạn.</>}
         intro={<p className="hWay-lead">Không chỉ xem vận, mà hiểu đường đi.</p>}
         tone="raised"
         backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}
@@ -214,7 +215,7 @@ export default async function HomeV3() {
           </div>
           <div className="hAbout-text ip-r">
             <p className="ipEyebrow">Hậu nhân Khâm Thiên Giám</p>
-            <h2 className="ipH2">Từ truyền thống của triều Nguyễn<br className="hAbout-br" /> đến đời sống hiện đại.</h2>
+            <h2 className="ipH2">{glue("Từ truyền thống của triều Nguyễn")}<br className="hAbout-br" /> đến đời sống hiện đại.</h2>
             <p className="hAbout-quote">“Kế thừa tri thức chiêm tinh, lịch pháp và phong thuỷ cung đình từ Khâm Thiên Giám thời vua Minh Mạng, triều Nguyễn.”</p>
             <p>
               Ngọc Âm được hình thành từ một mạch truyền thừa tri thức phương Đông — chiêm tinh, lịch pháp, địa lý và phong thuỷ — vốn được lưu giữ và nghiên cứu qua nhiều thế hệ trong dòng họ có liên hệ với Khâm Thiên Giám dưới triều Nguyễn.

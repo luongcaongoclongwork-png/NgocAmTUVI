@@ -58,8 +58,15 @@ a:hover .mScroll-paint img { transform: scale(1.03); }
 .mMaster-about { margin: 0; max-width: 34em; color: var(--muted); }
 .mMaster-view { margin: 26px 0 0; padding-left: 22px; border-left: 2px solid var(--bronze); max-width: 30em;  color: var(--ink); }
 .mMaster-links { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+/* a tablet upright: the portrait and the text still stand side by side, from the top */
 @media (max-width: 899px) {
-  .mMaster-inner { grid-template-columns: minmax(0, 1fr); }
+  .mMaster-inner { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 40px); align-items: start; }
+  .mMaster--rev .mMaster-inner { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .mMaster-portrait { max-width: none; }
+}
+/* a phone: one column, the portrait first, buttons across the full width */
+@media (max-width: 639px) {
+  .mMaster-inner, .mMaster--rev .mMaster-inner { grid-template-columns: minmax(0, 1fr); }
   .mMaster--rev .mMaster-portrait { order: 0; }
   .mMaster-portrait { max-width: 360px; justify-self: start; }
   .mMaster-links .mBtn { width: 100%; padding: 0 16px; }
