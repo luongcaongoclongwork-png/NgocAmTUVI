@@ -178,5 +178,5 @@
 @media (prefers-reduced-motion: reduce) { .hNote, .hNote:hover { transform: none; transition: none; } }
 /* title on the left, the way to all notes on the right, resting on the title’s last line */
 .ip .hNotes-head { align-items: flex-end; }
-.ip .hNotes-head .ipH2 { margin: 0; }
+.ip .hNotes-head .ipH2 { margin: 0; text-transform: uppercase; letter-spacing: 0.04em; }
 .ip .hNotes { margin-top: 48px; }
