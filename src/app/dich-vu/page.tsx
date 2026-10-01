@@ -4,7 +4,7 @@ import { getServicesByGroup } from "@/lib/services";
 import { InkClose, InkHero, InkPage, InkSection, InkServices, InkSteps } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = {
-  title: "Bảng Giá — Ngọc Âm",
+  title: "Dịch Vụ — Ngọc Âm",
   description:
     "Toàn bộ các phiên Xuyên vấn Tử Vi, tư vấn Phong Thuỷ và Xuyên Vấn Đại Chủ Sự tại Ngọc Âm, kèm giá và thời lượng.",
 };
@@ -24,7 +24,7 @@ export default async function BangGiaPage() {
         compact
         image="/images/27-homepage-phong-thuy-dia-the.webp"
         alt="Phong cảnh núi sông Việt Nam trong sương sớm"
-        scrolls={["Bảng Giá"]}
+        scrolls={["Dịch Vụ"]}
         lede={
           <>
             <p>Chọn phiên hợp với điều bạn đang tìm kiếm.</p>

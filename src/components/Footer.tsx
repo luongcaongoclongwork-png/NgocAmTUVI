@@ -31,7 +31,7 @@ const columns: {
     title: "Dịch vụ",
     href: "/dich-vu",
     links: [
-      { label: "Bảng giá", href: "/dich-vu" },
+      { label: "Dịch vụ", href: "/dich-vu" },
       { label: "Đặt lịch tư vấn", href: "/lien-he" },
     ],
   },

@@ -87,7 +87,7 @@ export default async function HomeV3() {
           </h1>
           <p className="hHero-lede">Từ sự quan sát, Xuyên vấn và định hướng, tìm ra sự hài hoà giữa con người và hoàn cảnh để vượt qua những điều bất như ý.</p>
           <div className="hHero-cta">
-            {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Bảng Giá, not on the first screen. */}
+            {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Dịch Vụ, not on the first screen. */}
             <Link href="/lien-he" className="hBtn">Đặt Lịch Xuyên Vấn</Link>
             <Link href="/ve-ngoc-am" className="hBtn hBtn--ghost">Về Ngọc Âm</Link>
           </div>
@@ -168,7 +168,7 @@ export default async function HomeV3() {
       <InkSection
         id="phien-tieu-bieu"
         title="Phiên Xuyên vấn tiêu biểu"
-        intro={<p>Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn. <Link href="/dich-vu" className="ipLink">Xem toàn bộ Bảng Giá</Link></p>}
+        intro={<p>Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn. <Link href="/dich-vu" className="ipLink">Xem toàn bộ Dịch Vụ</Link></p>}
         backdrop={{ image: "/images/03-dich-vu-tu-van.png", position: "bottom" }}
       >
         <InkServices items={featured} />

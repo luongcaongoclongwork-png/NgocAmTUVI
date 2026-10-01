@@ -77,7 +77,7 @@ export default async function InkFooter() {
       </div>
 
       <div className="tmFoot-prices">
-        <p className="tmFoot-h">Toàn bộ bảng giá</p>
+        <p className="tmFoot-h">Toàn bộ dịch vụ</p>
         {GROUPS.map((g, i) => (
           <details key={g.id}>
             <summary>

@@ -8,7 +8,7 @@ export const PATH_LINKS = [
 export const MORE_LINKS = [
   { href: "/lap-la-so", label: "Lập Lá Số" },
   { href: "/tra-dao", label: "Trà Đạo" },
-  { href: "/dich-vu", label: "Bảng Giá" },
+  { href: "/dich-vu", label: "Dịch Vụ" },
   // Sổ tay holds both Kiến thức and Phật học (one page, two parts); it lives here, not in the header
   { href: "/kien-thuc", label: "Sổ Tay" },
   { href: "/cua-hang", label: "Vật Phẩm" },
@@ -23,7 +23,7 @@ export const HEADER_LINKS = [
   { href: "/dai-chu-su", label: "Đại Chủ Sự" },
   { href: "/lap-la-so", label: "Lập Lá Số" },
   { href: "/tra-dao", label: "Trà Đạo" },
-  { href: "/dich-vu", label: "Bảng Giá" },
+  { href: "/dich-vu", label: "Dịch Vụ" },
 ] as const;
 
 export type Booking = { label: string; short: string; href: string };

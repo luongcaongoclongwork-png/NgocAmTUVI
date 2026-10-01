@@ -42,7 +42,7 @@ export async function GET() {
 
   lines.push(
     "## Các trang khác",
-    `- Bảng giá: ${absoluteUrl("/dich-vu")}`,
+    `- Dịch vụ và giá: ${absoluteUrl("/dich-vu")}`,
     `- Lập lá số miễn phí: ${absoluteUrl("/lap-la-so")}`,
     `- Sổ tay (bài viết): ${absoluteUrl("/kien-thuc")}`,
     `- Trà Đạo: ${absoluteUrl("/tra-dao")}`,
