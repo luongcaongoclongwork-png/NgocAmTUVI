@@ -226,10 +226,6 @@ export default async function HomeV3() {
           </div>
         </div>
       </InkSection>
-      {/* the owner asked for this section exactly as on the first site: the v1 component, unchanged */}
-      <div id="tinh-than" className="hSpiritV1">
-        <Philosophy />
-      </div>
 
       {/* 9 · Sổ tay */}
       {articles.length > 0 && (
@@ -292,6 +288,11 @@ export default async function HomeV3() {
           </ul>
         </InkSection>
       )}
+
+      {/* the Ngọc Âm spirit closes the page's content, just before the invitation to write; the first site's component */}
+      <div id="tinh-than" className="hSpiritV1">
+        <Philosophy />
+      </div>
 
       <InkClose />
     </InkPage>
