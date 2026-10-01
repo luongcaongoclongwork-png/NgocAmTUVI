@@ -118,7 +118,7 @@
 .ipPortrait { position: relative; display: block; aspect-ratio: 4 / 5; width: 100%; max-width: 420px; overflow: hidden; background: var(--raised);
   -webkit-mask-image: radial-gradient(circle at 50% 45%, #000 var(--ipink), transparent calc(var(--ipink) + 14%));
   mask-image: radial-gradient(circle at 50% 45%, #000 var(--ipink), transparent calc(var(--ipink) + 14%)); }
-.ipPortrait img { object-fit: cover; object-position: center 20%; filter: grayscale(1) sepia(0.35) contrast(1.12) brightness(1.04); mix-blend-mode: multiply; }
+.ipPortrait img { object-fit: cover; object-position: center 20%; }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .ipPortrait { animation: ipWash linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }

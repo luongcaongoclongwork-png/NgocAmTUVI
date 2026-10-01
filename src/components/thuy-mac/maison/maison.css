@@ -13,7 +13,7 @@
 .mScroll::after { bottom: 4px; left: -5px; right: -5px; height: 6px; }
 .mScroll-paint { position: relative; display: block; aspect-ratio: 3 / 4.4; overflow: hidden; background: var(--raised); }
 /* every photograph becomes the same single-tone ink painting */
-.mScroll-paint img { object-fit: cover; filter: grayscale(1) sepia(0.32) contrast(1.14) brightness(1.05); mix-blend-mode: multiply; transition: transform 1200ms var(--ease-out); }
+.mScroll-paint img { object-fit: cover; transition: transform 1200ms var(--ease-out); }
 .mScroll-paint::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(246, 239, 226, 0.5) 0%, rgba(246, 239, 226, 0) 22%, rgba(246, 239, 226, 0) 72%, rgba(246, 239, 226, 0.7) 100%); pointer-events: none; }
 a:hover .mScroll-paint img { transform: scale(1.03); }
 @property --mink { syntax: "<percentage>"; inherits: false; initial-value: 130%; }
