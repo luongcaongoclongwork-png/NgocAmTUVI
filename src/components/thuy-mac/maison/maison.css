@@ -1,0 +1,83 @@
+/* The chapters about Ngọc Âm's people (home) and their portrait pages. Tokens from .ip.
+   Bold in one place only: the portraits. Everything else is paper and space. */
+
+.mBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px; border-radius: 3px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 16px; transition: background-color var(--dur-fast); }
+.mBtn:hover { background: var(--accent); }
+.mBtn--line { background: transparent; color: var(--ink) !important; border: 1px solid var(--ink); }
+.mBtn--line:hover { background: var(--ink); color: var(--paper) !important; }
+
+/* ---------- the portrait as a hanging scroll ---------- */
+.mScroll { position: relative; display: block; padding: 10px 0; }
+.mScroll::before, .mScroll::after { content: ""; position: absolute; left: -9px; right: -9px; height: 7px; border-radius: 3px; background: #4a3526; z-index: 1; }
+.mScroll::before { top: 4px; }
+.mScroll::after { bottom: 4px; left: -5px; right: -5px; height: 6px; }
+.mScroll-paint { position: relative; display: block; aspect-ratio: 3 / 4.4; overflow: hidden; background: var(--raised); }
+/* every photograph becomes the same single-tone ink painting */
+.mScroll-paint img { object-fit: cover; filter: grayscale(1) sepia(0.32) contrast(1.14) brightness(1.05); mix-blend-mode: multiply; transition: transform 1200ms var(--ease-out); }
+.mScroll-paint::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(246, 239, 226, 0.5) 0%, rgba(246, 239, 226, 0) 22%, rgba(246, 239, 226, 0) 72%, rgba(246, 239, 226, 0.7) 100%); pointer-events: none; }
+a:hover .mScroll-paint img { transform: scale(1.03); }
+@property --mink { syntax: "<percentage>"; inherits: false; initial-value: 130%; }
+@keyframes mWash { from { --mink: 0%; } to { --mink: 130%; } }
+
+/* ---------- 2 · lineage, said once ---------- */
+.mLine { padding: clamp(72px, 10vw, 136px) clamp(16px, 4vw, 48px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.mLine-carve { width: min(620px, 92vw); color: var(--bronze); opacity: 0.75; --orn-fill: var(--paper); view-timeline-name: --carve; }
+.mLine-carve svg { display: block; width: 100%; height: auto; }
+.mLine-carve .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mLine-carve .draw { animation: ipCarve linear both; animation-timeline: --carve; animation-range: entry 10% cover 50%; }
+  }
+}
+.mLine p { margin: 0; max-width: 26em; font-family: var(--display); font-style: italic; font-size: clamp(1.45rem, 2.3vw, 1.95rem); line-height: 1.45; color: var(--ink); text-wrap: balance; }
+
+/* ---------- 3 · a Xuyên giả ---------- */
+.mMaster { padding: clamp(64px, 9vw, 128px) clamp(16px, 5vw, 64px); }
+.mMaster { position: relative; }
+.mMaster--raised { background: var(--raised); }
+/* a v1 section painting behind the chapter, under the same paper veil as the other sections */
+.mMaster--backdrop { isolation: isolate; overflow: hidden; }
+/* washed towards ink, so a colourful photograph never competes with the portrait or the words */
+.mMaster-bg { object-fit: cover; z-index: -2; filter: grayscale(0.75) sepia(0.35) brightness(1.05); }
+.mMaster--backdrop::before { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--paper) 87%, transparent); }
+.mMaster--raised.mMaster--backdrop::before { background: color-mix(in srgb, var(--raised) 87%, transparent); }
+.mMaster-inner { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(36px, 7vw, 112px); align-items: center; }
+.mMaster--rev .mMaster-portrait { order: 2; }
+.mMaster-portrait { display: block; max-width: 500px; width: 100%; justify-self: center; }
+.mMaster-portrait .mScroll-paint { aspect-ratio: 4 / 5; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .mMaster-portrait .mScroll-paint { -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 var(--mink), transparent calc(var(--mink) + 16%)); mask-image: radial-gradient(circle at 50% 42%, #000 var(--mink), transparent calc(var(--mink) + 16%)); animation: mWash linear both; animation-timeline: view(); animation-range: entry 5% cover 42%; }
+  }
+}
+.mMaster-field { margin: 0; font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--accent); }
+.mMaster h2 { font-size: clamp(2.6rem, 5vw, 4.6rem) !important; font-weight: 500 !important; line-height: 1.04 !important; color: var(--ink); margin: 6px 0 26px !important; }
+.mMaster-about { margin: 0; max-width: 34em; color: var(--muted); }
+.mMaster-view { margin: 26px 0 0; padding-left: 22px; border-left: 2px solid var(--bronze); max-width: 30em; font-family: var(--display); font-size: clamp(1.25rem, 1.8vw, 1.5rem); line-height: 1.5; color: var(--ink); }
+.mMaster-links { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+@media (max-width: 899px) {
+  .mMaster-inner { grid-template-columns: minmax(0, 1fr); }
+  .mMaster--rev .mMaster-portrait { order: 0; }
+  .mMaster-portrait { max-width: 360px; justify-self: start; }
+  .mMaster-links .mBtn { width: 100%; padding: 0 16px; }
+}
+
+/* ---------- portrait page ---------- */
+.mPro { max-width: 1240px; margin: 0 auto; padding: 116px clamp(16px, 5vw, 64px) clamp(56px, 7vw, 96px); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(36px, 7vw, 112px); align-items: start; }
+.mPro-portrait { position: sticky; top: 100px; max-width: 480px; width: 100%; }
+.mPro-portrait .mScroll-paint { aspect-ratio: 3 / 4; }
+.mPro-back { display: inline-flex; min-height: 44px; align-items: center; }
+.mPro h1 { font-size: clamp(2.8rem, 5.6vw, 5.2rem) !important; font-weight: 500 !important; line-height: 1.02 !important; margin: 4px 0 30px !important; }
+.mPro-about { margin: 0; max-width: 34em; font-size: 1.08rem; line-height: 1.8; }
+.mPro-view { margin: 34px 0 0; padding-left: 24px; border-left: 2px solid var(--bronze); max-width: 30em; display: flex; flex-direction: column; gap: 14px; }
+.mPro-view p { margin: 0; font-family: var(--display); font-size: clamp(1.35rem, 2vw, 1.7rem); line-height: 1.5; color: var(--ink); }
+.mPro .mMaster-links { margin-top: 40px; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .mPro-portrait .mScroll-paint { -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 var(--mink), transparent calc(var(--mink) + 16%)); mask-image: radial-gradient(circle at 50% 42%, #000 var(--mink), transparent calc(var(--mink) + 16%)); animation: mWash 1.6s cubic-bezier(0.5, 0, 0.3, 1) 0.2s backwards; }
+  .js .mPro h1 { animation: ipBrush 1s cubic-bezier(0.6, 0, 0.2, 1) 0.2s backwards; }
+  .js .mPro-about, .js .mPro-view, .js .mPro .mMaster-links { animation: ipFade 0.9s ease 0.8s backwards; }
+}
+@media (max-width: 899px) {
+  .mPro { grid-template-columns: minmax(0, 1fr); padding-top: 88px; }
+  .mPro-portrait { position: static; max-width: 340px; }
+}

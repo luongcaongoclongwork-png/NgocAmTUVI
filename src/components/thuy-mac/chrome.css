@@ -32,7 +32,7 @@
 .tmNav a[aria-current="page"] { color: var(--accent); }
 
 .tmCompass { position: relative; color: var(--ink); }
-.tmCompass-btn { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 14px 0 6px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink); font: 500 15px var(--font-body), sans-serif; cursor: pointer; }
+.tmCompass-btn { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 14px 0 6px; border-radius: 3px; border: 1px solid var(--line); background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink); font: 500 15px var(--font-body), sans-serif; cursor: pointer; }
 .tmCompass-btn:hover { border-color: var(--accent); }
 .tmCompass-btn svg { width: 34px; height: 34px; }
 .tmCompass-word--narrow { display: none; }
@@ -58,7 +58,7 @@
 @keyframes tmUp { from { opacity: 0; transform: translateY(8px); } }
 
 /* the booking button names this page's service (v2's strength) and stays in the header (v1's) */
-.tmBook { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 15px; white-space: nowrap; transition: background-color var(--dur-fast); }
+.tmBook { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px; border-radius: 3px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 15px; white-space: nowrap; transition: background-color var(--dur-fast); }
 .tmBook:hover { background: var(--accent); }
 .tmPill-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: #c9a25a; }
 @media (prefers-reduced-motion: no-preference) { .tmPill-dot { animation: tmPulse 2.4s ease-in-out infinite; } }
@@ -77,7 +77,7 @@
   .tmCompass-word--wide { display: none; }
   .tmCompass-word--narrow { display: inline; }
   .tmBar { position: fixed; z-index: 50; inset: auto 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); background: color-mix(in srgb, var(--raised) 94%, transparent); backdrop-filter: blur(8px); border-top: 1px solid var(--line); }
-  .tmBar a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 999px; font-weight: 500; font-size: 15.5px; text-decoration: none; }
+  .tmBar a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 3px; font-weight: 500; font-size: 15.5px; text-decoration: none; }
   .tmBar-book { flex: 1.6; background: var(--ink); color: var(--paper) !important; }
   .tmBar-alt { flex: 1; border: 1px solid var(--accent); color: var(--accent) !important; }
 }

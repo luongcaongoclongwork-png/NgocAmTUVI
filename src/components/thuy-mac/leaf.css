@@ -101,3 +101,7 @@
 .dD-prices small { color: var(--muted); font-weight: 400; font-size: 14px; }
 .dD-offers h3 { font-family: var(--display); font-weight: 600; color: var(--accent); line-height: 1.2; margin: 0; }
 .dD-question { font-family: var(--display); font-weight: 500; color: var(--accent); line-height: 1.12; text-wrap: balance; margin: 0; }
+
+/* the offers under the question: outlined, like every other per-row button */
+.dD-btn { background: transparent; color: var(--ink) !important; border: 1px solid var(--accent); border-radius: 3px; }
+.dD-btn:hover { background: var(--ink); color: var(--paper) !important; border-color: var(--ink); }

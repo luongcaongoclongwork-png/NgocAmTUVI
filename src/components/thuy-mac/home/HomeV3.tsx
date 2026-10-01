@@ -7,9 +7,10 @@ import { calendarLeaf, dailyLine, vietnamToday } from "../calendar";
 import { ASKS, servicesFor } from "../asks";
 import Ask, { type AskItem } from "../Ask";
 import Leaf from "../Leaf";
-import { CloudBand, CuuDinhLandscape } from "../ornaments";
-import { firstSentence, fromPrice } from "../HomeV2";
-import { InkClose, InkNotes, InkPage, InkPerson, InkSection, InkServices, InkSteps, Scrolls } from "../kit";
+import { fromPrice } from "../HomeV2";
+import { InkClose, InkNotes, InkPage, InkSection, InkServices, InkSteps, Scrolls } from "../kit";
+import { Chapter, LineageWhisper } from "../maison/Maison";
+import { toPortrait } from "../maison/people";
 import { StillLifeStone } from "@/components/illustrations";
 import HeroInk from "./HeroInk";
 import "../thuy-mac.css";
@@ -51,6 +52,8 @@ export default async function HomeV3() {
   const paths = PATHS.map((p) => ({ ...p, from: fromPrice(groups.find((g) => g.id === p.id)?.items ?? []) }));
   const allServices = groups.flatMap((g) => [...g.items]);
   const featured = groups.map((g) => g.items[0]).filter(Boolean);
+  const masters = [trang, tinh].filter((c) => !!c).map(toPortrait);
+  const tea = khuong ? toPortrait(khuong) : null;
 
   const who = {
     "co-minh-trang": trang && { name: trang.name, role: "Xuyên giả Tử Vi Xuyên Tam Diệm", photo: trang.photo },
@@ -102,18 +105,28 @@ export default async function HomeV3() {
         </div>
       </header>
 
-      {/* 2 · through the clouds, the Cửu Đỉnh carving itself (one screen, no pinning) */}
-      <section className="hBand" aria-labelledby="hBand-h">
-        <CloudBand id="h1" className="hCloud hCloud--1" />
-        <CloudBand id="h2" className="hCloud hCloud--2" />
-        <div className="hBand-carve" aria-hidden="true">
-          <CuuDinhLandscape />
-        </div>
-        <div className="hBand-text">
-          <h2 id="hBand-h">{LINEAGE.title}</h2>
-          <p>{LINEAGE.quote}</p>
-        </div>
-      </section>
+      {/* 2 · the lineage, said once */}
+      <LineageWhisper line={LINEAGE.quote} />
+
+      {/* 3 · the Xuyên giả, a chapter each: the people are why a client chooses Ngọc Âm */}
+      {masters.map((p, i) => (
+        <Chapter
+          key={p.slug}
+          id={i === 0 ? "xuyen-gia" : `xuyen-gia-${p.slug}`}
+          portrait={p}
+          field={p.field}
+          title={p.name}
+          about={p.about}
+          view={p.view[0]}
+          reverse={i % 2 === 1}
+          tone={i % 2 === 0 ? "raised" : "paper"}
+          backdrop={i === 0 ? { image: "/images/02-truyen-nhan-khai-van.png", position: "right bottom" } : undefined}
+          portraitHref={`/xuyen-gia/${p.slug}`}
+        >
+          <Link href={`/xuyen-gia/${p.slug}`} className="mBtn mBtn--line">Chân dung và các phiên cùng {p.address}</Link>
+          <Link href={`/lien-he?topic=${p.topic}`} className="ipLink">{p.group === "tu-vi" ? `Đặt lịch Xuyên vấn cùng ${p.address}` : `Đặt lịch tư vấn cùng ${p.address}`}</Link>
+        </Chapter>
+      ))}
 
       {/* 3 · today's leaf and one question */}
       <section className="eS4 hAsk" aria-label="Lịch hôm nay và câu hỏi">
@@ -157,24 +170,6 @@ export default async function HomeV3() {
             </li>
           ))}
         </ul>
-        <Link href="/tra-dao" className="hTea ip-r">
-          <span className="hTea-img">
-            <Image src="/images/pillars/tra-dao.png" alt="Bàn trà gỗ giữa vườn trà trên núi, nhìn ra thung lũng sương sớm" fill sizes="(min-width: 900px) 40vw, 100vw" />
-          </span>
-          <span className="hTea-text">
-            <small>Trụ cột thứ ba</small>
-            <b>Trà Đạo Ngọc Âm</b>
-            <span>Thuận trà, thuận thuỷ, thuận thời, thuận tâm{khuong ? `: chén trà của ${khuong.name}, Trà Sư Ngọc Âm.` : "."}</span>
-          </span>
-        </Link>
-      </InkSection>
-
-      {/* 5 · the Xuyên giả */}
-      <InkSection id="xuyen-gia" title="Những người đồng hành" tone="raised" backdrop={{ image: "/images/02-truyen-nhan-khai-van.png", position: "right bottom" }}>
-        {trang && (
-          <InkPerson name={trang.name} role="Xuyên giả Tử Vi Xuyên Tam Diệm" photo={trang.photo} bio={firstSentence(trang.bio)} href="/lien-he?topic=tu-vi" cta="Đặt lịch Xuyên vấn cùng cô" />
-        )}
-        {tinh && <InkPerson reverse name={tinh.name} role={tinh.field} photo={tinh.photo} bio={firstSentence(tinh.bio)} href="/lien-he?topic=phong-thuy" cta="Đặt lịch tư vấn cùng thầy" />}
       </InkSection>
 
       {/* 6 · one session from each path, on the ink river */}
@@ -187,10 +182,34 @@ export default async function HomeV3() {
         <InkServices items={featured} />
       </InkSection>
 
-      {/* 7 · how a session goes */}
-      <InkSection id="quy-trinh" title="Một phiên Xuyên vấn diễn ra thế nào" tone="raised" backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}>
+      {/* 7 · the session */}
+      <InkSection
+        id="quy-trinh"
+        title="Một phiên Xuyên vấn"
+        intro={<p>Mỗi phiên là một cuộc đối thoại riêng, được chuẩn bị theo câu hỏi và hoàn cảnh của bạn.</p>}
+        tone="raised"
+        backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}
+      >
         <InkSteps />
       </InkSection>
+
+      {/* 7b · Trà Đạo, a chapter of its own, like the Xuyên giả */}
+      {tea && (
+        <Chapter
+          id="tra-dao"
+          portrait={tea}
+          field={`${tea.name}, Trà Sư Ngọc Âm`}
+          title="Trà Đạo Ngọc Âm"
+          about={tea.about}
+          view="Thuận trà, thuận thuỷ, thuận thời, thuận tâm."
+          reverse
+          backdrop={{ image: "/images/pillars/tra-dao.png" }}
+          portraitHref="/tra-dao"
+        >
+          <Link href="/tra-dao" className="mBtn mBtn--line">Tìm hiểu Trà Đạo</Link>
+          <Link href={`/xuyen-gia/${tea.slug}`} className="ipLink">Chân dung {tea.name}</Link>
+        </Chapter>
+      )}
 
       {/* 8 · lineage and the Ngọc Âm spirit */}
       <InkSection id="ve-ngoc-am" backdrop={{ image: "/images/07-hau-nhan-kham-thien-giam.png", position: "top" }}>

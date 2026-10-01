@@ -107,7 +107,7 @@
 .ipRiver-buy .ipBtn { margin-top: 12px; }
 @media (max-width: 700px) { .ipRiver-item { grid-template-columns: 26px minmax(0, 1fr); } .ipRiver-buy { grid-column: 2; align-items: flex-start; } }
 
-.ipBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 22px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; white-space: nowrap; transition: background-color var(--dur-fast); }
+.ipBtn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 22px; border-radius: 3px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; white-space: nowrap; transition: background-color var(--dur-fast); }
 .ipSec--ink .ipBtn { background: var(--accent); color: #1f1712 !important; }
 .ipBtn:hover { background: var(--accent); }
 .ipLink { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent) !important; font-weight: 500; text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 6px; }
@@ -189,8 +189,8 @@
 .ipClose h2 { font-size: clamp(2rem, 4.4vw, 3.4rem) !important; font-weight: 500 !important; color: var(--accent); max-width: 16em; }
 .ipClose p { color: var(--muted); margin: 0; }
 /* the drop: a small ink blot that opens into the button on hover/focus */
-.ipDrop { position: relative; margin-top: 18px; display: inline-flex; align-items: center; justify-content: center; height: 68px; padding: 0 34px; border-radius: 999px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 1.1rem; transition: padding var(--dur-base) var(--ease-out), background-color var(--dur-fast); }
-.ipDrop::before { content: ""; position: absolute; inset: -10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); transition: inset var(--dur-base) var(--ease-out), opacity var(--dur-base); }
+.ipDrop { position: relative; margin-top: 18px; display: inline-flex; align-items: center; justify-content: center; height: 68px; padding: 0 34px; border-radius: 3px; background: var(--ink); color: var(--paper) !important; text-decoration: none; font-weight: 500; font-size: 1.1rem; transition: padding var(--dur-base) var(--ease-out), background-color var(--dur-fast); }
+.ipDrop::before { content: ""; position: absolute; inset: -10px; border-radius: 3px; border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); transition: inset var(--dur-base) var(--ease-out), opacity var(--dur-base); }
 .ipDrop:hover, .ipDrop:focus-visible { padding: 0 46px; background: var(--accent); }
 .ipDrop:hover::before { inset: -18px; opacity: 0; }
 
@@ -234,7 +234,7 @@
 .ipTool .ipToolTitle { font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--accent); }
 .ipTool .ipToolGroup { font-family: var(--display); font-size: 1.35rem; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--ink); padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 .ipTool .ipToolLabel { font-size: 13.5px; text-transform: none; letter-spacing: 0; color: var(--muted); }
-.ipTool .ipToolSubmit { height: 56px; border-radius: 999px; border-color: var(--ink); background: var(--ink); font-size: 15.5px; text-transform: none; letter-spacing: 0.02em; }
+.ipTool .ipToolSubmit { height: 56px; border-radius: 3px; border-color: var(--ink); background: var(--ink); font-size: 15.5px; text-transform: none; letter-spacing: 0.02em; }
 .ipTool .ipToolSubmit:hover { background: var(--accent); }
 
 .ipResult { padding: 68px 0 0; background: var(--paper); }
@@ -243,7 +243,7 @@
 
 /* the result page and the form share the site's controls: sentence case, rounded, ink on paper */
 :is(.ipResult, .ipTool) :is(.ipToolAct, .ipToolBack, .ipToolYear) { text-transform: none; letter-spacing: 0; }
-:is(.ipResult, .ipTool) .ipToolAct { height: 44px; padding: 0 18px; border-radius: 999px; border-color: var(--line); background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink); font-size: 15px; font-weight: 500; transition: border-color var(--dur-fast), background-color var(--dur-fast), color var(--dur-fast); }
+:is(.ipResult, .ipTool) .ipToolAct { height: 44px; padding: 0 18px; border-radius: 3px; border-color: var(--line); background: color-mix(in srgb, var(--raised) 70%, transparent); color: var(--ink); font-size: 15px; font-weight: 500; transition: border-color var(--dur-fast), background-color var(--dur-fast), color var(--dur-fast); }
 :is(.ipResult, .ipTool) .ipToolAct:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--raised); }
 :is(.ipResult, .ipTool) .ipToolBack { min-height: 44px; font-size: 15px; font-weight: 500; color: var(--accent); }
 :is(.ipResult, .ipTool) .ipToolBack:hover { color: var(--ink); }
@@ -272,7 +272,7 @@
 .lienhe-v2 .tracking-label { letter-spacing: 0; }
 .lienhe-v2 .font-heading { font-family: var(--display); }
 .lienhe-v2 h2.tracking-label, .lienhe-v2 p.tracking-label { font-family: var(--display); font-size: 1.35rem; font-weight: 600; color: var(--accent); }
-.lienhe-v2 button[type="submit"] { height: 54px; padding: 0 30px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 15.5px; }
+.lienhe-v2 button[type="submit"] { height: 54px; padding: 0 30px; border-radius: 3px; background: var(--ink); color: var(--paper); font-size: 15.5px; }
 .lienhe-v2 button[type="submit"]:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
 @media (prefers-reduced-motion: no-preference) {
   .js .lienhe-v2 { animation: ipRise 0.8s var(--ease-out) 0.5s backwards; }
@@ -285,3 +285,9 @@
   .js .ipArticle-meta, .js .ipArticle-excerpt { animation: ipFade 0.8s ease 0.6s backwards; }
   .js .ipArticle-cover { animation: ipBleed 1.2s cubic-bezier(0.5, 0, 0.3, 1) 0.3s both; -webkit-mask-image: radial-gradient(circle at 30% 70%, #000 var(--ipr), transparent calc(var(--ipr) + 22%)); mask-image: radial-gradient(circle at 30% 70%, #000 var(--ipr), transparent calc(var(--ipr) + 22%)); }
 }
+
+/* The repeated per-row buttons are outlined, so the dark weight on a page belongs to the
+   portraits, the one main booking button and the closing band. */
+.ipRiver-buy .ipBtn { background: transparent; color: var(--ink) !important; border: 1px solid var(--accent); }
+.ipRiver-buy .ipBtn:hover { background: var(--ink); color: var(--paper) !important; border-color: var(--ink); }
+.ipSec--ink .ipRiver-buy .ipBtn { color: var(--ink) !important; background: transparent; }
