@@ -163,11 +163,12 @@ export default async function HomeV3() {
         </div>
       </section>
 
-      {/* 6 · the six movements of a session, in the first site's six columns; every session and its price is one step away, on Dịch Vụ */}
+      {/* 6 · services and the way of a session, as one: what a session is (title), where it leads (lead), its six movements, then every session and price on Dịch Vụ */}
       <InkSection
         id="trai-nghiem"
-        eyebrow="Trải nghiệm Xuyên vấn"
-        title="Không chỉ xem vận, mà hiểu đường đi."
+        eyebrow="Dịch vụ tư vấn"
+        title="Mỗi phiên Xuyên vấn là một góc nhìn được chuẩn bị riêng cho bạn."
+        intro={<p className="hWay-lead">Không chỉ xem vận, mà hiểu đường đi.</p>}
         tone="raised"
         backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}
       >
