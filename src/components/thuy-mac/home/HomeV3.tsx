@@ -236,8 +236,8 @@ export default async function HomeV3() {
         <InkSection id="so-tay" tone="raised" backdrop={{ image: "/images/06-thuy-mac-song-huong.webp" }}>
           {/* the first site's notes: label, title and the way to all of them on one row, then a card for each */}
           <div className="hNotes-head ip-r">
-            {/* the label alone names this section, so it is the heading */}
-            <h2 className="ipEyebrow">Ngọc Âm kiến thức</h2>
+            {/* the section title, set like every other section title on the page */}
+            <h2 className="ipH2">Ngọc Âm Kiến Thức</h2>
             <Link href="/kien-thuc" className="ipLink">Xem tất cả bài viết</Link>
           </div>
           <ul className="hNotes">

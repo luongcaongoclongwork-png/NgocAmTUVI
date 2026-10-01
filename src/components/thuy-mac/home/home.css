@@ -176,7 +176,7 @@
 @media (max-width: 1100px) { .hNotes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .hNotes { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .hNote, .hNote:hover { transform: none; transition: none; } }
-/* the label is this section's only heading: keep the label's own type, not a title's */
-.ip .hNotes-head { align-items: center; }
-.ip .hNotes-head h2.ipEyebrow { margin: 0; font: 500 14px/1.5 var(--font-body), sans-serif !important; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-deep, #73592d); }
-.ip .hNotes { margin-top: 28px; }
+/* title on the left, the way to all notes on the right, resting on the title’s last line */
+.ip .hNotes-head { align-items: flex-end; }
+.ip .hNotes-head .ipH2 { margin: 0; }
+.ip .hNotes { margin-top: 48px; }
