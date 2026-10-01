@@ -111,3 +111,10 @@
 /* footer contact: links that dial and mail */
 .tmFoot a.tmFoot-reach { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-decoration-color: rgba(214, 185, 143, 0.5); text-underline-offset: 5px; }
 .tmFoot nav a { min-height: 44px; }
+
+/* ---------- one left axis: the logo, every section, the hero and the footer start on the same line ----------
+   The page gutter is clamp(16px, 4vw, 48px) and the content is at most 1280px wide (the header uses the same two numbers in chrome.css). */
+.ip .ipSec-inner:not(.ipSec-inner--narrow), .ip .eS5-inner, .ip .mMaster-inner { max-width: 1280px; }
+.ip .mMaster { padding-inline: clamp(16px, 4vw, 48px); }
+.ip :is(.hHero-body, .mPro) { max-width: calc(1280px + 2 * clamp(16px, 4vw, 48px)); padding-inline: clamp(16px, 4vw, 48px); }
+.ip .ipHero-body { padding-inline: max(clamp(16px, 4vw, 48px), calc((100% - 1280px) / 2)); }
