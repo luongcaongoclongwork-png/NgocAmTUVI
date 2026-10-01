@@ -227,38 +227,7 @@ export default async function HomeV3() {
         </div>
       </InkSection>
 
-      {/* 9 · Sổ tay */}
-      {articles.length > 0 && (
-        <InkSection id="so-tay" tone="raised" backdrop={{ image: "/images/06-thuy-mac-song-huong.webp" }}>
-          {/* the first site's notes: label, title and the way to all of them on one row, then a card for each */}
-          <div className="hNotes-head ip-r">
-            {/* the section title, set like every other section title on the page */}
-            <h2 className="ipH2">Ngọc Âm Kiến Thức</h2>
-            <Link href="/kien-thuc" className="ipLink">Xem tất cả bài viết</Link>
-          </div>
-          <ul className="hNotes">
-            {articles.map((n) => (
-              <li key={n.id} className="hNote ip-r">
-                <div className="hNote-img">
-                  <Image src={n.image} alt={n.imageAlt || n.title} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
-                </div>
-                <div className="hNote-text">
-                  <p className="hNote-cat">{n.category}</p>
-                  <h3>{n.title}</h3>
-                  <p className="hNote-desc">{n.excerpt}</p>
-                  <p className="hNote-time">{computeReadTime(n.body)}</p>
-                  {/* the link's hit area covers the whole card */}
-                  <Link href={`/kien-thuc/${n.slug}`} className="hNote-more" aria-label={`Đọc bài: ${n.title}`}>
-                    Đọc bài<span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </InkSection>
-      )}
-
-      {/* 10 · Vật phẩm */}
+      {/* 9 · Vật phẩm */}
       {categories.length > 0 && (
         <InkSection id="vat-pham" backdrop={{ image: "/images/08-vat-pham-ngoc-am.png", position: "top" }}>
           {/* the first site's head: the name and one sentence on the left, the ways on on the right; then the four kinds */}
@@ -283,6 +252,37 @@ export default async function HomeV3() {
                   </span>
                   <b>{c.name}</b>
                 </Link>
+              </li>
+            ))}
+          </ul>
+        </InkSection>
+      )}
+
+      {/* 10 · Sổ tay */}
+      {articles.length > 0 && (
+        <InkSection id="so-tay" tone="raised" backdrop={{ image: "/images/06-thuy-mac-song-huong.webp" }}>
+          {/* the first site's notes: label, title and the way to all of them on one row, then a card for each */}
+          <div className="hNotes-head ip-r">
+            {/* the section title, set like every other section title on the page */}
+            <h2 className="ipH2">Ngọc Âm Kiến Thức</h2>
+            <Link href="/kien-thuc" className="ipLink">Xem tất cả bài viết</Link>
+          </div>
+          <ul className="hNotes">
+            {articles.map((n) => (
+              <li key={n.id} className="hNote ip-r">
+                <div className="hNote-img">
+                  <Image src={n.image} alt={n.imageAlt || n.title} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                </div>
+                <div className="hNote-text">
+                  <p className="hNote-cat">{n.category}</p>
+                  <h3>{n.title}</h3>
+                  <p className="hNote-desc">{n.excerpt}</p>
+                  <p className="hNote-time">{computeReadTime(n.body)}</p>
+                  {/* the link's hit area covers the whole card */}
+                  <Link href={`/kien-thuc/${n.slug}`} className="hNote-more" aria-label={`Đọc bài: ${n.title}`}>
+                    Đọc bài<span aria-hidden="true">→</span>
+                  </Link>
+                </div>
               </li>
             ))}
           </ul>
