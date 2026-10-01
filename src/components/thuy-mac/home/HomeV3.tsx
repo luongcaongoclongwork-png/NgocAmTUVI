@@ -264,30 +264,32 @@ export default async function HomeV3() {
 
       {/* 10 · Vật phẩm */}
       {categories.length > 0 && (
-        <InkSection
-          id="vat-pham"
-          title="Vật phẩm đồng hành, không phải trọng tâm."
-          intro={<p>Ngọc phỉ thuý, đá và đồ phong thuỷ được Ngọc Âm tuyển chọn như một phần mở rộng của hành trình tư vấn, luôn đi kèm lời khuyên trực tiếp.</p>}
-          backdrop={{ image: "/images/08-vat-pham-ngoc-am.png", position: "top" }}
-        >
+        <InkSection id="vat-pham" backdrop={{ image: "/images/08-vat-pham-ngoc-am.png", position: "top" }}>
+          {/* the first site's head: the name and one sentence on the left, the ways on on the right; then the four kinds */}
+          <div className="hNotes-head hGoods-head ip-r">
+            <div>
+              <h2 className="ipH2">Vật Phẩm Ngọc Âm</h2>
+              <p className="hGoods-lead">Ngọc phỉ thuý, đá và đồ phong thuỷ được Ngọc Âm tuyển chọn như một phần mở rộng của hành trình tư vấn, luôn đi kèm lời khuyên trực tiếp.</p>
+            </div>
+            <p className="hGoods-more">
+              <Link href="/cua-hang" className="ipLink">Xem tất cả vật phẩm</Link>
+              {zalo.url && (
+                <a href={zalo.url} className="ipLink">Hỏi qua Zalo</a>
+              )}
+            </p>
+          </div>
           <ul className="hGoods">
             {categories.slice(0, 4).map((c) => (
               <li key={c.id} className="ip-r">
                 <Link href="/cua-hang">
                   <span className="hGoods-img">
-                    {c.image ? <Image src={c.image} alt={c.imageAlt ?? c.name} fill sizes="(min-width: 1024px) 280px, 45vw" /> : <StillLifeStone className="hGoods-stone" />}
+                    {c.image ? <Image src={c.image} alt={c.imageAlt ?? c.name} fill sizes="(min-width: 1024px) 300px, 45vw" /> : <StillLifeStone className="hGoods-stone" />}
                   </span>
                   <b>{c.name}</b>
                 </Link>
               </li>
             ))}
           </ul>
-          <p className="hGoods-more">
-            <Link href="/cua-hang" className="ipLink">Xem tất cả vật phẩm</Link>
-            {zalo.url && (
-              <a href={zalo.url} className="ipLink">Hỏi qua Zalo</a>
-            )}
-          </p>
         </InkSection>
       )}
 
