@@ -8,12 +8,12 @@ export const PATH_LINKS = [
 export const MORE_LINKS = [
   { href: "/dich-vu", label: "Bảng giá" },
   { href: "/lap-la-so", label: "Lập lá số" },
+  // Sổ tay holds both Kiến thức and Phật học (one page, two parts)
   { href: "/kien-thuc", label: "Sổ tay" },
-  { href: "/tra-dao", label: "Trà Đạo" },
-  { href: "/phat-hoc", label: "Phật học" },
+  // in the header on a wide screen; listed here only where the header has no room for it
+  { href: "/tra-dao", label: "Trà Đạo", narrowOnly: true },
   { href: "/cua-hang", label: "Vật phẩm" },
   { href: "/ve-ngoc-am", label: "Về Ngọc Âm" },
-  { href: "/tranh-cuon", label: "Tranh cuộn" },
   { href: "/lien-he", label: "Liên hệ" },
 ] as const;
 
@@ -24,6 +24,7 @@ export const HEADER_LINKS = [
   { href: "/dai-chu-su", label: "Đại Chủ Sự" },
   { href: "/dich-vu", label: "Bảng giá" },
   { href: "/lap-la-so", label: "Lập lá số" },
+  { href: "/tra-dao", label: "Trà Đạo" },
   { href: "/kien-thuc", label: "Sổ tay" },
 ] as const;
 
@@ -31,8 +32,8 @@ export type Booking = { label: string; short: string; href: string };
 
 /** What the booking button says (and where it goes) on each page; `short` fits the phone's bottom bar. */
 export function bookingFor(pathname: string): Booking | null {
-  // the form is already here; the scroll painting has its own
-  if (pathname.startsWith("/lien-he") || pathname.startsWith("/tranh-cuon")) return null;
+  // the form is already here
+  if (pathname.startsWith("/lien-he")) return null;
   // after a chart: read it with a Xuyên giả (the button sits in the header now, never over the palaces)
   if (pathname.startsWith("/la-so") || pathname.startsWith("/lap-la-so")) return { label: "Đặt phiên luận lá số", short: "Luận lá số", href: "/lien-he?topic=tu-vi" };
   if (pathname.startsWith("/phong-thuy")) return { label: "Đặt lịch tư vấn Phong Thuỷ", short: "Đặt lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };

@@ -291,3 +291,10 @@
 .ipRiver-buy .ipBtn { background: transparent; color: var(--ink) !important; border: 1px solid var(--accent); }
 .ipRiver-buy .ipBtn:hover { background: var(--ink); color: var(--paper) !important; border-color: var(--ink); }
 .ipSec--ink .ipRiver-buy .ipBtn { color: var(--ink) !important; background: transparent; }
+
+/* ---------- Sổ tay: two parts on one page ---------- */
+.ipParts { position: sticky; top: 68px; z-index: 20; display: flex; justify-content: center; gap: clamp(20px, 5vw, 56px); padding: 0 16px; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+.ipParts a { display: inline-flex; align-items: center; min-height: 56px; font-family: var(--display); font-size: 1.5rem; font-weight: 600; color: var(--ink); text-decoration: none; border-bottom: 2px solid transparent; }
+.ipParts a:hover { color: var(--accent); border-bottom-color: var(--bronze); }
+.ipPart { scroll-margin-top: 124px; }
+@media (max-width: 859px) { .ipParts { top: 60px; } .ipPart { scroll-margin-top: 116px; } }

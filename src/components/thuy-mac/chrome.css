@@ -115,3 +115,6 @@ html[data-ink-scene="6"] .tmHead { opacity: 0; pointer-events: none; }
 .tmFoot-social a { min-height: 40px; display: inline-flex; align-items: center; }
 .tmFoot-legal { max-width: 1280px; margin: 12px auto 0; font-size: 13px; }
 @media (max-width: 860px) { .tmFoot-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+/* a link that sits in the header on a wide screen is listed in the la bàn only where the header has no room for it */
+@media (min-width: 1280px) { .tmCompass-more a.tmNarrowOnly { display: none; } }

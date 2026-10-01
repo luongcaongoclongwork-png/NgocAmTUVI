@@ -40,8 +40,7 @@ function yesterday(y: number, m: number, d: number) {
  * (three pillars with Trà Đạo, the Xuyên giả, prices, process, lineage,
  * Khương–Lạc–Tịnh, Sổ tay, Vật phẩm), told with v2's ink: a one-second ink
  * bleed, the Cửu Đỉnh carving, the calendar leaf and the question. Nothing is
- * pinned; prices and booking are on the first screen. The six-scene painting
- * lives on at /tranh-cuon.
+ * pinned; prices and booking are on the first screen.
  */
 export default async function HomeV3() {
   const [{ groups, trang, tinh, khuong, articles, settings }, categories] = await Promise.all([getHomeData(), getProductCategories()]);

@@ -42,7 +42,6 @@ async function revalidateArticleSurfaces(slug: string) {
   revalidatePath("/admin"); // dashboard draft count
   revalidatePath("/admin/bai-viet");
   revalidatePath("/kien-thuc");
-  revalidatePath("/phat-hoc");
   revalidatePath("/");
   revalidatePath(`/kien-thuc/${slug}`);
 }

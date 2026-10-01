@@ -42,7 +42,6 @@ describe("site chrome", () => {
     expect(bookingFor("/dai-chu-su")?.label).toBe("Đặt lịch Đại Chủ Sự");
     expect(bookingFor("/tu-vi")?.short).toBe("Đặt lịch Tử Vi");
     expect(bookingFor("/")?.href).toBe("/lien-he");
-    expect(bookingFor("/tranh-cuon")).toBeNull();
     expect(bookingFor("/lien-he")).toBeNull();
     expect(bookingFor("/la-so/xuyen-tam-diem")?.short).toBe("Luận lá số");
   });
