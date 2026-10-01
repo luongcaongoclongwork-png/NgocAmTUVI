@@ -52,7 +52,8 @@ a:hover .mScroll-paint img { transform: scale(1.03); }
     .mMaster-portrait .mScroll-paint { -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 var(--mink), transparent calc(var(--mink) + 16%)); mask-image: radial-gradient(circle at 50% 42%, #000 var(--mink), transparent calc(var(--mink) + 16%)); animation: mWash linear both; animation-timeline: view(); animation-range: entry 5% cover 42%; }
   }
 }
-.mMaster-field { margin: 0; font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--accent); }
+/* the title above a name: upright and bold in the reading face, so it is read before the name */
+.mMaster-field { margin: 0; font-family: var(--font-body), sans-serif; font-size: 17px; font-weight: 600; color: var(--accent); }
 .mMaster h2 { font-size: clamp(2.6rem, 5vw, 4.6rem) !important; font-weight: 500 !important; line-height: 1.04 !important; color: var(--ink); margin: 6px 0 26px !important; }
 .mMaster-about { margin: 0; max-width: 34em; color: var(--muted); }
 .mMaster-view { margin: 26px 0 0; padding-left: 22px; border-left: 2px solid var(--bronze); max-width: 30em;  color: var(--ink); }

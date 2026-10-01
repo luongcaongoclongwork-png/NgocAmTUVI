@@ -125,7 +125,7 @@
   }
 }
 @keyframes ipWash { from { --ipink: 0%; } to { --ipink: 120%; } }
-.ipPerson-role { color: var(--muted); margin: 0; }
+.ipPerson-role { color: var(--accent); font-weight: 600; margin: 0; }
 .ipPerson-text h3 { font-size: clamp(2rem, 4vw, 3rem); color: var(--accent); margin: 4px 0 18px; }
 .ipPerson-text p { max-width: 36em; }
 @media (max-width: 800px) { .ipPerson { grid-template-columns: minmax(0, 1fr); } .ipPerson--rev .ipPortrait { order: 0; } .ipPortrait { max-width: 320px; } }
