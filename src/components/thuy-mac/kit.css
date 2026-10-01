@@ -131,10 +131,11 @@
 @media (max-width: 800px) { .ipPerson { grid-template-columns: minmax(0, 1fr); } .ipPerson--rev .ipPortrait { order: 0; } .ipPortrait { max-width: 320px; } }
 
 /* ---------- steps ---------- */
-.ipSteps { list-style: none; counter-reset: s; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 36px; }
-.ipSteps li { counter-increment: s; position: relative; padding-top: 18px; border-top: 1px solid var(--line); }
-.ipSteps li::before { content: counter(s); position: absolute; top: -34px; left: 0; font-family: var(--num); font-weight: 300; font-size: 2.6rem; line-height: 1; color: var(--bronze); background: inherit; }
-.ipSteps b { display: block; font-family: var(--display); font-size: 1.55rem; font-weight: 600; margin-top: 18px; }
+.ipSteps { list-style: none; counter-reset: s; margin: 44px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px 36px; }
+.ipSteps li { counter-increment: s; padding-top: 16px; border-top: 1px solid var(--line); }
+/* the numeral sits wholly under its rule: rule, number, name, description (it used to straddle the rule, which struck it through) */
+.ipSteps li::before { content: counter(s); display: block; font-family: var(--num); font-weight: 300; font-size: 2.6rem; line-height: 1; color: var(--bronze); }
+.ipSteps b { display: block; font-family: var(--display); font-size: 1.55rem; font-weight: 600; margin-top: 12px; }
 .ipSteps p { margin: 8px 0 0; color: var(--muted); }
 @media (max-width: 860px) { .ipSteps { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .ipSteps { grid-template-columns: 1fr; } }
@@ -178,12 +179,13 @@
 .ipProse--drop > p:first-of-type::first-letter { float: left; font-family: var(--display); font-size: 4.4em; line-height: 0.82; padding: 0.06em 0.12em 0 0; color: var(--accent); }
 
 /* ---------- close ---------- */
-.ipClose { --ink: #efe3d1; --paper: #1f1712; --muted: #e2d4bf; --accent: #e3c89c; position: relative; isolation: isolate; padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px) clamp(96px, 12vw, 160px); text-align: center; overflow: hidden; background: #3a2a1f; color: var(--ink); }
+.ipClose { --ink: #efe3d1; --paper: #1f1712; --muted: #e2d4bf; --accent: #e3c89c; position: relative; isolation: isolate; --eng-w: min(660px, 110vw); padding: clamp(80px, 10vw, 140px) clamp(16px, 4vw, 48px) calc(var(--eng-w) / 3 + 36px); text-align: center; overflow: hidden; background: #3a2a1f; color: var(--ink); }
 /* v1 booking band: the mặc trầm painting under a walnut veil, so the ivory text keeps its contrast */
 .ipClose-bg { object-fit: cover; object-position: bottom; z-index: -2; }
 .ipClose::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(31, 23, 18, 0.62), rgba(31, 23, 18, 0.28)); }
 .ipClose-body { text-shadow: 0 1px 18px rgba(31, 23, 18, 0.8); }
-.ipClose .ipEngrave { position: absolute; left: 50%; bottom: 0; width: min(1200px, 150vw); transform: translateX(-50%); opacity: 0.18; }
+/* the engraving (3:1) stays in the band's foot, under the button, never behind the words: the bottom padding reserves its height */
+.ipClose .ipEngrave { position: absolute; left: 50%; bottom: 0; width: var(--eng-w); transform: translateX(-50%); opacity: 0.22; }
 .ipClose .ipLink { color: var(--ink); }
 .ipClose-body { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .ipClose h2 { font-size: clamp(2rem, 4.4vw, 3.4rem) !important; font-weight: 500 !important; color: var(--accent); max-width: 16em; }
