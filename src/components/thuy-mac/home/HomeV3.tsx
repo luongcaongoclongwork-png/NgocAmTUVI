@@ -167,7 +167,7 @@ export default async function HomeV3() {
       <InkSection
         id="trai-nghiem"
         eyebrow="Dịch vụ tư vấn"
-        title="Mỗi phiên Xuyên vấn là một góc nhìn được chuẩn bị riêng cho bạn."
+        title={<>Mỗi phiên Xuyên vấn là một góc nhìn<br className="hWay-br" /> được chuẩn bị riêng cho bạn.</>}
         intro={<p className="hWay-lead">Không chỉ xem vận, mà hiểu đường đi.</p>}
         tone="raised"
         backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}

@@ -146,6 +146,9 @@
 .hWay p { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
 @media (max-width: 1100px) { .hWay { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .hWay { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-/* the lead under the title: a second, quieter statement in the display face, leading into the six movements */
-.ip .ipIntro .hWay-lead { margin: 0; font-family: var(--display); font-size: clamp(21px, 1rem + 0.8vw, 26px); font-weight: 600; line-height: 1.3; color: var(--ink); max-width: none; }
-#trai-nghiem .ipH2 { max-width: 22em; text-wrap: balance; }
+/* the section's head: label, title, lead, one role each on one left edge, spaced as in the pillars section above.
+   The title is two set lines; the lead is an ordinary sentence in the reading face, so only the title reads as a title. */
+#trai-nghiem .ipH2 { max-width: none; text-wrap: balance; }
+#trai-nghiem .ipIntro { margin-top: 20px; }
+.ip .ipIntro .hWay-lead { margin: 0; color: var(--muted); }
+@media (max-width: 900px) { .hWay-br { display: none; } }
