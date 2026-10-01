@@ -83,9 +83,11 @@
 .hPath-text h3 { font-size: 1.7rem !important; }
 .hPath-text h3 a { text-decoration: none; color: var(--ink); }
 .hPath-text p { margin: 0; color: var(--muted); }
-.hPath-price { color: var(--ink) !important; }
-.hPath-price b { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
-.hPath-cta { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+/* link and button share one row when the card is wide enough for the longest link; below that every card stacks them the same way */
+.hPath-text { container-type: inline-size; }
+.hPath-cta { margin-top: auto; padding-top: 6px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.hPath-cta .ipLink { white-space: nowrap; font-size: 16px; }
+@container (min-width: 314px) { .hPath-cta { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; } }
 @media (max-width: 1023px) { .hPaths { grid-template-columns: minmax(0, 1fr); } .hPath { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); } .hPath-img { aspect-ratio: auto; min-height: 220px; } }
 @media (max-width: 640px) { .hPath { display: flex; flex-direction: column; } .hPath-img { aspect-ratio: 16 / 9; min-height: 0; } }
 

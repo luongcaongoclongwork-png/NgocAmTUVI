@@ -67,7 +67,6 @@
 
 /* ---------- prices: the number a visitor decides on ---------- */
 .ip :is(.ipRiver-buy b, .dD-offer-buy b) { font-size: var(--fs-price); font-weight: 600; line-height: 1.2; }
-.ip .hPath-price b { font-size: 20px; font-weight: 600; }
 
 /* ---------- sharpness: no halo behind words; the paper wash under them carries the contrast ---------- */
 .ip :is(.ipHero-lede, .ipHero-quote, .hHero-lede, .ipClose-body) { text-shadow: none; }

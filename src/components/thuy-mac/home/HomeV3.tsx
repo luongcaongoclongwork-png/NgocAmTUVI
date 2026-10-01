@@ -143,7 +143,6 @@ export default async function HomeV3() {
               <div className="hPath-text">
                 <h3><Link href={p.href}>{p.name}</Link></h3>
                 <p>{p.line}</p>
-                {p.from && <p className="hPath-price">Từ <b>{p.from}</b></p>}
                 <div className="hPath-cta">
                   <Link href={p.href} className="ipLink">{p.cta}</Link>
                   <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt Lịch</Link>
