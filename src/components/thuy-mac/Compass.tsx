@@ -58,7 +58,7 @@ export default function Compass() {
         </ul>
         <p className="tmCompass-more">
           {MORE_LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className={"narrowOnly" in l ? "tmNarrowOnly" : undefined} aria-current={current(l.href)} onClick={() => setOpen(false)}>{l.label}</Link>
+            <Link key={l.href} href={l.href} aria-current={current(l.href)} onClick={() => setOpen(false)}>{l.label}</Link>
           ))}
         </p>
       </nav>
