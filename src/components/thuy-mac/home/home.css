@@ -152,3 +152,27 @@
 #trai-nghiem .ipIntro { margin-top: 20px; }
 .ip .ipIntro .hWay-lead { margin: 0; color: var(--muted); }
 @media (max-width: 900px) { .hWay-br { display: none; } }
+
+/* ---------- 9 · notes: the first site's four cards ---------- */
+.hNotes-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 40px; flex-wrap: wrap; }
+.hNotes-head .ipH2 { max-width: none; text-wrap: balance; }
+.hNotes { list-style: none; margin: 56px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 32px); }
+.hNote { position: relative; display: flex; flex-direction: column; background: var(--raised); border-radius: 4px; overflow: hidden; box-shadow: 0 1px 2px rgba(49, 34, 21, 0.06), 0 10px 30px rgba(49, 34, 21, 0.08); transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.hNote:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgba(49, 34, 21, 0.07), 0 18px 40px rgba(49, 34, 21, 0.13); }
+.hNote-img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
+.hNote-img img { object-fit: cover; transition: transform 900ms var(--ease-out); }
+.hNote:hover .hNote-img img { transform: scale(1.04); }
+.hNote-text { display: flex; flex-direction: column; flex: 1; padding: 24px 22px 18px; }
+.hNote-cat { margin: 0 0 8px; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep, #73592d); }
+.ip .hNote h3 { margin: 0; font: 600 var(--fs-h3)/1.22 var(--display); color: var(--ink); text-wrap: balance; }
+.hNote-desc { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
+.hNote-time { margin: auto 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); }
+.hNote-desc { margin-bottom: 18px; }
+.hNote-more { margin-top: 12px; padding-top: 12px; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; align-self: flex-start; color: var(--ink) !important; font-weight: 500; font-size: 16px; text-decoration: none; background: linear-gradient(var(--bronze), var(--bronze)) left top / 28px 1px no-repeat; transition: background-size var(--dur-base) var(--ease-out); }
+.hNote:hover .hNote-more { background-size: 72px 1px; }
+.hNote-more::after { content: ""; position: absolute; inset: 0; }
+.hNote-more span { color: var(--bronze); transition: transform var(--dur-base) var(--ease-out); }
+.hNote:hover .hNote-more span { transform: translateX(5px); }
+@media (max-width: 1100px) { .hNotes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .hNotes { grid-template-columns: minmax(0, 1fr); } .hNotes-br { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hNote, .hNote:hover { transform: none; transition: none; } }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProductCategories } from "@/lib/products";
+import { computeReadTime, getFeaturedArticles } from "@/lib/articles";
 import { isSafeHttpUrl } from "@/lib/site-settings";
 import { getHomeData, PATHS } from "../data";
 import { calendarLeaf, dailyLine, vietnamToday } from "../calendar";
@@ -8,7 +9,7 @@ import { ASKS, servicesFor } from "../asks";
 import Ask, { type AskItem } from "../Ask";
 import Leaf from "../Leaf";
 import { fromPrice } from "../HomeV2";
-import { InkClose, InkNotes, InkPage, InkSection, STEPS } from "../kit";
+import { InkClose, InkPage, InkSection, STEPS } from "../kit";
 import Philosophy from "@/components/Philosophy";
 import { Chapter } from "../maison/Maison";
 import { toPortrait } from "../maison/people";
@@ -45,7 +46,8 @@ function yesterday(y: number, m: number, d: number) {
  * pinned; prices and booking are on the first screen.
  */
 export default async function HomeV3() {
-  const [{ groups, trang, tinh, khuong, articles, settings }, categories] = await Promise.all([getHomeData(), getProductCategories()]);
+  // four notes, as the first site showed them
+  const [{ groups, trang, tinh, khuong, settings }, categories, articles] = await Promise.all([getHomeData(), getProductCategories(), getFeaturedArticles(4)]);
   const { y, m, d } = vietnamToday();
   const prev = yesterday(y, m, d);
   const zalo = { url: isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "", phone: settings.phone };
@@ -231,14 +233,34 @@ export default async function HomeV3() {
 
       {/* 9 · Sổ tay */}
       {articles.length > 0 && (
-        <InkSection
-          id="so-tay"
-          title="Mới trong Sổ Tay"
-          intro={<Link href="/kien-thuc" className="ipLink">Xem tất cả bài viết</Link>}
-          tone="raised"
-          backdrop={{ image: "/images/06-thuy-mac-song-huong.webp" }}
-        >
-          <InkNotes articles={articles} />
+        <InkSection id="so-tay" tone="raised" backdrop={{ image: "/images/06-thuy-mac-song-huong.webp" }}>
+          {/* the first site's notes: label, title and the way to all of them on one row, then a card for each */}
+          <div className="hNotes-head ip-r">
+            <div>
+              <p className="ipEyebrow">Ngọc Âm kiến thức</p>
+              <h2 className="ipH2">Tri thức phương Đông,<br className="hNotes-br" /> đọc theo nhịp sống hiện đại.</h2>
+            </div>
+            <Link href="/kien-thuc" className="ipLink">Xem tất cả bài viết</Link>
+          </div>
+          <ul className="hNotes">
+            {articles.map((n) => (
+              <li key={n.id} className="hNote ip-r">
+                <div className="hNote-img">
+                  <Image src={n.image} alt={n.imageAlt || n.title} fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                </div>
+                <div className="hNote-text">
+                  <p className="hNote-cat">{n.category}</p>
+                  <h3>{n.title}</h3>
+                  <p className="hNote-desc">{n.excerpt}</p>
+                  <p className="hNote-time">{computeReadTime(n.body)}</p>
+                  {/* the link's hit area covers the whole card */}
+                  <Link href={`/kien-thuc/${n.slug}`} className="hNote-more" aria-label={`Đọc bài: ${n.title}`}>
+                    Đọc bài<span aria-hidden="true">→</span>
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
         </InkSection>
       )}
 
