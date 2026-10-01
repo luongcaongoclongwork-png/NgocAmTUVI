@@ -305,8 +305,8 @@
    (Cormorant for the three words, nothing under 14px, body-size descriptions). */
 .ip .hSpiritV1 { line-height: 1.5; }
 .ip .hSpiritV1 h3 { font-family: var(--display) !important; font-size: 40px; font-weight: 600; line-height: 1.1; }
-/* the section title: the size and colour of every other section title, in capitals */
-.ip .hSpiritV1 .hSpirit-title { margin: 0; font-size: var(--fs-h2) !important; font-weight: 600 !important; line-height: 1.16; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+/* the small label above the three words, as on the first site */
+.ip .hSpiritV1 .hSpirit-title { margin: 0; font: 500 14px/1.5 var(--font-body), sans-serif !important; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-deep, #73592d); }
 .ip .hSpiritV1 h3 ~ p { font-size: var(--fs-body); line-height: 1.65; color: var(--muted); }
 
 /* Standalone links: a faint line at rest; on hover or keyboard focus a full line runs over it from the left.

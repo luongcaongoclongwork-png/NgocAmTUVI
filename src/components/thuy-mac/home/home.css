@@ -178,5 +178,7 @@
 @media (prefers-reduced-motion: reduce) { .hNote, .hNote:hover { transform: none; transition: none; } }
 /* title on the left, the way to all notes on the right, resting on the title’s last line */
 .ip .hNotes-head { align-items: flex-end; }
-.ip .hNotes-head .ipH2 { margin: 0; text-transform: uppercase; letter-spacing: 0.04em; }
+/* in capitals, a step under the other section titles (70% of their size) */
+.ip .hNotes-head .ipH2 { margin: 0; text-transform: uppercase; letter-spacing: 0.04em; font-size: calc(var(--fs-h2) * 0.7) !important; }
 .ip .hNotes { margin-top: 48px; }
+@supports (font-size: round(1.5px, 1px)) { .ip .hNotes-head .ipH2 { font-size: round(calc(var(--fs-h2) * 0.7), 1px) !important; } }
