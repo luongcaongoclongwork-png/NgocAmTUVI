@@ -76,6 +76,7 @@ export function InkHero({
 /** A section with a brush-reveal heading; `backdrop` lays one of v1's section paintings under a paper veil. */
 export function InkSection({
   id,
+  eyebrow,
   title,
   intro,
   children,
@@ -84,6 +85,8 @@ export function InkSection({
   backdrop,
 }: {
   id?: string;
+  /** A short label above the title, only where it names the group (v1's "Ba trụ cột triết học"). */
+  eyebrow?: string;
   title?: string;
   intro?: ReactNode;
   children?: ReactNode;
@@ -97,6 +100,7 @@ export function InkSection({
     <section id={id} className={`ipSec ipSec--${tone} ${backdrop ? "ipSec--backdrop" : ""}`} aria-labelledby={title ? hid : undefined}>
       {backdrop && <Image src={backdrop.image} alt="" fill sizes="100vw" className="ipSec-bg" style={{ objectPosition: backdrop.position ?? "center" }} />}
       <div className={`ipSec-inner ${narrow ? "ipSec-inner--narrow" : ""}`}>
+        {eyebrow && <p className="ipEyebrow ip-r">{eyebrow}</p>}
         {title && (
           <h2 id={hid} className="ipH2 ip-r">
             {title}

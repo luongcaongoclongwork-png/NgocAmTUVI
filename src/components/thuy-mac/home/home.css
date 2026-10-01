@@ -73,23 +73,31 @@
   100% { transform: rotateX(-110deg); opacity: 0; }
 }
 
-/* ---------- 4 · paths ---------- */
+/* ---------- 4 · paths: the first site's cards (label, name, key words, rule, way in) in this site's type, plus the booking button ---------- */
+.ipEyebrow { margin: 0 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bronze-deep, #73592d); }
 .hPaths { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 36px); }
-.hPath { display: flex; flex-direction: column; background: color-mix(in srgb, var(--raised) 92%, transparent); border: 1px solid var(--line); }
+.hPath { display: flex; flex-direction: column; background: var(--raised); border-radius: 4px; overflow: hidden; box-shadow: 0 1px 2px rgba(49, 34, 21, 0.06), 0 10px 30px rgba(49, 34, 21, 0.08); transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+.hPath:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgba(49, 34, 21, 0.07), 0 18px 40px rgba(49, 34, 21, 0.13); }
 .hPath-img { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; }
 .hPath-img img { object-fit: cover; transition: transform 900ms var(--ease-out); }
 .hPath:hover .hPath-img img { transform: scale(1.04); }
-.hPath-text { display: flex; flex-direction: column; gap: 10px; padding: 22px 22px 20px; flex: 1; }
-.hPath-text h3 { font-size: 1.7rem !important; }
+.hPath-text { display: flex; flex-direction: column; padding: 26px 24px 22px; flex: 1; container-type: inline-size; }
+.hPath-cat { margin: 0 0 8px; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bronze-deep, #73592d); }
 .hPath-text h3 a { text-decoration: none; color: var(--ink); }
-.hPath-text p { margin: 0; color: var(--muted); }
-/* link and button share one row when the card is wide enough for the longest link; below that every card stacks them the same way */
-.hPath-text { container-type: inline-size; }
-.hPath-cta { margin-top: auto; padding-top: 6px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-.hPath-cta .ipLink { white-space: nowrap; font-size: 16px; }
-@container (min-width: 314px) { .hPath-cta { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; } }
+.hPath-words { list-style: none; margin: 12px 0 24px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 15px; color: var(--bronze-deep, #73592d); }
+.hPath-words li { display: flex; align-items: center; gap: 12px; }
+.hPath-words li + li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--bronze); }
+/* the short gold rule, then the way in and the booking button; one row when the card is wide enough, stacked the same way in every card when not */
+.hPath-cta { margin-top: auto; padding-top: 18px; position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.hPath-cta::before { content: ""; position: absolute; left: 0; top: 0; width: 28px; height: 1px; background: var(--bronze); transition: width var(--dur-base) var(--ease-out); }
+.hPath:hover .hPath-cta::before { width: 72px; }
+.hPath-more { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--ink) !important; font-size: 16px; font-weight: 500; text-decoration: none; white-space: nowrap; }
+.hPath-more span { transition: transform var(--dur-base) var(--ease-out); }
+.hPath-more:hover span { transform: translateX(4px); }
+@container (min-width: 372px) { .hPath-cta { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; } }
 @media (max-width: 1023px) { .hPaths { grid-template-columns: minmax(0, 1fr); } .hPath { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); } .hPath-img { aspect-ratio: auto; min-height: 220px; } }
 @media (max-width: 640px) { .hPath { display: flex; flex-direction: column; } .hPath-img { aspect-ratio: 16 / 9; min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { .hPath, .hPath:hover { transform: none; transition: none; } }
 
 /* ---------- 8 · about ---------- */
 .hAbout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }

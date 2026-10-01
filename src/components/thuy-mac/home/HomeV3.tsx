@@ -25,6 +25,13 @@ const PATH_IMAGES: Record<(typeof PATHS)[number]["id"], { src: string; alt: stri
   "dai-chu-su": { src: "/images/23-homepage-heritage-study.webp", alt: "Thư phòng cổ Việt Nam nhìn ra sân nhà" },
 };
 
+/** The three cards as the first site drew them: a label, the name, its key words, then the way in. */
+const PILLARS: Record<string, { category: string; words: string[]; cta: string }> = {
+  "tu-vi": { category: "Tử Vi", words: ["Xuyên vấn", "Định hướng", "Phát triển nội lực", "Chuyển hoá điều bất như ý"], cta: "Tìm hiểu Xuyên vấn Tử Vi" },
+  "phong-thuy": { category: "Phong Thuỷ", words: ["Quan sát", "Tịnh hoá", "Hài hoà", "Tự chủ", "Thịnh vượng chân thật"], cta: "Tìm hiểu Tư vấn Phong Thuỷ" },
+  "dai-chu-su": { category: "Đại Chủ Sự", words: ["Xuyên vấn", "Định hướng", "Phát triển doanh nghiệp"], cta: "Tìm hiểu Đại Chủ Sự" },
+};
+
 function yesterday(y: number, m: number, d: number) {
   const t = new Date(Date.UTC(y, m - 1, d - 1));
   return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() };
@@ -131,7 +138,8 @@ export default async function HomeV3() {
       {/* 4 · three paths, and Trà Đạo beside them, on v1's river painting */}
       <InkSection
         id="ba-con-duong"
-        title="Kế thừa tri thức cổ, ứng dụng vào đời sống hiện đại."
+        eyebrow="Ba trụ cột triết học"
+        title="Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại."
         backdrop={{ image: "/images/29-homepage-thuy-mac-song-huong.webp" }}
       >
         <ul className="hPaths">
@@ -141,10 +149,15 @@ export default async function HomeV3() {
                 <Image src={PATH_IMAGES[p.id].src} alt={PATH_IMAGES[p.id].alt} fill sizes="(min-width: 1024px) 33vw, 100vw" />
               </Link>
               <div className="hPath-text">
+                <p className="hPath-cat">{PILLARS[p.id].category}</p>
                 <h3><Link href={p.href}>{p.name}</Link></h3>
-                <p>{p.line}</p>
+                <ul className="hPath-words">
+                  {PILLARS[p.id].words.map((w) => (
+                    <li key={w}>{w}</li>
+                  ))}
+                </ul>
                 <div className="hPath-cta">
-                  <Link href={p.href} className="ipLink">{p.cta}</Link>
+                  <Link href={p.href} className="hPath-more">{PILLARS[p.id].cta}<span aria-hidden="true">→</span></Link>
                   <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt Lịch</Link>
                 </div>
               </div>
