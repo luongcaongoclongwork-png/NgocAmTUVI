@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getServicesByGroup } from "@/lib/services";
+import { getConsultantBySlug } from "@/lib/consultants";
 import { BASE_GLOSSARY_TERMS, DAI_CHU_SU_TERM } from "@/data/xuyenVanGlossary";
-import { InkClose, InkEngrave, InkHero, InkPage, InkSection, InkServices, InkSteps, Scrolls } from "@/components/thuy-mac/kit";
+import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkSection, InkServices, InkSteps, Scrolls } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = {
   title: "Xuyên Vấn Đại Chủ Sự — Ngọc Âm",
@@ -16,7 +17,7 @@ const threeWords = [
 ];
 
 export default async function DaiChuSuPage() {
-  const services = await getServicesByGroup("dai-chu-su");
+  const [services, trang] = await Promise.all([getServicesByGroup("dai-chu-su"), getConsultantBySlug("co-minh-trang")]);
 
   return (
     <InkPage>
@@ -36,7 +37,21 @@ export default async function DaiChuSuPage() {
         <Scrolls items={threeWords} />
       </InkSection>
 
-      <InkSection tone="raised" id="goi" title="Xuyên vấn cho người cầm lái" intro={<p>Buổi đầu luận Diệm Bản của chính Đại Chủ Sự; những buổi sau đi vào vấn đề hệ trọng của doanh nghiệp.</p>}>
+      {/* the Xuyên giả of this path, as on the Tử Vi page */}
+      {trang && (
+        <InkSection tone="raised">
+          <InkPerson
+            name={trang.name}
+            role="Xuyên giả Xuyên Vấn Đại Chủ Sự"
+            photo={trang.photo}
+            bio={trang.bio}
+            href="/lien-he?topic=dai-chu-su"
+            cta="Đặt lịch Đại Chủ Sự cùng cô"
+          />
+        </InkSection>
+      )}
+
+      <InkSection id="goi" title="Xuyên vấn cho người cầm lái" intro={<p>Buổi đầu luận Diệm Bản của chính Đại Chủ Sự; những buổi sau đi vào vấn đề hệ trọng của doanh nghiệp.</p>}>
         <InkServices items={services} />
       </InkSection>
 
