@@ -118,3 +118,19 @@
 .ip .mMaster { padding-inline: clamp(16px, 4vw, 48px); }
 .ip :is(.hHero-body, .mPro) { max-width: calc(1280px + 2 * clamp(16px, 4vw, 48px)); padding-inline: clamp(16px, 4vw, 48px); }
 .ip .ipHero-body { padding-inline: max(clamp(16px, 4vw, 48px), calc((100% - 1280px) / 2)); }
+
+/* ---------- phone and tablet only (under 1024px): nothing below changes a desktop screen ---------- */
+@media (max-width: 1023px) {
+  /* an inner page's opening: the lead stays the lead; the sentence under it is ordinary reading text */
+  .ip .ipHero-lede small { font-size: 16px; line-height: 1.65; }
+  /* the opening is as tall as what it says, plus room to breathe; no empty half screen under the words */
+  .ip .ipHero:not(.ipHero--bare) { min-height: 0; }
+  .ip .ipHero:not(.ipHero--bare) .ipHero-body { padding-bottom: clamp(64px, 10vh, 104px); }
+  /* the year stepper's − and + : a full finger's width */
+  :is(.ipResult, .ipTool) .ipToolStep { min-width: 44px; }
+}
+/* a tablet upright: on a Xuyên giả's own page the portrait and the text stand side by side, as in the home chapters */
+@media (min-width: 640px) and (max-width: 899px) {
+  .ip .mPro { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 40px); }
+  .ip .mPro-portrait { max-width: none; }
+}
