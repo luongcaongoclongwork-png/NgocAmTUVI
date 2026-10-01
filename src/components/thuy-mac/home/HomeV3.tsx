@@ -8,7 +8,8 @@ import { ASKS, servicesFor } from "../asks";
 import Ask, { type AskItem } from "../Ask";
 import Leaf from "../Leaf";
 import { fromPrice } from "../HomeV2";
-import { InkClose, InkNotes, InkPage, InkSection, InkServices, InkSteps, Scrolls } from "../kit";
+import { InkClose, InkNotes, InkPage, InkSection, InkServices, InkSteps } from "../kit";
+import Philosophy from "@/components/Philosophy";
 import { Chapter, LineageWhisper } from "../maison/Maison";
 import { toPortrait } from "../maison/people";
 import { StillLifeStone } from "@/components/illustrations";
@@ -23,12 +24,6 @@ const PATH_IMAGES: Record<(typeof PATHS)[number]["id"], { src: string; alt: stri
   "phong-thuy": { src: "/images/pillars/phong-thuy.webp", alt: "Hành lang gỗ bên hồ nước trong sân nhà cổ" },
   "dai-chu-su": { src: "/images/23-homepage-heritage-study.webp", alt: "Thư phòng cổ Việt Nam nhìn ra sân nhà" },
 };
-
-const SPIRIT = [
-  { word: "Khương", desc: "Vững vàng để nuôi dưỡng chí hướng dài lâu." },
-  { word: "Lạc", desc: "Chuyển động để quan sát sự hài hoà của người và cảnh vật." },
-  { word: "Tịnh", desc: "Tĩnh lặng đến từ hiểu biết, thanh lọc với sự chân thật của thân tâm." },
-];
 
 function yesterday(y: number, m: number, d: number) {
   const t = new Date(Date.UTC(y, m - 1, d - 1));
@@ -212,9 +207,10 @@ export default async function HomeV3() {
           </div>
         </div>
       </InkSection>
-      <InkSection id="tinh-than" title="Tinh thần Ngọc Âm" backdrop={{ image: "/images/05-tinh-than-ngoc-am.png", position: "bottom" }}>
-        <Scrolls items={SPIRIT} />
-      </InkSection>
+      {/* the owner asked for this section exactly as on the first site: the v1 component, unchanged */}
+      <div id="tinh-than" className="hSpiritV1">
+        <Philosophy />
+      </div>
 
       {/* 9 · Sổ tay */}
       {articles.length > 0 && (

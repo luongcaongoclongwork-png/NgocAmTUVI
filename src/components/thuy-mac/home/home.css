@@ -111,3 +111,8 @@
 /* the small booking button on each path: outlined, see kit.css */
 .hBtn--small { background: transparent; color: var(--ink) !important; border: 1px solid var(--accent); }
 .hBtn--small:hover { background: var(--ink); color: var(--paper) !important; border-color: var(--ink); }
+
+/* Tinh thần Ngọc Âm: the first site's section, kept as it was. Undo what .ip gives headings and text here. */
+.ip .hSpiritV1 { line-height: 1.5; }
+.ip .hSpiritV1 h3 { font-family: var(--font-heading), serif !important; font-weight: 400; line-height: 40px; text-wrap: wrap; }
+.ip .hSpiritV1 h3 ~ p { color: rgba(37, 33, 27, 0.7); }
