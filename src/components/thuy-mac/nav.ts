@@ -6,12 +6,12 @@ export const PATH_LINKS = [
 ] as const;
 
 export const MORE_LINKS = [
-  { href: "/dich-vu", label: "Bảng giá" },
   { href: "/lap-la-so", label: "Lập lá số" },
-  // Sổ tay holds both Kiến thức and Phật học (one page, two parts)
-  { href: "/kien-thuc", label: "Sổ tay" },
   // in the header on a wide screen; listed here only where the header has no room for it
   { href: "/tra-dao", label: "Trà Đạo", narrowOnly: true },
+  { href: "/dich-vu", label: "Bảng giá" },
+  // Sổ tay holds both Kiến thức and Phật học (one page, two parts); it lives here, not in the header
+  { href: "/kien-thuc", label: "Sổ tay" },
   { href: "/cua-hang", label: "Vật phẩm" },
   { href: "/ve-ngoc-am", label: "Về Ngọc Âm" },
   { href: "/lien-he", label: "Liên hệ" },
@@ -22,10 +22,9 @@ export const HEADER_LINKS = [
   { href: "/tu-vi", label: "Tử Vi" },
   { href: "/phong-thuy", label: "Phong Thuỷ" },
   { href: "/dai-chu-su", label: "Đại Chủ Sự" },
-  { href: "/dich-vu", label: "Bảng giá" },
   { href: "/lap-la-so", label: "Lập lá số" },
   { href: "/tra-dao", label: "Trà Đạo" },
-  { href: "/kien-thuc", label: "Sổ tay" },
+  { href: "/dich-vu", label: "Bảng giá" },
 ] as const;
 
 export type Booking = { label: string; short: string; href: string };
