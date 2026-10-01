@@ -9,7 +9,6 @@ import Ask, { type AskItem } from "../Ask";
 import Leaf from "../Leaf";
 import { fromPrice } from "../HomeV2";
 import { InkClose, InkNotes, InkPage, InkSection, STEPS } from "../kit";
-import { formatPrice } from "@/lib/service-constants";
 import Philosophy from "@/components/Philosophy";
 import { Chapter } from "../maison/Maison";
 import { toPortrait } from "../maison/people";
@@ -31,12 +30,6 @@ const PILLARS: Record<string, { category: string; words: string[]; cta: string }
   "tu-vi": { category: "Tử Vi", words: ["Xuyên vấn", "Định hướng", "Phát triển nội lực", "Chuyển hoá điều bất như ý"], cta: "Tìm hiểu Xuyên vấn Tử Vi" },
   "phong-thuy": { category: "Phong Thuỷ", words: ["Quan sát", "Tịnh hoá", "Hài hoà", "Tự chủ", "Thịnh vượng chân thật"], cta: "Tìm hiểu Tư vấn Phong Thuỷ" },
   "dai-chu-su": { category: "Đại Chủ Sự", words: ["Xuyên vấn", "Định hướng", "Phát triển doanh nghiệp"], cta: "Tìm hiểu Đại Chủ Sự" },
-};
-
-const SERVICE_GROUPS: Record<string, string> = {
-  "tu-vi": "Xuyên vấn Tử Vi",
-  "phong-thuy": "Tư vấn Phong Thuỷ",
-  "dai-chu-su": "Xuyên Vấn Đại Chủ Sự",
 };
 
 function yesterday(y: number, m: number, d: number) {
@@ -170,43 +163,7 @@ export default async function HomeV3() {
         </div>
       </section>
 
-      {/* 6 · the sessions as the first site showed them: a taste of each group in cards, prices as typed in admin */}
-      <InkSection
-        id="dich-vu"
-        eyebrow="Dịch vụ tư vấn"
-        title="Mỗi phiên Xuyên vấn là một góc nhìn được chuẩn bị riêng cho bạn."
-        backdrop={{ image: "/images/03-dich-vu-tu-van.png", position: "bottom" }}
-      >
-        {groups.map((g) =>
-          g.items.length > 0 ? (
-            <div key={g.id} className="hSvc-group">
-              <h3 className="hSvc-name ip-r">{SERVICE_GROUPS[g.id]}</h3>
-              <ul className="hSvc-list">
-                {g.items.slice(0, 3).map((it) => (
-                  <li key={it.id} className="hSvc ip-r">
-                    {it.note && <p className="hSvc-note">{it.note}</p>}
-                    <h4>{it.title}</h4>
-                    <p className="hSvc-desc">{it.desc}</p>
-                    <p className="hSvc-price">
-                      <b>{formatPrice(it.price)}</b>
-                      {it.duration && <span>{it.duration}</span>}
-                    </p>
-                    {/* the whole card is the way to the form, carrying the exact session */}
-                    <Link href={`/lien-he?topic=${g.id}&service=${it.id}`} className="hSvc-book" aria-label={`Đặt lịch: ${it.title}`}>
-                      Đặt Lịch<span aria-hidden="true">→</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null,
-        )}
-        <p className="hSvc-all ip-r">
-          <Link href="/dich-vu" className="mBtn mBtn--line">Xem Tất Cả Dịch Vụ</Link>
-        </p>
-      </InkSection>
-
-      {/* 7 · the six movements of a session, in the first site's six columns */}
+      {/* 6 · the six movements of a session, in the first site's six columns; every session and its price is one step away, on Dịch Vụ */}
       <InkSection
         id="trai-nghiem"
         eyebrow="Trải nghiệm Xuyên vấn"
@@ -223,6 +180,9 @@ export default async function HomeV3() {
             </li>
           ))}
         </ol>
+        <p className="hSvc-all ip-r">
+          <Link href="/dich-vu" className="mBtn mBtn--line">Xem Tất Cả Dịch Vụ</Link>
+        </p>
       </InkSection>
 
       {/* 7b · Trà Đạo, a chapter of its own, like the Xuyên giả */}
