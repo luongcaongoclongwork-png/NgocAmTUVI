@@ -174,5 +174,9 @@
 .hNote-more span { color: var(--bronze); transition: transform var(--dur-base) var(--ease-out); }
 .hNote:hover .hNote-more span { transform: translateX(5px); }
 @media (max-width: 1100px) { .hNotes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px) { .hNotes { grid-template-columns: minmax(0, 1fr); } .hNotes-br { display: none; } }
+@media (max-width: 640px) { .hNotes { grid-template-columns: minmax(0, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .hNote, .hNote:hover { transform: none; transition: none; } }
+/* the label is this section's only heading: keep the label's own type, not a title's */
+.ip .hNotes-head { align-items: center; }
+.ip .hNotes-head h2.ipEyebrow { margin: 0; font: 500 14px/1.5 var(--font-body), sans-serif !important; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-deep, #73592d); }
+.ip .hNotes { margin-top: 28px; }
