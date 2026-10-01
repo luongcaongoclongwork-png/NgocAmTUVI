@@ -10,7 +10,7 @@ export const MORE_LINKS = [
   { href: "/tra-dao", label: "Trà Đạo" },
   { href: "/dich-vu", label: "Dịch Vụ" },
   // Sổ tay holds both Kiến thức and Phật học (one page, two parts); it lives here, not in the header
-  { href: "/kien-thuc", label: "Sổ Tay" },
+  { href: "/kien-thuc", label: "Kiến Thức" },
   { href: "/cua-hang", label: "Vật Phẩm" },
   { href: "/ve-ngoc-am", label: "Về Ngọc Âm" },
   { href: "/lien-he", label: "Liên Hệ" },
