@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import { getConsultants } from "@/lib/consultants";
-import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkProse, InkSection, Scrolls } from "@/components/thuy-mac/kit";
+import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkProse, InkSection } from "@/components/thuy-mac/kit";
+import Philosophy from "@/components/Philosophy";
 
 export const metadata: Metadata = {
   title: "Về Ngọc Âm",
   description:
     "Ngọc Âm, hậu nhân Khâm Thiên Giám dưới triều vua Minh Mạng, triều Nguyễn. Mạch truyền thừa, những người Xuyên vấn và tinh thần Khương – Lạc – Tịnh.",
 };
-
-const spirit = [
-  { word: "Khương", desc: "Vững vàng để nuôi dưỡng chí hướng dài lâu." },
-  { word: "Lạc", desc: "Chuyển động để quan sát sự hài hoà của người và cảnh vật." },
-  { word: "Tịnh", desc: "Tĩnh lặng đến từ hiểu biết, thanh lọc với sự chân thật của thân tâm." },
-];
 
 const ROLE: Record<string, { role: string; href?: string; cta?: string }> = {
   "co-minh-trang": { role: "Xuyên giả Tử Vi Xuyên Tam Diệm", href: "/lien-he?topic=tu-vi", cta: "Đặt Lịch Xuyên Vấn Cùng Cô" },
@@ -57,9 +52,10 @@ export default async function VeNgocAmPage() {
         </InkSection>
       ))}
 
-      <InkSection id="tinh-than" title="Tinh thần Ngọc Âm">
-        <Scrolls items={spirit} />
-      </InkSection>
+      {/* as on the home page: the first site's section, unchanged */}
+      <div id="tinh-than" className="hSpiritV1">
+        <Philosophy />
+      </div>
 
       <InkClose />
     </InkPage>
