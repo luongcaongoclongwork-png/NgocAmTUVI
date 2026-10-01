@@ -11,6 +11,8 @@ import "./lienHe.css";
 type PanelPhase = "active" | "exiting" | "reply";
 
 export type SelectedService = { title: string; price: string; duration: string };
+/** A tea or a piece the visitor asked about on its own page (no price: those are discussed in person). */
+export type SelectedItem = { name: string; backHref: string; backLabel: string };
 
 type FieldName = "name" | "phone" | "interest" | "message" | "consent";
 type FieldErrors = Partial<Record<FieldName, string>>;
@@ -45,6 +47,7 @@ export default function LienHeClient({
   initialTopicId,
   initialInterestText,
   selectedService = null,
+  selectedItem = null,
   zaloUrl,
   messengerUrl,
   contact,
@@ -52,6 +55,7 @@ export default function LienHeClient({
   initialTopicId: TopicId | null;
   initialInterestText: string;
   selectedService?: SelectedService | null;
+  selectedItem?: SelectedItem | null;
   zaloUrl: string | null;
   messengerUrl: string | null;
   /** From /admin/cai-dat; empty fields are simply not shown. */
@@ -87,17 +91,17 @@ export default function LienHeClient({
         <div className="grid gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
           <div className="order-2 lg:order-1">
             <p className="tracking-label text-[12px] font-semibold uppercase text-walnut/70">
-              Một cuộc trao đổi được chuẩn bị riêng
+              Sau khi bạn gửi yêu cầu
             </p>
             <ol className="mt-6 flex flex-col gap-4 text-[15px] leading-relaxed text-ink/75">
               <li>
-                <span className="mr-2 text-gold-deep">01</span>Lắng nghe điều đang cần được làm rõ
+                <span className="mr-2 text-gold-deep">1</span>Ngọc Âm đọc yêu cầu của bạn
               </li>
               <li>
-                <span className="mr-2 text-gold-deep">02</span>Gợi ý cách trao đổi phù hợp
+                <span className="mr-2 text-gold-deep">2</span>Liên hệ lại trong một ngày làm việc để xác nhận giờ hẹn
               </li>
               <li>
-                <span className="mr-2 text-gold-deep">03</span>Hồi đáp trong một ngày làm việc
+                <span className="mr-2 text-gold-deep">3</span>Lịch hẹn chỉ được coi là đã đặt sau bước xác nhận này
               </li>
             </ol>
 
@@ -131,6 +135,7 @@ export default function LienHeClient({
               <div className={panelPhase === "exiting" ? "lienhe-panel-exit" : undefined}>
                 <LetterForm
                   selectedService={selectedService}
+                  selectedItem={selectedItem}
                   selectedTopicId={selectedTopicId}
                   onSelectTopic={setSelectedTopicId}
                   formAction={formAction}
@@ -193,6 +198,7 @@ function LetterFrame({ children }: { children: ReactNode }) {
 
 function LetterForm({
   selectedService,
+  selectedItem,
   selectedTopicId,
   onSelectTopic,
   formAction,
@@ -202,6 +208,7 @@ function LetterForm({
   messengerUrl,
 }: {
   selectedService: SelectedService | null;
+  selectedItem: SelectedItem | null;
   selectedTopicId: TopicId | null;
   onSelectTopic: (id: TopicId) => void;
   formAction: (formData: FormData) => void;
@@ -239,7 +246,7 @@ function LetterForm({
   return (
     <LetterFrame>
       <h2 className="tracking-label pr-12 text-[13px] font-semibold uppercase text-walnut">
-        Đôi dòng chia sẻ
+        Yêu cầu đặt lịch
       </h2>
 
       {selectedService && (
@@ -261,6 +268,16 @@ function LetterForm({
         </div>
       )}
 
+      {!selectedService && selectedItem && (
+        <div className="lienhe-service mt-6 border border-gold/40 bg-ivory/60 px-5 py-4">
+          <p className="tracking-label text-[11px] font-semibold uppercase text-gold-deep">Bạn đang hỏi về</p>
+          <p className="mt-1.5 font-heading text-lg leading-snug text-ink">{selectedItem.name}</p>
+          <Link href={selectedItem.backHref} className="hit mt-1 inline-block text-[13px] text-walnut underline decoration-walnut/30 underline-offset-2 hover:text-gold-deep">
+            {selectedItem.backLabel}
+          </Link>
+        </div>
+      )}
+
       <form
         action={formAction}
         noValidate
@@ -269,6 +286,7 @@ function LetterForm({
         className="mt-8 flex flex-col gap-7"
       >
         {selectedService && <input type="hidden" name="service" value={selectedService.title} />}
+        {!selectedService && selectedItem && <input type="hidden" name="item" value={selectedItem.name} />}
 
         {/* Honeypot — invisible and unreachable by keyboard for a real visitor. */}
         <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden">
@@ -277,7 +295,7 @@ function LetterForm({
         </div>
 
         <label className="flex flex-col gap-1.5 text-[14px] text-ink/80">
-          Xưng danh của bạn
+          Họ và tên
           <input
             name="name"
             type="text"
@@ -285,7 +303,7 @@ function LetterForm({
             minLength={2}
             maxLength={100}
             autoComplete="name"
-            placeholder="Họ và tên"
+            placeholder="Ví dụ: Nguyễn Văn An"
             className={inputClass}
             {...err("name")}
           />
@@ -308,7 +326,7 @@ function LetterForm({
         </label>
 
         <fieldset className="flex flex-col gap-1" {...err("interest")}>
-          <legend className="text-[14px] text-ink/80">Điều bạn muốn cùng chúng tôi quan sát</legend>
+          <legend className="text-[14px] text-ink/80">Bạn muốn trao đổi về điều gì</legend>
           <div className="mt-3 flex flex-col divide-y divide-walnut/10 border-y border-walnut/10">
             {CONTACT_TOPICS.map((topic) => {
               const isSelected = selectedTopicId === topic.id;
@@ -341,7 +359,8 @@ function LetterForm({
         </fieldset>
 
         <label className="flex flex-col gap-1.5 text-[14px] text-ink/80">
-          Điều bạn muốn chia sẻ
+          Đôi dòng về nhu cầu của bạn
+          <span className="text-[13px] text-ink/60">Chỉ cần vài câu. Chưa cần nêu chi tiết riêng tư hay số liệu kinh doanh ở bước này.</span>
           <textarea
             name="message"
             required
@@ -364,7 +383,7 @@ function LetterForm({
               className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--gold)]"
               {...err("consent")}
             />
-            <span>Tôi đồng ý để Ngọc Âm liên hệ lại về lời nhắn này.</span>
+            <span>Tôi đồng ý để Ngọc Âm liên hệ lại về yêu cầu này.</span>
           </label>
           <FieldError field="consent" message={errors.consent} />
         </div>
@@ -391,11 +410,11 @@ function LetterForm({
                 </span>
               </>
             ) : (
-              "Gửi lời nhắn"
+              "Gửi yêu cầu đặt lịch"
             )}
           </button>
           <p className="mt-3 text-[13px] leading-relaxed text-ink/55">
-            Ngọc Âm sẽ hồi đáp trong một ngày làm việc.
+            Đây là yêu cầu đặt lịch, chưa phải lịch đã xác nhận. Ngọc Âm liên hệ lại trong một ngày làm việc để hẹn giờ.
           </p>
         </div>
       </form>
@@ -463,16 +482,16 @@ function ReplyLetter({ interest, zaloUrl }: { interest: string; zaloUrl: string 
       <LetterFrame>
         <div className="lienhe-reply-panel">
           <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
-            Ngọc Âm đã nhận được lời nhắn
+            Ngọc Âm đã nhận được yêu cầu
           </p>
           <h2 className="mt-3 font-heading text-2xl text-ink sm:text-3xl">Cảm ơn bạn đã chia sẻ.</h2>
           <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink/75">
             Chúng tôi sẽ đọc kỹ những điều bạn gửi và hồi đáp trong vòng một
-            ngày làm việc để cùng bạn chọn cách trao đổi phù hợp.
+            ngày làm việc để xác nhận giờ hẹn và cách trao đổi phù hợp. Lịch hẹn chỉ được coi là đã đặt sau khi Ngọc Âm liên hệ lại.
           </p>
           {interest && (
             <p className="mt-5 text-[13.5px] text-ink/60">
-              Điều bạn muốn cùng quan sát: <span className="text-walnut">{interest}</span>
+              Bạn đã hỏi về: <span className="text-walnut">{interest}</span>
             </p>
           )}
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">

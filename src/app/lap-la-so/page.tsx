@@ -25,6 +25,9 @@ export default function LapLaSoPage() {
       />
       <div className="ipTool">
         <LapLaSoClient />
+        <p className="ipToolNote">
+          Chọn dương lịch hoặc âm lịch; công cụ hiện ngay ngày tương ứng ở lịch còn lại để bạn đối chiếu. Giờ sinh quyết định vị trí các cung, nên lá số chỉ đúng khi giờ sinh đúng. Nếu chưa chắc giờ sinh, hãy xem kết quả như bản tham khảo và nói điều đó khi đặt lịch.
+        </p>
       </div>
       </div>
       <InkClose

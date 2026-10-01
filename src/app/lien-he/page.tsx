@@ -11,10 +11,19 @@ export const metadata: Metadata = {
     "Hãy để lại đôi dòng về điều bạn đang cân nhắc. Ngọc Âm sẽ đọc kỹ những chia sẻ ấy và chuẩn bị một góc nhìn phù hợp với hoàn cảnh của bạn.",
 };
 
+/** Where a picked tea or piece came from, so the form can offer the way back. */
+function itemFrom(topic: string | undefined, raw: string | undefined) {
+  const name = (raw ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+  if (!name) return null;
+  return topic === "tra"
+    ? { name, backHref: "/tra-dao", backLabel: "Chọn trà khác" }
+    : { name, backHref: "/cua-hang", backLabel: "Chọn vật phẩm khác" };
+}
+
 export default async function LienHePage({
   searchParams,
 }: {
-  searchParams: Promise<{ topic?: string; service?: string }>;
+  searchParams: Promise<{ topic?: string; service?: string; item?: string }>;
 }) {
   const params = await searchParams;
   const topicId = resolveTopicFromQuery(params.topic);
@@ -51,6 +60,7 @@ export default async function LienHePage({
               }
             : null
         }
+        selectedItem={itemFrom(params.topic, params.item)}
         zaloUrl={isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : null}
         messengerUrl={isSafeHttpUrl(settings.messengerUrl) ? settings.messengerUrl : null}
         contact={{

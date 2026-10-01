@@ -2,7 +2,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/service-constants";
 import { getServicesByGroup } from "@/lib/services";
 import { getFeaturedArticles } from "@/lib/articles";
-import { getSiteSettings, socialLinks } from "@/lib/site-settings";
+import { getSiteSettings, socialLinks, telHref } from "@/lib/site-settings";
 import { lunarDateLabel } from "./calendar";
 import { MORE_LINKS, PATH_LINKS } from "./nav";
 import { absoluteUrl } from "@/lib/site-url";
@@ -48,8 +48,10 @@ export default async function InkFooter() {
           <p className="tmFoot-brand">Ngọc Âm</p>
           <p>Tử Vi, Phong Thuỷ hậu nhân Khâm Thiên Giám, vua Minh Mạng, triều Nguyễn.</p>
           {settings.address && <p>{settings.address}</p>}
-          <p>{[settings.phone, settings.workingHours].filter(Boolean).join(", ")}</p>
-          {settings.email && <p>{settings.email}</p>}
+          {settings.workingHours && <p>{settings.workingHours}</p>}
+          {/* links that dial and mail, not plain text */}
+          {settings.phone && <p><a href={telHref(settings.phone)} className="tmFoot-reach">{settings.phone}</a></p>}
+          {settings.email && <p><a href={`mailto:${settings.email}`} className="tmFoot-reach">{settings.email}</a></p>}
         </div>
         <nav aria-label="Các trang">
           <p className="tmFoot-h">Các trang</p>

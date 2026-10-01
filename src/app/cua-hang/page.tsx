@@ -10,6 +10,11 @@ export const metadata: Metadata = {
     "Ngọc phỉ thuý, ngọc Hoà Điền, đá phong thuỷ và đồ phong thuỷ được Ngọc Âm tuyển chọn. Liên hệ để được tư vấn trực tiếp trước khi đặt.",
 };
 
+/** Asking about one piece carries its name to the form, so nobody has to type it again. */
+function askHref(name: string): string {
+  return `/lien-he?topic=vat-pham&item=${encodeURIComponent(name)}`;
+}
+
 export default async function VatPhamPage() {
   const categories = await getProductCategoriesWithItems();
 
@@ -40,7 +45,7 @@ export default async function VatPhamPage() {
               <div key={item.id} className="ipItem ip-r">
                 <h3>{item.name}</h3>
                 <p>{item.desc}</p>
-                <Link href="/lien-he?topic=vat-pham" className="ipLink">Hỏi về vật phẩm này</Link>
+                <Link href={askHref(item.name)} className="ipLink">Hỏi về vật phẩm này</Link>
               </div>
             ))}
           </div>

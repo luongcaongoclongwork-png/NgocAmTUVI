@@ -16,7 +16,7 @@ export const revalidate = 600;
 function bookingLabel(p: Portrait): string {
   if (p.group === "tu-vi") return `Đặt lịch Xuyên vấn cùng ${p.address}`;
   if (p.group === "phong-thuy") return `Đặt lịch tư vấn cùng ${p.address}`;
-  return "Hỏi về vật phẩm";
+  return "Hỏi về trà";
 }
 
 async function load(slug: string) {
@@ -38,7 +38,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function XuyenGiaPage({ params }: { params: Promise<{ slug: string }> }) {
   const p = await load((await params).slug);
   if (!p) notFound();
-  const sessions = p.group ? await getServicesByGroup(p.group) : [];
+  const groups = p.sessions ?? [];
+  const lists = await Promise.all(groups.map((g) => getServicesByGroup(g.id)));
+  const hasSessions = lists.some((l) => l.length > 0);
 
   return (
     <InkPage>
@@ -58,7 +60,7 @@ export default async function XuyenGiaPage({ params }: { params: Promise<{ slug:
           <ScrollPortrait p={p} sizes="(min-width: 900px) 40vw, 90vw" priority />
         </div>
         <div>
-          <Link href="/#xuyen-gia" className="ipLink mPro-back">Về trang chủ</Link>
+          <Link href={p.home} className="ipLink mPro-back">Về trang chủ</Link>
           <p className="mMaster-field">{p.field}</p>
           <h1>{p.name}</h1>
           <p className="mPro-about">{p.about}</p>
@@ -76,12 +78,23 @@ export default async function XuyenGiaPage({ params }: { params: Promise<{ slug:
         </div>
       </article>
 
-      {sessions.length > 0 && (
-        <InkSection id="cac-phien" title={`Các phiên cùng ${p.address}`} intro={<p>Giá công khai. Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn.</p>} tone="raised">
-          <InkServices items={sessions} />
-        </InkSection>
+      {hasSessions && (
+        <div id="cac-phien">
+          {groups.map((g, i) =>
+            lists[i].length > 0 ? (
+              <InkSection
+                key={g.id}
+                title={groups.length > 1 ? g.name : `Các phiên cùng ${p.address}`}
+                intro={i === 0 ? <p>Giá công khai. Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn.</p> : undefined}
+                tone={i % 2 ? "paper" : "raised"}
+              >
+                <InkServices items={lists[i]} />
+              </InkSection>
+            ) : null,
+          )}
+        </div>
       )}
-      {sessions.length > 0 && (
+      {hasSessions && (
         <InkSection id="mot-phien" title="Một phiên diễn ra thế nào">
           <InkSteps />
         </InkSection>

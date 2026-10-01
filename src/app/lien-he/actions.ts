@@ -18,11 +18,14 @@ export async function submitLeadAction(
   // change: validateLeadInput already caps interest at 200 characters.
   const interest = String(formData.get("interest") || "");
   const service = String(formData.get("service") || "").trim().slice(0, 120);
+  // A tea or a piece picked on its own page, carried the same way.
+  const item = String(formData.get("item") || "").trim().slice(0, 120);
+  const picked = service ? `Gói: ${service}` : item ? `Món: ${item}` : "";
 
   const result = await createLeadPublic({
     name: String(formData.get("name") || ""),
     phone: String(formData.get("phone") || ""),
-    interest: service ? `${interest || "Chưa xác định"} — Gói: ${service}` : interest,
+    interest: picked ? `${interest || "Chưa xác định"} — ${picked}` : interest,
     message: String(formData.get("message") || ""),
     consent: String(formData.get("consent") || ""),
     // Hidden field real visitors never fill in — named to look plausible to bots.

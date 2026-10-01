@@ -3,10 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleBody from "@/components/ArticleBody";
-import { getArticleBySlug, getArticleBySlugForAdmin } from "@/lib/articles";
+import { computeReadTime, getArticleBySlug, getArticleBySlugForAdmin } from "@/lib/articles";
 import { verifySession } from "@/lib/auth";
 import { lunarDateLabel } from "@/components/thuy-mac/calendar";
-import { InkClose, InkPage, InkProse } from "@/components/thuy-mac/kit";
+import { InkClose, InkPage, InkProse, solarDate } from "@/components/thuy-mac/kit";
+
+/** The booking a reader of this topic would most likely make next. */
+function closeFor(category: string): { href: string } {
+  const c = category.toLowerCase();
+  if (c.includes("tử vi")) return { href: "/lien-he?topic=tu-vi" };
+  if (c.includes("phong thuỷ") || c.includes("không gian")) return { href: "/lien-he?topic=phong-thuy" };
+  return { href: "/lien-he" };
+}
 import JsonLd from "@/components/thuy-mac/JsonLd";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -74,7 +82,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <Link href="/kien-thuc" className="ipLink">← Sổ tay</Link>
           {article.status === "draft" && <p className="ipArticle-draft">Bản nháp, chỉ bạn thấy được</p>}
           <p className="ipArticle-meta">
-            {article.category}, viết {lunarDateLabel(article.createdAt)}, {article.readTime}
+            {article.category}, viết ngày {solarDate(article.createdAt)} ({lunarDateLabel(article.createdAt)}), {computeReadTime(article.body)}
           </p>
           <h1>{article.title}</h1>
           {article.excerpt && <p className="ipArticle-excerpt">{article.excerpt}</p>}
@@ -90,7 +98,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </InkProse>
         </div>
       </article>
-      <InkClose />
+      <InkClose {...closeFor(article.category)} />
     </InkPage>
   );
 }

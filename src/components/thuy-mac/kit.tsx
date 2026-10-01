@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { formatPrice, type Service } from "@/lib/service-constants";
 import type { Article } from "@/lib/article-constants";
+import { computeReadTime } from "@/lib/articles";
 import { getSiteSettings, isSafeHttpUrl } from "@/lib/site-settings";
 import { CuuDinhLandscape } from "./ornaments";
 import { lunarDateLabel } from "./calendar";
@@ -10,6 +11,7 @@ import JsonLd, { priceNumber } from "./JsonLd";
 import { absoluteUrl } from "@/lib/site-url";
 import "./chrome.css";
 import "./kit.css";
+import "./type.css";
 
 /**
  * The Thuỷ Mặc page kit: every public page is built from these pieces so the
@@ -233,7 +235,13 @@ export function InkEngrave() {
   );
 }
 
-/** Sổ tay entries: dated in âm lịch, thumbnails washed to ink. */
+export function solarDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return new Intl.DateTimeFormat("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", day: "2-digit", month: "2-digit", year: "numeric" }).format(d);
+}
+
+/** Sổ tay entries: both dates, a reading time counted from the text, thumbnails washed to ink. */
 export function InkNotes({ articles, lead = false }: { articles: Article[]; lead?: boolean }) {
   return (
     <ol className={`ipNotes ${lead ? "ipNotes--lead" : ""}`}>
@@ -245,7 +253,7 @@ export function InkNotes({ articles, lead = false }: { articles: Article[]; lead
             </span>
             <span className="ipNotes-text">
               <small>
-                {a.category}, {lunarDateLabel(a.createdAt)}
+                {a.category}, {solarDate(a.createdAt)} ({lunarDateLabel(a.createdAt)}), {computeReadTime(a.body)}
               </small>
               <b>{a.title}</b>
               <span>{a.excerpt}</span>

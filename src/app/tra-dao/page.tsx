@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   description: "Trà Đạo Ngọc Âm cùng Trà Sư Khương: thuận tự nhiên mà pha, tĩnh tâm mà uống, chân thành mà đối đãi.",
 };
 
+/** Asking about one thing carries its name to the form, so nobody has to type it again. */
+function askHref(name: string): string {
+  return `/lien-he?topic=tra&item=${encodeURIComponent(name)}`;
+}
+
 function TeaItems({ items }: { items: TraSanPham[] }) {
   return (
     <div className="ipCols">
@@ -45,7 +50,7 @@ function TeaItems({ items }: { items: TraSanPham[] }) {
           {item.desc.map((d, i) => (
             <p key={i}>{d}</p>
           ))}
-          <Link href="/lien-he?topic=vat-pham" className="ipLink">Liên hệ để đặt</Link>
+          <Link href={askHref(item.name)} className="ipLink">Hỏi về {item.name}</Link>
         </div>
       ))}
     </div>
@@ -108,6 +113,7 @@ export default async function TraDaoPage() {
               {item.desc.map((d, i) => (
                 <p key={i}>{d}</p>
               ))}
+              <Link href={askHref(item.title)} className="ipLink">Hỏi về {item.title}</Link>
             </div>
           ))}
         </div>
@@ -162,7 +168,7 @@ export default async function TraDaoPage() {
         </InkSection>
       )}
 
-      <InkClose href="/lien-he?topic=vat-pham" label="Hỏi về trà" title="Một chén trà mở đầu câu chuyện." />
+      <InkClose href="/lien-he?topic=tra" label="Hỏi về trà" title="Một chén trà mở đầu câu chuyện." />
     </InkPage>
   );
 }

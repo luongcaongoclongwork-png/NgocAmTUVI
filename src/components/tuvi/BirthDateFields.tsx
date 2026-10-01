@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { CalendarType } from "./CalendarSwitch";
 import {
   daysInSolarMonth,
@@ -13,6 +14,56 @@ const labelClass = "tracking-label mb-1.5 block text-[10px] font-medium uppercas
 
 function range(from: number, to: number): number[] {
   return Array.from({ length: to - from + 1 }, (_, i) => from + i);
+}
+
+const YEAR_MIN = 1900;
+const YEAR_MAX = 2100;
+
+/**
+ * The birth year, typed (four digits) instead of scrolled through a list of
+ * 200 years. The chart only hears about a year once it is a complete, valid
+ * one; a half-typed value never reaches it. Leaving the field with something
+ * invalid puts the last valid year back.
+ */
+function YearField({
+  year,
+  invalid,
+  describedBy,
+  onYearChange,
+}: {
+  year: number;
+  invalid?: boolean;
+  describedBy?: string;
+  onYearChange: (value: number) => void;
+}) {
+  const [text, setText] = useState(String(year));
+  // follow a year changed from outside (the stepper, a restored form) without an effect
+  const [seen, setSeen] = useState(year);
+  if (year !== seen) {
+    setSeen(year);
+    setText(String(year));
+  }
+  return (
+    <input
+      id="tuvi-year"
+      type="text"
+      inputMode="numeric"
+      pattern="[0-9]{4}"
+      maxLength={4}
+      autoComplete="bday-year"
+      className={selectClass}
+      value={text}
+      aria-invalid={invalid || undefined}
+      aria-describedby={describedBy}
+      onChange={(e) => {
+        const v = e.target.value.replace(/\D/g, "").slice(0, 4);
+        setText(v);
+        const n = Number(v);
+        if (v.length === 4 && n >= YEAR_MIN && n <= YEAR_MAX) onYearChange(n);
+      }}
+      onBlur={() => setText(String(year))}
+    />
+  );
 }
 
 export function BirthDateFields({
@@ -96,22 +147,7 @@ export function BirthDateFields({
           <label className={labelClass} htmlFor="tuvi-year">
             Năm
           </label>
-          <select
-            id="tuvi-year"
-            className={selectClass}
-            value={year}
-            aria-invalid={invalid || undefined}
-            aria-describedby={describedBy}
-            onChange={(e) => onYearChange(Number(e.target.value))}
-          >
-            {range(1900, 2100)
-              .reverse()
-              .map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-          </select>
+          <YearField year={year} invalid={invalid} describedBy={describedBy} onYearChange={onYearChange} />
         </div>
       </div>
 
