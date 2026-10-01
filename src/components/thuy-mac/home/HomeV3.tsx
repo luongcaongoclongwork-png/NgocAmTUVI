@@ -85,22 +85,10 @@ export default async function HomeV3() {
           </h1>
           <p className="hHero-lede">Từ sự quan sát, Xuyên vấn và định hướng, tìm ra sự hài hoà giữa con người và hoàn cảnh để vượt qua những điều bất như ý.</p>
           <div className="hHero-cta">
-            <Link href="/lien-he" className="hBtn">Đặt lịch Xuyên vấn</Link>
-            <Link href="/dich-vu" className="hBtn hBtn--ghost">Xem bảng giá</Link>
+            {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Bảng Giá, not on the first screen. */}
+            <Link href="/lien-he" className="hBtn">Đặt Lịch Xuyên Vấn</Link>
+            <Link href="/ve-ngoc-am" className="hBtn hBtn--ghost">Về Ngọc Âm</Link>
           </div>
-          <ul className="hHero-paths" aria-label="Ba con đường và giá khởi điểm">
-            {paths.map((p) => (
-              <li key={p.id}>
-                <Link href={p.href}>
-                  <b>{p.name}</b>
-                  {p.from && <span>từ {p.from}</span>}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="hHero-also">
-            Cùng với <Link href="/tra-dao">Trà Đạo Ngọc Âm</Link> và <Link href="/cua-hang">Vật phẩm</Link>
-          </p>
         </div>
       </header>
 

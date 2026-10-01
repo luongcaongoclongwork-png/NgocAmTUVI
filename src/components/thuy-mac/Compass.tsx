@@ -45,7 +45,7 @@ export default function Compass() {
           <path className="tmNeedle" d="M32 14 L36 32 L32 50 L28 32 Z" fill="currentColor" fillOpacity="0.18" />
           <circle cx="32" cy="32" r="2" fill="currentColor" />
         </svg>
-        <span className="tmCompass-word tmCompass-word--wide">{open ? "Đóng" : "Khám phá"}</span>
+        <span className="tmCompass-word tmCompass-word--wide">{open ? "Đóng" : "Khám Phá"}</span>
         <span className="tmCompass-word tmCompass-word--narrow">{open ? "Đóng" : "Menu"}</span>
       </button>
       <nav id={id} aria-label="Tất cả các trang" className="tmCompass-menu" hidden={!open}>

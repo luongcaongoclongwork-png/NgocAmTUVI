@@ -6,9 +6,9 @@ export const metadata: Metadata = { title: "Không tìm thấy trang — Ngọc 
 
 const WAYS = [
   { href: "/", label: "Trang chủ" },
-  { href: "/dich-vu", label: "Bảng giá" },
-  { href: "/lap-la-so", label: "Lập lá số" },
-  { href: "/kien-thuc", label: "Sổ tay" },
+  { href: "/dich-vu", label: "Bảng Giá" },
+  { href: "/lap-la-so", label: "Lập Lá Số" },
+  { href: "/kien-thuc", label: "Sổ Tay" },
   { href: "/lien-he", label: "Gửi đôi dòng" },
 ];
 

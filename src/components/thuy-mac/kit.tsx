@@ -275,7 +275,7 @@ export async function InkClose({
   title = "Mỗi cuộc trao đổi bắt đầu từ sự lắng nghe.",
   text = "Để lại đôi dòng, Ngọc Âm hồi đáp trong một ngày làm việc.",
   href = "/lien-he",
-  label = "Đặt lịch Xuyên vấn",
+  label = "Đặt Lịch Xuyên Vấn",
 }: {
   title?: string;
   text?: string;

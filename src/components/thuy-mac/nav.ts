@@ -6,14 +6,14 @@ export const PATH_LINKS = [
 ] as const;
 
 export const MORE_LINKS = [
-  { href: "/lap-la-so", label: "Lập lá số" },
+  { href: "/lap-la-so", label: "Lập Lá Số" },
   { href: "/tra-dao", label: "Trà Đạo" },
-  { href: "/dich-vu", label: "Bảng giá" },
+  { href: "/dich-vu", label: "Bảng Giá" },
   // Sổ tay holds both Kiến thức and Phật học (one page, two parts); it lives here, not in the header
-  { href: "/kien-thuc", label: "Sổ tay" },
-  { href: "/cua-hang", label: "Vật phẩm" },
+  { href: "/kien-thuc", label: "Sổ Tay" },
+  { href: "/cua-hang", label: "Vật Phẩm" },
   { href: "/ve-ngoc-am", label: "Về Ngọc Âm" },
-  { href: "/lien-he", label: "Liên hệ" },
+  { href: "/lien-he", label: "Liên Hệ" },
 ] as const;
 
 /** The labelled links always in view on a wide screen (v1's strength); the la bàn holds the rest. */
@@ -21,9 +21,9 @@ export const HEADER_LINKS = [
   { href: "/tu-vi", label: "Tử Vi" },
   { href: "/phong-thuy", label: "Phong Thuỷ" },
   { href: "/dai-chu-su", label: "Đại Chủ Sự" },
-  { href: "/lap-la-so", label: "Lập lá số" },
+  { href: "/lap-la-so", label: "Lập Lá Số" },
   { href: "/tra-dao", label: "Trà Đạo" },
-  { href: "/dich-vu", label: "Bảng giá" },
+  { href: "/dich-vu", label: "Bảng Giá" },
 ] as const;
 
 export type Booking = { label: string; short: string; href: string };
@@ -41,7 +41,7 @@ export function bookingFor(pathname: string): Booking | null {
   if (pathname.startsWith("/cua-hang")) return { label: "Hỏi về vật phẩm", short: "Hỏi về vật phẩm", href: "/lien-he?topic=vat-pham" };
   if (pathname.startsWith("/xuyen-gia/thay-tinh")) return { label: "Đặt lịch tư vấn Phong Thuỷ", short: "Đặt lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
   if (pathname.startsWith("/tu-vi")) return { label: "Đặt lịch Xuyên vấn Tử Vi", short: "Đặt lịch Tử Vi", href: "/lien-he?topic=tu-vi" };
-  return { label: "Đặt lịch Xuyên vấn", short: "Đặt lịch Xuyên vấn", href: "/lien-he" };
+  return { label: "Đặt Lịch Xuyên Vấn", short: "Đặt Lịch Xuyên Vấn", href: "/lien-he" };
 }
 
 /** Pages that draw no site chrome at all. */
