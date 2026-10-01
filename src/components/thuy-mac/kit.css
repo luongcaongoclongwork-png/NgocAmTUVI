@@ -301,7 +301,9 @@
 .ipPart { scroll-margin-top: 124px; }
 @media (max-width: 859px) { .ipParts { top: 60px; } .ipPart { scroll-margin-top: 116px; } }
 
-/* Tinh thần Ngọc Âm: the first site's section, kept as it was. Undo what .ip gives headings and text here. */
+/* Tinh thần Ngọc Âm: the first site's layout, backdrop and gold rule, set in this site's type
+   (Cormorant for the three words, nothing under 14px, body-size descriptions). */
 .ip .hSpiritV1 { line-height: 1.5; }
-.ip .hSpiritV1 h3 { font-family: var(--font-heading), serif !important; font-weight: 400; line-height: 40px; text-wrap: wrap; }
-.ip .hSpiritV1 h3 ~ p { color: rgba(37, 33, 27, 0.7); }
+.ip .hSpiritV1 h3 { font-family: var(--display) !important; font-size: 40px; font-weight: 600; line-height: 1.1; }
+.ip .hSpiritV1 .tracking-label { font-size: 14px; }
+.ip .hSpiritV1 h3 ~ p { font-size: var(--fs-body); line-height: 1.65; color: var(--muted); }
