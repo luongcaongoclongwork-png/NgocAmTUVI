@@ -8,9 +8,9 @@ import { ASKS, servicesFor } from "../asks";
 import Ask, { type AskItem } from "../Ask";
 import Leaf from "../Leaf";
 import { fromPrice } from "../HomeV2";
-import { InkClose, InkNotes, InkPage, InkSection, InkServices, InkSteps } from "../kit";
+import { InkClose, InkNotes, InkPage, InkSection, InkServices } from "../kit";
 import Philosophy from "@/components/Philosophy";
-import { Chapter, LineageWhisper } from "../maison/Maison";
+import { Chapter } from "../maison/Maison";
 import { toPortrait } from "../maison/people";
 import { StillLifeStone } from "@/components/illustrations";
 import HeroInk from "./HeroInk";
@@ -94,8 +94,36 @@ export default async function HomeV3() {
         </div>
       </header>
 
-      {/* 2 · the lineage, said once */}
-      <LineageWhisper line={LINEAGE.quote} />
+      {/* 2 · the three pillars, right after the opening, on v1's river painting */}
+      <InkSection
+        id="ba-con-duong"
+        eyebrow="Ba trụ cột triết học"
+        title="Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại."
+        backdrop={{ image: "/images/29-homepage-thuy-mac-song-huong.webp" }}
+      >
+        <ul className="hPaths">
+          {paths.map((p) => (
+            <li key={p.id} className="hPath ip-r">
+              <Link href={p.href} className="hPath-img">
+                <Image src={PATH_IMAGES[p.id].src} alt={PATH_IMAGES[p.id].alt} fill sizes="(min-width: 1024px) 33vw, 100vw" />
+              </Link>
+              <div className="hPath-text">
+                <p className="hPath-cat">{PILLARS[p.id].category}</p>
+                <h3><Link href={p.href}>{p.name}</Link></h3>
+                <ul className="hPath-words">
+                  {PILLARS[p.id].words.map((w) => (
+                    <li key={w}>{w}</li>
+                  ))}
+                </ul>
+                <div className="hPath-cta">
+                  <Link href={p.href} className="hPath-more">{PILLARS[p.id].cta}<span aria-hidden="true">→</span></Link>
+                  <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt Lịch</Link>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </InkSection>
 
       {/* 3 · the Xuyên giả, a chapter each: the people are why a client chooses Ngọc Âm */}
       {masters.map((p, i) => (
@@ -135,37 +163,6 @@ export default async function HomeV3() {
         </div>
       </section>
 
-      {/* 4 · three paths, and Trà Đạo beside them, on v1's river painting */}
-      <InkSection
-        id="ba-con-duong"
-        eyebrow="Ba trụ cột triết học"
-        title="Kế thừa tri thức cổ — Ứng dụng vào đời sống hiện đại."
-        backdrop={{ image: "/images/29-homepage-thuy-mac-song-huong.webp" }}
-      >
-        <ul className="hPaths">
-          {paths.map((p) => (
-            <li key={p.id} className="hPath ip-r">
-              <Link href={p.href} className="hPath-img">
-                <Image src={PATH_IMAGES[p.id].src} alt={PATH_IMAGES[p.id].alt} fill sizes="(min-width: 1024px) 33vw, 100vw" />
-              </Link>
-              <div className="hPath-text">
-                <p className="hPath-cat">{PILLARS[p.id].category}</p>
-                <h3><Link href={p.href}>{p.name}</Link></h3>
-                <ul className="hPath-words">
-                  {PILLARS[p.id].words.map((w) => (
-                    <li key={w}>{w}</li>
-                  ))}
-                </ul>
-                <div className="hPath-cta">
-                  <Link href={p.href} className="hPath-more">{PILLARS[p.id].cta}<span aria-hidden="true">→</span></Link>
-                  <Link href={`/lien-he?topic=${p.id}`} className="hBtn hBtn--small">Đặt Lịch</Link>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </InkSection>
-
       {/* 6 · one session from each path, on the ink river */}
       <InkSection
         id="phien-tieu-bieu"
@@ -174,17 +171,6 @@ export default async function HomeV3() {
         backdrop={{ image: "/images/03-dich-vu-tu-van.png", position: "bottom" }}
       >
         <InkServices items={featured} />
-      </InkSection>
-
-      {/* 7 · the session */}
-      <InkSection
-        id="quy-trinh"
-        title="Một phiên Xuyên vấn"
-        intro={<p>Mỗi phiên là một cuộc đối thoại riêng, được chuẩn bị theo câu hỏi và hoàn cảnh của bạn.</p>}
-        tone="raised"
-        backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}
-      >
-        <InkSteps />
       </InkSection>
 
       {/* 7b · Trà Đạo, a chapter of its own, like the Xuyên giả */}
