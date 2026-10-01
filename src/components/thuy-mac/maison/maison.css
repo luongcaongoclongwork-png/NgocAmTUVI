@@ -43,6 +43,8 @@ a:hover .mScroll-paint img { transform: scale(1.03); }
 .mMaster--raised.mMaster--backdrop::before { background: color-mix(in srgb, var(--raised) 87%, transparent); }
 .mMaster-inner { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(36px, 7vw, 112px); align-items: center; }
 .mMaster--rev .mMaster-portrait { order: 2; }
+/* the text column keeps its width when it comes first, so the two links stay on one row */
+@media (min-width: 901px) { .mMaster--rev .mMaster-inner { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); } }
 .mMaster-portrait { display: block; max-width: 500px; width: 100%; justify-self: center; }
 .mMaster-portrait .mScroll-paint { aspect-ratio: 4 / 5; }
 @supports (animation-timeline: view()) {
@@ -53,7 +55,7 @@ a:hover .mScroll-paint img { transform: scale(1.03); }
 .mMaster-field { margin: 0; font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--accent); }
 .mMaster h2 { font-size: clamp(2.6rem, 5vw, 4.6rem) !important; font-weight: 500 !important; line-height: 1.04 !important; color: var(--ink); margin: 6px 0 26px !important; }
 .mMaster-about { margin: 0; max-width: 34em; color: var(--muted); }
-.mMaster-view { margin: 26px 0 0; padding-left: 22px; border-left: 2px solid var(--bronze); max-width: 30em; font-family: var(--display); font-size: clamp(1.25rem, 1.8vw, 1.5rem); line-height: 1.5; color: var(--ink); }
+.mMaster-view { margin: 26px 0 0; padding-left: 22px; border-left: 2px solid var(--bronze); max-width: 30em;  color: var(--ink); }
 .mMaster-links { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
 @media (max-width: 899px) {
   .mMaster-inner { grid-template-columns: minmax(0, 1fr); }

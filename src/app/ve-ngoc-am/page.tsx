@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 };
 
 const ROLE: Record<string, { role: string; href?: string; cta?: string }> = {
-  "co-minh-trang": { role: "Xuyên giả Tử Vi Xuyên Tam Diệm", href: "/lien-he?topic=tu-vi", cta: "Đặt Lịch Xuyên Vấn Cùng Cô" },
-  "thay-tinh": { role: "Tư vấn Phong Thuỷ", href: "/lien-he?topic=phong-thuy", cta: "Đặt Lịch Tư Vấn Cùng Thầy" },
+  "co-minh-trang": { role: "Xuyên Giả Tử Vi Xuyên Tam Diệm", href: "/lien-he?topic=tu-vi", cta: "Đặt Lịch Xuyên Vấn Cùng Cô" },
+  "thay-tinh": { role: "Phong Thuỷ Sư", href: "/lien-he?topic=phong-thuy", cta: "Đặt Lịch Tư Vấn Cùng Thầy" },
   khuong: { role: "Trà Sư Ngọc Âm", href: "/tra-dao", cta: "Đến Với Trà Đạo" },
 };
 

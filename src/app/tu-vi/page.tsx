@@ -43,7 +43,7 @@ export default async function TuViPage() {
         <InkSection tone="raised">
           <InkPerson
             name={trang.name}
-            role="Xuyên giả Tử Vi Xuyên Tam Diệm"
+            role="Xuyên Giả Tử Vi Xuyên Tam Diệm"
             photo={trang.photo}
             bio={trang.bio}
             href="/lien-he?topic=tu-vi"

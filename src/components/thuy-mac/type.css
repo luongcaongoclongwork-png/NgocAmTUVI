@@ -38,7 +38,8 @@
 .ip :is(.ipHero-lede, .hHero-lede) { font-size: 21px; }
 /* Cormorant reads small for its size: on a wide screen the lead needs 25px to sit above the 17px text under it */
 @media (min-width: 1024px) { .ip :is(.ipHero-lede, .hHero-lede) { font-size: 25px; } }
-.ip :is(.mMaster-view, .mPro-view p) { font-size: 20px; line-height: 1.55; }
+/* a Xuyên giả's own words: the same face and size as the text above them; the bronze rule alone marks the quote */
+.ip :is(.mMaster-view, .mPro-view p) { font-family: var(--font-body), sans-serif; font-size: 1em; line-height: 1.7; }
 .ip .mLine p { font-size: clamp(22px, 1.1rem + 0.9vw, 28px); }
 
 /* ---------- small text: never under 14px ---------- */
@@ -78,7 +79,7 @@
 
 /* ---------- measure: prose stops near 68 characters ---------- */
 .ip :is(.ipIntro, .ipRiver-text p, .ipHero-lede, .ipHero-quote, .ipPerson-text p, .hAbout p, .mMaster-about, .mPro-about, .ipNotes-text > span, .ipArticle-excerpt, .ipToolNote) { max-width: 34em; }
-.ip :is(.mMaster-view, .mPro-view) { max-width: 30em; }
+.ip :is(.mMaster-view, .mPro-view) { max-width: 34em; }
 .ip .ipProse { max-width: 36em; }
 
 /* ---------- forms: labels 15px, what is typed 16px ---------- */

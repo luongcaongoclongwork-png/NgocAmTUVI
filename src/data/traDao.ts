@@ -5,8 +5,8 @@
  */
 
 export const khuong = {
-  name: "Khương",
-  title: "Trà Sư · Ngọc Âm",
+  name: "Cô Khương",
+  title: "Trà Sư Ngọc Âm",
   signature: "Thuận trà · Thuận thủy · Thuận thời · Thuận tâm.",
   poem: [
     "Thuận tự nhiên mà pha,",

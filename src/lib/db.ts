@@ -111,6 +111,7 @@ function openDb(): Database.Database {
   seedProductsIfEmpty(db);
   applySchemaExtras(db);
   migrateToXuyenVanMenu(db);
+  migrateToPeopleTitles(db);
   return db;
 }
 
@@ -229,6 +230,20 @@ function migrateToXuyenVanMenu(db: Database.Database) {
     db.prepare(
       "UPDATE consultants SET bio = REPLACE(bio, 'trong lá số thành cơ hội', 'trong Diệm Bản thành cơ hội') WHERE slug = 'co-minh-trang' AND bio LIKE '%trong lá số thành cơ hội%'"
     ).run();
+  });
+}
+
+/**
+ * 2026-10: the owner's titles for the three people. Each update only fires on
+ * a row that still holds the previous wording, so text edited in /admin is kept.
+ */
+function migrateToPeopleTitles(db: Database.Database) {
+  runOnce(db, "2026-10-people-titles", () => {
+    const setField = db.prepare("UPDATE consultants SET field = ? WHERE slug = ? AND field = ?");
+    setField.run("Xuyên Giả Tử Vi", "co-minh-trang", "Xuyên vấn Tử Vi");
+    setField.run("Phong Thuỷ Sư", "thay-tinh", "Tư vấn Phong Thuỷ");
+    setField.run("Trà Sư Ngọc Âm", "khuong", "Trà Sư · Ngọc Âm");
+    db.prepare("UPDATE consultants SET name = ? WHERE slug = 'khuong' AND name = ?").run("Cô Khương", "Khương");
   });
 }
 

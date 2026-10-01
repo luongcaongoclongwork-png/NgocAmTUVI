@@ -50,7 +50,7 @@ export default async function HomeV3() {
   const tea = khuong ? toPortrait(khuong) : null;
 
   const who = {
-    "co-minh-trang": trang && { name: trang.name, role: "Xuyên giả Tử Vi Xuyên Tam Diệm", photo: trang.photo },
+    "co-minh-trang": trang && { name: trang.name, role: "Xuyên Giả Tử Vi Xuyên Tam Diệm", photo: trang.photo },
     "thay-tinh": tinh && { name: tinh.name, role: tinh.field, photo: tinh.photo },
   };
   const askItems: AskItem[] = ASKS.map((a) => ({
@@ -180,8 +180,8 @@ export default async function HomeV3() {
         <Chapter
           id="tra-dao"
           portrait={tea}
-          field={`${tea.name}, Trà Sư Ngọc Âm`}
-          title="Trà Đạo Ngọc Âm"
+          field="Trà Sư Ngọc Âm"
+          title={tea.name}
           about={tea.about}
           view="Thuận trà, thuận thuỷ, thuận thời, thuận tâm."
           reverse

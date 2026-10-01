@@ -42,7 +42,7 @@ export default async function DaiChuSuPage() {
         <InkSection tone="raised">
           <InkPerson
             name={trang.name}
-            role="Xuyên giả Xuyên Vấn Đại Chủ Sự"
+            role="Xuyên Giả Xuyên Vấn Đại Chủ Sự"
             photo={trang.photo}
             bio={trang.bio}
             href="/lien-he?topic=dai-chu-su"
