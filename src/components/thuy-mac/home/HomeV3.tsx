@@ -8,7 +8,8 @@ import { ASKS, servicesFor } from "../asks";
 import Ask, { type AskItem } from "../Ask";
 import Leaf from "../Leaf";
 import { fromPrice } from "../HomeV2";
-import { InkClose, InkNotes, InkPage, InkSection, InkServices } from "../kit";
+import { InkClose, InkNotes, InkPage, InkSection, STEPS } from "../kit";
+import { formatPrice } from "@/lib/service-constants";
 import Philosophy from "@/components/Philosophy";
 import { Chapter } from "../maison/Maison";
 import { toPortrait } from "../maison/people";
@@ -32,6 +33,12 @@ const PILLARS: Record<string, { category: string; words: string[]; cta: string }
   "dai-chu-su": { category: "Đại Chủ Sự", words: ["Xuyên vấn", "Định hướng", "Phát triển doanh nghiệp"], cta: "Tìm hiểu Đại Chủ Sự" },
 };
 
+const SERVICE_GROUPS: Record<string, string> = {
+  "tu-vi": "Xuyên vấn Tử Vi",
+  "phong-thuy": "Tư vấn Phong Thuỷ",
+  "dai-chu-su": "Xuyên Vấn Đại Chủ Sự",
+};
+
 function yesterday(y: number, m: number, d: number) {
   const t = new Date(Date.UTC(y, m - 1, d - 1));
   return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() };
@@ -52,7 +59,6 @@ export default async function HomeV3() {
 
   const paths = PATHS.map((p) => ({ ...p, from: fromPrice(groups.find((g) => g.id === p.id)?.items ?? []) }));
   const allServices = groups.flatMap((g) => [...g.items]);
-  const featured = groups.map((g) => g.items[0]).filter(Boolean);
   const masters = [trang, tinh].filter((c) => !!c).map(toPortrait);
   const tea = khuong ? toPortrait(khuong) : null;
 
@@ -164,14 +170,59 @@ export default async function HomeV3() {
         </div>
       </section>
 
-      {/* 6 · one session from each path, on the ink river */}
+      {/* 6 · the sessions as the first site showed them: a taste of each group in cards, prices as typed in admin */}
       <InkSection
-        id="phien-tieu-bieu"
-        title="Phiên Xuyên vấn tiêu biểu"
-        intro={<p>Mỗi phiên được chuẩn bị riêng theo câu hỏi và hoàn cảnh của bạn. <Link href="/dich-vu" className="ipLink">Xem toàn bộ Dịch Vụ</Link></p>}
+        id="dich-vu"
+        eyebrow="Dịch vụ tư vấn"
+        title="Mỗi phiên Xuyên vấn là một góc nhìn được chuẩn bị riêng cho bạn."
         backdrop={{ image: "/images/03-dich-vu-tu-van.png", position: "bottom" }}
       >
-        <InkServices items={featured} />
+        {groups.map((g) =>
+          g.items.length > 0 ? (
+            <div key={g.id} className="hSvc-group">
+              <h3 className="hSvc-name ip-r">{SERVICE_GROUPS[g.id]}</h3>
+              <ul className="hSvc-list">
+                {g.items.slice(0, 3).map((it) => (
+                  <li key={it.id} className="hSvc ip-r">
+                    {it.note && <p className="hSvc-note">{it.note}</p>}
+                    <h4>{it.title}</h4>
+                    <p className="hSvc-desc">{it.desc}</p>
+                    <p className="hSvc-price">
+                      <b>{formatPrice(it.price)}</b>
+                      {it.duration && <span>{it.duration}</span>}
+                    </p>
+                    {/* the whole card is the way to the form, carrying the exact session */}
+                    <Link href={`/lien-he?topic=${g.id}&service=${it.id}`} className="hSvc-book" aria-label={`Đặt lịch: ${it.title}`}>
+                      Đặt Lịch<span aria-hidden="true">→</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null,
+        )}
+        <p className="hSvc-all ip-r">
+          <Link href="/dich-vu" className="mBtn mBtn--line">Xem Tất Cả Dịch Vụ</Link>
+        </p>
+      </InkSection>
+
+      {/* 7 · the six movements of a session, in the first site's six columns */}
+      <InkSection
+        id="trai-nghiem"
+        eyebrow="Trải nghiệm Xuyên vấn"
+        title="Không chỉ xem vận, mà hiểu đường đi."
+        tone="raised"
+        backdrop={{ image: "/images/04-trai-nghiem-khai-van.png", position: "bottom" }}
+      >
+        <ol className="hWay">
+          {STEPS.map((st, i) => (
+            <li key={st.label} className="ip-r">
+              <span aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <h3>{st.label}</h3>
+              <p>{st.desc}</p>
+            </li>
+          ))}
+        </ol>
       </InkSection>
 
       {/* 7b · Trà Đạo, a chapter of its own, like the Xuyên giả */}
