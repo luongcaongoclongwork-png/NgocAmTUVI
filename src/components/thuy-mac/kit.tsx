@@ -283,8 +283,10 @@ export function InkProse({ children }: { children: ReactNode }) {
 }
 
 /** Closing: a drop of ink that opens into the booking button, over the v1 "mặc trầm" painting. */
+const CLOSE_TITLE = "Mỗi cuộc trao đổi bắt đầu từ sự lắng nghe.";
+
 export async function InkClose({
-  title = "Mỗi cuộc trao đổi bắt đầu từ sự lắng nghe.",
+  title = CLOSE_TITLE,
   text = "Để lại đôi dòng, Ngọc Âm hồi đáp trong một ngày làm việc.",
   href = "/lien-he",
   label = "Đặt Lịch Xuyên Vấn",
@@ -301,7 +303,17 @@ export async function InkClose({
       <Image src="/images/06-dat-lich-mac-tram.png" alt="" fill sizes="100vw" className="ipClose-bg" />
       <InkEngrave />
       <div className="ipClose-body ip-r">
-        <h2 id="ipClose-h">{title}</h2>
+        {/* the house sentence is always two lines, one clause each */}
+        <h2 id="ipClose-h">
+          {title === CLOSE_TITLE ? (
+            <>
+              Mỗi cuộc trao đổi
+              <br /> bắt đầu từ sự lắng nghe.
+            </>
+          ) : (
+            title
+          )}
+        </h2>
         <p>{text}</p>
         <Link href={href} className="ipDrop">
           <span>{label}</span>
