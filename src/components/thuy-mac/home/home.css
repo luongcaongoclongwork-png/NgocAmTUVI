@@ -102,12 +102,18 @@
 @media (prefers-reduced-motion: reduce) { .hPath, .hPath:hover { transform: none; transition: none; } }
 
 /* ---------- 8 · about ---------- */
-.hAbout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
-.hAbout-img { aspect-ratio: 4 / 3 !important; max-width: none !important; }
-.hAbout-img img { object-position: center !important; }
-.hAbout p { color: var(--muted); font-size: 1.05rem; }
-.hAbout .hAbout-quote { font-family: var(--display); font-style: italic; font-size: clamp(1.3rem, 2vw, 1.6rem); line-height: 1.5; color: var(--ink); margin: 20px 0 12px; }
-@media (max-width: 860px) { .hAbout { grid-template-columns: minmax(0, 1fr); } }
+.hAbout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.hAbout-img { position: relative; height: 420px; overflow: hidden; border: 1px solid var(--line); }
+.hAbout-img img { object-fit: cover; }
+.hAbout-text .ipH2 { margin-bottom: 0; }
+.hAbout-text p { color: var(--muted); margin: 18px 0 0; }
+.ip .hAbout-text .ipEyebrow { margin: 0 0 12px; font-size: 14px; color: var(--gold-deep, #73592d); }
+/* the quote: this site's reading face, set in italic and bronze as on the first site */
+.hAbout-text .hAbout-quote { font-style: italic; color: var(--bronze-text, #80633e); margin-top: 24px; }
+.hAbout-text .ipLink { margin-top: 14px; }
+/* the first site keeps this painting very faint behind the text */
+#ve-ngoc-am.ipSec--backdrop::before { background: color-mix(in srgb, var(--paper) 92%, transparent); }
+@media (max-width: 860px) { .hAbout { grid-template-columns: minmax(0, 1fr); } .hAbout-img { height: auto; aspect-ratio: 4 / 3; } }
 
 /* ---------- 10 · goods ---------- */
 .hGoods { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -123,3 +129,8 @@
 /* the small booking button on each path: outlined, see kit.css */
 .hBtn--small { background: transparent; color: var(--ink) !important; border: 1px solid var(--accent); }
 .hBtn--small:hover { background: var(--ink); color: var(--paper) !important; border-color: var(--ink); }
+/* the title breaks after "triều Nguyễn" where the column is wide enough for that line; narrower, it wraps on its own */
+.hAbout-text .ipH2 { max-width: none; text-wrap: balance; }
+@media (max-width: 1279px) { .hAbout-br { display: none; } }
+/* half a column wide: the title is set a step smaller than a full-width section title, as on the first site */
+@media (min-width: 1280px) { .ip .hAbout-text .ipH2 { font-size: 36px !important; } }

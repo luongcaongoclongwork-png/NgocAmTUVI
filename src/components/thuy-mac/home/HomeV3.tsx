@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProductCategories } from "@/lib/products";
 import { isSafeHttpUrl } from "@/lib/site-settings";
-import { getHomeData, LINEAGE, PATHS } from "../data";
+import { getHomeData, PATHS } from "../data";
 import { calendarLeaf, dailyLine, vietnamToday } from "../calendar";
 import { ASKS, servicesFor } from "../asks";
 import Ask, { type AskItem } from "../Ask";
@@ -192,16 +192,22 @@ export default async function HomeV3() {
         </Chapter>
       )}
 
-      {/* 8 · lineage and the Ngọc Âm spirit */}
+      {/* 8 · the lineage, laid out as on the first site (picture, label, title, quote, two paragraphs), with this site's way in */}
       <InkSection id="ve-ngoc-am" backdrop={{ image: "/images/07-hau-nhan-kham-thien-giam.png", position: "top" }}>
         <div className="hAbout">
-          <span className="hAbout-img ipPortrait">
-            <Image src="/images/23-homepage-heritage-study.webp" alt="Thư phòng cổ Việt Nam nhìn ra sân nhà" fill sizes="(min-width: 900px) 40vw, 90vw" />
-          </span>
-          <div className="ip-r">
-            <h2 className="ipH2">Về Ngọc Âm</h2>
-            <p className="hAbout-quote">{LINEAGE.quote}</p>
-            <p>{LINEAGE.body}</p>
+          <div className="hAbout-img ip-r">
+            <Image src="/images/23-homepage-heritage-study.webp" alt="Thư phòng cổ Việt Nam nhìn ra sân nhà" fill sizes="(min-width: 900px) 560px, 100vw" />
+          </div>
+          <div className="hAbout-text ip-r">
+            <p className="ipEyebrow">Hậu nhân Khâm Thiên Giám</p>
+            <h2 className="ipH2">Từ truyền thống của triều Nguyễn<br className="hAbout-br" /> đến đời sống hiện đại.</h2>
+            <p className="hAbout-quote">“Kế thừa tri thức chiêm tinh, lịch pháp và phong thuỷ cung đình từ Khâm Thiên Giám thời vua Minh Mạng, triều Nguyễn.”</p>
+            <p>
+              Ngọc Âm được hình thành từ một mạch truyền thừa tri thức phương Đông — chiêm tinh, lịch pháp, địa lý và phong thuỷ — vốn được lưu giữ và nghiên cứu qua nhiều thế hệ trong dòng họ có liên hệ với Khâm Thiên Giám dưới triều Nguyễn.
+            </p>
+            <p>
+              Chúng tôi tiếp cận tri thức ấy không phải để dự đoán, mà để cùng bạn quan sát rõ hơn bản thân và hoàn cảnh, từ đó đưa ra những lựa chọn có cân nhắc và vững vàng hơn trên hành trình phát triển của chính mình.
+            </p>
             <Link href="/ve-ngoc-am" className="ipLink">Tìm hiểu Ngọc Âm</Link>
           </div>
         </div>
