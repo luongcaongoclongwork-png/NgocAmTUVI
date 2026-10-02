@@ -162,6 +162,29 @@
     url("/images/print/ngoc-am-print-bg-v4.jpg") center / cover no-repeat;
 }
 
+/* "Xuất PDF" only (the off-screen copy, never the printed page): html2canvas-pro
+   paints the two sized elliptical gradients above as hard-edged blocks, so that
+   copy keeps the wash and the artwork here and gets the same two ovals from
+   PdfSoftOvals.tsx, drawn on canvas. Keep the two in sync. */
+.tuvi-print-page--pdf::before {
+  background:
+    linear-gradient(rgba(247, 239, 226, 0.1), rgba(247, 239, 226, 0.1)),
+    url("/images/print/ngoc-am-print-bg-v4.jpg") center / cover no-repeat;
+}
+
+.print-pdf-ovals {
+  position: absolute;
+  inset: 2.5mm;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.print-pdf-oval {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
 .tuvi-print-inner {
   width: 196mm;
   height: 283mm;

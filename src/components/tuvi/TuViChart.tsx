@@ -223,6 +223,7 @@ export default function TuViChart({
       <div aria-hidden="true" className="pointer-events-none fixed left-[-9999px] top-0">
         <div ref={printExportRef}>
           <A4TuViPrintRenderer
+            forPdf
             chart={chart}
             birthTime={birthTime}
             horoscope={horoscope}

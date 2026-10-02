@@ -1,6 +1,7 @@
 import PrintHeader from "../../print/PrintHeader";
 import XtdPrintChart from "./XtdPrintChart";
 import PrintFooter from "../../print/PrintFooter";
+import PdfSoftOvals from "../../print/PdfSoftOvals";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 import "../../ngocAmChart.css";
 import "../../print/print.css";
@@ -18,15 +19,19 @@ export default function XtdA4TuViPrintRenderer({
   birthTime,
   horoscope,
   onOverflowGuardSettled,
+  forPdf = false,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
   horoscope: VietnameseHoroscopeDTO | null;
   onOverflowGuardSettled?: () => void;
+  /** The off-screen copy "Xuất PDF" captures: its two soft ovals are drawn on canvas (see PdfSoftOvals). Never set on the printed page. */
+  forPdf?: boolean;
 }) {
   return (
     <div id="tuvi-print-root">
-      <div className="tuvi-print-page ngoc-am-chart-root">
+      <div className={`tuvi-print-page ngoc-am-chart-root${forPdf ? " tuvi-print-page--pdf" : ""}`}>
+        {forPdf && <PdfSoftOvals />}
         <div className="tuvi-print-inner">
           <PrintHeader variant="xtd" />
           <div className="print-chart-wrap">

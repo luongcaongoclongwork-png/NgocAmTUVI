@@ -221,6 +221,7 @@ export default function XtdTuViChart({
       <div aria-hidden="true" className="pointer-events-none fixed left-[-9999px] top-0">
         <div ref={printExportRef}>
           <XtdA4TuViPrintRenderer
+            forPdf
             chart={chart}
             birthTime={birthTime}
             horoscope={horoscope}
