@@ -136,7 +136,8 @@
 }
 
 /* ---------- the home's opening: the lineage and the lead, set to be read first and easily ----------
-   Both in the reading face (thicker strokes than the display serif), in full ink.
+   Both in the reading face (thicker strokes than the display serif), in full ink;
+   the lineage large, the lead small.
    The lineage is two set lines of spaced capitals under a short bronze rule; it scales
    with the column so each line always fits on one line. */
 .ip .hHero-kicker {
@@ -153,10 +154,13 @@
 }
 .ip .hHero-kicker::before { content: ""; position: absolute; left: 0; top: 0; width: 40px; height: 2px; background: var(--bronze); }
 .ip .hHero-kicker span { display: block; white-space: nowrap; }
-.ip .hHero-lede { font-family: var(--font-body), sans-serif; font-size: 23px; font-weight: 400; line-height: 1.5; color: var(--ink); text-wrap: balance; }
+/* the lead stays at the first site's size (16px on a phone, 18px wider): the lineage and the scrolls carry the weight */
+.ip .hHero-lede { font-family: var(--font-body), sans-serif; font-size: 16px; font-weight: 400; line-height: 1.65; color: var(--ink); max-width: 34em; }
+.ip .hHero-lede span { display: block; }
+.ip .hHero-lede span + span { text-wrap: balance; }
+@media (min-width: 640px) { .ip .hHero-lede { font-size: 18px; } }
 @media (min-width: 1024px) {
   .ip .hHero-kicker { letter-spacing: 0.12em; }
-  .ip .hHero-lede { font-size: 28px; line-height: 1.45; }
 }
 /* wide screens: a fuller paper wash under the words, so they never sit on mist or foliage (a phone keeps its own top-to-bottom wash) */
 @media (min-width: 861px) {

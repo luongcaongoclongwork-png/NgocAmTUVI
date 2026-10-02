@@ -91,7 +91,11 @@ export default async function HomeV3() {
               </span>
             ))}
           </h1>
-          <p className="hHero-lede">Từ sự quan sát, Xuyên vấn và định hướng, tìm ra sự hài hoà giữa con người và hoàn cảnh để vượt qua những điều {"bất\u00a0như\u00a0ý."}</p>
+          {/* the lead: the three movements, then what they are for; two lines of the same quiet reading text */}
+          <p className="hHero-lede">
+            <span>Quan sát – Xuyên vấn – Định hướng</span>
+            <span>Tìm ra sự hài hoà giữa con người và hoàn cảnh để vượt qua những điều {"bất\u00a0như\u00a0ý."}</span>
+          </p>
           <div className="hHero-cta" data-hero-cta>
             {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Dịch Vụ, not on the first screen. */}
             <Link href="/lien-he" className="hBtn">Đặt Lịch Xuyên Vấn</Link>
