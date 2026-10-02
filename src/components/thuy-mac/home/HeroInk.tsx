@@ -18,9 +18,9 @@ function canAffordInk(): boolean {
 
 /**
  * The home's opening painting (v1's Huế pavilion): a drop of ink spreads into
- * it in about a second, and the water ripples under the pointer. Drawn on
- * demand only: nothing runs while the page sits still, so an idle tab costs
- * nothing (v1's lightness), and it stops entirely once scrolled away.
+ * it in about a second, once. Nothing runs after that, so an idle tab costs
+ * nothing (v1's lightness). The ripple that used to follow the pointer was
+ * removed (owner, 2026-10-02): phones and weaker machines never saw it.
  */
 export default function HeroInk({ src, alt }: { src: string; alt: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,8 +32,6 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
     let t0: number | null = null;
     let raf = 0;
     let visible = true;
-    const mouse: [number, number] = [0.5, 0.5];
-    let mouseAmt = 0;
 
     const still = () => setMode("still");
     if (!canAffordInk()) {
@@ -46,10 +44,9 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
       if (!ink || t0 === null || !visible) return;
       const rt = clamp01((now - t0) / 1200);
       const reveal = rt < 0.5 ? 4 * rt * rt * rt : 1 - Math.pow(-2 * rt + 2, 3) / 2;
-      mouseAmt *= 0.94;
-      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse, mouseAmt, focusX: window.innerWidth < 700 ? 0.7 : 0.5 });
-      // keep drawing only while something is still moving
-      if (rt < 1 || mouseAmt > 0.01) raf = requestAnimationFrame(frame);
+      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse: [0.5, 0.5], mouseAmt: 0, focusX: window.innerWidth < 700 ? 0.7 : 0.5 });
+      // keep drawing only until the ink has finished spreading
+      if (rt < 1) raf = requestAnimationFrame(frame);
     };
     const kick = () => {
       if (!raf) raf = requestAnimationFrame(frame);
@@ -74,15 +71,7 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
       if (t0 === null) still();
     }, 1500);
 
-    const onMove = (e: PointerEvent) => {
-      const r = canvas.getBoundingClientRect();
-      mouse[0] = (e.clientX - r.left) / r.width;
-      mouse[1] = (e.clientY - r.top) / r.height;
-      mouseAmt = 1;
-      kick();
-    };
     const host = canvas.parentElement!;
-    host.addEventListener("pointermove", onMove, { passive: true });
     const onResize = () => kick();
     window.addEventListener("resize", onResize);
     const io = new IntersectionObserver(([e]) => {
@@ -94,7 +83,6 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
     return () => {
       cancelAnimationFrame(raf);
       window.clearTimeout(giveUp);
-      host.removeEventListener("pointermove", onMove);
       window.removeEventListener("resize", onResize);
       io.disconnect();
       ink?.destroy();
