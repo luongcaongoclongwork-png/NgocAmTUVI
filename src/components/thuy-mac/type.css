@@ -134,3 +134,35 @@
   .ip .mPro { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 40px); }
   .ip .mPro-portrait { max-width: none; }
 }
+
+/* ---------- the home's opening: the lineage and the lead, set to be read first and easily ----------
+   Both in the reading face (thicker strokes than the display serif), in full ink.
+   The lineage is two set lines of spaced capitals under a short bronze rule; it scales
+   with the column so each line always fits on one line. */
+.ip .hHero-kicker {
+  position: relative;
+  margin: 0 0 26px;
+  padding-top: 16px;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(14px, 4.1vw, 23px);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.ip .hHero-kicker::before { content: ""; position: absolute; left: 0; top: 0; width: 40px; height: 2px; background: var(--bronze); }
+.ip .hHero-kicker span { display: block; white-space: nowrap; }
+.ip .hHero-lede { font-family: var(--font-body), sans-serif; font-size: 23px; font-weight: 400; line-height: 1.5; color: var(--ink); text-wrap: balance; }
+@media (min-width: 1024px) {
+  .ip .hHero-kicker { letter-spacing: 0.12em; }
+  .ip .hHero-lede { font-size: 28px; line-height: 1.45; }
+}
+/* wide screens: a fuller paper wash under the words, so they never sit on mist or foliage (a phone keeps its own top-to-bottom wash) */
+@media (min-width: 861px) {
+  .ip .hHero-paint::after {
+    background:
+      linear-gradient(100deg, rgba(236, 226, 206, 0.97) 0%, rgba(236, 226, 206, 0.93) 34%, rgba(236, 226, 206, 0.6) 50%, rgba(236, 226, 206, 0.05) 72%),
+      linear-gradient(0deg, rgba(236, 226, 206, 0.9) 0%, rgba(236, 226, 206, 0) 30%);
+  }
+}
