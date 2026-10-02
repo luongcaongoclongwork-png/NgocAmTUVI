@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
-import PrintPageClient from "@/components/tuvi/print/PrintPageClient";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "In lá số — Ngọc Âm",
-};
-
-export default function LaSoPrintPage() {
-  return <PrintPageClient />;
+/** The classic print sheet is retired with the classic chart; old links print the Xuyên Tam Diệm sheet. */
+export default async function LaSoPrintPage({ searchParams }: { searchParams: Promise<{ autoprint?: string }> }) {
+  const { autoprint } = await searchParams;
+  permanentRedirect(autoprint === "1" ? "/la-so/print/xuyen-tam-diem?autoprint=1" : "/la-so/print/xuyen-tam-diem");
 }

@@ -68,6 +68,32 @@ function fitCell(cell: HTMLElement) {
   cell.dataset.fitOverflow = String(Math.round(contentOverflowPx(cell)));
 }
 
+/** The Trung Cung's text is never zoomed below this. */
+const MIN_CENTER_ZOOM = 0.8;
+
+/**
+ * The Trung Cung has a fixed list of rows but its box follows the two middle
+ * grid rows, which shrink when the outer rows are crowded. When the list is
+ * taller than the box, every in-flow child is zoomed by one factor (`--cz`, read
+ * by ngocAmChart.css) so the last row and the Xuyên giả's name stay inside
+ * instead of being cut off by the box's overflow:hidden.
+ */
+function fitCenter(center: HTMLElement) {
+  center.style.removeProperty("--cz");
+  const style = getComputedStyle(center);
+  const available = center.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+  let needed = 0;
+  for (const child of Array.from(center.children)) {
+    if (!(child instanceof HTMLElement)) continue;
+    const cs = getComputedStyle(child);
+    if (cs.position === "absolute" || cs.display === "none") continue;
+    needed += child.offsetHeight + (parseFloat(cs.marginTop) || 0) + (parseFloat(cs.marginBottom) || 0);
+  }
+  if (available <= 0 || needed <= available + 0.5) return;
+  const zoom = Math.max(MIN_CENTER_ZOOM, Math.floor((available / needed) * 100) / 100);
+  center.style.setProperty("--cz", String(zoom));
+}
+
 export function useChartFitGuard(containerRef: RefObject<HTMLElement | null>, deps: React.DependencyList, onFirstFit?: () => void) {
   useEffect(() => {
     const container = containerRef.current;
@@ -78,6 +104,7 @@ export function useChartFitGuard(containerRef: RefObject<HTMLElement | null>, de
     function run() {
       if (cancelled || !container) return;
       for (const cell of container.querySelectorAll<HTMLElement>(".tuvi-palace")) fitCell(cell);
+      for (const center of container.querySelectorAll<HTMLElement>(".center-palace")) fitCenter(center);
     }
 
     function schedule() {

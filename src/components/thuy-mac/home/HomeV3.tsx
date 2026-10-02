@@ -77,24 +77,27 @@ export default async function HomeV3() {
       <header className="hHero">
         <HeroInk src="/images/20-homepage-hero-hue.webp" alt="Nhà lầu cổ nhìn ra sông trong sương sớm" />
         <div className="hHero-body">
-          {/* the lineage, the brand's own ground: two set lines of capitals, the claim and then the reign */}
-          <p className="hHero-kicker">
+          {/* the lineage is the page's title: on a laptop or desktop it is a large line with the
+              reign under it; on a phone or tablet it is two set lines of capitals above the three scrolls */}
+          <h1 className="hHero-kicker">
             <span>Hậu nhân Khâm Thiên Giám</span>
             <span>Vua Minh Mạng · triều Nguyễn</span>
-          </p>
-          <h1 className="ipScrolls hHero-h1">
-            {["Hiểu mình", "Thuận thế", "Vững bước"].map((s) => (
+          </h1>
+          {/* the three scrolls */}
+          <p className="ipScrolls hHero-h1">
+            {["Hiểu Mình", "Thuận Thế", "Vững Bước"].map((s) => (
               <span key={s} className="ipScroll">
                 {s.split(" ").map((w) => (
                   <span key={w}>{w} </span>
                 ))}
               </span>
             ))}
-          </h1>
-          {/* the lead: the three movements, then what they are for; two lines of the same quiet reading text */}
+          </p>
+          {/* the lead (owner's wording, 2026-10-03): what is inherited and what it gives, then what it is for — two sentences,
+              each its own line; compound words are glued (no-break space) so a narrow phone never breaks inside one */}
           <p className="hHero-lede">
-            <span>Quan sát – Xuyên vấn – Định hướng</span>
-            <span>Tìm ra sự hài hoà giữa con người và hoàn cảnh để vượt qua những điều {"bất\u00a0như\u00a0ý."}</span>
+            <span>Kế thừa tri thức {"Tử\u00a0Vi,"} {"Phong\u00a0Thuỷ"} {"cổ\u00a0truyền,"} giúp bạn hiểu rõ {"căn\u00a0nguyên,"} thấu hiểu {"chính\u00a0mình."}</span>
+            <span>Để những {"quyết\u00a0định"} {"quan\u00a0trọng"} đều dựa trên {"nền\u00a0tảng"} {"vững\u00a0vàng."}</span>
           </p>
           <div className="hHero-cta" data-hero-cta>
             {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Dịch Vụ, not on the first screen. */}

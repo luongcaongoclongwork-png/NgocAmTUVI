@@ -16,6 +16,22 @@ function canAffordInk(): boolean {
   return true;
 }
 
+/** The painting is 16:9. */
+const PAINTING_ASPECT = 16 / 9;
+
+/**
+ * Where the canvas centres the painting, as a share of its width. An upright screen shows only a slice of it, and
+ * the pavilion is on the right, so the slice is moved the same way the still image's object-position is in
+ * type.css (80% on a phone, 97% on a tablet). The centre is kept far enough from the edge that the slice never
+ * runs past the painting.
+ */
+function heroFocusX(canvas: HTMLCanvasElement): number {
+  const w = window.innerWidth;
+  const position = w < 640 ? 0.8 : w < 1024 ? 0.97 : 0.5;
+  const half = Math.min(0.5, canvas.clientWidth / Math.max(1, canvas.clientHeight) / PAINTING_ASPECT / 2);
+  return half + (1 - 2 * half) * position;
+}
+
 /**
  * The home's opening painting (v1's Huế pavilion): a drop of ink spreads into
  * it in about a second, once. Nothing runs after that, so an idle tab costs
@@ -44,7 +60,7 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
       if (!ink || t0 === null || !visible) return;
       const rt = clamp01((now - t0) / 1200);
       const reveal = rt < 0.5 ? 4 * rt * rt * rt : 1 - Math.pow(-2 * rt + 2, 3) / 2;
-      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse: [0.5, 0.5], mouseAmt: 0, focusX: window.innerWidth < 700 ? 0.7 : 0.5 });
+      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse: [0.5, 0.5], mouseAmt: 0, focusX: heroFocusX(canvas) });
       // keep drawing only until the ink has finished spreading
       if (rt < 1) raf = requestAnimationFrame(frame);
     };

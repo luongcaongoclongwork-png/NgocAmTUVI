@@ -20,7 +20,7 @@ a:hover .mScroll-paint img { transform: scale(1.03); }
 @keyframes mWash { from { --mink: 0%; } to { --mink: 130%; } }
 
 /* ---------- 2 · lineage, said once ---------- */
-.mLine { padding: clamp(72px, 10vw, 136px) clamp(16px, 4vw, 48px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.mLine { padding: clamp(72px, 10vw, 136px) clamp(20px, 4vw, 48px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px; }
 .mLine-carve { width: min(620px, 92vw); color: var(--bronze); opacity: 0.75; --orn-fill: var(--paper); view-timeline-name: --carve; }
 .mLine-carve svg { display: block; width: 100%; height: auto; }
 .mLine-carve .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }

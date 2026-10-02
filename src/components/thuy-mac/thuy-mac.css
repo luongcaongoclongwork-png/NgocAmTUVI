@@ -133,7 +133,7 @@
 }
 
 /* 4 · the leaf on the water */
-.eS4 { position: relative; overflow: hidden; padding: clamp(96px, 12vw, 160px) clamp(16px, 4vw, 48px); background: var(--paper); }
+.eS4 { position: relative; overflow: hidden; padding: clamp(96px, 12vw, 160px) clamp(20px, 4vw, 48px); background: var(--paper); }
 .eS4-water {
   position: absolute; inset: 0; opacity: 0.55;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='24'%3E%3Cpath d='M0 20a14 12 0 0 1 28 0M28 20a14 12 0 0 1 28 0M-14 8a14 12 0 0 1 28 0M14 8a14 12 0 0 1 28 0M42 8a14 12 0 0 1 28 0' fill='none' stroke='%236b4a2f' stroke-opacity='.22'/%3E%3C/svg%3E");
@@ -156,7 +156,7 @@
 
 /* 5 · the study */
 @property --ink-r { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
-.eS5 { position: relative; overflow: hidden; padding: clamp(96px, 12vw, 160px) clamp(16px, 4vw, 48px); background: var(--paper); }
+.eS5 { position: relative; overflow: hidden; padding: clamp(96px, 12vw, 160px) clamp(20px, 4vw, 48px); background: var(--paper); }
 .eS5-bg { object-fit: cover; filter: grayscale(1) sepia(0.4); opacity: 0.12; mix-blend-mode: multiply; }
 .eS5-inner { position: relative; max-width: 1180px; margin: 0 auto; }
 .eS5-head { max-width: 40em; }

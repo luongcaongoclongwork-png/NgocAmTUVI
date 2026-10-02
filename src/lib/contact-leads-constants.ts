@@ -38,9 +38,10 @@ export function topicLabel(id: TopicId): string {
 /** Short aliases a CTA link can use without knowing this page's exact topic
  * wording (e.g. a Tu Vi service card just knows it's "tu-vi", not which of
  * the 6 topic phrasings that maps to). Resolves either a real topic id or
- * one of these aliases; anything else resolves to no pre-selection. */
+ * one of these aliases; anything else resolves to no pre-selection.
+ * "tu-vi" is deliberately absent: a Tử Vi session can be about anything in
+ * a life, so the Chủ Sự names the concern themselves. */
 const TOPIC_QUERY_ALIASES: Record<string, TopicId> = {
-  "tu-vi": "su-nghiep-huong-di",
   "phong-thuy": "khong-gian-song",
   "vat-pham": "vat-pham-dong-hanh",
   tra: "tra-dao",

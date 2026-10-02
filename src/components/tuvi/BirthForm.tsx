@@ -51,7 +51,7 @@ export default function BirthForm({
   const [calendarType, setCalendarType] = useState<CalendarType>(initialValue?.calendarType ?? "solar");
   const [day, setDay] = useState(initialValue?.day ?? 1);
   const [month, setMonth] = useState(initialValue?.month ?? 1);
-  const [year, setYear] = useState(initialValue?.year ?? 2000);
+  const [year, setYear] = useState<number | null>(initialValue?.year ?? null);
   const [isLeapMonth, setIsLeapMonth] = useState(initialValue?.isLeapMonth ?? false);
   const [time, setTime] = useState(initialValue?.time ?? "12:00");
   const [dateError, setDateError] = useState<string | null>(null);
@@ -74,7 +74,8 @@ export default function BirthForm({
 
   // Keep `day` in range whenever the selected month/year/leap-month no longer supports it,
   // rather than letting an invalid combination (e.g. 31/2) sit in state until submit.
-  function clampDay(candidateDay: number, cType: CalendarType, m: number, y: number, leap: boolean) {
+  function clampDay(candidateDay: number, cType: CalendarType, m: number, yearOrNone: number | null, leap: boolean) {
+    const y = yearOrNone ?? 2000;
     const maxDay = cType === "solar" ? daysInSolarMonth(y, m) : daysInLunarMonth(y, m, leap);
     return Math.min(candidateDay, maxDay);
   }
@@ -84,8 +85,9 @@ export default function BirthForm({
     setDay((d) => clampDay(d, calendarType, next, year, isLeapMonth));
   }
 
-  function handleYearChange(next: number) {
+  function handleYearChange(next: number | null) {
     setYear(next);
+    if (next !== null) setDateError(null);
     setDay((d) => clampDay(d, calendarType, month, next, isLeapMonth));
   }
 
@@ -96,7 +98,7 @@ export default function BirthForm({
 
   function handleCalendarTypeChange(next: CalendarType) {
     if (next === calendarType) return;
-    const converted = convertOnCalendarSwitch(next, day, month, year, isLeapMonth);
+    const converted = year === null ? null : convertOnCalendarSwitch(next, day, month, year, isLeapMonth);
     if (converted) {
       setDay(converted.day);
       setMonth(converted.month);
@@ -109,7 +111,12 @@ export default function BirthForm({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (busy) return;
-    if (!day || !month || !year) {
+    if (!year) {
+      setDateError("Vui lòng nhập năm sinh hợp lệ (bốn chữ số, ví dụ 1990).");
+      dateFieldsRef.current?.querySelector<HTMLInputElement>("#tuvi-year")?.focus();
+      return;
+    }
+    if (!day || !month) {
       setDateError("Vui lòng chọn ngày sinh hợp lệ.");
       dateFieldsRef.current?.querySelector("select")?.focus();
       return;

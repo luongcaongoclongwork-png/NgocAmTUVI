@@ -5,6 +5,8 @@ import XtdTuViChartGrid from "../XtdTuViChartGrid";
 import { MobileScaleViewport } from "../../mobile/MobileScaleViewport";
 import { useChartFitGuard } from "../useChartFitGuard";
 import { useXtdReveal } from "../XtdRevealContext";
+import { useIsCompactChart } from "../../mobile/useIsMobile";
+import { XtdMobileCompactOverview } from "./XtdMobileCompactOverview";
 import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "@/lib/tuvi/types/VietnameseChart";
 
 export type MobileSelection = { kind: "palace"; index: number } | { kind: "center" };
@@ -53,6 +55,16 @@ export function XtdMobileTuViOverview({
   selection: MobileSelection;
   onSelect: (selection: MobileSelection) => void;
 }) {
+  const compact = useIsCompactChart();
+  if (compact) {
+    return (
+      <section className="mobile-tuvi-overview">
+        <div className="mobile-chart-hint mobile-chart-hint--compact">Chạm một khám để xem các sao của khám ấy</div>
+        <XtdMobileCompactOverview chart={chart} birthTime={birthTime} horoscope={horoscope} selection={selection} onSelect={onSelect} />
+      </section>
+    );
+  }
+
   return (
     <section className="mobile-tuvi-overview">
       <div className="mobile-chart-hint">Toàn cảnh lá số · Chạm một khám để xem chi tiết</div>

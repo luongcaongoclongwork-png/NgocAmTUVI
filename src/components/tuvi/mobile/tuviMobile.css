@@ -1,5 +1,5 @@
 /**
- * Mobile-only chart presentation (<768px). Everything here is scoped under
+ * Mobile-only chart presentation (<1024px: phones and upright tablets). Everything here is scoped under
  * .mobile-tuvi-canvas (the 747x1032 virtual canvas TuViChartGrid renders
  * into — see MobileTuViOverview.tsx) or under standalone .mobile-* classes
  * that only ever render inside MobileTuViExperience. None of this can leak
@@ -330,4 +330,164 @@
 .la-so-result-page {
   padding-left: max(12px, env(safe-area-inset-left));
   padding-right: max(12px, env(safe-area-inset-right));
+}
+
+/* ---------- Compact overview (xtd/mobile/XtdMobileCompactOverview.tsx) ----------
+   A phone under 700px: the map of the twelve khám, drawn for the phone instead of
+   scaled down. Nothing here is smaller than 12px; a cell grows with its words. */
+
+.mobile-chart-hint--compact {
+  font-size: 13px;
+}
+
+.xtd-compact {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(104px, auto);
+  gap: 1px;
+  padding: 1px;
+  background: rgba(83, 61, 42, 0.42);
+  box-shadow: 0 8px 22px rgba(49, 34, 21, 0.05);
+}
+
+.xtd-compact-cell,
+.xtd-compact-center {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  margin: 0;
+  padding: 7px 5px 5px;
+  border: 0;
+  background: var(--na-paper-light);
+  color: var(--na-ink);
+  font-family: var(--font-body), sans-serif;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.xtd-compact-cell--soul,
+.xtd-compact-cell--body {
+  background: #f4ead7;
+  box-shadow: inset 0 0 0 1.5px rgba(159, 111, 60, 0.48);
+}
+
+.xtd-compact-cell[data-selected="true"],
+.xtd-compact-center[data-selected="true"] {
+  background: #ecdcc0;
+  outline: 3px solid rgba(145, 88, 48, 0.85);
+  outline-offset: -3px;
+}
+
+.xtd-compact-cell[data-emphasis="tam-hop"] {
+  outline: 2px dashed rgba(150, 108, 54, 0.9);
+  outline-offset: -2px;
+}
+
+.xtd-compact-cell[data-emphasis="xung-chieu"] {
+  outline: 2px solid var(--na-cinnabar);
+  outline-offset: -2px;
+}
+
+.xtd-compact-cell[data-emphasis="giap-cung"] {
+  outline: 2px dotted rgba(69, 104, 76, 0.9);
+  outline-offset: -2px;
+}
+
+.xtd-compact-cell:focus-visible,
+.xtd-compact-center:focus-visible {
+  outline: 3px solid var(--na-gold);
+  outline-offset: -3px;
+}
+
+.xtd-compact-name {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--na-ink);
+  overflow-wrap: anywhere;
+}
+
+.xtd-compact-than {
+  margin-top: 1px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #72522b;
+}
+
+.xtd-compact-stars {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 5px;
+}
+
+.xtd-compact-star {
+  font-family: var(--font-heading), serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--star-color, var(--na-ink)) 82%, var(--na-ink) 18%);
+  overflow-wrap: anywhere;
+}
+
+.xtd-compact-star--empty {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--na-muted);
+}
+
+.xtd-compact-branch {
+  margin-top: auto;
+  padding-top: 4px;
+  align-self: flex-end;
+  font-size: 12px;
+  line-height: 1.1;
+  color: var(--na-muted);
+}
+
+.xtd-compact-center {
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 8px;
+  background: #f9f3e8;
+  text-align: center;
+}
+
+.xtd-compact-brand {
+  font-family: var(--font-heading), serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: #72522b;
+}
+
+.xtd-compact-owner {
+  margin: 4px 0 2px;
+  font-family: var(--font-heading), serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.xtd-compact-line {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--na-ink-soft);
+}
+
+.xtd-compact-cuc {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--na-ink);
 }

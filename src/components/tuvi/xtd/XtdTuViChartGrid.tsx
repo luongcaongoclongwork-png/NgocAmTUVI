@@ -39,6 +39,8 @@ export interface XtdTuViChartGridProps {
   centerSelected?: boolean;
   showAspectOverlay?: boolean;
   useVariableRowHeights?: boolean;
+  /** Web chart only: the two middle rows together keep at least this share of the height, so the Trung Cung's fixed list of rows always has room. */
+  centerMinPct?: number;
   columnBoundaries?: [number, number, number, number, number];
   centerPrintSeal?: React.ReactNode;
   /** Measured row split (print's useXtdPrintFit); wins over computeRowLayout's estimate. */
@@ -60,6 +62,7 @@ export default function XtdTuViChartGrid({
   centerSelected,
   showAspectOverlay = true,
   useVariableRowHeights = false,
+  centerMinPct,
   columnBoundaries,
   centerPrintSeal,
   rowLayoutOverride,
@@ -69,7 +72,7 @@ export default function XtdTuViChartGrid({
   const xungChieu = selectedIndex === null ? -1 : xungChieuIndex(selectedIndex);
 
   const rowLayout =
-    rowLayoutOverride ?? (useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null, { zoneBadge: true }) : UNIFORM_ROW_LAYOUT);
+    rowLayoutOverride ?? (useVariableRowHeights ? computeRowLayout(chart, horoscope ?? null, { zoneBadge: true, centerMinPct }) : UNIFORM_ROW_LAYOUT);
   const resolvedColumnBoundaries = columnBoundaries ?? UNIFORM_COLUMN_BOUNDARIES;
 
   // Reveal order = an-cung order from the Menh palace (palace.index grows in that direction).

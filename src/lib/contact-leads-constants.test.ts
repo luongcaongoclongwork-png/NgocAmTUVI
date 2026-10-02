@@ -100,7 +100,7 @@ describe("query parameter -> topic mapping", () => {
   });
 
   it("resolves the short CTA aliases used by service/product cards", () => {
-    expect(resolveTopicFromQuery("tu-vi")).toBe("su-nghiep-huong-di");
+    expect(resolveTopicFromQuery("tu-vi")).toBeNull();
     expect(resolveTopicFromQuery("phong-thuy")).toBe("khong-gian-song");
     expect(resolveTopicFromQuery("vat-pham")).toBe("vat-pham-dong-hanh");
   });

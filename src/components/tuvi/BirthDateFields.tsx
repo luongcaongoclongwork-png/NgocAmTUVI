@@ -22,8 +22,8 @@ const YEAR_MAX = 2100;
 /**
  * The birth year, typed (four digits) instead of scrolled through a list of
  * 200 years. The chart only hears about a year once it is a complete, valid
- * one; a half-typed value never reaches it. Leaving the field with something
- * invalid puts the last valid year back.
+ * one; anything else is reported as no year (null), so the form can refuse
+ * to draw a chart for a year the person never typed.
  */
 function YearField({
   year,
@@ -31,17 +31,17 @@ function YearField({
   describedBy,
   onYearChange,
 }: {
-  year: number;
+  year: number | null;
   invalid?: boolean;
   describedBy?: string;
-  onYearChange: (value: number) => void;
+  onYearChange: (value: number | null) => void;
 }) {
-  const [text, setText] = useState(String(year));
+  const [text, setText] = useState(year === null ? "" : String(year));
   // follow a year changed from outside (the stepper, a restored form) without an effect
   const [seen, setSeen] = useState(year);
   if (year !== seen) {
     setSeen(year);
-    setText(String(year));
+    if (year !== null) setText(String(year));
   }
   return (
     <input
@@ -51,6 +51,7 @@ function YearField({
       pattern="[0-9]{4}"
       maxLength={4}
       autoComplete="bday-year"
+      placeholder="VD 1990"
       className={selectClass}
       value={text}
       aria-invalid={invalid || undefined}
@@ -59,9 +60,8 @@ function YearField({
         const v = e.target.value.replace(/\D/g, "").slice(0, 4);
         setText(v);
         const n = Number(v);
-        if (v.length === 4 && n >= YEAR_MIN && n <= YEAR_MAX) onYearChange(n);
+        onYearChange(v.length === 4 && n >= YEAR_MIN && n <= YEAR_MAX ? n : null);
       }}
-      onBlur={() => setText(String(year))}
     />
   );
 }
@@ -82,25 +82,29 @@ export function BirthDateFields({
   calendarType: CalendarType;
   day: number;
   month: number;
-  year: number;
+  /** null until a complete, valid year has been typed. */
+  year: number | null;
   isLeapMonth: boolean;
   /** Set when the parent form's "chọn ngày sinh hợp lệ" validation failed on submit. */
   invalid?: boolean;
   describedBy?: string;
   onDayChange: (value: number) => void;
   onMonthChange: (value: number) => void;
-  onYearChange: (value: number) => void;
+  onYearChange: (value: number | null) => void;
   onLeapMonthChange: (value: boolean) => void;
 }) {
-  const maxDay =
-    calendarType === "solar" ? daysInSolarMonth(year, month) : daysInLunarMonth(year, month, isLeapMonth);
-  const leapMonth = leapMonthOfLunarYear(year);
+  // with no year yet, the day list is a leap year's (the longest months); the form re-checks the day once the year is typed
+  const y = year ?? 2000;
+  const maxDay = calendarType === "solar" ? daysInSolarMonth(y, month) : daysInLunarMonth(y, month, isLeapMonth);
+  const leapMonth = year === null ? 0 : leapMonthOfLunarYear(year);
   const canBeLeapMonth = calendarType === "lunar" && leapMonth !== 0 && leapMonth === month;
 
   const preview =
-    calendarType === "solar"
-      ? previewLunarFromSolar(day, month, year)
-      : previewSolarFromLunar(day, month, year, isLeapMonth);
+    year === null
+      ? null
+      : calendarType === "solar"
+        ? previewLunarFromSolar(day, month, year)
+        : previewSolarFromLunar(day, month, year, isLeapMonth);
 
   return (
     <div className="space-y-3">
