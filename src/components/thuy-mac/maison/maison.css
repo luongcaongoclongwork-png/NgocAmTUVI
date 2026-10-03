@@ -91,3 +91,7 @@ a:hover .mScroll-paint img { transform: scale(1.03); }
   .mPro { grid-template-columns: minmax(0, 1fr); padding-top: 88px; }
   .mPro-portrait { position: static; max-width: 340px; }
 }
+
+/* the view can run to several paragraphs (the bio's second paragraph onward) */
+.mMaster-view p { margin: 0; }
+.mMaster-view p + p { margin-top: 0.85em; }

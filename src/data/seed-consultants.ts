@@ -24,7 +24,7 @@ export const seedConsultants: SeedConsultant[] = [
     name: "Cô Nguyễn Minh Trang",
     field: "Xuyên Giả Tử Vi",
     initials: "MT",
-    bio: "Là truyền nhân của Khâm Thiên Giám dưới triều vua Minh Mạng, cô Nguyễn Minh Trang có cơ duyên tiếp cận và kế thừa những tri thức phương Đông được lưu truyền qua nhiều thế hệ. Với hơn 10 năm nghiên cứu và thực hành Tử Vi – Phong Thuỷ, cô đồng hành cùng nhiều quý hữu tìm ra con đường phát triển phù hợp với bản thân, chuyển hoá những điều bất như ý trong lá số thành cơ hội để trưởng thành và an nhiên hơn.",
+    bio: "Cô Nguyễn Minh Trang là truyền nhân của vị quan kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng. Từ cơ duyên ấy, cô được tiếp cận và kế thừa những tri thức phương Đông lưu truyền qua nhiều thế hệ. Hơn 10 năm nghiên cứu và thực hành Tử Vi, Phong Thủy đã giúp cô hình thành cách tiếp cận cẩn trọng, chú trọng việc ứng dụng tri thức vào những vấn đề cụ thể trong đời sống.\n\nTrong quá trình đồng hành cùng quý hữu, cô vận dụng Tử Vi và Phong Thủy để giúp mỗi người hiểu rõ bản thân, nhìn nhận hoàn cảnh thấu đáo và tìm hướng phát triển phù hợp. Qua việc đọc Diệm Bản và Xuyên vấn, cô hỗ trợ quý hữu nhận diện những vướng mắc, từng bước chuyển hóa điều bất như ý thành cơ hội học hỏi và trưởng thành.\n\nVới cô Trang, giá trị của tri thức cổ còn nằm ở khả năng hỗ trợ con người đưa ra quyết định trong hiện tại. Sự điềm tĩnh và cẩn trọng được bồi đắp qua nhiều năm thực hành là nền tảng cho những định hướng cô chia sẻ. Cô mong mỗi người có thể chủ động tháo gỡ khó khăn, vững tâm trước biến động và nuôi dưỡng sự bình an trên hành trình tu dưỡng nội tâm.",
   },
   {
     slug: "thay-tinh",

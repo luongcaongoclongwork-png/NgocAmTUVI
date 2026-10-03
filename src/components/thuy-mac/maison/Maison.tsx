@@ -57,7 +57,8 @@ export function Chapter({
   field: string;
   title: string;
   about: string;
-  view?: string;
+  /** every paragraph of the bio after the first (the about line), shown together under one bronze rule */
+  view?: string[];
   reverse?: boolean;
   tone?: "paper" | "raised";
   /** One of v1's section paintings, under a paper veil. */
@@ -77,7 +78,13 @@ export function Chapter({
           <p className="mMaster-field">{field}</p>
           <h2 id={`${id}-h`}>{title}</h2>
           <p className="mMaster-about">{about}</p>
-          {view && <p className="mMaster-view">{view}</p>}
+          {view && view.length > 0 && (
+            <div className="mMaster-view">
+              {view.map((v, i) => (
+                <p key={i}>{v}</p>
+              ))}
+            </div>
+          )}
           <div className="mMaster-links">{children}</div>
         </div>
       </div>

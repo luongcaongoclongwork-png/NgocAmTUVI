@@ -37,9 +37,7 @@
 .hHero-paths span { font-size: 15px; color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 500; }
 .hHero-also { grid-area: also; margin: 14px 0 0; font-size: 15px; color: var(--muted); }
 .hHero-also a { color: var(--accent); font-weight: 500; text-underline-offset: 4px; }
-@media (prefers-reduced-motion: no-preference) {
-  .js .hHero-lede, .js .hHero-cta, .js .hHero-paths, .js .hHero-also { animation: ipFade 0.8s ease 0.6s backwards; }
-}
+/* The painting supplies the entrance; copy and booking controls are visible immediately. */
 
 @media (max-width: 860px) {
   .hHero { min-height: 0; }
@@ -86,7 +84,8 @@
 .hPath-text { display: flex; flex-direction: column; padding: 28px 28px 20px; flex: 1; }
 .hPath-cat { margin: 0 0 10px; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep, #73592d); }
 .hPath-text h3 { white-space: nowrap; }
-.hPath-text h3 a { text-decoration: none; color: var(--ink); }
+.hPath-text h3 a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--ink); }
+.hPath-text h3 a:is(:hover, :focus-visible) { text-decoration: underline; text-decoration-color: var(--bronze); text-underline-offset: 5px; }
 /* key words run on, a dot between them, two lines in every card. Each word carries its dot in its own left
    padding and the list is clipped by that padding, so a dot never opens a line. */
 .hPath-words { --dot: 24px; list-style: none; margin: 14px 0 26px calc(-1 * var(--dot)); padding: 0; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 4px 0; clip-path: inset(0 0 0 var(--dot)); font-size: 15px; line-height: 24px; min-height: 52px; color: var(--gold-deep, #73592d); }

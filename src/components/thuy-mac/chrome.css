@@ -78,6 +78,8 @@
   .tmBook { display: none; }
   .tmCompass-word--wide { display: none; }
   .tmCompass-word--narrow { display: inline; }
+  /* Anchor the panel to the viewport gutters, not the narrow menu trigger. */
+  .tmCompass-menu { position: fixed; top: 72px; left: clamp(20px, 4vw, 48px); right: clamp(20px, 4vw, 48px); width: auto; max-width: 360px; margin-left: auto; }
   .tmBar { position: fixed; z-index: 50; inset: auto 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); background: color-mix(in srgb, var(--raised) 94%, transparent); backdrop-filter: blur(8px); border-top: 1px solid var(--line); }
   .tmBar a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 3px; font-weight: 500; font-size: 15.5px; text-decoration: none; }
   .tmBar-book { flex: 1.6; background: var(--ink); color: var(--paper) !important; }

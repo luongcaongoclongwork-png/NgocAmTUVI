@@ -149,7 +149,7 @@ export default async function HomeV3() {
           field={p.field}
           title={p.name}
           about={p.about}
-          view={p.view[0]}
+          view={p.view}
           reverse={i % 2 === 1}
           tone={i % 2 === 0 ? "raised" : "paper"}
           backdrop={i === 0 ? { image: "/images/02-truyen-nhan-khai-van.png", position: "right bottom" } : undefined}
@@ -209,7 +209,7 @@ export default async function HomeV3() {
           field="Trà Sư Ngọc Âm"
           title={tea.name}
           about={tea.about}
-          view="Thuận trà, thuận thuỷ, thuận thời, thuận tâm."
+          view={["Thuận trà, thuận thuỷ, thuận thời, thuận tâm."]}
           reverse
           backdrop={{ image: "/images/pillars/tra-dao.png" }}
           portraitHref="/tra-dao"

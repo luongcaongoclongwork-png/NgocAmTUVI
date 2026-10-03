@@ -87,7 +87,7 @@ export default function LienHeClient({
   return (
     // The page title and intro live in the Thuỷ Mặc hero (app/lien-he/page.tsx).
     <section className="lienhe-v2 py-16 lg:py-24">
-      <div className="mx-auto max-w-[1220px] px-6 lg:px-10">
+      <div className="mx-auto max-w-[1220px] px-5 sm:px-6 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-[2fr_3fr] lg:gap-16">
           <div className="order-2 lg:order-1">
             <p className="tracking-label text-[12px] font-semibold uppercase text-walnut/70">
@@ -124,7 +124,7 @@ export default function LienHeClient({
               )}
             </div>
 
-            <p className="mt-10 max-w-sm text-[13px] leading-relaxed text-ink/50">
+            <p className="lienhe-privacy mt-10 max-w-sm text-[13px] leading-relaxed text-ink/50">
               Thông tin bạn chia sẻ được giữ riêng tư và chỉ được dùng để
               Ngọc Âm chuẩn bị cho cuộc trao đổi cùng bạn.
             </p>
@@ -183,7 +183,7 @@ function ContactLink({
 
 function LetterFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="relative border border-walnut/15 bg-parchment/30 p-6 sm:p-10 lg:p-14">
+    <div className="relative border border-walnut/15 bg-parchment/30 p-4 sm:p-10 lg:p-14">
       <Image
         src="/images/logo-mark.png"
         alt=""
@@ -442,7 +442,7 @@ function QuietChatLinks({
             href={zaloUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-walnut underline decoration-walnut/30 underline-offset-2 hover:text-gold-deep"
+            className="lienhe-direct-link text-walnut underline decoration-walnut/30 underline-offset-2 hover:text-gold-deep"
           >
             Zalo
           </a>
@@ -453,7 +453,7 @@ function QuietChatLinks({
             href={messengerUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-walnut underline decoration-walnut/30 underline-offset-2 hover:text-gold-deep"
+            className="lienhe-direct-link text-walnut underline decoration-walnut/30 underline-offset-2 hover:text-gold-deep"
           >
             Messenger
           </a>

@@ -98,6 +98,11 @@
 .ip .lienhe-v2 a { min-height: 44px; }
 .ip .lienhe-v2 a > span[aria-hidden="true"] { display: none; }
 .ip .lienhe-v2 button[type="submit"] { font-size: 16px; }
+/* Reading aids are opaque ink tones, including placeholders on the paper form. */
+.ip .lienhe-v2 .lienhe-privacy { color: var(--muted); }
+.ip :is(.lienhe-v2, .ipTool) :is(input, textarea)::placeholder { color: var(--muted); opacity: 1; }
+.ip .lienhe-v2 .lienhe-direct-link { display: inline-flex; align-items: center; min-width: 44px; color: var(--accent); }
+@media (width < 640px) { .ip .lienhe-v2 button[type="submit"] { width: 100%; } }
 
 /* ---------- the chart on a phone: the 12-palace overview is a map and stays small; what is read below it is not ---------- */
 @media (max-width: 767px) {
@@ -327,7 +332,7 @@
    The margin itself is the clamp(20px, 4vw, 48px) used by the header, every section, the openings and the
    footer; only the bottom bar is set here so its buttons line up with the page. */
 @media (width < 640px) {
-  .tmBar { padding-inline: 16px; }
+  .tmBar { padding-inline: 20px; }
 }
 
 /* ---------- the three scrolls step upward ----------
