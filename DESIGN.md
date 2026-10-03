@@ -13,6 +13,8 @@ colors:
   scroll-rod: "#4a3526"
   lead-ink: "#4a392c"
   reign-ink: "#5a4332"
+  label-gilt: "#73592d"
+  pill-glow: "#c9a25a"
   lacquer: "#a13a2f"
 typography:
   display:
@@ -33,6 +35,14 @@ typography:
     fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.7
+  small:
+    fontFamily: "Be Vietnam Pro, system-ui, sans-serif"
+    fontSize: "15px"
+    fontWeight: 400
+  caption:
+    fontFamily: "Be Vietnam Pro, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 400
   label:
     fontFamily: "Be Vietnam Pro, system-ui, sans-serif"
     fontSize: "13px"
@@ -115,6 +125,8 @@ A narrow, warm, low-saturation palette of paper, brown ink and one bronze, with 
 - **Walnut Tint** (#e4d5bd): soft tints and pill grounds.
 - **Hairline** (rgba(107, 74, 47, 0.3)): borders and dividers.
 - **Scroll Rod** (#4a3526): the wooden rods of the hanging scrolls.
+- **Label Gilt** (#73592d): a darker gilt brown for small group labels and key-word lists on the home pillar cards (passes 4.5:1 on paper, unlike bronze).
+- **Pill Glow** (#c9a25a): the small lit dot on the dark booking pill and header button, and its soft pulse; it sits on ink, never on paper.
 
 ### Semantic
 - **Lacquer** (#a13a2f): form errors only. It is a warning colour, never a decorative accent.
@@ -140,6 +152,8 @@ All load the Vietnamese subset through next/font. (Playfair Display remains only
 - **Title** (Cormorant 600, clamp(21px … 27px)): card and item titles.
 - **Lead** (Be Vietnam Pro 400, 16px phone → 17–19px tablet → 16.5–22px wide, line-height 1.7): opening paragraphs, one sentence per line where the owner wrote it so.
 - **Body** (Be Vietnam Pro 400, 16px phone / 17px from 1024px, line-height 1.7, ~68 characters per line): all reading text. Long articles at 18px.
+- **Small** (Be Vietnam Pro 400, 15px): secondary lines: hints, notes, form labels, prices' small print, the footer's lists.
+- **Caption** (Be Vietnam Pro 400, 14px): the smallest reading size: legal lines, chart labels on a phone, table headings. Nothing read goes below it.
 - **Label** (Be Vietnam Pro 500, 13–20px, letter-spacing 0.2–0.26em, uppercase): only the reign line and a few group names where the label carries real information.
 
 ### Named Rules

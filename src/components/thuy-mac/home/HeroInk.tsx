@@ -40,6 +40,7 @@ function heroFocusX(canvas: HTMLCanvasElement): number {
  */
 export default function HeroInk({ src, alt }: { src: string; alt: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const stillRef = useRef<HTMLImageElement>(null);
   const [mode, setMode] = useState<"pending" | "ink" | "still">("pending");
 
   useEffect(() => {
@@ -68,8 +69,11 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
       if (!raf) raf = requestAnimationFrame(frame);
     };
 
+    // the ink reuses the copy the still <Image> already chose (sized for this screen and already on its way), so the
+    // painting is downloaded once; the full-size original (453KB) is only a fallback
+    const painting = stillRef.current?.currentSrc || src;
     try {
-      ink = createInk(canvas, { painting: src, layers: [] }, () => {
+      ink = createInk(canvas, { painting, layers: [] }, () => {
         t0 = performance.now();
         setMode("ink");
         kick();
@@ -107,7 +111,7 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
 
   return (
     <div className="hHero-paint" data-mode={mode}>
-      <Image src={src} alt={alt} fill priority sizes="100vw" className="hHero-still" />
+      <Image ref={stillRef} src={src} alt={alt} fill priority sizes="100vw" className="hHero-still" />
       <canvas ref={canvasRef} className="hHero-canvas" aria-hidden="true" />
     </div>
   );

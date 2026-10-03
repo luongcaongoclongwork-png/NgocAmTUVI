@@ -1,50 +1,217 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-03T21:00:00+07:00",
+  "generatedAt": "2026-10-03T22:00:00+07:00",
   "title": "Design System: Ngọc Âm",
   "extensions": {
     "colorMeta": {
-      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#2b1f17", "tonalRamp": ["#160f0b", "#2b1f17", "#47372b", "#655243", "#87735f", "#ab9883", "#cfc0ad", "#efe6da"] },
-      "muted-ink": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#5a4738" },
-      "dó-paper": { "role": "neutral", "displayName": "Dó Paper", "canonical": "#ece2ce" },
-      "raised-paper": { "role": "neutral", "displayName": "Raised Paper", "canonical": "#f6efe2" },
-      "walnut": { "role": "primary", "displayName": "Walnut Ink", "canonical": "#6b4a2f", "tonalRamp": ["#24180e", "#3e2b1e", "#563c27", "#6b4a2f", "#8a6a4d", "#ab8f74", "#cdb8a2", "#ece2d6"] },
-      "walnut-tint": { "role": "neutral", "displayName": "Walnut Tint", "canonical": "#e4d5bd" },
-      "bronze": { "role": "secondary", "displayName": "Mount Bronze", "canonical": "#94733a", "tonalRamp": ["#2e2311", "#4b3a1d", "#6c542b", "#94733a", "#ae9060", "#c7ae88", "#ddcdb2", "#f1e9dc"] },
-      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "rgba(107, 74, 47, 0.3)" },
-      "scroll-rod": { "role": "neutral", "displayName": "Scroll Rod", "canonical": "#4a3526" },
-      "lead-ink": { "role": "neutral", "displayName": "Lead Ink", "canonical": "#4a392c" },
-      "reign-ink": { "role": "neutral", "displayName": "Reign Ink", "canonical": "#5a4332" },
-      "lacquer": { "role": "semantic-error", "displayName": "Lacquer", "canonical": "#a13a2f" }
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#2b1f17",
+        "tonalRamp": [
+          "#160f0b",
+          "#2b1f17",
+          "#47372b",
+          "#655243",
+          "#87735f",
+          "#ab9883",
+          "#cfc0ad",
+          "#efe6da"
+        ]
+      },
+      "muted-ink": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#5a4738"
+      },
+      "dó-paper": {
+        "role": "neutral",
+        "displayName": "Dó Paper",
+        "canonical": "#ece2ce"
+      },
+      "raised-paper": {
+        "role": "neutral",
+        "displayName": "Raised Paper",
+        "canonical": "#f6efe2"
+      },
+      "walnut": {
+        "role": "primary",
+        "displayName": "Walnut Ink",
+        "canonical": "#6b4a2f",
+        "tonalRamp": [
+          "#24180e",
+          "#3e2b1e",
+          "#563c27",
+          "#6b4a2f",
+          "#8a6a4d",
+          "#ab8f74",
+          "#cdb8a2",
+          "#ece2d6"
+        ]
+      },
+      "walnut-tint": {
+        "role": "neutral",
+        "displayName": "Walnut Tint",
+        "canonical": "#e4d5bd"
+      },
+      "bronze": {
+        "role": "secondary",
+        "displayName": "Mount Bronze",
+        "canonical": "#94733a",
+        "tonalRamp": [
+          "#2e2311",
+          "#4b3a1d",
+          "#6c542b",
+          "#94733a",
+          "#ae9060",
+          "#c7ae88",
+          "#ddcdb2",
+          "#f1e9dc"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(107, 74, 47, 0.3)"
+      },
+      "scroll-rod": {
+        "role": "neutral",
+        "displayName": "Scroll Rod",
+        "canonical": "#4a3526"
+      },
+      "lead-ink": {
+        "role": "neutral",
+        "displayName": "Lead Ink",
+        "canonical": "#4a392c"
+      },
+      "reign-ink": {
+        "role": "neutral",
+        "displayName": "Reign Ink",
+        "canonical": "#5a4332"
+      },
+      "lacquer": {
+        "role": "semantic-error",
+        "displayName": "Lacquer",
+        "canonical": "#a13a2f"
+      },
+      "label-gilt": {
+        "role": "neutral",
+        "displayName": "Label Gilt",
+        "canonical": "#73592d"
+      },
+      "pill-glow": {
+        "role": "neutral",
+        "displayName": "Pill Glow",
+        "canonical": "#c9a25a"
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Home opening only: the lineage line and the three hanging scrolls." },
-      "headline": { "displayName": "Headline", "purpose": "Section titles, always smaller than the page title." },
-      "title": { "displayName": "Title", "purpose": "Card and item titles." },
-      "body": { "displayName": "Body", "purpose": "All reading text; 17px from 1024px; ~68 characters per line." },
-      "label": { "displayName": "Label", "purpose": "Spaced capitals for the reign line and a few informative group names only." },
-      "numerals": { "displayName": "Numerals", "purpose": "Calendar and chart numerals." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home opening only: the lineage line and the three hanging scrolls."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, always smaller than the page title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and item titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text; 17px from 1024px; ~68 characters per line."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Spaced capitals for the reign line and a few informative group names only."
+      },
+      "numerals": {
+        "displayName": "Numerals",
+        "purpose": "Calendar and chart numerals."
+      },
+      "small": {
+        "displayName": "Small",
+        "purpose": "Secondary lines: hints, notes, form labels, small print."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "The smallest reading size (14px floor)."
+      }
     },
     "shadows": [
-      { "name": "header-settle", "value": "0 10px 28px -22px rgba(43, 31, 23, 0.55)", "purpose": "The header once the page scrolls under it." },
-      { "name": "floating-sheet", "value": "0 18px 40px -24px rgba(43, 31, 23, 0.55)", "purpose": "The open Khám Phá menu." },
-      { "name": "tool-card", "value": "0 34px 60px -42px rgba(43, 31, 23, 0.5)", "purpose": "The chart tool's form card." }
+      {
+        "name": "header-settle",
+        "value": "0 10px 28px -22px rgba(43, 31, 23, 0.55)",
+        "purpose": "The header once the page scrolls under it."
+      },
+      {
+        "name": "floating-sheet",
+        "value": "0 18px 40px -24px rgba(43, 31, 23, 0.55)",
+        "purpose": "The open Khám Phá menu."
+      },
+      {
+        "name": "tool-card",
+        "value": "0 34px 60px -42px rgba(43, 31, 23, 0.5)",
+        "purpose": "The chart tool's form card."
+      }
     ],
     "motion": [
-      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default easing for state transitions." },
-      { "name": "dur-fast", "value": "200ms", "purpose": "Colour changes on hover and focus." },
-      { "name": "dur-base", "value": "360ms", "purpose": "Header settle, menu sheet, link strokes." },
-      { "name": "dur-slow", "value": "800ms", "purpose": "Rare, larger transitions." },
-      { "name": "brush-reveal", "value": "clip-path inset 0.9s cubic-bezier(0.6, 0, 0.2, 1)", "purpose": "The one opening moment: scrolls and page titles brushed in." }
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default easing for state transitions."
+      },
+      {
+        "name": "dur-fast",
+        "value": "200ms",
+        "purpose": "Colour changes on hover and focus."
+      },
+      {
+        "name": "dur-base",
+        "value": "360ms",
+        "purpose": "Header settle, menu sheet, link strokes."
+      },
+      {
+        "name": "dur-slow",
+        "value": "800ms",
+        "purpose": "Rare, larger transitions."
+      },
+      {
+        "name": "brush-reveal",
+        "value": "clip-path inset 0.9s cubic-bezier(0.6, 0, 0.2, 1)",
+        "purpose": "The one opening moment: scrolls and page titles brushed in."
+      }
     ],
     "breakpoints": [
-      { "name": "large-phone", "value": "480px" },
-      { "name": "sm", "value": "640px" },
-      { "name": "tablet", "value": "768px" },
-      { "name": "menu-collapse", "value": "860px" },
-      { "name": "desktop", "value": "1024px" },
-      { "name": "nav-trim", "value": "1180px" },
-      { "name": "wide", "value": "1280px" }
+      {
+        "name": "large-phone",
+        "value": "480px"
+      },
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "tablet",
+        "value": "768px"
+      },
+      {
+        "name": "menu-collapse",
+        "value": "860px"
+      },
+      {
+        "name": "desktop",
+        "value": "1024px"
+      },
+      {
+        "name": "nav-trim",
+        "value": "1180px"
+      },
+      {
+        "name": "wide",
+        "value": "1280px"
+      }
     ]
   },
   "components": [
@@ -106,12 +273,36 @@
       "One orchestrated moment per page; everything else is still."
     ],
     "rules": [
-      { "name": "The Painting Carries the Colour Rule", "body": "The interface itself stays in paper, brown and bronze; any colour stronger than walnut comes from a painting or a portrait, never from a UI fill, gradient or badge.", "section": "colors" },
-      { "name": "The Gilt Hairline Rule", "body": "Bronze appears as lines a pixel or two thick, never as a filled area or as text.", "section": "colors" },
-      { "name": "The Two Hands Rule", "body": "Cormorant writes, Be Vietnam Pro informs; no third family enters the public site.", "section": "typography" },
-      { "name": "The 14px Floor Rule", "body": "Nothing read is under 14px and reading text is never under 16px; reading sizes are whole pixels.", "section": "typography" },
-      { "name": "The Glued Phrase Rule", "body": "Vietnamese compound words and brand terms never break across a line: glue them with a no-break space and break lines where the sense breaks.", "section": "typography" },
-      { "name": "The Paper Doesn't Float Rule", "body": "Cards, sections and buttons sit on the paper; a shadow is allowed only for something that truly lies above the page (header, menu, tool card).", "section": "elevation" }
+      {
+        "name": "The Painting Carries the Colour Rule",
+        "body": "The interface itself stays in paper, brown and bronze; any colour stronger than walnut comes from a painting or a portrait, never from a UI fill, gradient or badge.",
+        "section": "colors"
+      },
+      {
+        "name": "The Gilt Hairline Rule",
+        "body": "Bronze appears as lines a pixel or two thick, never as a filled area or as text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Hands Rule",
+        "body": "Cormorant writes, Be Vietnam Pro informs; no third family enters the public site.",
+        "section": "typography"
+      },
+      {
+        "name": "The 14px Floor Rule",
+        "body": "Nothing read is under 14px and reading text is never under 16px; reading sizes are whole pixels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Glued Phrase Rule",
+        "body": "Vietnamese compound words and brand terms never break across a line: glue them with a no-break space and break lines where the sense breaks.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper Doesn't Float Rule",
+        "body": "Cards, sections and buttons sit on the paper; a shadow is allowed only for something that truly lies above the page (header, menu, tool card).",
+        "section": "elevation"
+      }
     ],
     "dos": [
       "Do keep the page a light paper-and-ink sheet; colour comes from the paintings and portraits.",

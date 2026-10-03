@@ -59,8 +59,11 @@
 .dD-question { font-size: clamp(2.4rem, 4.6vw, 4rem); font-weight: 500; letter-spacing: -0.01em; }
 .dD-options { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); }
 .dD-options li { border-bottom: 1px solid var(--line); }
-.dD-options button { width: 100%; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; text-align: left; font: inherit; color: inherit; background: none; border: 0; padding: 16px 0 16px 0; min-height: 56px; cursor: pointer; transition: padding-left var(--dur-base) var(--ease-out), background-color var(--dur-fast); }
-.dD-options button:hover { padding-left: 14px; background: linear-gradient(to right, var(--accent-soft), transparent 70%); }
+.dD-options button { width: 100%; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; text-align: left; font: inherit; color: inherit; background: none; border: 0; padding: 16px 14px 16px 0; min-height: 56px; cursor: pointer; overflow: hidden; transition: background-color var(--dur-fast); }
+.dD-options button > span { transition: transform var(--dur-base) var(--ease-out); }
+.dD-options button:hover { background: linear-gradient(to right, var(--accent-soft), transparent 70%); }
+/* the words slide 14px into the reserved right padding, only where a pointer can hover (a tap would leave them shifted) */
+@media (hover: hover) { .dD-options button:hover > span { transform: translateX(14px); } }
 .dD-opt-label { font-family: var(--display); font-size: 1.5rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
 .dD-options button:hover .dD-opt-label { color: var(--accent); }
 .dD-opt-hint { color: var(--muted); font-size: 15px; }

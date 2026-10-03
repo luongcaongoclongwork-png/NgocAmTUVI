@@ -4,8 +4,8 @@ import { InkHero, InkPage, InkSection } from "@/components/thuy-mac/kit";
 
 export const metadata: Metadata = { title: "Không tìm thấy trang — Ngọc Âm" };
 
+/* the main way back is the one button; the others are quiet links */
 const WAYS = [
-  { href: "/", label: "Trang Chủ" },
   { href: "/dich-vu", label: "Dịch Vụ" },
   { href: "/lap-la-so", label: "Lập Lá Số" },
   { href: "/kien-thuc", label: "Sổ Tay" },
@@ -30,8 +30,11 @@ export default function NotFound() {
       />
       <InkSection narrow>
         <p className="ipWays">
+          <Link href="/" className="ipBtn">Về Trang Chủ</Link>
+        </p>
+        <p className="ipWays ipWays--quiet">
           {WAYS.map((w) => (
-            <Link key={w.href} href={w.href} className="ipBtn">{w.label}</Link>
+            <Link key={w.href} href={w.href} className="ipLink">{w.label}</Link>
           ))}
         </p>
       </InkSection>

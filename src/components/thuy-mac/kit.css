@@ -34,13 +34,14 @@
 @keyframes ipDrift { to { transform: scale(1.14) translateY(5%); } }
 
 .ipHero-body { position: relative; padding: calc(96px + 4vh) clamp(16px, 8vw, 132px) 10vh; display: flex; flex-direction: column; gap: clamp(22px, 3.4vh, 38px); max-width: 1100px; }
-.ipScrolls { display: flex; align-items: flex-start; flex-wrap: wrap; gap: clamp(14px, 2vw, 28px) clamp(14px, 2vw, 28px); font-size: clamp(2.1rem, 4.6vw, 4.3rem); }
+.ipScrolls { display: flex; align-items: flex-start; flex-wrap: wrap; gap: clamp(14px, 2vw, 28px) clamp(14px, 2vw, 28px); }
 .ipScroll { position: relative; display: flex; flex-direction: column; align-items: center; padding: 0.42em 0.28em 0.5em; background: linear-gradient(rgba(240, 232, 216, 0.92), rgba(240, 232, 216, 0.6)); }
 .ipScroll::before, .ipScroll::after { content: ""; position: absolute; left: -7px; right: -7px; height: 5px; border-radius: 3px; background: #4a3526; }
 .ipScroll::before { top: -3px; }
 .ipScroll::after { bottom: -3px; height: 4px; left: -4px; right: -4px; }
-.ipScroll:nth-child(2) { margin-top: 0.6em; }
-.ipScroll:nth-child(3) { margin-top: 1.2em; }
+/* the staircase rises toward the last scroll on every page, as on the home page (owner, 2026-10-03) */
+.ipScroll:nth-last-child(2) { margin-top: 0.6em; }
+.ipScroll:nth-last-child(3) { margin-top: 1.2em; }
 .ipScroll > span { display: block; line-height: 1.08; }
 @media (prefers-reduced-motion: no-preference) {
   .js .ipScroll { animation: ipBrush 0.9s cubic-bezier(0.6, 0, 0.2, 1) 0.3s backwards; }
@@ -49,14 +50,13 @@
 }
 @keyframes ipBrush { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes ipFade { from { opacity: 0; } }
-.ipHero-lede { max-width: 32em; font-family: var(--display); font-size: clamp(1.25rem, 2.1vw, 1.65rem); line-height: 1.45; text-shadow: 0 0 16px rgba(236, 226, 206, 0.95); }
+.ipHero-lede { max-width: 32em; font-family: var(--display); line-height: 1.45; text-shadow: 0 0 16px rgba(236, 226, 206, 0.95); }
 .ipHero-lede p { margin: 0 0 10px; }
 .ipHero-lede small { display: block; font-family: var(--font-body), sans-serif; font-size: 1rem; color: var(--muted); margin-top: 8px; }
 .ipHero-quote { max-width: 34em; margin: 0; padding-left: 18px; border-left: 2px solid var(--accent); font-family: var(--display); font-style: italic; font-size: 1.2rem; line-height: 1.55; text-shadow: 0 0 14px rgba(236, 226, 206, 0.95); }
 @media (max-width: 700px) {
   .ipHero { min-height: 88svh; }
   .ipHero-paint::after { background: linear-gradient(180deg, rgba(236, 226, 206, 0.75) 0%, rgba(236, 226, 206, 0.35) 45%, var(--paper) 100%); }
-  .ipScrolls { font-size: 2rem; }
 }
 
 /* ---------- sections ---------- */
@@ -70,7 +70,7 @@
 .ipSec--ink { --ink: #efe3d1; --muted: #c2b198; --accent: #d6b98f; --line: rgba(239, 227, 209, 0.2); --raised: #2a201a; background: #1f1712; color: var(--ink); }
 .ipSec-inner { max-width: 1180px; margin: 0 auto; }
 .ipSec-inner--narrow { max-width: 760px; }
-.ipH2 { font-size: clamp(2.1rem, 4.4vw, 3.6rem) !important; font-weight: 500 !important; color: var(--accent); max-width: 18em; }
+.ipH2 { color: var(--accent); max-width: 18em; }
 .ipIntro { max-width: 40em; margin-top: 18px; color: var(--muted); font-size: 1.05rem; }
 .ipIntro p { margin: 0 0 10px; }
 
@@ -88,7 +88,7 @@
 .ipHang-item::before, .ipHang-item::after { content: ""; position: absolute; left: -8px; right: -8px; height: 5px; border-radius: 3px; background: #4a3526; }
 .ipHang-item::before { top: -2px; }
 .ipHang-item::after { bottom: -2px; height: 4px; left: -5px; right: -5px; }
-.ipSec--ink .ipHang-item::before, .ipSec--ink .ipHang-item::after { background: #8a6a45; }
+.ipSec--ink .ipHang-item::before, .ipSec--ink .ipHang-item::after { background: var(--bronze); }
 .ipHang-item b { display: block; font-family: var(--display); font-size: 1.75rem; font-weight: 600; line-height: 1.15; color: var(--accent); }
 .ipHang-item p { margin: 14px 0 0; color: var(--muted); }
 
@@ -265,6 +265,8 @@
 /* 404 and error pages */
 .ipWays { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin: 0; }
 .ipWays button { border: 0; cursor: pointer; font: inherit; }
+/* the quieter ways under the one main button (404): underlined links, not more solid buttons */
+.ipWays--quiet { gap: 0 24px; margin-top: 8px; }
 .ipOops { padding-top: 60px; }
 
 /* ---------- Liên hệ: v1's form, in the site's voice (sentence case, ink buttons) ---------- */
