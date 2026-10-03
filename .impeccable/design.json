@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-03T21:00:00+07:00",
+  "title": "Design System: Ngọc Âm",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#2b1f17", "tonalRamp": ["#160f0b", "#2b1f17", "#47372b", "#655243", "#87735f", "#ab9883", "#cfc0ad", "#efe6da"] },
+      "muted-ink": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#5a4738" },
+      "dó-paper": { "role": "neutral", "displayName": "Dó Paper", "canonical": "#ece2ce" },
+      "raised-paper": { "role": "neutral", "displayName": "Raised Paper", "canonical": "#f6efe2" },
+      "walnut": { "role": "primary", "displayName": "Walnut Ink", "canonical": "#6b4a2f", "tonalRamp": ["#24180e", "#3e2b1e", "#563c27", "#6b4a2f", "#8a6a4d", "#ab8f74", "#cdb8a2", "#ece2d6"] },
+      "walnut-tint": { "role": "neutral", "displayName": "Walnut Tint", "canonical": "#e4d5bd" },
+      "bronze": { "role": "secondary", "displayName": "Mount Bronze", "canonical": "#94733a", "tonalRamp": ["#2e2311", "#4b3a1d", "#6c542b", "#94733a", "#ae9060", "#c7ae88", "#ddcdb2", "#f1e9dc"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "rgba(107, 74, 47, 0.3)" },
+      "scroll-rod": { "role": "neutral", "displayName": "Scroll Rod", "canonical": "#4a3526" },
+      "lead-ink": { "role": "neutral", "displayName": "Lead Ink", "canonical": "#4a392c" },
+      "reign-ink": { "role": "neutral", "displayName": "Reign Ink", "canonical": "#5a4332" },
+      "lacquer": { "role": "semantic-error", "displayName": "Lacquer", "canonical": "#a13a2f" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Home opening only: the lineage line and the three hanging scrolls." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles, always smaller than the page title." },
+      "title": { "displayName": "Title", "purpose": "Card and item titles." },
+      "body": { "displayName": "Body", "purpose": "All reading text; 17px from 1024px; ~68 characters per line." },
+      "label": { "displayName": "Label", "purpose": "Spaced capitals for the reign line and a few informative group names only." },
+      "numerals": { "displayName": "Numerals", "purpose": "Calendar and chart numerals." }
+    },
+    "shadows": [
+      { "name": "header-settle", "value": "0 10px 28px -22px rgba(43, 31, 23, 0.55)", "purpose": "The header once the page scrolls under it." },
+      { "name": "floating-sheet", "value": "0 18px 40px -24px rgba(43, 31, 23, 0.55)", "purpose": "The open Khám Phá menu." },
+      { "name": "tool-card", "value": "0 34px 60px -42px rgba(43, 31, 23, 0.5)", "purpose": "The chart tool's form card." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default easing for state transitions." },
+      { "name": "dur-fast", "value": "200ms", "purpose": "Colour changes on hover and focus." },
+      { "name": "dur-base", "value": "360ms", "purpose": "Header settle, menu sheet, link strokes." },
+      { "name": "dur-slow", "value": "800ms", "purpose": "Rare, larger transitions." },
+      { "name": "brush-reveal", "value": "clip-path inset 0.9s cubic-bezier(0.6, 0, 0.2, 1)", "purpose": "The one opening moment: scrolls and page titles brushed in." }
+    ],
+    "breakpoints": [
+      { "name": "large-phone", "value": "480px" },
+      { "name": "sm", "value": "640px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "menu-collapse", "value": "860px" },
+      { "name": "desktop", "value": "1024px" },
+      { "name": "nav-trim", "value": "1180px" },
+      { "name": "wide", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The booking action; at most one per opening.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Đặt Lịch Xuyên Vấn</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 3px; background: #2b1f17; color: #f6efe2; font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-weight: 500; font-size: 16px; text-decoration: none; transition: background-color 200ms; } .ds-btn-primary:hover { background: #6b4a2f; } .ds-btn-primary:focus-visible { outline: 2px solid #6b4a2f; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The second, quieter way: learn more.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Về Ngọc Âm</a>",
+      "css": ".ds-btn-ghost { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 3px; background: rgba(246, 239, 226, 0.7); color: #2b1f17; border: 1px solid #6b4a2f; font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-weight: 500; font-size: 16px; text-decoration: none; transition: background-color 200ms, color 200ms; } .ds-btn-ghost:hover, .ds-btn-ghost:focus-visible { background: #2b1f17; color: #f6efe2; border-color: #2b1f17; } .ds-btn-ghost:focus-visible { outline: 2px solid #6b4a2f; outline-offset: 3px; }"
+    },
+    {
+      "name": "Quiet Link",
+      "kind": "custom",
+      "refersTo": "link-quiet",
+      "description": "Secondary actions as underlined walnut words instead of more buttons.",
+      "html": "<a class=\"ds-link\" href=\"#\">Đặt Lịch Xuyên Vấn Cùng Cô</a>",
+      "css": ".ds-link { display: inline-flex; align-items: center; min-height: 44px; color: #6b4a2f; font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-weight: 500; text-decoration: underline; text-decoration-color: #94733a; text-underline-offset: 6px; text-decoration-thickness: 1px; } .ds-link:hover, .ds-link:focus-visible { text-decoration-thickness: 1.5px; } .ds-link:focus-visible { outline: 2px solid #6b4a2f; outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Booking form field: hairline, square, 16px text.",
+      "html": "<label class=\"ds-field\"><span>Họ và tên</span><input placeholder=\"Họ và tên của bạn\"></label>",
+      "css": ".ds-field { display: grid; gap: 6px; font-family: 'Be Vietnam Pro', system-ui, sans-serif; color: #2b1f17; font-size: 15px; } .ds-field input { min-height: 44px; padding: 10px 12px; border: 1px solid rgba(62, 43, 30, 0.3); background: transparent; color: #2b1f17; font: inherit; font-size: 16px; } .ds-field input::placeholder { color: #5a4738; opacity: 1; } .ds-field input:focus { outline: none; border-color: #af8a50; box-shadow: 0 0 0 2px #af8a50; }"
+    },
+    {
+      "name": "Hanging Scroll",
+      "kind": "custom",
+      "description": "Signature: a Cormorant phrase on a paper panel between two dark rods; three of them rise as a staircase on the home opening.",
+      "html": "<div class=\"ds-scrolls\"><p class=\"ds-scroll\"><span>Hiểu</span><span>Mình</span></p><p class=\"ds-scroll\"><span>Thuận</span><span>Thế</span></p><p class=\"ds-scroll\"><span>Vững</span><span>Bước</span></p></div>",
+      "css": ".ds-scrolls { display: flex; gap: 18px; align-items: flex-start; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 44px; color: #2b1f17; } .ds-scroll { position: relative; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 0.42em 0.28em 0.5em; background: linear-gradient(rgba(240, 232, 216, 0.92), rgba(240, 232, 216, 0.6)); } .ds-scroll:nth-child(1) { margin-top: 1.2em; } .ds-scroll:nth-child(2) { margin-top: 0.6em; } .ds-scroll::before, .ds-scroll::after { content: ''; position: absolute; left: -7px; right: -7px; height: 5px; border-radius: 3px; background: #4a3526; } .ds-scroll::before { top: -3px; } .ds-scroll::after { bottom: -3px; height: 4px; left: -4px; right: -4px; } .ds-scroll span { line-height: 1.08; }"
+    },
+    {
+      "name": "Lineage Line",
+      "kind": "custom",
+      "description": "Signature: the lineage over a bronze hairline, the reign in spaced capitals beneath.",
+      "html": "<h1 class=\"ds-lineage\"><span>Hậu nhân Khâm Thiên Giám</span><span>Vua Minh Mạng · triều Nguyễn</span></h1>",
+      "css": ".ds-lineage { margin: 0; display: grid; justify-items: start; } .ds-lineage span:first-child { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; font-size: 40px; line-height: 1.14; color: #2b1f17; padding-bottom: 0.26em; margin-bottom: 0.34em; border-bottom: 1px solid rgba(148, 115, 58, 0.7); } .ds-lineage span + span { font-family: 'Be Vietnam Pro', system-ui, sans-serif; font-weight: 500; font-size: 14px; letter-spacing: 0.24em; text-transform: uppercase; color: #5a4332; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "A painting in ink on dó paper",
+    "overview": "Every page is a sheet of warm dó paper with a Huế landscape washed onto it in ink, and the words are written onto the painting the way a scholar writes a colophon beside a scroll painting: left-aligned, unhurried, in a few deliberate voices. The paper is the background, the walnut-brown ink is the text, bronze is the thin gilt of a mount, and the painting carries the colour. Nothing glows, floats or competes; depth comes from the painting fading into the paper, not from shadows.\n\nThe register is quiet luxury for a lineage house: a client with a large budget should feel they have entered a study of the Nguyễn court's Khâm Thiên Giám, not a website. Space is generous, one idea occupies one screen, and boldness is spent in one place per page (on the home page, the three hanging scrolls). Motion is a single brush stroke at the opening, never a show.\n\nThere is one look only: light, paper and ink. There is no dark mode, by the owner's decision (2026-10-03).",
+    "keyCharacteristics": [
+      "Warm dó paper ground, walnut and ink text, bronze only as a hairline ornament.",
+      "Two voices of type: Cormorant Garamond writes, Be Vietnam Pro informs.",
+      "Left-aligned text over Huế landscape paintings that fade into the paper.",
+      "Small 3px corners, hairline borders, almost no shadow.",
+      "One orchestrated moment per page; everything else is still."
+    ],
+    "rules": [
+      { "name": "The Painting Carries the Colour Rule", "body": "The interface itself stays in paper, brown and bronze; any colour stronger than walnut comes from a painting or a portrait, never from a UI fill, gradient or badge.", "section": "colors" },
+      { "name": "The Gilt Hairline Rule", "body": "Bronze appears as lines a pixel or two thick, never as a filled area or as text.", "section": "colors" },
+      { "name": "The Two Hands Rule", "body": "Cormorant writes, Be Vietnam Pro informs; no third family enters the public site.", "section": "typography" },
+      { "name": "The 14px Floor Rule", "body": "Nothing read is under 14px and reading text is never under 16px; reading sizes are whole pixels.", "section": "typography" },
+      { "name": "The Glued Phrase Rule", "body": "Vietnamese compound words and brand terms never break across a line: glue them with a no-break space and break lines where the sense breaks.", "section": "typography" },
+      { "name": "The Paper Doesn't Float Rule", "body": "Cards, sections and buttons sit on the paper; a shadow is allowed only for something that truly lies above the page (header, menu, tool card).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the page a light paper-and-ink sheet; colour comes from the paintings and portraits.",
+      "Do align text left on the shared clamp(20px, 4vw, 48px) margin.",
+      "Do use Cormorant for what is written and Be Vietnam Pro for what is read or done.",
+      "Do keep every touch target at least 44×44px and text contrast at least 4.5:1, including captions over paintings.",
+      "Do spend motion on one moment per page (the scrolls brushing in, a painting settling) and honour reduced motion; booking buttons and key text are visible immediately.",
+      "Do use the original logo file (public/images/logo-mark.png) untouched, with clear space around it.",
+      "Do show master portraits in natural colour."
+    ],
+    "donts": [
+      "Don't add a dark mode or dark-toned sections beyond the ink footer.",
+      "Don't centre the main headings or the opening text.",
+      "Don't use fortune-telling imagery (crystal balls, zodiac wheels as decoration, tarot, mystical purple, star-and-moon kitsch), Chinese imperial red-and-gold, dragons as decoration, or Dunhuang figures.",
+      "Don't use SaaS or tech looks: gradient blobs, glassmorphism, neon, big rounded cards everywhere, bento grids, emoji.",
+      "Don't put prices or long descriptions on the first screen or in the three pillar cards on the home page.",
+      "Don't add pointer-following ripple effects or black-and-white portraits.",
+      "Don't fade or slide every section in; no bouncing, spinning, zooming, confetti or cursor trails, and never animate the logo.",
+      "Don't add a tracked uppercase eyebrow above every heading, an arrow after every link, or 01/02/03 markers on content that is not a sequence.",
+      "Don't animate layout properties (padding, width, height); change colour or transform instead."
+    ]
+  }
+}
