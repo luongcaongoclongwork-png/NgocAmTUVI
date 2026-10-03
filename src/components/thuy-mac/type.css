@@ -335,3 +335,24 @@
 .ip .hHero-h1 .ipScroll:nth-child(1) { margin-top: 1.2em; }
 .ip .hHero-h1 .ipScroll:nth-child(2) { margin-top: 0.6em; }
 .ip .hHero-h1 .ipScroll:nth-child(3) { margin-top: 0; }
+
+/* ---------- the lead's three sentences read as three steps (2026-10-03) ----------
+   On a phone each sentence wraps over two or three lines, so without a pause they run together; a small gap
+   (less than a blank line) keeps each sentence a unit on every device. */
+.ip .hHero-lede span + span { margin-top: 0.42em; }
+/* a short phone (iPhone SE, 360x640): the three sentences take seven lines, so the gaps around them close a little
+   to keep the buttons clear of the screen's bottom edge */
+@media (width < 480px) and (height < 700px) {
+  .ip .hHero-kicker { margin-bottom: 16px; }
+  .ip .hHero-h1 { margin-bottom: 16px !important; }
+  .ip .hHero-cta { margin-top: 20px; }
+}
+/* the third sentence is the long one: its lines are balanced so it never ends on a short tail */
+.ip .hHero-lede span:last-child { text-wrap: balance; }
+/* from a tablet up it breaks after "thay đổi", where the sense breaks; a phone lets it wrap on its own */
+.ip .hHero-ledeBr { display: none; }
+@media (width >= 480px) { .ip .hHero-ledeBr { display: inline; } }
+/* a large phone held sideways or a small tablet (480-699px): a sentence that still wraps is balanced, so it never ends on a lone word */
+@media (480px <= width < 700px) { .ip .hHero-lede span:nth-child(n) { text-wrap: balance; } }
+/* below 600px the second half of the third sentence does not fit one line either: it breaks again before "cho những" */
+@media (width >= 600px) { .ip .hHero-ledeBr--narrow { display: none; } }

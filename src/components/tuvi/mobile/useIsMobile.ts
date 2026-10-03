@@ -23,21 +23,3 @@ export function useIsMobile(): boolean {
   return isMobile;
 }
 
-/**
- * true below 700px — a phone held upright. There the scaled-down grid would
- * leave its text under 9px, so the overview is drawn compact instead
- * (xtd/mobile/XtdMobileCompactOverview.tsx). Starts `false` like useIsMobile.
- */
-export function useIsCompactChart(): boolean {
-  const [compact, setCompact] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 699px)");
-    const update = () => setCompact(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  return compact;
-}

@@ -93,11 +93,12 @@ export default async function HomeV3() {
               </span>
             ))}
           </p>
-          {/* the lead (owner's wording, 2026-10-03): what is inherited and what it gives, then what it is for — two sentences,
-              each its own line; compound words are glued (no-break space) so a narrow phone never breaks inside one */}
+          {/* the lead (owner's wording, 2026-10-03): what is inherited, what we do with the visitor, what it leads to —
+              three sentences, each its own line; compound words are glued (no-break space) so no line breaks inside one */}
           <p className="hHero-lede">
-            <span>Kế thừa tri thức {"Tử\u00a0Vi,"} {"Phong\u00a0Thuỷ"} {"cổ\u00a0truyền,"} giúp bạn hiểu rõ {"căn\u00a0nguyên,"} thấu hiểu {"chính\u00a0mình."}</span>
-            <span>Để những {"quyết\u00a0định"} {"quan\u00a0trọng"} đều dựa trên {"nền\u00a0tảng"} {"vững\u00a0vàng."}</span>
+            <span>Kế thừa {"tinh\u00a0hoa"} {"tri\u00a0thức"} {"Tử\u00a0Vi,"} {"Phong\u00a0Thuỷ"} {"cổ\u00a0học."}</span>
+            <span>Cùng bạn làm rõ {"căn\u00a0nguyên,"} {"thấu\u00a0hiểu"} {"bản\u00a0thân"} trong {"hoàn\u00a0cảnh."}</span>
+            <span>{"Từ\u00a0đó,"} nhận diện điều cần {"thay\u00a0đổi"}<br className="hHero-ledeBr" /> và xác định hướng {"hành\u00a0động"}<br className="hHero-ledeBr hHero-ledeBr--narrow" /> {"cho\u00a0những"} {"quyết\u00a0định"} {"quan\u00a0trọng."}</span>
           </p>
           <div className="hHero-cta" data-hero-cta>
             {/* two ways only: book, or learn who Ngọc Âm is. Prices are public further down and on Dịch Vụ, not on the first screen. */}
