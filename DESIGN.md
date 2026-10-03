@@ -98,6 +98,10 @@ The register is quiet luxury for a lineage house: a client with a large budget s
 
 There is one look only: light, paper and ink. There is no dark mode, by the owner's decision (2026-10-03).
 
+**The imagery is kept, not replaced (owner's decision, 2026-10-03).** The owner finds the current paintings luxurious and wants them kept: warm golden-hour Huế and Vietnamese landscapes in a painterly, near-realistic ink-wash manner, with layered depth, mist and real architecture. New or remade images extend this world (sharper, a portrait version for phones, room left for the words); they do not change it. The pages follow one thread, the river: Xuyên (川) is the river, and each page is a moment of one day along the Sông Hương, from dawn on the home page to night in the footer.
+
+**The Dunhuang character stays, in its own colours (owner's decision, 2026-10-03).** The Dunhuang-style motifs already in the artwork are part of Ngọc Âm's own character and are kept as they are, including their colours: the ribbon clouds and ruyi clouds (tường vân) in red, malachite and gold with the gilt sun in the header and footer paintings, the cloud corners of the chart tool's background, the lotus in the "spirit", goods and chart-centre paintings, and the print sheet's cloud border. They are not recoloured to bronze. Dunhuang figures (apsaras, Buddhas, bodhisattvas, cave murals) remain out.
+
 **Key Characteristics:**
 - Warm dó paper ground, walnut and ink text, bronze only as a hairline ornament.
 - Two voices of type: Cormorant Garamond writes, Be Vietnam Pro informs.
@@ -229,11 +233,15 @@ The lineage "Hậu nhân Khâm Thiên Giám" in Cormorant 500 over a bronze hair
 - **Do** spend motion on one moment per page (the scrolls brushing in, a painting settling) and honour reduced motion; booking buttons and key text are visible immediately.
 - **Do** use the original logo file (`public/images/logo-mark.png`) untouched, with clear space around it.
 - **Do** show master portraits in natural colour.
+- **Do** keep the current painting world (golden-hour, misty, painterly Huế landscapes) and its Dunhuang clouds, gilt sun and lotus in their own colours; extend it, page by page, as moments of one day along the river.
+- **Do** give every important painting a landscape version (3840×2160) and its own portrait version for phones (1440×3120), with the words' area left open in the composition.
 
 ### Don't:
 - **Don't** add a dark mode or dark-toned sections beyond the ink footer.
 - **Don't** centre the main headings or the opening text.
-- **Don't** use fortune-telling imagery (crystal balls, zodiac wheels as decoration, tarot, mystical purple, star-and-moon kitsch), Chinese imperial red-and-gold, dragons as decoration, or Dunhuang figures.
+- **Don't** use fortune-telling imagery (crystal balls, zodiac wheels as decoration, tarot, mystical purple, star-and-moon kitsch), dragons as a page's decoration (the print sheet's existing roof finial stays), or Dunhuang figures (apsaras, Buddhas, bodhisattvas).
+- **Don't** recolour or remove the Dunhuang clouds, gilt sun and lotus already in the paintings; they keep their own colours.
+- **Don't** replace the painterly golden-hour landscapes with sparse line-engraving or generative "code art" backgrounds; new images extend the current paintings.
 - **Don't** use SaaS or tech looks: gradient blobs, glassmorphism, neon, big rounded cards everywhere, bento grids, emoji.
 - **Don't** put prices or long descriptions on the first screen or in the three pillar cards on the home page.
 - **Don't** add pointer-following ripple effects or black-and-white portraits.
