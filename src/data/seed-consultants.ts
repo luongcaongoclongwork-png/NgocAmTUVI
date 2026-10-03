@@ -31,7 +31,7 @@ export const seedConsultants: SeedConsultant[] = [
     name: "Thầy Tịnh",
     field: "Phong Thuỷ Sư",
     initials: "T",
-    bio: "Là hậu nhân của một vị Thượng thư Bộ Hộ, từng kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng, Thầy Tịnh sinh trưởng trong một gia đình có truyền thống gắn với địa lý và Phong Thuỷ. Thầy dành nhiều tâm sức nghiên cứu Phong Thuỷ Dương Trạch và Âm Trạch — nhà ở, đất đai, không gian sống và việc lựa chọn vị trí an táng — như một nghệ thuật quan sát mối quan hệ giữa con người, không gian và môi trường sống.",
+    bio: "Thầy Tịnh là hậu nhân của một vị Thượng thư Bộ Hộ từng kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng. Sinh trưởng trong gia đình có truyền thống về Phong Thủy, thầy tiếp nối việc nghiên cứu những tri thức được lưu truyền qua nhiều thế hệ, dành nhiều tâm sức cho Phong Thủy Dương Trạch và Âm Trạch.\n\nTrong cách tiếp cận của thầy, việc nghiên cứu Phong Thủy bắt đầu từ sự quan sát mối quan hệ giữa con người với đất đai, nhà ở và môi trường sống. Mỗi không gian cần được xem xét trong hoàn cảnh cụ thể để hiểu những yếu tố tác động đến đời sống của người sử dụng.\n\nThầy chú trọng việc đối chiếu nguyên lý truyền thống với điều kiện thực tế. Từ đó, những tri thức của người xưa trở thành cơ sở để đưa ra gợi ý phù hợp, giúp người tìm đến thầy có thêm căn cứ khi cân nhắc về đất đai và không gian sống của mình.",
   },
   {
     slug: "khuong",
