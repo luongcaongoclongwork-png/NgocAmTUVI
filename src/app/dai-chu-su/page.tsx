@@ -3,6 +3,7 @@ import { getServicesByGroup } from "@/lib/services";
 import { getConsultantBySlug } from "@/lib/consultants";
 import { BASE_GLOSSARY_TERMS, DAI_CHU_SU_TERM } from "@/data/xuyenVanGlossary";
 import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkSection, InkServices, InkSteps, Scrolls } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Xuyên Vấn Đại Chủ Sự — Ngọc Âm",
@@ -22,7 +23,7 @@ export default async function DaiChuSuPage() {
   return (
     <InkPage>
       <InkHero
-        image="/images/23-homepage-heritage-study.webp"
+        {...nen("H04")}
         alt="Thư phòng cổ, nơi bàn định hướng lớn cho người cầm lái doanh nghiệp"
         scrolls={["Đại", "Chủ", "Sự"]}
         lede={

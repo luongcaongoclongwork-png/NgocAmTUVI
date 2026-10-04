@@ -16,6 +16,7 @@ colors:
   label-gilt: "#73592d"
   pill-glow: "#c9a25a"
   lacquer: "#a13a2f"
+  seal-vermilion: "#a8231f"
 typography:
   display:
     fontFamily: "Cormorant Garamond, Georgia, serif"
@@ -131,6 +132,7 @@ A narrow, warm, low-saturation palette of paper, brown ink and one bronze, with 
 - **Scroll Rod** (#4a3526): the wooden rods of the hanging scrolls.
 - **Label Gilt** (#73592d): a darker gilt brown for small group labels and key-word lists on the home pillar cards (passes 4.5:1 on paper, unlike bronze).
 - **Pill Glow** (#c9a25a): the small lit dot on the dark booking pill and header button, and its soft pulse; it sits on ink, never on paper.
+- **Seal Vermilion** (#a8231f): the ink of Ngọc Âm's seal (ấn triện Xuyên) in the "Khám Phá" button, and nothing else. It rises inside the seal as the page is read and fills it while the menu is open. Never a text colour, a fill or a decorative accent elsewhere.
 
 ### Semantic
 - **Lacquer** (#a13a2f): form errors only. It is a warning colour, never a decorative accent.
@@ -171,7 +173,7 @@ All load the Vietnamese subset through next/font. (Playfair Display remains only
 
 - **Page margin:** clamp(20px, 4vw, 48px) everywhere: header, sections, openings, footer and the phone's bottom bar share one axis. Content is capped near 1280px.
 - **Alignment:** left-aligned text throughout, including the home opening; centred headlines are not used.
-- **Openings:** full-viewport (100svh) painting with the text block anchored low on the left; on phones and tablets a paper gradient rises under the text so it reads over the painting. The painting's focal point is shifted per device (80% on phones, 97% on tablets) so the subject stays visible.
+- **Openings:** full-viewport (100svh) painting with the text block anchored low on the left; on phones and tablets a paper gradient rises under the text so it reads over the painting. Each opening painting has two drawings in `public/images/nen/`: a wide 3840×2160 one for tablets and computers and an upright one for phones (under 640px), served through `Painting.tsx` as AVIF (WebP fallback) at quality 85, sized for how wide the painting is actually drawn when it covers the frame. On tablets the wide painting's focal point is shifted (97%) so the subject stays visible.
 - **Rhythm:** one idea per screen; sections alternate between dó and raised paper; sections breathe with clamp(80px, 11vw, 150px) of vertical padding.
 - **Breakpoints in use:** 480px (phone to large phone/tablet layout), 640px, 768px, 860px (header collapses to the menu), 1024px (desktop type and layout), 1180px and 1280px (header links drop away progressively). Range queries such as `(480px <= width < 1024px)` avoid fractional gaps.
 - **Short screens:** sizes on the desktop opening are capped by viewport height (min(vw, vh)) so a 13-inch laptop keeps the booking button on the first screen.
@@ -214,8 +216,15 @@ Restrained and solid, like a seal pressed once.
 
 ### Navigation
 - **Header:** fixed, 68px, a raised-paper veil (72%) over the header painting; the brand name in Cormorant 600; links in Be Vietnam Pro 500 15.5px with a short walnut brush stroke under the current or hovered word; a booking button at the right.
-- **Below 1024px** the links collapse progressively into the compass "Khám Phá" menu: a raised-paper sheet, hairline border, links in Cormorant 600 ~25px, anchored to the page margins on phones.
+- **Below 1024px** the links collapse progressively into the "Khám Phá" menu (on phones "Menu"): a raised-paper sheet, hairline border, links in Cormorant 600 ~25px, anchored to the page margins on phones.
 - **Footer:** the ink that stayed: the footer painting under a deep ink veil (#1f1712 at 88–94%) with light paper text and a pale-gold accent.
+
+### The Seal Button (signature)
+The "Khám Phá" / "Menu" button opens the full menu with Ngọc Âm's seal (ấn triện Xuyên: three strokes of 川 in a broken square frame; the left stroke's flame head on top and the right one's below are the âm and dương halves, the middle stroke with its spiral joins them). Masks live in `public/images/an-trien/` (frame, middle, âm, dương).
+- **At rest:** ink brown like the menu text; Seal Vermilion rises from the bottom as the page scrolls (a scroll-driven timeline, no script).
+- **Hover, keyboard focus, opening:** the frame and the middle stroke stay; the two halves tilt back into depth behind the middle stroke, darken while hidden, turn half a round and surface in each other's place (about 0.95s). Open, the whole seal is vermilion.
+- **Reduced motion:** no turn; only the colour changes. Phones have no hover, so the turn plays on tap.
+- It is the only seal on the site; it never replaces the logo (the silver sphere stays the brand mark).
 
 ### Hanging Scrolls (signature)
 Three short vertical panels of paper between dark rods, each holding one Cormorant phrase ("Hiểu Mình", "Thuận Thế", "Vững Bước"), set as a staircase that rises left to right on the home page. They are brushed in once on load (a 0.9s clip reveal, staggered 0.3/0.45/0.6s) and are the page's single bold element.

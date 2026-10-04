@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProductCategoriesWithItems } from "@/lib/products";
 import { InkClose, InkHero, InkPage, InkSection } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Vật Phẩm Ngọc Âm",
@@ -22,7 +23,7 @@ export default async function VatPhamPage() {
     <InkPage>
       <InkHero
         compact
-        image="/images/06-thuy-mac-song-huong.webp"
+        {...nen("H10")}
         alt="Tranh thuỷ mặc sông núi Việt Nam"
         scrolls={["Vật Phẩm"]}
         lede={

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { InkHero, InkPage, InkSection } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = { title: "Không tìm thấy trang — Ngọc Âm" };
 
@@ -18,7 +19,7 @@ export default function NotFound() {
     <InkPage>
       <InkHero
         compact
-        image="/images/18-tuyen-lam-tinh-suong-3d.webp"
+        {...nen("H11")}
         alt="Hồ Tuyền Lâm tĩnh lặng trong sương"
         scrolls={["Lạc", "lối"]}
         lede={

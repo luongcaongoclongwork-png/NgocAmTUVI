@@ -4,6 +4,7 @@ import { getServicesByGroup } from "@/lib/services";
 import { getConsultantBySlug } from "@/lib/consultants";
 import { BASE_GLOSSARY_TERMS } from "@/data/xuyenVanGlossary";
 import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkSection, InkServices, InkSteps, Scrolls } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Tử Vi Xuyên Tam Diệm — Ngọc Âm",
@@ -24,7 +25,7 @@ export default async function TuViPage() {
   return (
     <InkPage>
       <InkHero
-        image="/images/tu-vi/page-banner.webp"
+        {...nen("H02")}
         alt="Diệm Bản Tử Vi Xuyên Tam Diệm, ấn ngọc và trầm hương trên bàn gỗ cổ"
         scrolls={["Tử Vi", "Xuyên Tam Diệm"]}
         lede={

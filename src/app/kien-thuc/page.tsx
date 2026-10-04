@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
 import { InkClose, InkEngrave, InkHero, InkNotes, InkPage, InkSection, Scrolls } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const revalidate = 60;
 
@@ -29,7 +30,7 @@ export default async function SoTayPage() {
     <InkPage>
       <InkHero
         compact
-        image="/images/09-trang-an-son-thuy-3d.webp"
+        {...nen("H07")}
         alt="Sông núi Tràng An trong sương sớm"
         scrolls={["Sổ Tay", "Ngọc Âm"]}
         lede={

@@ -12,6 +12,7 @@ import { absoluteUrl } from "@/lib/site-url";
 import "./chrome.css";
 import InkButtons from "./InkButtons";
 import { glue } from "./glue";
+import Painting from "./Painting";
 import "./kit.css";
 import "./type.css";
 
@@ -38,6 +39,8 @@ export function InkPage({ children }: { children: ReactNode }) {
  */
 export function InkHero({
   image,
+  imageTall,
+  tallRatio,
   alt = "",
   scrolls,
   lede,
@@ -47,6 +50,9 @@ export function InkHero({
 }: {
   /** Leave out when the page draws its own background behind the hero (Lập lá số). */
   image?: string;
+  /** The upright version phones get instead of a slice of the wide one. */
+  imageTall?: string;
+  tallRatio?: number;
   alt?: string;
   /** The H1, one hanging scroll per phrase. */
   scrolls: string[];
@@ -59,7 +65,7 @@ export function InkHero({
     <header className={`ipHero ${compact ? "ipHero--compact" : ""} ${image ? "" : "ipHero--bare"}`}>
       {image && (
         <div className="ipHero-paint">
-          <Image src={image} alt={alt} fill priority sizes="100vw" style={{ objectPosition: focus }} />
+          <Painting src={image} tall={imageTall} tallRatio={tallRatio} alt={alt} priority style={{ objectPosition: focus }} />
         </div>
       )}
       <div className="ipHero-body">
@@ -301,7 +307,7 @@ export async function InkClose({
   const zalo = isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "";
   return (
     <section className="ipClose" aria-labelledby="ipClose-h">
-      <Image src="/images/06-dat-lich-mac-tram.png" alt="" fill sizes="100vw" className="ipClose-bg" />
+      <Painting src="/images/nen/C01-ngang.webp" tall="/images/nen/C01-doc.webp" tallRatio={1080 / 1700} alt="" className="ipClose-bg" />
       <InkEngrave />
       <div className="ipClose-body ip-r">
         {/* the house sentence is always two lines, one clause each */}

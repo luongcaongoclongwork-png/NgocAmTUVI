@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getServicesByGroup } from "@/lib/services";
 import { getConsultantBySlug } from "@/lib/consultants";
 import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkSection, InkServices, InkSteps, Scrolls } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Phong Thuỷ Là Tịnh — Ngọc Âm",
@@ -23,7 +24,7 @@ export default async function PhongThuyPage() {
   return (
     <InkPage>
       <InkHero
-        image="/images/25-homepage-phong-thuy-son-thuy.webp"
+        {...nen("H03")}
         alt="Nhà cổ bên sông nhìn ra núi trong sương sớm"
         scrolls={["Phong Thuỷ", "Là Tịnh"]}
         lede={<p>Một nghệ thuật quan sát, không phải phép thuật.</p>}

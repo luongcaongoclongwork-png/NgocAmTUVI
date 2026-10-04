@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticlesByCategory } from "@/lib/articles";
+import { nen } from "@/components/thuy-mac/Painting";
 import { InkClose, InkHero, InkNotes, InkPage, InkProse, InkSection } from "@/components/thuy-mac/kit";
 import {
   khuong,
@@ -63,7 +64,7 @@ export default async function TraDaoPage() {
   return (
     <InkPage>
       <InkHero
-        image="/images/tra-dao/page-banner.webp"
+        {...nen("H08")}
         alt="Bàn trà gỗ trên hiên nhà nhìn ra sông núi lúc bình minh, ấm trà bốc hơi"
         scrolls={["Đạo trong", "một chén trà"]}
         lede={<p>{khuong.signature}</p>}

@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createInk } from "../inkShader";
+import Painting from "../Painting";
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
@@ -16,19 +16,17 @@ function canAffordInk(): boolean {
   return true;
 }
 
-/** The painting is 16:9. */
-const PAINTING_ASPECT = 16 / 9;
 
 /**
  * Where the canvas centres the painting, as a share of its width. An upright screen shows only a slice of it, and
  * the pavilion is on the right, so the slice is moved the same way the still image's object-position is in
- * type.css (80% on a phone, 97% on a tablet). The centre is kept far enough from the edge that the slice never
- * runs past the painting.
+ * type.css (97% on a tablet). A phone gets the upright painting, drawn for its screen, so it stays centred. The centre
+ * is kept far enough from the edge that the slice never runs past the painting.
  */
-function heroFocusX(canvas: HTMLCanvasElement): number {
+function heroFocusX(canvas: HTMLCanvasElement, aspect: number): number {
   const w = window.innerWidth;
-  const position = w < 640 ? 0.8 : w < 1024 ? 0.97 : 0.5;
-  const half = Math.min(0.5, canvas.clientWidth / Math.max(1, canvas.clientHeight) / PAINTING_ASPECT / 2);
+  const position = w < 640 ? 0.5 : w < 1024 ? 0.97 : 0.5;
+  const half = Math.min(0.5, canvas.clientWidth / Math.max(1, canvas.clientHeight) / aspect / 2);
   return half + (1 - 2 * half) * position;
 }
 
@@ -38,7 +36,7 @@ function heroFocusX(canvas: HTMLCanvasElement): number {
  * nothing (v1's lightness). The ripple that used to follow the pointer was
  * removed (owner, 2026-10-02): phones and weaker machines never saw it.
  */
-export default function HeroInk({ src, alt }: { src: string; alt: string }) {
+export default function HeroInk({ src, tall, alt }: { src: string; tall?: string; alt: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stillRef = useRef<HTMLImageElement>(null);
   const [mode, setMode] = useState<"pending" | "ink" | "still">("pending");
@@ -51,6 +49,11 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
     let visible = true;
 
     const still = () => setMode("still");
+    // the copy the <picture> chose: wide 16:9 on computers and tablets, upright on phones
+    const aspect = () => {
+      const img = stillRef.current;
+      return img && img.naturalWidth ? img.naturalWidth / img.naturalHeight : 16 / 9;
+    };
     if (!canAffordInk()) {
       still();
       return;
@@ -61,7 +64,7 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
       if (!ink || t0 === null || !visible) return;
       const rt = clamp01((now - t0) / 1200);
       const reveal = rt < 0.5 ? 4 * rt * rt * rt : 1 - Math.pow(-2 * rt + 2, 3) / 2;
-      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse: [0.5, 0.5], mouseAmt: 0, focusX: heroFocusX(canvas) });
+      ink.draw({ reveal, time: now / 1000, zoom: 1, fog: 0, mouse: [0.5, 0.5], mouseAmt: 0, focusX: heroFocusX(canvas, aspect()) });
       // keep drawing only until the ink has finished spreading
       if (rt < 1) raf = requestAnimationFrame(frame);
     };
@@ -70,10 +73,11 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
     };
 
     // the ink reuses the copy the still <Image> already chose (sized for this screen and already on its way), so the
-    // painting is downloaded once; the full-size original (453KB) is only a fallback
+    // painting is downloaded once; the full-size original is only a fallback
     const painting = stillRef.current?.currentSrc || src;
     try {
-      ink = createInk(canvas, { painting, layers: [] }, () => {
+      // the reveal draws for about a second and then stops, so it renders at the full density of the screen (a phone is 3x)
+      ink = createInk(canvas, { painting, layers: [], maxDpr: 3 }, () => {
         t0 = performance.now();
         setMode("ink");
         kick();
@@ -107,11 +111,11 @@ export default function HeroInk({ src, alt }: { src: string; alt: string }) {
       io.disconnect();
       ink?.destroy();
     };
-  }, [src]);
+  }, [src, tall]);
 
   return (
     <div className="hHero-paint" data-mode={mode}>
-      <Image ref={stillRef} src={src} alt={alt} fill priority sizes="100vw" className="hHero-still" />
+      <Painting imgRef={stillRef} src={src} tall={tall} tallRatio={1440 / 3120} alt={alt} priority className="hHero-still" />
       <canvas ref={canvasRef} className="hHero-canvas" aria-hidden="true" />
     </div>
   );

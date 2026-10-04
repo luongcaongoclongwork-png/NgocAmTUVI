@@ -4,6 +4,7 @@ import { resolveTopicFromQuery, topicLabel } from "@/lib/contact-leads-constants
 import { getServiceById } from "@/lib/services";
 import { getSiteSettings, isSafeHttpUrl, socialLinks, telHref } from "@/lib/site-settings";
 import { InkHero, InkPage } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Gửi đôi dòng đến Ngọc Âm",
@@ -36,7 +37,7 @@ export default async function LienHePage({
     <InkPage>
       <InkHero
         compact
-        image="/images/29-homepage-thuy-mac-song-huong.webp"
+        {...nen("H06")}
         alt="Tranh thuỷ mặc sông Hương buổi sớm, con thuyền nhỏ giữa dòng"
         scrolls={["Gửi", "đôi dòng"]}
         lede={

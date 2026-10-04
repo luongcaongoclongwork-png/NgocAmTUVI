@@ -94,6 +94,11 @@
         "displayName": "Lacquer",
         "canonical": "#a13a2f"
       },
+      "seal-vermilion": {
+        "role": "accent",
+        "displayName": "Seal Vermilion",
+        "canonical": "#a8231f"
+      },
       "label-gilt": {
         "role": "neutral",
         "displayName": "Label Gilt",

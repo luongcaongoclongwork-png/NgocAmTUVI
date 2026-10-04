@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getServicesByGroup } from "@/lib/services";
 import { InkClose, InkHero, InkPage, InkSection, InkServices, InkSteps } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Dịch Vụ — Ngọc Âm",
@@ -22,7 +23,7 @@ export default async function BangGiaPage() {
     <InkPage>
       <InkHero
         compact
-        image="/images/27-homepage-phong-thuy-dia-the.webp"
+        {...nen("H05")}
         alt="Phong cảnh núi sông Việt Nam trong sương sớm"
         scrolls={["Dịch Vụ"]}
         lede={

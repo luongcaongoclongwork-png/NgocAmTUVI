@@ -5,7 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { MORE_LINKS, PATH_LINKS } from "./nav";
 
-/** The full menu as a la bàn, with a word beside it ("Khám phá", or "Menu" on a phone) so nobody has to guess. */
+/**
+ * The full menu, opened by Ngọc Âm's seal with a word beside it ("Khám phá", or "Menu" on a phone) so nobody has to
+ * guess. The seal's frame and middle stroke stay; its two yin-yang halves turn back into depth and change places.
+ */
 export default function Compass() {
   const [open, setOpen] = useState(false);
   const id = useId();
@@ -37,14 +40,14 @@ export default function Compass() {
   return (
     <div ref={root} className={`tmCompass ${open ? "is-open" : ""}`}>
       <button ref={btn} type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen((o) => !o)} className="tmCompass-btn">
-        <svg viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4">
-          <circle cx="32" cy="32" r="29" />
-          <circle cx="32" cy="32" r="21" strokeDasharray="1.5 3.2" />
-          <circle cx="32" cy="32" r="13" />
-          <path d="M32 3v6M32 55v6M3 32h6M55 32h6" />
-          <path className="tmNeedle" d="M32 14 L36 32 L32 50 L28 32 Z" fill="currentColor" fillOpacity="0.18" />
-          <circle cx="32" cy="32" r="2" fill="currentColor" />
-        </svg>
+        <span className="tmSeal" aria-hidden="true">
+          <span className="tmSeal-frame" />
+          <span className="tmSeal-window">
+            <span className="tmSeal-half tmSeal-am" />
+            <span className="tmSeal-half tmSeal-duong" />
+            <span className="tmSeal-mid" />
+          </span>
+        </span>
         <span className="tmCompass-word tmCompass-word--wide">{open ? "Đóng" : "Khám Phá"}</span>
         <span className="tmCompass-word tmCompass-word--narrow">{open ? "Đóng" : "Menu"}</span>
       </button>

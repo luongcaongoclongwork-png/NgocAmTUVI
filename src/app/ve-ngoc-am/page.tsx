@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getConsultants } from "@/lib/consultants";
 import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkProse, InkSection } from "@/components/thuy-mac/kit";
 import Philosophy from "@/components/Philosophy";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
   title: "Về Ngọc Âm",
@@ -21,7 +22,7 @@ export default async function VeNgocAmPage() {
   return (
     <InkPage>
       <InkHero
-        image="/images/04-phong-thuy-dia-the.webp"
+        {...nen("H09")}
         alt="Quần thể kiến trúc cổ Việt Nam nhìn từ trên cao"
         scrolls={["Về", "Ngọc Âm"]}
         lede={

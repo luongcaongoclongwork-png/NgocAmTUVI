@@ -75,7 +75,7 @@ export default async function HomeV3() {
     <InkPage>
       {/* 1 · the pavilion, prices and booking on the first screen */}
       <header className="hHero">
-        <HeroInk src="/images/20-homepage-hero-hue.webp" alt="Nhà lầu cổ nhìn ra sông trong sương sớm" />
+        <HeroInk src="/images/nen/H01-ngang.webp" tall="/images/nen/H01-doc.webp" alt="Nhà lầu cổ nhìn ra sông trong sương sớm" />
         <div className="hHero-body">
           {/* the lineage is the page's title: on a laptop or desktop it is a large line with the
               reign under it; on a phone or tablet it is two set lines of capitals above the three scrolls */}

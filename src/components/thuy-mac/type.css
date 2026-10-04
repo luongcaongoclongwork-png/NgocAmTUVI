@@ -237,6 +237,10 @@
   .ip .hHero-lede { font-size: round(clamp(17px, 2.45vw, 19px), 0.5px); }
   .ip .hHero-cta .hBtn { min-height: 54px; font-size: 17px; }
 }
+/* a phone shows the upright painting drawn for it (pavilion high, water below), so it is no longer shifted sideways */
+@media (width < 640px) {
+  .ip .hHero-still { object-position: 50% 30%; }
+}
 /* a tablet's wider slice of the painting is moved so the pavilion stays in it; its buttons keep their own width */
 @media (640px <= width < 1024px) {
   .ip .hHero-still { object-position: 97% 42%; }

@@ -96,8 +96,11 @@ export type InkUniforms = {
   mouse: [number, number]; mouseAmt: number; focusX: number;
 };
 
-/** `layers` empty → the single `painting`; otherwise up to 4 layers, back to front. */
-export function createInk(canvas: HTMLCanvasElement, source: { painting: string; layers: InkLayer[] }, onReady: () => void) {
+/**
+ * `layers` empty → the single `painting`; otherwise up to 4 layers, back to front. `maxDpr` caps the canvas resolution:
+ * 1.5 keeps a continuously animated scene light, a one-shot reveal can afford the screen's own density.
+ */
+export function createInk(canvas: HTMLCanvasElement, source: { painting: string; layers: InkLayer[]; maxDpr?: number }, onReady: () => void) {
   const gl = canvas.getContext("webgl", { antialias: false, premultipliedAlpha: false });
   if (!gl || gl.isContextLost()) return null;
 
@@ -162,7 +165,7 @@ export function createInk(canvas: HTMLCanvasElement, source: { painting: string;
   });
 
   const resize = () => {
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = Math.min(window.devicePixelRatio || 1, source.maxDpr ?? 1.5);
     const w = Math.round(canvas.clientWidth * dpr);
     const h = Math.round(canvas.clientHeight * dpr);
     if (canvas.width !== w || canvas.height !== h) {
