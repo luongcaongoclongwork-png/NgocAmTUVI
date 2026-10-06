@@ -56,6 +56,7 @@ export default function XtdCenterPalace({
 
       <div className="center-info-group">
         <InfoRow label="Họ và tên" value={vm.name || "—"} />
+        <InfoRow label="Giới tính" value={vm.gender} />
         <InfoRow label="Năm" value={vm.solarYear} secondary={vm.yearGanzhi} />
         <InfoRow
           label="Tháng"

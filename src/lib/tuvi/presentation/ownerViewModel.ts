@@ -13,6 +13,8 @@ import type { VietnameseChartDTO, VietnameseHoroscopeDTO } from "../types/Vietna
  */
 export interface OwnerChartViewModel {
   name?: string;
+  /** Gender decides the direction of Dai Van, Truong Sinh and Bac Si, so Trung Cung shows it. */
+  gender: "Nam" | "Nữ";
 
   solarYear?: number;
   solarMonth?: number;
@@ -67,6 +69,7 @@ export function getOwnerChartViewModel(
 
   return {
     name: chart.name,
+    gender: chart.gender,
 
     solarYear: solar.year,
     solarMonth: solar.month,
