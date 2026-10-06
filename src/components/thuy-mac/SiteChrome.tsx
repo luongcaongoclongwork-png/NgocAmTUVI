@@ -51,8 +51,8 @@ export default function SiteChrome({ zalo }: { zalo: { url: string; phone: strin
       <a href="#noi-dung" className="tmSkip">Chuyển đến nội dung</a>
       <header className={`tmHead ${scrolled ? "is-scrolled" : ""}`}>
         <Link href="/" className="tmBrand" aria-label="Ngọc Âm, về trang chủ">
-          <Image src="/images/logo-mark.png" alt="" width={38} height={38} priority />
-          <span>Ngọc Âm</span>
+          {/* Logo kit v1.2: the horizontal lockup (symbol + "Ngọc Âm" as drawn in the kit; do not retype the name in CSS text). */}
+          <Image src="/images/logo/ngoc-am-horizontal-color.svg" alt="" width={811} height={256} unoptimized priority />
         </Link>
         <nav aria-label="Chính" className="tmNav">
           <ul>

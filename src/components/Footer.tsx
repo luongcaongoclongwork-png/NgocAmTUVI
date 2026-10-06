@@ -80,18 +80,7 @@ export default async function Footer() {
       <div className="relative mx-auto max-w-[1280px] px-6 pb-10 pt-14 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr_1fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-ivory ring-1 ring-gold/50">
-                <Image
-                  src="/images/logo-mark.png"
-                  alt="Ngọc Âm"
-                  width={32}
-                  height={32}
-                  className="h-full w-full object-cover"
-                />
-              </span>
-              <span className="font-heading text-lg tracking-[0.2em] [text-shadow:0_1px_3px_rgba(30,20,10,0.55)]">NGỌC ÂM</span>
-            </div>
+            <Image src="/images/logo/ngoc-am-horizontal-reversed.svg" alt="Ngọc Âm" width={811} height={256} unoptimized className="h-11 w-auto" />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-ivory/90 [text-shadow:0_1px_3px_rgba(30,20,10,0.55)]">
               Tử Vi, Phong Thuỷ hậu nhân Khâm Thiên Giám — vua Minh Mạng, triều
               Nguyễn. Khai vấn, định hướng và đồng hành trên hành trình hiểu

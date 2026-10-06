@@ -92,7 +92,6 @@
 
   --print-paper: #f7efe2;
   --print-ink: #34261d;
-  --print-brand: #8d6a3f;
   --print-cinnabar: #944230;
   --print-cinnabar-soft: #985040;
   --print-sage: #6f7259;
@@ -128,7 +127,7 @@
    requested explicitly (2026-09-19) to let this page-wide bleed read more
    than Trung Cung's own background. Unlike Trung Cung, nothing here sits
    directly on this layer without its own opaque box EXCEPT the header
-   (.print-title/.print-brand/.print-subtitle, no background of their
+   (the .print-header logo and .print-title/.print-subtitle, no background of their
    own) — the bottom credential card (.print-consultant-box) already has
    a near-opaque background of its own (see its comment) so it's
    unaffected by this value either way. The header sits over the same
@@ -207,46 +206,29 @@
   padding-top: 2mm;
 }
 
+/* Logo (kit v1.2, colour version; see PrintHeader.tsx).
+   The kit's own proportions are kept: width follows height, never stretched. */
 .print-brand-block {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 2.5mm;
 }
 
 .print-header-logo {
-  width: 13mm;
-  height: 13mm;
+  display: block;
+  width: auto;
   object-fit: contain;
 }
 
-.print-brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6mm;
+.print-header-logo--horizontal {
+  height: 13mm;
 }
 
-.print-brand {
-  font-family: var(--font-heading);
-  font-size: 16pt;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--print-brand);
-}
-
-.print-brand-sub {
-  font-size: 7.8pt;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--print-cinnabar-soft);
-}
-
-/* Xuyen Tam Diem header: brand stack centered, logo highest, and pulled up
-   toward the paper edge: margin-top:-4mm + min-height:28mm keeps the header's
-   net footprint at the usual 24mm (the chart below doesn't move) while the
-   content starts 4mm higher — logo top ≈ 5mm from the sheet edge (7mm page
-   padding - 4mm + 2mm padding-top), which was ≈ 9mm. Logo 12mm + 21pt name +
-   10pt line + gaps ≈ 25.6mm fits the 28mm box. */
+/* Xuyen Tam Diem header: the kit's stacked lockup (symbol, Ngoc Am, TU VI ·
+   PHONG THUY) centered, pulled up toward the paper edge: margin-top:-4mm +
+   min-height:28mm keeps the header's net footprint at the usual 24mm (the
+   chart below doesn't move) while the content starts 4mm higher: logo top is
+   about 5mm from the sheet edge (7mm page padding - 4mm + 2mm padding-top).
+   The 26mm-tall lockup (about 33.5mm wide) fits the 28mm box. */
 .print-header--xtd {
   display: flex;
   justify-content: center;
@@ -255,47 +237,8 @@
   min-height: 28mm;
 }
 
-.print-brand-block--stack {
-  flex-direction: column;
-  gap: 1mm;
-}
-
-.print-brand-block--stack .print-header-logo {
-  width: 12mm;
-  height: 12mm;
-}
-
-.print-brand-block--stack .print-brand-text {
-  align-items: center;
-  gap: 0.5mm;
-}
-
-/* Wider, not taller (2026-09-21): same 21pt / 10pt heights, glyphs stretched 12%
-   horizontally and a bit more tracking. transform doesn't change layout width,
-   so centering is unaffected; padding-left equals the letter-spacing so the
-   trailing tracking after the last letter doesn't pull the text off-centre. */
-/* Bolder and darker (2026-09-21): the header now sits over the new print
-   background's mountains; at 700/400 weight and the original tan/cinnabar the
-   darkest 10% of the backdrop gave only 3.6:1. 900 / 700 weights (both loaded)
-   plus #72522b and #803a2c lift that to about 5.2:1 and 5.1:1. */
-.print-brand-block--stack .print-brand {
-  font-size: 21pt;
-  font-weight: 900;
-  color: #72522b;
-  line-height: 1.1;
-  letter-spacing: 0.16em;
-  padding-left: 0.16em;
-  transform: scaleX(1.12);
-}
-
-.print-brand-block--stack .print-brand-sub {
-  font-size: 10pt;
-  font-weight: 700;
-  color: #803a2c;
-  line-height: 1.1;
-  letter-spacing: 0.2em;
-  padding-left: 0.2em;
-  transform: scaleX(1.12);
+.print-header-logo--stacked {
+  height: 26mm;
 }
 
 .print-title-wrap {

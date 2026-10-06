@@ -44,7 +44,7 @@ export default function XtdCenterPalace({
       <div className="center-veil" aria-hidden="true" />
 
       <div className="center-watermark" aria-hidden="true">
-        <Image src="/images/logo-mark.png" alt="" width={200} height={200} />
+        <Image src="/images/logo/ngoc-am-symbol-color.svg" alt="" width={200} height={200} unoptimized />
       </div>
 
       <header className="chart-center-header">

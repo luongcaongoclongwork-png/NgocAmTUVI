@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { formatPrice } from "@/lib/service-constants";
 import { getServicesByGroup } from "@/lib/services";
@@ -31,7 +32,7 @@ export default async function InkFooter() {
     description: "Tử Vi và Phong Thuỷ của hậu nhân Khâm Thiên Giám, vua Minh Mạng, triều Nguyễn.",
     url: absoluteUrl("/"),
     image: absoluteUrl("/og/ngoc-am.jpg"),
-    logo: absoluteUrl("/images/logo-mark.png"),
+    logo: absoluteUrl("/images/logo/ngoc-am-symbol-color-512.png"),
   };
   if (settings.phone) business.telephone = settings.phone;
   if (settings.email) business.email = settings.email;
@@ -45,7 +46,8 @@ export default async function InkFooter() {
       <JsonLd data={business} />
       <div className="tmFoot-grid">
         <div>
-          <p className="tmFoot-brand">Ngọc Âm</p>
+          {/* Reversed lockup (Ánh Trăng on dark). The kit forbids shadows and effects on the logo. */}
+          <Image src="/images/logo/ngoc-am-horizontal-reversed.svg" alt="Ngọc Âm" width={811} height={256} unoptimized className="tmFoot-logo" />
           <p>Tử Vi, Phong Thuỷ hậu nhân Khâm Thiên Giám, vua Minh Mạng, triều Nguyễn.</p>
           {settings.address && <p>{settings.address}</p>}
           {settings.workingHours && <p>{settings.workingHours}</p>}

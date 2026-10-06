@@ -72,7 +72,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             datePublished: article.createdAt,
             dateModified: article.updatedAt || article.createdAt,
             author: { "@type": "Organization", name: "Ngọc Âm", url: absoluteUrl("/") },
-            publisher: { "@type": "Organization", name: "Ngọc Âm", logo: { "@type": "ImageObject", url: absoluteUrl("/images/logo-mark.png") } },
+            publisher: { "@type": "Organization", name: "Ngọc Âm", logo: { "@type": "ImageObject", url: absoluteUrl("/images/logo/ngoc-am-symbol-color-512.png") } },
             mainEntityOfPage: absoluteUrl(`/kien-thuc/${article.slug}`),
           }}
         />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useActionState } from "react";
 import { loginAction, type LoginState } from "./actions";
 
@@ -10,7 +11,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-6 py-24">
-      <p className="tracking-label text-[12px] font-medium uppercase text-gold">Ngọc Âm</p>
+      <Image src="/images/logo/ngoc-am-horizontal-color.svg" alt="Ngọc Âm" width={811} height={256} unoptimized priority className="h-11 w-auto self-start" />
       <h1 className="mt-2 font-heading text-2xl text-ink">Đăng nhập quản trị</h1>
 
       <form action={formAction} className="mt-8 flex flex-col gap-4">

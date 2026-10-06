@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/admin/actions";
@@ -30,7 +31,8 @@ export default function AdminHeader({ username, newLeads }: { username: string; 
   return (
     <header className="sticky top-0 z-40 border-b border-walnut/15 bg-ivory/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-x-8 gap-y-1 px-4 pt-3 sm:px-6 lg:px-10 2xl:max-w-[1440px] 2xl:flex-nowrap 2xl:py-3">
-        <Link href="/admin" className="shrink-0 whitespace-nowrap font-heading text-lg text-ink">
+        <Link href="/admin" className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-heading text-lg text-ink">
+          <Image src="/images/logo/ngoc-am-symbol-color.svg" alt="" width={256} height={256} unoptimized className="h-7 w-7 shrink-0" />
           Ngọc Âm · Quản trị
         </Link>
 

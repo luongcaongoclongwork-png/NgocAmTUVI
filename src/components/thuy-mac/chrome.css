@@ -21,7 +21,9 @@
   border-bottom: 1px solid transparent; color: var(--ink); transition: box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base), opacity var(--dur-base); }
 .tmHead.is-scrolled { border-bottom-color: var(--line); box-shadow: 0 10px 28px -22px rgba(43, 31, 23, 0.55); }
 
-.tmBrand { min-height: 44px; display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-family: var(--display); font-size: 1.6rem; font-weight: 600; white-space: nowrap; }
+.tmBrand { min-height: 44px; display: flex; align-items: center; color: var(--ink); text-decoration: none; white-space: nowrap; }
+/* Logo kit: the horizontal lockup is never narrower than 140px (44px tall), proportions untouched. */
+.tmBrand img { display: block; height: 44px; width: auto; }
 
 .tmNav { margin-right: auto; }
 .tmNav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(4px, 1vw, 14px); }
@@ -95,8 +97,6 @@
 @media (max-width: 1023px) { .tmNav { display: none; } .tmCompass { margin-left: auto; } }
 @media (max-width: 859px) {
   .tmHead { height: 60px; }
-  .tmBrand { font-size: 1.4rem; }
-  .tmBrand img { width: 32px; height: 32px; }
   .tmBook { display: none; }
   .tmCompass-word--wide { display: none; }
   .tmCompass-word--narrow { display: inline; }
@@ -118,7 +118,7 @@ html[data-ink-scene="6"] .tmHead { opacity: 0; pointer-events: none; }
 .tmFoot a:hover { color: var(--accent); }
 .tmFoot-grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr 1.3fr; gap: 48px; }
 .tmFoot-grid p { margin: 0 0 8px; }
-.tmFoot-brand { font-family: var(--display); font-size: 1.9rem; color: var(--ink); }
+.tmFoot-logo { display: block; height: 44px; width: auto; margin: 0 0 14px; }
 .tmFoot-h { font-weight: 600; color: var(--ink); margin: 0 0 12px !important; }
 .tmFoot ul { list-style: none; margin: 0; padding: 0; }
 .tmFoot nav ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }

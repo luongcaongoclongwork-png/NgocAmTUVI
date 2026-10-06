@@ -224,7 +224,7 @@ The "Khám Phá" / "Menu" button opens the full menu with Ngọc Âm's seal (ấ
 - **At rest:** ink brown like the menu text; Seal Vermilion rises from the bottom as the page scrolls (a scroll-driven timeline, no script).
 - **Hover, keyboard focus, opening:** the frame and the middle stroke stay; the two halves tilt back into depth behind the middle stroke, darken while hidden, turn half a round and surface in each other's place (about 0.95s). Open, the whole seal is vermilion.
 - **Reduced motion:** no turn; only the colour changes. Phones have no hover, so the turn plays on tap.
-- It is the only seal on the site; it never replaces the logo (the silver sphere stays the brand mark).
+- It is the only seal on the site; it never replaces the logo (the "Trăng Xoắn" moon with its golden-ratio spiral stays the brand mark).
 
 ### Hanging Scrolls (signature)
 Three short vertical panels of paper between dark rods, each holding one Cormorant phrase ("Hiểu Mình", "Thuận Thế", "Vững Bước"), set as a staircase that rises left to right on the home page. They are brushed in once on load (a 0.9s clip reveal, staggered 0.3/0.45/0.6s) and are the page's single bold element.
@@ -240,7 +240,7 @@ The lineage "Hậu nhân Khâm Thiên Giám" in Cormorant 500 over a bronze hair
 - **Do** use Cormorant for what is written and Be Vietnam Pro for what is read or done.
 - **Do** keep every touch target at least 44×44px and text contrast at least 4.5:1, including captions over paintings.
 - **Do** spend motion on one moment per page (the scrolls brushing in, a painting settling) and honour reduced motion; booking buttons and key text are visible immediately.
-- **Do** use the original logo file (`public/images/logo-mark.png`) untouched, with clear space around it.
+- **Do** use the logo only from the kit files in `public/images/logo/` (Logo Kit v1.2, "Trăng Xoắn"), untouched, with clear space of 1/4 of the moon's diameter around it. Horizontal lockup no narrower than 140px, symbol alone no smaller than 24px; reversed version on dark; the chart sheet uses the colour version; Than Mực single colour for stamps and engraving. No shadow, outline, recolouring or motion.
 - **Do** show master portraits in natural colour.
 - **Do** keep the current painting world (golden-hour, misty, painterly Huế landscapes) and its Dunhuang clouds, gilt sun and lotus in their own colours; extend it, page by page, as moments of one day along the river.
 - **Do** give every important painting a landscape version (3840×2160) and its own portrait version for phones (1440×3120), with the words' area left open in the composition.

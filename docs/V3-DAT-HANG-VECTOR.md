@@ -17,7 +17,7 @@ Các hình hiện có trên web đều là bản phác dựng bằng công thứ
 - Hình tượng Đôn Hoàng có hình người: phi thiên, Phật, Bồ Tát, toà sen, bích hoạ hang động. **Chỉ lấy dải mây.**
 - Biểu tượng bói toán: quả cầu pha lê, vòng hoàng đạo 12 con giáp, bài tarot, sao trăng lấp lánh, màu tím huyền bí.
 - Phong cách công nghệ: gradient, bóng đổ, kính mờ, neon, biểu tượng bo tròn kiểu ứng dụng, emoji.
-- **Không vẽ lại, không mô phỏng logo Ngọc Âm** (quả cầu bạc có nét xoáy). Logo chỉ dùng file gốc.
+- **Không vẽ lại, không mô phỏng logo Ngọc Âm** (vầng trăng "Trăng Xoắn" có vòng xoắn tỷ lệ vàng). Logo chỉ dùng file gốc trong bộ Logo Kit v1.2 (`public/images/logo/`).
 - Không có chữ, không có con dấu, không có chữ ký trong bất kỳ hình nào.
 
 ---

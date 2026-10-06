@@ -185,11 +185,12 @@ function LetterFrame({ children }: { children: ReactNode }) {
   return (
     <div className="relative border border-walnut/15 bg-parchment/30 p-4 sm:p-10 lg:p-14">
       <Image
-        src="/images/logo-mark.png"
+        src="/images/logo/ngoc-am-symbol-color.svg"
         alt=""
-        width={32}
-        height={32}
-        className="absolute right-6 top-6 h-8 w-8 opacity-80 sm:right-8 sm:top-8"
+        width={256}
+        height={256}
+        unoptimized
+        className="absolute right-6 top-6 h-8 w-8 sm:right-8 sm:top-8"
       />
       {children}
     </div>
