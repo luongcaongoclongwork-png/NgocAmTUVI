@@ -55,6 +55,8 @@ export interface ChartProfile {
    * flips depends on yin/yang of the year branch.
    */
   fixHuoLingDirection: boolean;
+  /** true = Thien Thuong always in No Boc, Thien Su always in Tat Ach (undoes iztro zhongzhou's gender swap). */
+  fixedThuongSu: boolean;
 }
 
 /** iztro's own 7-level scale, collapsed only for the "iztro-default" comparison profile. Never used for ngoc-am/vietnam-tan-bien. */
@@ -234,11 +236,14 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
     const timeIndex = timeIndexFromHHmm(input.time) % 12;
     const YANG_BRANCHES = new Set<EarthlyBranchVi>(["Tý", "Dần", "Thìn", "Ngọ", "Thân", "Tuất"]);
     const yearIsYang = YANG_BRANCHES.has(year.branch);
-    // Yang-branch years (Dan-Ngo-Tuat, Than-Ty-Thin): Hoa Tinh forward matches
-    // iztro, Linh Tinh must flip. Yin-branch years (Ty-Dau-Suu, Hoi-Mao-Mui):
-    // the reverse.
-    const huoNeedsFlip = !yearIsYang;
-    const lingNeedsFlip = yearIsYang;
+    // Thai Thu Lang: duong nam / am nu -> Hoa Tinh thuan (matches iztro), Linh
+    // Tinh nghich; am nam / duong nu -> the reverse. The direction depends on
+    // gender x year yin/yang, not on the year alone (2026-10-07 fix: the
+    // 2026-09-14 check against tuvi.vn used only Nam charts, so Nu charts were
+    // getting the Nam placement). Cross-checked with lasotuvi's timHoaLinh().
+    const thuanLy = yearIsYang === (input.gender === "Nam");
+    const huoNeedsFlip = !thuanLy;
+    const lingNeedsFlip = thuanLy;
 
     function flippedBranch(rawZhName: string): EarthlyBranchVi | undefined {
       const rawPalace = astrolabe.palaces.find((p) => p.minorStars.some((s) => s.name === rawZhName));
@@ -278,6 +283,25 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
           ...palace.majorStars, ...palace.supportStars, ...palace.maleficStars, ...palace.adjectiveStars,
         ].filter((s) => s.transformation).map((s) => s.transformation as FourTransformation);
       }
+    }
+  }
+
+  // Thien Thuong / Thien Su: fixed in the Vietnamese tradition (Thuong in No
+  // Boc, Su in Tat Ach, every chart; same as lasotuvi). Loading iztro in its
+  // zhongzhou mode (needed for Menh Chu, see LoadOptions) swaps them for am nam
+  // / duong nu, so put them back.
+  if (profile.fixedThuongSu) {
+    const targets = [
+      { id: "tianshang", palaceName: "Nô Bộc" },
+      { id: "tianshi", palaceName: "Tật Ách" },
+    ] as const;
+    for (const { id, palaceName } of targets) {
+      const from = palaces.find((p) => p.adjectiveStars.some((s) => s.id === id));
+      const to = palaces.find((p) => p.name === palaceName);
+      if (!from || !to || from === to) continue;
+      const star = from.adjectiveStars.find((s) => s.id === id)!;
+      from.adjectiveStars = from.adjectiveStars.filter((s) => s.id !== id);
+      to.adjectiveStars.push(star);
     }
   }
 

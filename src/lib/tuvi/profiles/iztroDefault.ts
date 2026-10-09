@@ -12,4 +12,5 @@ export const iztroDefaultProfile: ChartProfile = {
   useVietnameseBrightness: false,
   useZhongzhouMenhChu: false,
   fixHuoLingDirection: false,
+  fixedThuongSu: false,
 };

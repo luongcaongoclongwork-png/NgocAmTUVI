@@ -125,3 +125,11 @@ Người dùng báo (trên `/la-so/print`) một cung có 2 chính tinh cạnh n
 3. Gate cả 2 đường xuất bản in vào lớp đo này: `/la-so/print?autoprint=1` (đợi `onOverflowGuardSettled` mới gọi `window.print()`) và nút "Xuất PDF" trên `/la-so` (đợi cùng cờ, có trần 3s phòng lỗi) — cả hai đều dùng chung `A4TuViPrintRenderer`, không tách riêng.
 
 **Test:** 26+ lá số khác nhau (nhiều ca `năm xem = năm sinh` — đúng loại từng làm F một mình bị NẶNG HƠN ở mục 8 — trải dài 1950-2010, cả 2 giới, cả dương/âm lịch, tên rất dài, giờ qua nửa đêm) đo trực tiếp `scrollHeight` vs `clientHeight` sau khi lớp đo chạy xong: **0px tràn ở mọi ca**, một số ô thực sự cần co (đã xác nhận qua `--pz-scale` < 1, có ca xuống tới 0.88) — tức lớp an toàn có hoạt động thật, không phải không làm gì. Bắt được và sửa luôn 1 lỗi trong lúc test: vòng lặp co dùng ngưỡng dung sai `+1px` khiến 1 ca dừng lại sớm với đúng 1px dư — bỏ dung sai, dùng so sánh chặt `scrollHeight > clientHeight`. `tsc`/`lint`/`npm test` (35/35) sạch trong suốt.
+
+## 10. BUG đã sửa (2026-10-07): lá số Nữ bị an Hỏa/Linh theo quy tắc Nam; Thiên Thương/Thiên Sứ bị đổi chỗ theo giới tính
+
+**Hỏa Tinh / Linh Tinh.** Mục 7 chỉ đối chiếu tuvi.vn bằng lá số Nam, nên quy tắc chiều đếm ở đó được viết theo âm/dương của năm. Quy tắc Thái Thứ Lang thật sự theo **giới tính × âm/dương năm**: Dương Nam, Âm Nữ thì Hỏa thuận, Linh nghịch; Âm Nam, Dương Nữ thì ngược lại (đối chiếu với `lasotuvi`, `AmDuong.timHoaLinh()`). Với Nam kết quả không đổi; với Nữ (trừ giờ Tý, Ngọ) cả hai sao trước đây đều sai cung. Ví dụ Nữ 23/08/2003 18:00: trước Hỏa Tý, Linh Mùi; nay Hỏa Ngọ, Linh Sửu. Sửa trong `vietnameseAdapter.ts` (biến `thuanLy`).
+
+**Thiên Thương / Thiên Sứ.** Profile Việt Nam nạp iztro ở chế độ "zhongzhou" để lấy Mệnh Chủ; chế độ này đổi chỗ Thương/Sứ cho Âm Nam, Dương Nữ (`iztro/lib/star/location.js`, `getTianshiTianshangIndex`). Theo Tân Biên (và `lasotuvi`) hai sao cố định: Thiên Thương ở Nô Bộc, Thiên Sứ ở Tật Ách. Thêm `ChartProfile.fixedThuongSu` (true cho ngoc-am / vietnam-tan-bien) để đặt lại.
+
+**Test:** `tests/gender.test.ts`, 144 ca (6 năm × 12 giờ × 2 giới) so với quy tắc trên; cung khởi Hỏa/Linh theo tuvi.vn (lưu ý `lasotuvi` để ngược Mão/Tuất ở nhóm Tỵ-Dậu-Sửu, đã được tuvi.vn và tracuutuvi.com ở mục 7 xác nhận là Hỏa khởi Mão). Chưa đối chiếu trực tiếp một lá số Nữ trên tuvi.vn.

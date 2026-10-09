@@ -8,4 +8,5 @@ export const vietnamTanBienProfile: ChartProfile = {
   useVietnameseBrightness: true,
   useZhongzhouMenhChu: true,
   fixHuoLingDirection: true,
+  fixedThuongSu: true,
 };
