@@ -13,4 +13,5 @@ export const iztroDefaultProfile: ChartProfile = {
   useZhongzhouMenhChu: false,
   fixHuoLingDirection: false,
   fixedThuongSu: false,
+  viThienTru: false,
 };

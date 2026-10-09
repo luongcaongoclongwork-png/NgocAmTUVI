@@ -57,6 +57,8 @@ export interface ChartProfile {
   fixHuoLingDirection: boolean;
   /** true = Thien Thuong always in No Boc, Thien Su always in Tat Ach (undoes iztro zhongzhou's gender swap). */
   fixedThuongSu: boolean;
+  /** Thien Tru for year stem Quy sits in Tuat (Viet tables, lasotuvi, tuvi.vn); iztro Chinese table says Hoi. */
+  viThienTru: boolean;
 }
 
 /** iztro's own 7-level scale, collapsed only for the "iztro-default" comparison profile. Never used for ngoc-am/vietnam-tan-bien. */
@@ -301,6 +303,18 @@ export function generateVietnameseChart(input: BirthInput, profile: ChartProfile
       if (!from || !to || from === to) continue;
       const star = from.adjectiveStars.find((s) => s.id === id)!;
       from.adjectiveStars = from.adjectiveStars.filter((s) => s.id !== id);
+      to.adjectiveStars.push(star);
+    }
+  }
+
+  // Thien Tru: iztro uses the Chinese table, which differs from the Vietnamese
+  // one only for year stem Quy (Hoi vs Tuat). See docs/tuvi-engine-audit.md.
+  if (profile.viThienTru && year.stem === "Quý") {
+    const from = palaces.find((p) => p.adjectiveStars.some((s) => s.id === "tianchu"));
+    const to = palaces.find((p) => p.branch === "Tuất");
+    if (from && to && from !== to) {
+      const star = from.adjectiveStars.find((s) => s.id === "tianchu")!;
+      from.adjectiveStars = from.adjectiveStars.filter((s) => s.id !== "tianchu");
       to.adjectiveStars.push(star);
     }
   }

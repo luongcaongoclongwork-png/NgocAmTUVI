@@ -75,3 +75,12 @@ describe("gender-dependent stars match lasotuvi", () => {
     expect(branchOf(c, "tianshi")?.name).toBe("Tật Ách");
   });
 });
+
+/** Thien Tru follows the Vietnamese table (lasotuvi maTranThienTru, tuvi.vn). Only year stem Quy differs from iztro: Hoi -> Tuat. */
+describe("Thien Tru", () => {
+  const cases: [number, string][] = [[1983, "Tuất"], [1993, "Tuất"], [2003, "Tuất"], [1985, "Ngọ"], [1990, "Dần"], [2000, "Dần"]];
+  it.each(cases)("%i -> %s", (year, branch) => {
+    const c = generateChart({ calendarType: "solar", day: 15, month: 6, year, time: "10:30", gender: "Nữ" }, "ngoc-am");
+    expect(c.palaces.find((p) => p.adjectiveStars.some((s) => s.id === "tianchu"))?.branch).toBe(branch);
+  });
+});

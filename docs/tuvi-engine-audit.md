@@ -133,3 +133,5 @@ Người dùng báo (trên `/la-so/print`) một cung có 2 chính tinh cạnh n
 **Thiên Thương / Thiên Sứ.** Profile Việt Nam nạp iztro ở chế độ "zhongzhou" để lấy Mệnh Chủ; chế độ này đổi chỗ Thương/Sứ cho Âm Nam, Dương Nữ (`iztro/lib/star/location.js`, `getTianshiTianshangIndex`). Theo Tân Biên (và `lasotuvi`) hai sao cố định: Thiên Thương ở Nô Bộc, Thiên Sứ ở Tật Ách. Thêm `ChartProfile.fixedThuongSu` (true cho ngoc-am / vietnam-tan-bien) để đặt lại.
 
 **Test:** `tests/gender.test.ts`, 144 ca (6 năm × 12 giờ × 2 giới) so với quy tắc trên; cung khởi Hỏa/Linh theo tuvi.vn (lưu ý `lasotuvi` để ngược Mão/Tuất ở nhóm Tỵ-Dậu-Sửu, đã được tuvi.vn và tracuutuvi.com ở mục 7 xác nhận là Hỏa khởi Mão). Chưa đối chiếu trực tiếp một lá số Nữ trên tuvi.vn.
+
+**Thiên Trù (năm Quý).** iztro dùng bảng Trung Quốc (Quý → Hợi); bảng Việt Nam của `lasotuvi` (`maTranThienTru`) và tuvi.vn cho Quý → Tuất. Chín can còn lại hai bảng giống nhau. Thêm `ChartProfile.viThienTru` (true cho ngoc-am / vietnam-tan-bien) để đặt Thiên Trù năm Quý về Tuất. Đối chiếu tuvi.vn ngày 2026-10-09 với lá số Nữ 23/8/2003 18:30. Test trong `gender.test.ts`.
