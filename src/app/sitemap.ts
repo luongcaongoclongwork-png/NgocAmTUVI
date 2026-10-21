@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { HEXAGRAMS } from "@/lib/kinh-dich";
 import { getArticles } from "@/lib/articles";
 import { absoluteUrl } from "@/lib/site-url";
 
@@ -12,6 +13,7 @@ const PAGES: { path: string; priority: number }[] = [
   { path: "/dich-vu", priority: 0.8 },
   { path: "/lien-he", priority: 0.8 },
   { path: "/lap-la-so", priority: 0.7 },
+  { path: "/kinh-dich", priority: 0.7 },
   { path: "/kien-thuc", priority: 0.7 },
   { path: "/tra-dao", priority: 0.6 },
   { path: "/cua-hang", priority: 0.5 },
@@ -22,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await getArticles();
   return [
     ...PAGES.map((p) => ({ url: absoluteUrl(p.path), priority: p.priority })),
+    ...HEXAGRAMS.map((q) => ({ url: absoluteUrl(`/kinh-dich/que/${q.so}`), priority: 0.4 })),
     ...articles.map((a) => ({ url: absoluteUrl(`/kien-thuc/${a.slug}`), lastModified: a.updatedAt || a.createdAt, priority: 0.5 })),
   ];
 }

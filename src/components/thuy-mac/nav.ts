@@ -7,6 +7,7 @@ export const PATH_LINKS = [
 
 export const MORE_LINKS = [
   { href: "/lap-la-so", label: "Lập Lá Số" },
+  { href: "/kinh-dich", label: "Kinh Dịch" },
   { href: "/tra-dao", label: "Trà Đạo" },
   { href: "/dich-vu", label: "Dịch Vụ" },
   // Sổ tay holds both Kiến thức and Phật học (one page, two parts); it lives here, not in the header
@@ -22,6 +23,7 @@ export const HEADER_LINKS = [
   { href: "/phong-thuy", label: "Phong Thuỷ" },
   { href: "/dai-chu-su", label: "Đại Chủ Sự" },
   { href: "/lap-la-so", label: "Lập Lá Số" },
+  { href: "/kinh-dich", label: "Kinh Dịch" },
   { href: "/tra-dao", label: "Trà Đạo" },
   { href: "/dich-vu", label: "Dịch Vụ" },
 ] as const;

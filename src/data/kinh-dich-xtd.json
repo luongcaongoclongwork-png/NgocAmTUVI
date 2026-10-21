@@ -1,0 +1,2146 @@
+{
+ "meta": {
+  "ten": "Kinh Dịch Xuyên Tam Diệm",
+  "phien_ban": "0.1-nhap",
+  "ghi_chu": "Tên tự đặt chờ duyệt. thoan và hao_tu chưa có dữ liệu. hao: mảng 6 phần tử từ dưới lên, 1=dương, 0=âm."
+ },
+ "thuat_ngu": [
+  {
+   "goc": "Gieo quẻ",
+   "xtd": "Thỉnh Bích"
+  },
+  {
+   "goc": "Quẻ chủ",
+   "xtd": "Hiện Bích"
+  },
+  {
+   "goc": "Quẻ hỗ",
+   "xtd": "Nội Bích"
+  },
+  {
+   "goc": "Quẻ biến",
+   "xtd": "Hóa Bích"
+  },
+  {
+   "goc": "Hào",
+   "xtd": "Nấc Thê"
+  },
+  {
+   "goc": "Hào động",
+   "xtd": "Động Diệm"
+  },
+  {
+   "goc": "Hào tĩnh",
+   "xtd": "Tĩnh Diệm"
+  },
+  {
+   "goc": "Nội quái",
+   "xtd": "Nội Khám"
+  },
+  {
+   "goc": "Ngoại quái",
+   "xtd": "Ngoại Khám"
+  }
+ ],
+ "bat_quai": [
+  {
+   "ten": "Càn",
+   "ten_goc_tuong": "Thiên",
+   "tuong": "Trời",
+   "ten_xtd": "Khung Đỉnh",
+   "hinh": "Vòm trần hang",
+   "hao": [
+    1,
+    1,
+    1
+   ],
+   "tien_thien": 1,
+   "ngu_hanh": "Kim"
+  },
+  {
+   "ten": "Đoài",
+   "ten_goc_tuong": "Trạch",
+   "tuong": "Đầm",
+   "ten_xtd": "Nha Hồ",
+   "hinh": "Hồ Nguyệt Nha",
+   "hao": [
+    1,
+    1,
+    0
+   ],
+   "tien_thien": 2,
+   "ngu_hanh": "Kim"
+  },
+  {
+   "ten": "Ly",
+   "ten_goc_tuong": "Hỏa",
+   "tuong": "Lửa",
+   "ten_xtd": "Minh Đăng",
+   "hinh": "Đèn sáng",
+   "hao": [
+    1,
+    0,
+    1
+   ],
+   "tien_thien": 3,
+   "ngu_hanh": "Hỏa"
+  },
+  {
+   "ten": "Chấn",
+   "ten_goc_tuong": "Lôi",
+   "tuong": "Sấm",
+   "ten_xtd": "Chiến Cổ",
+   "hinh": "Trống trận",
+   "hao": [
+    1,
+    0,
+    0
+   ],
+   "tien_thien": 4,
+   "ngu_hanh": "Mộc"
+  },
+  {
+   "ten": "Tốn",
+   "ten_goc_tuong": "Phong",
+   "tuong": "Gió",
+   "ten_xtd": "Phi Thiên",
+   "hinh": "Tiên bay trên gió",
+   "hao": [
+    0,
+    1,
+    1
+   ],
+   "tien_thien": 5,
+   "ngu_hanh": "Mộc"
+  },
+  {
+   "ten": "Khảm",
+   "ten_goc_tuong": "Thủy",
+   "tuong": "Nước",
+   "ten_xtd": "Sa Tuyền",
+   "hinh": "Suối trong cát",
+   "hao": [
+    0,
+    1,
+    0
+   ],
+   "tien_thien": 6,
+   "ngu_hanh": "Thủy"
+  },
+  {
+   "ten": "Cấn",
+   "ten_goc_tuong": "Sơn",
+   "tuong": "Núi",
+   "ten_xtd": "Minh Sơn",
+   "hinh": "Núi Minh Sa",
+   "hao": [
+    0,
+    0,
+    1
+   ],
+   "tien_thien": 7,
+   "ngu_hanh": "Thổ"
+  },
+  {
+   "ten": "Khôn",
+   "ten_goc_tuong": "Địa",
+   "tuong": "Đất",
+   "ten_xtd": "Sa Nguyên",
+   "hinh": "Nền cát",
+   "hao": [
+    0,
+    0,
+    0
+   ],
+   "tien_thien": 8,
+   "ngu_hanh": "Thổ"
+  }
+ ],
+ "que64": [
+  {
+   "so": 1,
+   "ten_goc": "Thuần Càn",
+   "ten_xtd": "Phi Long",
+   "chu_khoa": "Cương",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Càn",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Rồng xanh bay trên vách trần hang — sáu hào là sáu độ của một con rồng, từ ẩn đến hối.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 2,
+   "ten_goc": "Thuần Khôn",
+   "ten_xtd": "Hậu Thổ",
+   "chu_khoa": "Thuận",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Nền đất dày dưới chân vách — nâng mọi hình vẽ mà không đòi tên.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 3,
+   "ten_goc": "Thủy Lôi Truân",
+   "ten_xtd": "Phá Thổ",
+   "chu_khoa": "Khó",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Mầm hồ dương chọc qua nền cát — mới nhú, gió bão vây quanh.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 4,
+   "ten_goc": "Sơn Thủy Mông",
+   "ten_xtd": "Sơ Họa",
+   "chu_khoa": "Mờ",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Nét phác đầu tiên của người học vẽ — chưa thành hình, cần thầy dẫn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 5,
+   "ten_goc": "Thủy Thiên Nhu",
+   "ten_xtd": "Đãi Lữ",
+   "chu_khoa": "Chờ",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Đoàn lữ hành dừng chờ ở ải trước sa mạc — chưa đi vì chưa tới lúc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 6,
+   "ten_goc": "Thiên Thủy Tụng",
+   "ten_xtd": "Tranh Bích",
+   "chu_khoa": "Tranh",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Càn",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Hai họa sư tranh một mảng vách — đúng sai chưa ngã ngũ, kiện thì thiệt cả hai.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 7,
+   "ten_goc": "Địa Thủy Sư",
+   "ten_xtd": "Biên Quân",
+   "chu_khoa": "Quân",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Quân thú biên ải dưới cờ lệnh — cần một người chỉ huy chính trực.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 8,
+   "ten_goc": "Thủy Địa Tỷ",
+   "ten_xtd": "Liên Hội",
+   "chu_khoa": "Gần",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Nhiều đài sen chụm về một tòa — gần nhau vì chung một chủ.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 9,
+   "ten_goc": "Phong Thiên Tiểu Súc",
+   "ten_xtd": "Tụ Sa",
+   "chu_khoa": "Gom",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Gom cát từng nắm đắp thành nền — tích nhỏ, chưa đủ làm việc lớn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 10,
+   "ten_goc": "Thiên Trạch Lý",
+   "ten_xtd": "Hổ Đạo",
+   "chu_khoa": "Lễ",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Càn",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Bước trên đường có hổ — giữ lễ, giữ bình tĩnh thì hổ không cắn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 11,
+   "ten_goc": "Địa Thiên Thái",
+   "ten_xtd": "Thông Quật",
+   "chu_khoa": "Thông",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Cửa hang thông suốt, trời đất giao khí — lúc thuận, dòng chảy trọn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 12,
+   "ten_goc": "Thiên Địa Bĩ",
+   "ten_xtd": "Phong Khám",
+   "chu_khoa": "Tắc",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Càn",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Khám bị trát kín cửa — trên dưới không thông, dòng nghẽn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 13,
+   "ten_goc": "Thiên Hỏa Đồng Nhân",
+   "ten_xtd": "Chúng Tụng",
+   "chu_khoa": "Đồng",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Càn",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Cả hội cùng tụng một bản kinh — hợp nhau vì chung mục đích, không vì thân.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 14,
+   "ten_goc": "Hỏa Thiên Đại Hữu",
+   "ten_xtd": "Kim Bích",
+   "chu_khoa": "Giàu",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Ly",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Vách dát vàng dưới mặt trời — của nhiều, càng cần giữ đức.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 15,
+   "ten_goc": "Địa Sơn Khiêm",
+   "ten_xtd": "Hợp Chưởng",
+   "chu_khoa": "Nhún",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Hai bàn tay chắp trước ngực — núi cao mà ẩn dưới đất, giữ mình thấp.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 16,
+   "ten_goc": "Lôi Địa Dự",
+   "ten_xtd": "Cổ Nhạc",
+   "chu_khoa": "Vui",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Trống nhạc rộn trong buổi lễ hội — vui đúng lúc thì nên việc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 17,
+   "ten_goc": "Trạch Lôi Tùy",
+   "ten_xtd": "Tòng Sư",
+   "chu_khoa": "Theo",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Đệ tử theo gót thầy — theo đúng người thì thuận, theo mù thì lạc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 18,
+   "ten_goc": "Sơn Phong Cổ",
+   "ten_xtd": "Trùng Tu",
+   "chu_khoa": "Sửa",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Tu sửa hang cũ mốc nát — phải bóc lớp hỏng mới dựng lại được.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 19,
+   "ten_goc": "Địa Trạch Lâm",
+   "ten_xtd": "Lâm Môn",
+   "chu_khoa": "Tới",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Người hành hương đến sát cửa hang — việc sắp tới, thế đang lên.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 20,
+   "ten_goc": "Phong Địa Quan",
+   "ten_xtd": "Chiêm Bái",
+   "chu_khoa": "Xem",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Đứng lặng chiêm ngưỡng vách tranh — xem kỹ trước khi làm, làm gương cho người.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 21,
+   "ten_goc": "Hỏa Lôi Phệ Hạp",
+   "ten_xtd": "Đoạn Chướng",
+   "chu_khoa": "Cắn",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Ly",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Cắn đứt vật ngáng miệng — xử dứt khoát thì thông.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 22,
+   "ten_goc": "Sơn Hỏa Bí",
+   "ten_xtd": "Thượng Sắc",
+   "chu_khoa": "Đẹp",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Tô màu lên nét phác — đẹp ở bề mặt, chớ nhầm với cốt.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 23,
+   "ten_goc": "Sơn Địa Bác",
+   "ten_xtd": "Bong Bích",
+   "chu_khoa": "Rụng",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Lớp vữa bong từng mảng khỏi vách — đang mục từ dưới lên, đừng xây thêm.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 24,
+   "ten_goc": "Địa Lôi Phục",
+   "ten_xtd": "Hồi Đăng",
+   "chu_khoa": "Về",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Ngọn đèn tắt thắp lại — dương khí quay về, đi chậm mà chắc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 25,
+   "ten_goc": "Thiên Lôi Vô Vọng",
+   "ten_xtd": "Tố Tâm",
+   "chu_khoa": "Thật",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Càn",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Vách trắng chưa vẽ, lòng không cầu — làm đúng thì tự nên, tính toán thì hỏng.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 26,
+   "ten_goc": "Sơn Thiên Đại Súc",
+   "ten_xtd": "Tàng Động",
+   "chu_khoa": "Chứa",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Hang chứa kinh cuốn bít kín — tích lớn, đến lúc mới mở.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 27,
+   "ten_goc": "Sơn Lôi Di",
+   "ten_xtd": "Bát Thực",
+   "chu_khoa": "Nuôi",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Bát cơm cúng dâng — xem mình nuôi cái gì và nuôi bằng gì.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 28,
+   "ten_goc": "Trạch Phong Đại Quá",
+   "ten_xtd": "Lương Oằn",
+   "chu_khoa": "Quá",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Rường nhà oằn dưới mái nặng — quá sức chịu, phải chống hoặc gỡ bớt.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 29,
+   "ten_goc": "Thuần Khảm",
+   "ten_xtd": "Sa Hạp",
+   "chu_khoa": "Hiểm",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Vực cát chồng vực cát — hiểm liên tiếp, giữ lòng tin mà đi qua.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 30,
+   "ten_goc": "Thuần Ly",
+   "ten_xtd": "Chúc Chiếu",
+   "chu_khoa": "Sáng",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Ly",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Đuốc soi trong hang tối — sáng nhờ bám vào cái nuôi nó.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 31,
+   "ten_goc": "Trạch Sơn Hàm",
+   "ten_xtd": "Giao Cảm",
+   "chu_khoa": "Cảm",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Hai tượng nhìn nhau qua lòng hang — cảm bằng tâm, không bằng lời.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 32,
+   "ten_goc": "Lôi Phong Hằng",
+   "ten_xtd": "Thường Đăng",
+   "chu_khoa": "Bền",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Đèn trường minh thắp mãi — bền vì đúng đạo, không vì cứng nhắc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 33,
+   "ten_goc": "Thiên Sơn Độn",
+   "ten_xtd": "Ẩn Quật",
+   "chu_khoa": "Lui",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Càn",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Lui vào hang sâu tu tĩnh — lui đúng lúc là giữ được sức.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 34,
+   "ten_goc": "Lôi Thiên Đại Tráng",
+   "ten_xtd": "Thiên Vương",
+   "chu_khoa": "Mạnh",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Thiên vương lực sĩ gác cửa hang — mạnh, nhưng mạnh mà bạo thì hỏng.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 35,
+   "ten_goc": "Hỏa Địa Tấn",
+   "ten_xtd": "Thăng Nhật",
+   "chu_khoa": "Tiến",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Ly",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Mặt trời nhô khỏi đụn cát — tiến lên, được ban thưởng.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 36,
+   "ten_goc": "Địa Hỏa Minh Di",
+   "ten_xtd": "Ế Quang",
+   "chu_khoa": "Tối",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Ánh đèn bị che dưới tấm màn — sáng mà ẩn, nhẫn qua thời tối.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 37,
+   "ten_goc": "Phong Hỏa Gia Nhân",
+   "ten_xtd": "Cúng Gia",
+   "chu_khoa": "Nhà",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Cả gia đình thí chủ vẽ chung một vách — nhà yên thì việc yên.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 38,
+   "ten_goc": "Hỏa Trạch Khuê",
+   "ten_xtd": "Phản Phi",
+   "chu_khoa": "Trái",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Ly",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Hai tiên bay ngược chiều — trái ý, nhưng việc nhỏ vẫn hợp được.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 39,
+   "ten_goc": "Thủy Sơn Kiển",
+   "ten_xtd": "Nan Hành",
+   "chu_khoa": "Vướng",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Núi chặn trước, vực sau lưng — dừng lại, tìm người giúp, đừng xông.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 40,
+   "ten_goc": "Lôi Thủy Giải",
+   "ten_xtd": "Thoát Phược",
+   "chu_khoa": "Gỡ",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Tháo dây trói — gỡ sớm thì lành, đừng nấn ná.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 41,
+   "ten_goc": "Sơn Trạch Tổn",
+   "ten_xtd": "Xả Cúng",
+   "chu_khoa": "Bớt",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Bớt phần mình để dâng — bớt đúng thì có lợi, thành tâm là gốc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 42,
+   "ten_goc": "Phong Lôi Ích",
+   "ten_xtd": "Tăng Duyên",
+   "chu_khoa": "Thêm",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Mưa hoa rải xuống đàn tràng — nhận được thì nên làm việc lớn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 43,
+   "ten_goc": "Trạch Thiên Quải",
+   "ten_xtd": "Quyết Kiếm",
+   "chu_khoa": "Quyết",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Càn",
+   "hao": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Kiếm chém dứt một mối — quyết rồi thì làm công khai, đừng dùng bạo.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 44,
+   "ten_goc": "Thiên Phong Cấu",
+   "ten_xtd": "Kỳ Ngộ",
+   "chu_khoa": "Gặp",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Càn",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "hinh_tuong": "Gặp bất ngờ giữa đường — một duyên nhỏ ban đầu, đừng coi thường.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 45,
+   "ten_goc": "Trạch Địa Tụy",
+   "ten_xtd": "Pháp Hội",
+   "chu_khoa": "Tụ",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Khôn",
+   "hao": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Đại chúng nhóm lại nghe giảng — tụ nhân tâm cần một người chủ trì.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 46,
+   "ten_goc": "Địa Phong Thăng",
+   "ten_xtd": "Đăng Thê",
+   "chu_khoa": "Lên",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khôn",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "hinh_tuong": "Từng bậc thang lên tháp — lên chậm mà chắc, thuận thế thì tiến.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 47,
+   "ten_goc": "Trạch Thủy Khốn",
+   "ten_xtd": "Khô Tuyền",
+   "chu_khoa": "Cùng",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Suối cạn giữa sa mạc — cùng quẫn, chỉ còn lời nói đúng và lòng giữ vững.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 48,
+   "ten_goc": "Thủy Phong Tỉnh",
+   "ten_xtd": "Cổ Tỉnh",
+   "chu_khoa": "Giếng",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Giếng cổ nuôi cả làng — nguồn không đổi, nhưng phải có người múc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 49,
+   "ten_goc": "Trạch Hỏa Cách",
+   "ten_xtd": "Trùng Họa",
+   "chu_khoa": "Đổi",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Phủ lớp vẽ mới lên vách cũ — đổi phải đúng lúc và được lòng tin.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 50,
+   "ten_goc": "Hỏa Phong Đỉnh",
+   "ten_xtd": "Hương Đỉnh",
+   "chu_khoa": "Vạc",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Ly",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Lư hương đồng đặt giữa điện — dựng cái mới, nuôi bậc hiền.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 51,
+   "ten_goc": "Thuần Chấn",
+   "ten_xtd": "Lôi Âm",
+   "chu_khoa": "Động",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Chấn",
+   "hao": [
+    1,
+    0,
+    0,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Tiếng sấm vang trong hang — giật mình rồi tỉnh, sợ trước mà bình sau.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 52,
+   "ten_goc": "Thuần Cấn",
+   "ten_xtd": "Chỉ Quan",
+   "chu_khoa": "Dừng",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Cấn",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "hinh_tuong": "Ngồi thiền như núi — dừng đúng chỗ, động đúng lúc.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 53,
+   "ten_goc": "Phong Sơn Tiệm",
+   "ten_xtd": "Bộ Liên",
+   "chu_khoa": "Dần",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Mỗi bước nở một đài sen — tiến từ từ, thuận thứ tự.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 54,
+   "ten_goc": "Lôi Trạch Quy Muội",
+   "ten_xtd": "Cống Nữ",
+   "chu_khoa": "Gả",
+   "diem": "Đồ tỳ",
+   "diem_ma": "DO_TY",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Cô gái bị đưa đi theo lệnh người — danh không chính thì khó bền.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 55,
+   "ten_goc": "Lôi Hỏa Phong",
+   "ten_xtd": "Mãn Nguyệt",
+   "chu_khoa": "Thịnh",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Trăng rằm giữa trời — thịnh đến đỉnh thì phải lo lúc khuyết.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 56,
+   "ten_goc": "Hỏa Sơn Lữ",
+   "ten_xtd": "Hành Cước",
+   "chu_khoa": "Khách",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Ly",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Tăng hành cước nhờ trọ — ở nhờ thì giữ nhỏ, làm khách thì giữ lễ.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 57,
+   "ten_goc": "Thuần Tốn",
+   "ten_xtd": "Thấm Phong",
+   "chu_khoa": "Vào",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Tốn",
+   "hao": [
+    0,
+    1,
+    1,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Gió thấm vào khe đá — vào bằng sự bền bỉ, không bằng sức.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 58,
+   "ten_goc": "Thuần Đoài",
+   "ten_xtd": "Vi Tiếu",
+   "chu_khoa": "Mừng",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Đoài",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    1,
+    1,
+    0
+   ],
+   "hinh_tuong": "Nụ cười của tượng Phật — vui bằng lời thật, vui cùng bạn.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 59,
+   "ten_goc": "Phong Thủy Hoán",
+   "ten_xtd": "Tán Vân",
+   "chu_khoa": "Tan",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Mây tan, băng chảy — tan cái đóng cứng, hợp lại bằng lễ cúng chung.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 60,
+   "ten_goc": "Thủy Trạch Tiết",
+   "ten_xtd": "Thủ Giới",
+   "chu_khoa": "Hạn",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Giữ giới như bờ giữ nước — có hạn mới có độ, hạn khắt khe quá thì khổ.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 61,
+   "ten_goc": "Phong Trạch Trung Phu",
+   "ten_xtd": "Tín Tâm",
+   "chu_khoa": "Tin",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Tốn",
+   "quai_duoi": "Đoài",
+   "hao": [
+    1,
+    1,
+    0,
+    0,
+    1,
+    1
+   ],
+   "hinh_tuong": "Lòng thành thông tới cả loài vật — tin bên trong thì việc ngoài thuận.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 62,
+   "ten_goc": "Lôi Sơn Tiểu Quá",
+   "ten_xtd": "Phi Điểu",
+   "chu_khoa": "Vượt",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Chấn",
+   "quai_duoi": "Cấn",
+   "hao": [
+    0,
+    0,
+    1,
+    1,
+    0,
+    0
+   ],
+   "hinh_tuong": "Chim bay thấp qua núi — việc nhỏ được, việc lớn thì không.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 63,
+   "ten_goc": "Thủy Hỏa Ký Tế",
+   "ten_xtd": "Thành Họa",
+   "chu_khoa": "Xong",
+   "diem": "Bối quang",
+   "diem_ma": "BOI_QUANG",
+   "quai_tren": "Khảm",
+   "quai_duoi": "Ly",
+   "hao": [
+    1,
+    0,
+    1,
+    0,
+    1,
+    0
+   ],
+   "hinh_tuong": "Bức vẽ đã hoàn tất — xong rồi thì giữ, đừng ham thêm.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "so": 64,
+   "ten_goc": "Hỏa Thủy Vị Tế",
+   "ten_xtd": "Họa Dang",
+   "chu_khoa": "Dở",
+   "diem": "Nhiên đăng",
+   "diem_ma": "NHIEN_DANG",
+   "quai_tren": "Ly",
+   "quai_duoi": "Khảm",
+   "hao": [
+    0,
+    1,
+    0,
+    1,
+    0,
+    1
+   ],
+   "hinh_tuong": "Bức vẽ còn dang dở — chưa xong, nhưng mở đường cho vòng mới.",
+   "thoan": null,
+   "hao_tu": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ ],
+ "gieo": {
+  "quy_uoc": "Đếm số mặt lưng của 3 đồng",
+  "bang": [
+   {
+    "mat_lung": 1,
+    "tong": 7,
+    "hao": 1,
+    "dong": false
+   },
+   {
+    "mat_lung": 2,
+    "tong": 8,
+    "hao": 0,
+    "dong": false
+   },
+   {
+    "mat_lung": 3,
+    "tong": 9,
+    "hao": 1,
+    "dong": true
+   },
+   {
+    "mat_lung": 0,
+    "tong": 6,
+    "hao": 0,
+    "dong": true
+   }
+  ],
+  "thu_tu": "6 lần, lần 1 là nấc dưới cùng"
+ },
+ "quy_tac_chu_hy": [
+  {
+   "so_hao_dong": 0,
+   "doc_que": "quẻ chủ",
+   "doc_loi": "thoán từ quẻ chủ"
+  },
+  {
+   "so_hao_dong": 1,
+   "doc_que": "quẻ chủ",
+   "doc_loi": "hào từ của hào động"
+  },
+  {
+   "so_hao_dong": 2,
+   "doc_que": "quẻ chủ",
+   "doc_loi": "hào từ của hai hào động, lấy hào trên làm chính"
+  },
+  {
+   "so_hao_dong": 3,
+   "doc_que": "cả hai",
+   "doc_loi": "thoán từ quẻ chủ và quẻ biến, quẻ chủ làm chính"
+  },
+  {
+   "so_hao_dong": 4,
+   "doc_que": "quẻ biến",
+   "doc_loi": "hào từ của hai hào tĩnh, lấy hào dưới làm chính"
+  },
+  {
+   "so_hao_dong": 5,
+   "doc_que": "quẻ biến",
+   "doc_loi": "hào từ của hào tĩnh duy nhất"
+  },
+  {
+   "so_hao_dong": 6,
+   "doc_que": "quẻ biến",
+   "doc_loi": "thoán từ quẻ biến; riêng Càn dùng Dụng Cửu, Khôn dùng Dụng Lục"
+  }
+ ],
+ "ngu_hanh": {
+  "sinh": {
+   "Mộc": "Hỏa",
+   "Hỏa": "Thổ",
+   "Thổ": "Kim",
+   "Kim": "Thủy",
+   "Thủy": "Mộc"
+  },
+  "khac": {
+   "Mộc": "Thổ",
+   "Thổ": "Thủy",
+   "Thủy": "Hỏa",
+   "Hỏa": "Kim",
+   "Kim": "Mộc"
+  }
+ },
+ "the_dung": [
+  {
+   "ma": "dung_sinh_the",
+   "ten": "Dụng sinh Thể",
+   "y": "Tốt, được trợ giúp, việc thuận"
+  },
+  {
+   "ma": "ty_hoa",
+   "ten": "Thể và Dụng cùng hành",
+   "y": "Tốt, thuận lợi"
+  },
+  {
+   "ma": "the_khac_dung",
+   "ten": "Thể khắc Dụng",
+   "y": "Được việc nhưng tốn sức"
+  },
+  {
+   "ma": "the_sinh_dung",
+   "ten": "Thể sinh Dụng",
+   "y": "Hao tổn, mất công"
+  },
+  {
+   "ma": "dung_khac_the",
+   "ten": "Dụng khắc Thể",
+   "y": "Xấu, việc bất lợi"
+  }
+ ],
+ "chuyen_diem": {
+  "NHIEN_DANG>BOI_QUANG": "Âm thầm sắp bày ra ánh sáng",
+  "BOI_QUANG>DO_TY": "Đang đứng vững nhưng sắp phải đập vỡ",
+  "NHIEN_DANG>DO_TY": "Nuôi ngầm đến lúc bùng vỡ",
+  "BOI_QUANG>NHIEN_DANG": "Thu ánh sáng về, lui vào âm thầm",
+  "DO_TY>NHIEN_DANG": "Sau đập vỡ, nuôi lại từ đầu",
+  "DO_TY>BOI_QUANG": "Sau đập vỡ, dựng uy nghi mới",
+  "same": "Cùng diệm: giữ thế, chưa cần chuyển"
+ },
+ "kham12": [
+  {
+   "so": 1,
+   "ten_goc": "Mệnh",
+   "ten_xtd": "Chủ Thất",
+   "chu_de": "bản thân, tổng quát"
+  },
+  {
+   "so": 2,
+   "ten_goc": "Huynh Đệ",
+   "ten_xtd": "Bình Khám",
+   "chu_de": "anh em, bạn bè ngang hàng"
+  },
+  {
+   "so": 3,
+   "ten_goc": "Phu Thê",
+   "ten_xtd": "Song Phi",
+   "chu_de": "hôn nhân, tình cảm, đối tác"
+  },
+  {
+   "so": 4,
+   "ten_goc": "Tử Nữ",
+   "ten_xtd": "Tử Mẫu",
+   "chu_de": "con cái, học trò"
+  },
+  {
+   "so": 5,
+   "ten_goc": "Tài Bạch",
+   "ten_xtd": "Đà Đội",
+   "chu_de": "tiền bạc, thu nhập"
+  },
+  {
+   "so": 6,
+   "ten_goc": "Tật Ách",
+   "ten_xtd": "Dược Sư",
+   "chu_de": "sức khỏe, bệnh tật"
+  },
+  {
+   "so": 7,
+   "ten_goc": "Thiên Di",
+   "ten_xtd": "Tơ Lộ",
+   "chu_de": "đi xa, ra ngoài, môi trường ngoài"
+  },
+  {
+   "so": 8,
+   "ten_goc": "Nô Bộc",
+   "ten_xtd": "Thương Lữ",
+   "chu_de": "cấp dưới, người giúp việc, quan hệ xã hội"
+  },
+  {
+   "so": 9,
+   "ten_goc": "Quan Lộc",
+   "ten_xtd": "Kinh Biến",
+   "chu_de": "công việc, sự nghiệp"
+  },
+  {
+   "so": 10,
+   "ten_goc": "Điền Trạch",
+   "ten_xtd": "Già Lam",
+   "chu_de": "nhà đất, tài sản cố định"
+  },
+  {
+   "so": 11,
+   "ten_goc": "Phúc Đức",
+   "ten_xtd": "Tảo Tỉnh",
+   "chu_de": "phúc phần, tinh thần, tâm linh"
+  },
+  {
+   "so": 12,
+   "ten_goc": "Phụ Mẫu",
+   "ten_xtd": "Thí Chủ",
+   "chu_de": "cha mẹ, cấp trên, giấy tờ"
+  }
+ ]
+}

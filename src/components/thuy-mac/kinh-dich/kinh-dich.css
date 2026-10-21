@@ -1,0 +1,146 @@
+/* Kinh Dịch Xuyên Tam Diệm: the casting tool. Ink lines on dó paper; the only colour is the seal vermilion on a moving line. */
+.kd { --kd-son: #a8231f; display: grid; gap: clamp(40px, 6vw, 72px); color: var(--ink); }
+.kdStep, .kdKham legend { font-family: var(--display); font-weight: 600; font-size: clamp(24px, 3vw, 32px); margin: 0 0 10px; padding: 0; }
+.kdHint { color: var(--muted); max-width: 60ch; margin: 0 0 22px; }
+
+.kdKham { border: 0; margin: 0; padding: 0; }
+.kdKham-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 10px; margin-top: 16px; }
+.kdKham-list label { display: grid; gap: 2px; padding: 12px 14px; min-height: 44px; border: 1px solid var(--line); border-radius: 3px; background: color-mix(in srgb, var(--raised) 70%, transparent); cursor: pointer; transition: border-color 200ms, background-color 200ms; }
+.kdKham-list label:hover { border-color: var(--accent); }
+.kdKham-list label.is-on { border-color: var(--accent); background: var(--raised); box-shadow: inset 3px 0 0 var(--accent); }
+.kdKham-list input { position: absolute; opacity: 0; pointer-events: none; }
+.kdKham-list label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 3px; }
+.kdKham-ten { font-family: var(--display); font-weight: 600; font-size: 20px; }
+.kdKham-de { color: var(--muted); font-size: 15px; }
+
+.kdCast-row { display: grid; grid-template-columns: minmax(160px, 220px) 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+@media (width < 640px) { .kdCast-row { grid-template-columns: 1fr; } }
+.kdCast-lines { min-height: 140px; display: grid; align-items: end; }
+.kdEmpty { color: var(--muted); font-size: 15px; margin: 0; }
+.kdCount { margin: 0 0 14px; font-size: 16px; }
+.kdCount span { color: var(--muted); }
+.kdShare { margin: 14px 0 0; color: var(--muted); font-size: 15px; max-width: 52ch; }
+.kdShare code { font-family: inherit; font-weight: 600; color: var(--ink); letter-spacing: 0.08em; }
+
+.kdLines { width: 100%; max-width: 200px; height: auto; display: block; fill: var(--ink); }
+.kdLines--small { max-width: 120px; }
+.kdSeal { fill: var(--kd-son); }
+@media (prefers-reduced-motion: no-preference) {
+  /* the newest line is brushed in from the left, once */
+  .kdCast-lines .kdLine:last-child rect, .kdCast-lines .kdLine:first-child rect { animation: kdBrush 650ms cubic-bezier(0.2, 0.7, 0.2, 1) both; transform-box: fill-box; }
+  .kdCast-lines .kdLine:first-child .kdSeal { animation: kdSeal 500ms 450ms ease-out both; transform-box: fill-box; transform-origin: center; }
+}
+@keyframes kdBrush { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes kdSeal { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
+
+.kdResult { display: grid; gap: clamp(28px, 4vw, 48px); }
+.kdResult-kham { margin: 0; font-size: 18px; }
+.kdQues { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(24px, 3vw, 40px); }
+.kdQue { display: grid; gap: 8px; align-content: start; padding-top: 20px; border-top: 1px solid var(--line); }
+.kdQue:first-child { border-top-color: var(--accent); }
+.kdQue-role { margin: 0 0 6px; color: var(--muted); font-size: 15px; }
+.kdQue-name { font-family: var(--display); font-weight: 600; font-size: clamp(30px, 3.4vw, 40px); line-height: 1.1; margin: 10px 0 0; }
+.kdQue-goc { margin: 0; color: var(--muted); font-size: 15px; }
+.kdQue-goc b { color: var(--ink); font-weight: 600; }
+.kdQue-tuong { margin: 6px 0 0; font-size: 17px; line-height: 1.65; max-width: 42ch; }
+.kdQue-note { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+
+.kdFacts { display: grid; gap: 18px; margin: 0; max-width: 72ch; }
+.kdFacts > div { display: grid; grid-template-columns: 9.5em 1fr; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+@media (width < 640px) { .kdFacts > div { grid-template-columns: 1fr; gap: 4px; } }
+.kdFacts dt { font-family: var(--display); font-weight: 600; font-size: 20px; }
+.kdFacts dd { margin: 0; line-height: 1.7; }
+.kdSoon { display: block; margin-top: 6px; color: var(--muted); font-size: 15px; }
+
+.kdNext { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 28px clamp(20px, 3vw, 36px); background: var(--raised); border: 1px solid var(--line); }
+.kdNext p { flex: 1 1 100%; margin: 0; max-width: 64ch; line-height: 1.7; }
+.kd .ipBtn { border: 0; cursor: pointer; font: inherit; }
+.kd .kdBtn--ghost { background: transparent; color: var(--ink) !important; box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* three coins of the last cast (as on Chinese 摇卦 pages), a filled one is a mặt lưng */
+.kdCoins { display: flex; gap: 12px; margin: 0 0 14px; }
+.kdCoin { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--bronze, #94733a); background: radial-gradient(circle, transparent 0 5px, var(--bronze, #94733a) 5px 6px, transparent 6px), color-mix(in srgb, var(--raised) 80%, transparent); position: relative; }
+.kdCoin::after { content: ""; position: absolute; inset: 12px; border: 2px solid var(--bronze, #94733a); }
+.kdCoin.is-lung { background: var(--accent); border-color: var(--accent); }
+.kdCoin.is-lung::after { border-color: var(--paper); }
+@media (prefers-reduced-motion: no-preference) {
+  .kdCoin { animation: kdCoin 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .kdCoin:nth-child(2) { animation-delay: 70ms; } .kdCoin:nth-child(3) { animation-delay: 140ms; }
+}
+@keyframes kdCoin { from { transform: rotateY(90deg) translateY(-10px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* 本卦 → 变卦: the change reads left to right */
+.kdQues { position: relative; }
+.kdArrow { display: none; }
+@media (width >= 900px) {
+  .kdQues { grid-template-columns: 1fr auto 1fr 1fr; }
+  .kdArrow { display: block; align-self: start; margin-top: 90px; font-family: var(--display); font-size: 36px; color: var(--bronze, #94733a); }
+}
+
+.kdExport { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 18px 0; border-block: 1px solid var(--line); }
+.kdExport p { margin: 0 8px 0 0; color: var(--muted); }
+.kdExport button:disabled { opacity: 0.6; cursor: progress; }
+
+.kdTable { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: min(100%, 360px); }
+.kdTable th { text-align: left; font-weight: 500; color: var(--muted); font-size: 15px; padding: 0 18px 6px 0; }
+.kdTable td { padding: 4px 18px 4px 0; border-top: 1px solid var(--line); }
+.kdTable tr.is-dong td { color: #a8231f; font-weight: 600; }
+
+.kdQue-name a { color: inherit; text-decoration: none; }
+.kdQue-name a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+
+/* the 64 hexagrams, in King Wen order */
+.kdIndex { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.kdIndex a { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; padding: 14px; border: 1px solid var(--line); border-radius: 3px; color: var(--ink); text-decoration: none; transition: border-color 200ms; }
+.kdIndex a:hover, .kdIndex a:focus-visible { border-color: var(--accent); }
+.kdIndex .kdLines { grid-row: span 3; width: 46px; }
+.kdIndex-so { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.kdIndex-ten { font-family: var(--display); font-weight: 600; font-size: 20px; line-height: 1.15; }
+.kdIndex-goc { color: var(--muted); font-size: 14px; }
+
+/* one hexagram's page */
+.kdOne { display: grid; grid-template-columns: minmax(140px, 240px) 1fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+@media (width < 640px) { .kdOne { grid-template-columns: 1fr; } }
+.kdLoi { max-width: 62ch; font-size: 18px; line-height: 1.8; }
+.kdHao { list-style: none; margin: 28px 0 0; padding: 0; max-width: 72ch; }
+.kdHao li { display: grid; grid-template-columns: 90px 1fr; gap: 22px; padding: 18px 0; border-top: 1px solid var(--line); align-items: start; }
+.kdHao li p { margin: 4px 0 0; }
+.kdPager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px 24px; margin-bottom: 40px; }
+
+/* ---------- motion: the one orchestrated moment is the reading arriving ---------- */
+/* resting states (also what reduced motion sees): a closing bridge is ink, a parting one is gone */
+.kdBridge { fill: var(--ink); transform-box: fill-box; transform-origin: center; }
+.kdBridge--open, .kdSeal--fade { opacity: 0; }
+
+/* the Xuyên Tam Diệm seal, stamped beside the Hiện Bích (same masks as the Khám Phá icon) */
+.kdNext--signed { position: relative; padding-right: clamp(84px, 9vw, 112px); }
+.kdStamp { position: absolute; top: 26px; right: clamp(22px, 3vw, 36px); height: 76px; aspect-ratio: 315 / 588; mix-blend-mode: multiply; opacity: 0.9; }
+.kdStamp > span { position: absolute; inset: 0; background: #a8231f; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.kdStamp-khung { --m: url(/images/an-trien/khung.png); }
+.kdStamp-am { --m: url(/images/an-trien/am.png); }
+.kdStamp-duong { --m: url(/images/an-trien/duong.png); }
+.kdStamp-giua { --m: url(/images/an-trien/giua.png); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* A. the three hexagrams arrive in order: Hiện, then the change, then Nội */
+  .kdResult .kdQue { animation: kdRise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--step) * 900ms); }
+  .kdResult .kdQue .kdLine rect:not(.kdBridge) { animation: kdBrush 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--step) * 900ms + (5 - var(--i)) * 70ms); }
+  .kdResult .kdArrow { animation: kdRise 600ms ease-out 600ms both; }
+  /* in Hóa Bích each changed line first shows what it was, then turns */
+  .kdBridge--close { animation: kdClose 900ms cubic-bezier(0.6, 0, 0.2, 1) 1500ms both; }
+  .kdBridge--open { animation: kdOpen 900ms cubic-bezier(0.6, 0, 0.2, 1) 1500ms both; }
+  .kdSeal--fade { animation: kdFade 900ms ease-in 1500ms both; }
+  /* B. the seal is pressed once, ink spreading slightly as it lands */
+  .kdStamp { animation: kdStamp 520ms cubic-bezier(0.3, 0, 0.1, 1) 2900ms both; }
+  /* D. on the sixth cast the coins settle more slowly, the question coming to rest */
+  .kdCoins--final .kdCoin { animation-duration: 1100ms; }
+}
+@keyframes kdRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes kdClose { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes kdOpen { from { opacity: 1; transform: scaleX(1); } 99% { opacity: 1; } to { opacity: 0; transform: scaleX(0); } }
+@keyframes kdFade { from { opacity: 1; } to { opacity: 0; } }
+@keyframes kdStamp { 0% { opacity: 0; transform: scale(1.12); } 55% { opacity: 0.95; transform: scale(0.985); } 100% { opacity: 0.9; transform: none; } }
+
+/* C. a hexagram tile morphs into its own page (React ViewTransition, browsers that support it) */
+::view-transition-group(.kdMorph) { animation-duration: 520ms; animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1); }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
