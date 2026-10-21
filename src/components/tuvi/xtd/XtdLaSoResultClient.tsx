@@ -22,7 +22,7 @@ type LoadState =
  * and "Chỉnh thông tin" returns to /lap-la-so (which itself re-offers both
  * naming-mode options, same as the traditional route's back button).
  */
-export default function XtdLaSoResultClient() {
+export default function XtdLaSoResultClient({ mobileSheet = false, formPath = "/lap-la-so" }: { mobileSheet?: boolean; formPath?: string } = {}) {
   const router = useRouter();
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [targetYear, setTargetYear] = useState<number | null>(null);
@@ -33,7 +33,7 @@ export default function XtdLaSoResultClient() {
   useEffect(() => {
     const saved = loadChartInput();
     if (!saved) {
-      router.replace("/lap-la-so");
+      router.replace(formPath);
       return;
     }
     try {
@@ -44,7 +44,7 @@ export default function XtdLaSoResultClient() {
     } catch {
       setState({ status: "error" });
     }
-  }, [router]);
+  }, [router, formPath]);
 
   useEffect(() => {
     if (state.status === "ready") clearReveal();
@@ -66,7 +66,7 @@ export default function XtdLaSoResultClient() {
         </p>
         <button
           type="button"
-          onClick={() => router.push("/lap-la-so")}
+          onClick={() => router.push(formPath)}
           className="ipToolAct tracking-label mt-6 inline-flex h-11 items-center border border-walnut/30 px-4 text-[13px] uppercase text-walnut hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
         >
           ← Quay Lại Nhập Thông Tin
@@ -91,7 +91,7 @@ export default function XtdLaSoResultClient() {
         <div>
           <button
             type="button"
-            onClick={() => router.push("/lap-la-so")}
+            onClick={() => router.push(formPath)}
             className="ipToolBack tracking-label mb-1.5 flex items-center gap-1.5 text-[11px] font-medium uppercase text-walnut/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
           >
             <span aria-hidden="true">←</span> Chỉnh Thông Tin
@@ -105,7 +105,7 @@ export default function XtdLaSoResultClient() {
         {targetYear !== null && <TargetYearStepper targetYear={targetYear} onTargetYearChange={handleTargetYearChange} />}
       </div>
 
-      <XtdTuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear ?? undefined} reveal={reveal} />
+      <XtdTuViChart chart={chart} birthTime={birthInput.time} birthInput={birthInput} targetYear={targetYear ?? undefined} reveal={reveal} mobileSheet={mobileSheet} />
     </div>
   );
 }

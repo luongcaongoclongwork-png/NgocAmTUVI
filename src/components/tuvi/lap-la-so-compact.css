@@ -1,0 +1,62 @@
+/* Lập Lá Số on a phone (owner-approved 2026-10-22, audit points 2 and 3): a compact form, and the chart's khám opening in a sheet. Loaded by /lap-la-so and /la-so/xuyen-tam-diem. */
+
+/* ---------- 2. the form on a phone: wider, closer, the submit always at hand ---------- */
+@media (max-width: 767px) {
+  /* one gutter instead of two: the card itself sits 12px from the screen edge */
+  .lls .ipTool > .relative { padding-left: 12px !important; padding-right: 12px !important; }
+  .lls .ipToolCard { padding-left: 18px !important; padding-right: 18px !important; padding-top: 34px !important; }
+  /* Tailwind 4 spaces the groups with a bottom margin: replace it with one tighter step */
+  .lls form > * { margin-block: 0 !important; }
+  .lls form > * + * { margin-top: 18px !important; }
+  /* overflow: hidden on the card would stop the submit from sticking; clip keeps the look without that */
+  .lls .ipToolCard { overflow: clip !important; }
+  .lls .ipToolTitle { font-size: 1.6rem !important; }
+  /* name and gender share one row */
+  .lls form > div:nth-of-type(1) { grid-template-columns: minmax(0, 1fr) auto !important; align-items: end; }
+  .lls form > div:nth-of-type(1) button { width: 58px !important; }
+  /* the site's booking bar steps aside on this page; the form's own button takes its place at the bottom */
+  body:has(.lls) .tmBar { display: none !important; }
+  .lls .ipToolSubmit { position: sticky; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; box-shadow: 0 10px 26px -10px rgba(43, 31, 23, 0.55); }
+  .lls .ipToolNote { margin-top: 18px; }
+  /* the 12 Tử Vi hours: 3 × 4 instead of 2 × 6 */
+  .lls form .grid.grid-cols-2 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px !important; }
+  .lls form .grid.grid-cols-2 > button { min-height: 52px !important; padding: 6px 2px !important; }
+  .lls form .grid.grid-cols-2 > button > div + div { white-space: nowrap; font-size: 10.5px; }
+  /* the hours are the main way in now: their "or choose quickly" line is no longer an "or" */
+  .lls form .grid.grid-cols-2 { margin-top: 0; }
+}
+
+/* ---------- 3. the phone overview: the Mệnh khám breathes once to show it can be touched; a khám opens in a large sheet ---------- */
+.mobileCoach-wrap { position: relative; }
+@media (prefers-reduced-motion: no-preference) {
+  /* the selected khám (Mệnh) breathes twice, as if touched */
+  .is-coach .tuvi-palace[data-selected] { animation: llsTouch 1.2s ease-in-out 1s 2; }
+}
+@keyframes llsTouch { 50% { box-shadow: inset 0 0 0 3px #a8231f; background-color: rgba(168, 35, 31, 0.06); } }
+
+.mobileSheet { position: fixed; inset: 0; z-index: 900; display: grid; align-items: end; }
+.mobileSheet-backdrop { position: absolute; inset: 0; border: 0; background: rgba(43, 31, 23, 0.42); cursor: pointer; }
+.mobileSheet-panel { position: relative; max-height: 82svh; display: grid; grid-template-rows: auto 1fr; border-radius: 16px 16px 0 0; background: var(--paper, #efe5d5); box-shadow: 0 -18px 40px -20px rgba(43, 31, 23, 0.6); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.mobileSheet-panel::before { content: ""; position: absolute; top: 8px; left: 50%; translate: -50% 0; width: 44px; height: 4px; border-radius: 2px; background: var(--line, #d8c7af); }
+.mobileSheet-bar { display: grid; grid-template-columns: 44px 1fr 44px auto; align-items: center; gap: 4px; padding: 20px 12px 10px; border-bottom: 1px solid var(--line, #d8c7af); }
+.mobileSheet-title { margin: 0; text-align: center; font-family: var(--display); font-weight: 600; font-size: 22px; color: var(--ink, #2b1f17); }
+.mobileSheet-bar > .mobileSheet-title:only-of-type { grid-column: 1 / 4; }
+.mobileSheet-step, .mobileSheet-close { min-height: 44px; min-width: 44px; border: 0; background: none; color: var(--accent, #6b4a2f); font: inherit; font-size: 26px; cursor: pointer; }
+.mobileSheet-close { font-size: 15px; padding: 0 8px; }
+.mobileSheet-body { overflow-y: auto; overscroll-behavior: contain; padding: 14px 18px 28px; }
+/* larger type in the sheet: the overview stays a map, the sheet is for reading */
+.mobileSheet-body > * { zoom: 1.14; }
+@media (prefers-reduced-motion: no-preference) {
+  .mobileSheet-panel { animation: llsSheet 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .mobileSheet-backdrop { animation: llsFade 300ms ease-out both; }
+}
+@keyframes llsSheet { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes llsFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- 2b. one way to give the hour: the 12 Tử Vi hours; the exact time on request ---------- */
+.lls .llsExact { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; padding: 0; border: 0; background: none; color: var(--accent, #6b4a2f); font: inherit; font-size: 15px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; cursor: pointer; }
+.lls .llsExact:hover { color: var(--ink, #2b1f17); }
+.lls .llsExact:focus-visible { outline: 2px solid var(--accent, #6b4a2f); outline-offset: 3px; }
+.lls #tuvi-exact-time { margin-top: 8px; }
+/* hide the picker's own "Hoặc chọn nhanh…" line: it is the main control here */
+.lls form div:has(> .grid.grid-cols-2) > p:first-child { display: none; }

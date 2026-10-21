@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LapLaSoClient from "@/components/tuvi/LapLaSoClient";
 import { InkClose, InkHero, InkPage } from "@/components/thuy-mac/kit";
+import "@/components/tuvi/lap-la-so-compact.css";
 
 export const metadata: Metadata = {
   title: "Lập Lá Số Tử Vi — Ngọc Âm",
@@ -12,7 +13,7 @@ export default function LapLaSoPage() {
   return (
     <InkPage>
       {/* v1's single outer-bg.jpg behind both the title and the form (see .lap-la-so-outer in globals.css) */}
-      <div className="lap-la-so-outer relative w-full">
+      <div className="lap-la-so-outer lls relative w-full">
       <InkHero
         compact
         scrolls={["Lập", "Lá Số"]}
@@ -24,7 +25,7 @@ export default function LapLaSoPage() {
         }
       />
       <div className="ipTool">
-        <LapLaSoClient />
+        <LapLaSoClient compactTime />
         <p className="ipToolNote">
           Chọn dương lịch hoặc âm lịch; công cụ hiện ngay ngày tương ứng ở lịch còn lại để bạn đối chiếu. Giờ sinh quyết định vị trí các cung, nên lá số chỉ đúng khi giờ sinh đúng. Nếu chưa chắc giờ sinh, hãy xem kết quả như bản tham khảo và nói điều đó khi đặt lịch.
         </p>

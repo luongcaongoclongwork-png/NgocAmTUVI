@@ -42,6 +42,7 @@ export default function XtdTuViChart({
   birthInput,
   targetYear,
   reveal = false,
+  mobileSheet = false,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
@@ -49,6 +50,8 @@ export default function XtdTuViChart({
   targetYear?: number;
   /** Arrived from the form: play the one-time "Khai mo" reveal (skipped for reduced motion). */
   reveal?: boolean;
+  /** On phones, a tapped khám opens in a large sheet, and the Mệnh khám first breathes to show it can be touched (owner, 2026-10-22). */
+  mobileSheet?: boolean;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
@@ -220,7 +223,7 @@ export default function XtdTuViChart({
         </div>
       </div>
 
-      {isMobile && <XtdMobileTuViExperience chart={chart} birthTime={birthTime} horoscope={horoscope} />}
+      {isMobile && <XtdMobileTuViExperience chart={chart} birthTime={birthTime} horoscope={horoscope} sheet={mobileSheet} />}
 
       <div aria-hidden="true" className="pointer-events-none fixed left-[-9999px] top-0">
         <div ref={printExportRef}>

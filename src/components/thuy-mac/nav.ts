@@ -35,7 +35,7 @@ export function bookingFor(pathname: string): Booking | null {
   // the form is already here
   if (pathname.startsWith("/lien-he")) return null;
   // after a chart: read it with a Xuyên giả (the button sits in the header now, never over the palaces)
-  if (pathname.startsWith("/la-so") || pathname.startsWith("/lap-la-so")) return { label: "Đặt Phiên Luận Lá Số", short: "Luận Lá Số", href: "/lien-he?topic=tu-vi" };
+  if (pathname.startsWith("/la-so") || pathname.startsWith("/lap-la-so")) return { label: "Đặt Lịch Xuyên Vấn Tử Vi", short: "Đặt Lịch Tử Vi", href: "/lien-he?topic=tu-vi" };
   if (pathname.startsWith("/phong-thuy")) return { label: "Đặt Lịch Tư Vấn Phong Thuỷ", short: "Đặt Lịch Phong Thuỷ", href: "/lien-he?topic=phong-thuy" };
   if (pathname.startsWith("/dai-chu-su")) return { label: "Đặt Lịch Đại Chủ Sự", short: "Đặt Lịch Đại Chủ Sự", href: "/lien-he?topic=dai-chu-su" };
   // tea and pieces are asked about, not booked; each opens the form on its own topic

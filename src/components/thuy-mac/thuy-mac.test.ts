@@ -43,7 +43,7 @@ describe("site chrome", () => {
     expect(bookingFor("/tu-vi")?.short).toBe("Đặt Lịch Tử Vi");
     expect(bookingFor("/")?.href).toBe("/lien-he");
     expect(bookingFor("/lien-he")).toBeNull();
-    expect(bookingFor("/la-so/xuyen-tam-diem")?.short).toBe("Luận Lá Số");
+    expect(bookingFor("/la-so/xuyen-tam-diem")?.short).toBe("Đặt Lịch Tử Vi");
     // tea and pieces are asked about, each on its own topic
     expect(bookingFor("/tra-dao")).toEqual({ label: "Hỏi Về Trà", short: "Hỏi Về Trà", href: "/lien-he?topic=tra" });
     expect(bookingFor("/xuyen-gia/khuong")?.label).toBe("Hỏi Về Trà");

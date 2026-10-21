@@ -35,6 +35,7 @@ export default function BirthForm({
   onTargetYearChange,
   initialValue,
   onAwake,
+  compactTime = false,
 }: {
   onSubmit: (input: BirthInput) => void;
   status: GenerationStatus;
@@ -45,7 +46,10 @@ export default function BirthForm({
   initialValue?: BirthInput;
   /** Called with how many of the 4 groups (name+gender, date, hour, year) the user has touched so far — the painting behind the form wakes up as it grows. */
   onAwake?: (touchedGroups: number) => void;
+  /** The 12 Tử Vi hours come first; the exact hour and minute open only when asked for (owner, 2026-10-22). */
+  compactTime?: boolean;
 }) {
+  const [exactTime, setExactTime] = useState(false);
   const [name, setName] = useState(initialValue?.name ?? "");
   const [gender, setGender] = useState<"Nam" | "Nữ">(initialValue?.gender ?? "Nam");
   const [calendarType, setCalendarType] = useState<CalendarType>(initialValue?.calendarType ?? "solar");
@@ -197,8 +201,24 @@ export default function BirthForm({
 
       <div className="space-y-3" {...touchProps(2)}>
         <p className="ipToolGroup tracking-label text-[10px] font-medium uppercase text-walnut/60">Giờ sinh</p>
-        <TimeSelect time={time} onChange={setTime} />
-        <TuViHourPicker time={time} onChange={setTime} />
+        {compactTime ? (
+          <>
+            <TuViHourPicker time={time} onChange={setTime} />
+            <button type="button" className="llsExact" aria-expanded={exactTime} aria-controls="tuvi-exact-time" onClick={() => setExactTime((v) => !v)}>
+              {exactTime ? "Ẩn giờ phút" : "Biết chính xác giờ phút? Nhập cụ thể"}
+            </button>
+            {exactTime && (
+              <div id="tuvi-exact-time">
+                <TimeSelect time={time} onChange={setTime} />
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <TimeSelect time={time} onChange={setTime} />
+            <TuViHourPicker time={time} onChange={setTime} />
+          </>
+        )}
       </div>
 
       {targetYear !== undefined && onTargetYearChange && (
