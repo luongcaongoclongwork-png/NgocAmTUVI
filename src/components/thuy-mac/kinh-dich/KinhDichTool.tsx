@@ -8,13 +8,13 @@ import { drawSheet, printSheet, saveBlob, sheetToPdf } from "./queSheet";
 import "./kinh-dich.css";
 
 const DIEM_TEN: Record<string, string> = { BOI_QUANG: "Bối quang", NHIEN_DANG: "Nhiên đăng", DO_TY: "Đồ tỳ" };
-const rnd = () => {
+export const rnd = () => {
   const a = new Uint32Array(1);
   crypto.getRandomValues(a);
   return a[0] / 2 ** 32;
 };
 
-function Que({ q, role, moving, note, from, step }: { q: Hexagram; role: string; moving?: number[]; note?: string; from?: number[]; step: number }) {
+export function Que({ q, role, moving, note, from, step }: { q: Hexagram; role: string; moving?: number[]; note?: string; from?: number[]; step: number }) {
   return (
     <article className="kdQue" style={{ ["--step" as string]: step }}>
       <p className="kdQue-role">{role}</p>
@@ -30,7 +30,7 @@ function Que({ q, role, moving, note, from, step }: { q: Hexagram; role: string;
 }
 
 /** Three coins of the last cast: a filled coin is a mặt lưng. */
-function Coins({ lung, final }: { lung: number; final: boolean }) {
+export function Coins({ lung, final }: { lung: number; final: boolean }) {
   return (
     <div className={`kdCoins ${final ? "kdCoins--final" : ""}`} aria-label={`${lung} mặt lưng, ${3 - lung} mặt chữ`}>
       {[0, 1, 2].map((i) => (
@@ -42,13 +42,13 @@ function Coins({ lung, final }: { lung: number; final: boolean }) {
 
 const HAO_TEN: Record<number, string> = { 6: "Âm động", 7: "Dương", 8: "Âm", 9: "Dương động" };
 
-function Exports({ r, casts, kham, code, at }: { r: Reading; casts: Cast[]; kham: number | null; code: string; at: Date }) {
+function Exports({ r, casts, kham, code, at, hoi }: { r: Reading; casts: Cast[]; kham: number | null; code: string; at: Date; hoi?: string }) {
   const [busy, setBusy] = useState<string | null>(null);
   const run = async (what: "png" | "pdf" | "print") => {
     setBusy(what);
     try {
       const url = new URL(window.location.href);
-      const cv = await drawSheet({ r, casts, kham: KHAM12.find((x) => x.so === kham), code, at, link: `${url.host}${url.pathname}?q=${code}${kham ? `&k=${kham}` : ""}` });
+      const cv = await drawSheet({ r, casts, kham: KHAM12.find((x) => x.so === kham), code, at, hoi, link: `${url.host}${url.pathname}?q=${code}${kham ? `&k=${kham}` : ""}` });
       const name = `que-${r.hien.so}-${code}`;
       if (what === "print") printSheet(cv);
       else if (what === "pdf") saveBlob(await sheetToPdf(cv), `${name}.pdf`);
@@ -67,7 +67,7 @@ function Exports({ r, casts, kham, code, at }: { r: Reading; casts: Cast[]; kham
   );
 }
 
-function Result({ r, kham, casts, code, at }: { r: Reading; kham: number | null; casts: Cast[]; code: string; at: Date }) {
+export function Result({ r, kham, casts, code, at, hoi, hideQues = false }: { r: Reading; kham: number | null; casts: Cast[]; code: string; at: Date; hoi?: string; hideQues?: boolean }) {
   const k = KHAM12.find((x) => x.so === kham);
   const n = r.moving.length;
   return (
@@ -77,14 +77,14 @@ function Result({ r, kham, casts, code, at }: { r: Reading; kham: number | null;
           Việc hỏi thuộc khám <b>{k.ten_xtd}</b> ({k.ten_goc}): {k.chu_de}.
         </p>
       )}
-      <div className="kdQues">
+      {!hideQues && (<div className="kdQues">
         <Que q={r.hien} step={0} role="Hiện Bích · quẻ chủ" moving={r.moving} note={`Nội Khám ${r.noiKham.ten_xtd} (${r.noiKham.ten}, ${r.noiKham.tuong}) · Ngoại Khám ${r.ngoaiKham.ten_xtd} (${r.ngoaiKham.ten}, ${r.ngoaiKham.tuong})`} />
         {r.hoa && <span className="kdArrow" aria-hidden="true">→</span>}
         {r.hoa && <Que q={r.hoa} step={1} from={r.hien.hao} role="Hóa Bích · quẻ biến" />}
         <Que q={r.noi} step={r.hoa ? 2 : 1} role="Nội Bích · quẻ hỗ" />
-      </div>
+      </div>)}
 
-      <Exports r={r} casts={casts} kham={kham} code={code} at={at} />
+      <Exports r={r} casts={casts} kham={kham} code={code} at={at} hoi={hoi} />
 
       <dl className="kdFacts">
         <div>

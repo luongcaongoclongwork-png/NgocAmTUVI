@@ -2,6 +2,7 @@
  * Six Nấc Thê drawn as ink strokes, bottom first; moving lines carry a vermilion seal dot.
  * `from` (the Hiện Bích's lines) makes each changed line show its change: a solid line parts in the middle,
  * a broken one closes, and the seal dot fades, so the eye sees Hiện Bích turn into Hóa Bích.
+ * A line of -1 is not cast yet and shows as a faint guide.
  */
 export default function HexLines({ lines, moving = [], small = false, label, from }: { lines: number[]; moving?: number[]; small?: boolean; label: string; from?: number[] }) {
   const W = 120, H = 13, G = 9;
@@ -13,7 +14,9 @@ export default function HexLines({ lines, moving = [], small = false, label, fro
         const changed = !!from && from[i] !== lines[i];
         return (
           <g key={i} className="kdLine" style={{ ["--i" as string]: i }}>
-            {lines[i] && !changed ? (
+            {lines[i] < 0 ? (
+              <rect className="kdLine-empty" x="0" y={y + H / 2 - 0.5} width={W} height="1" />
+            ) : lines[i] && !changed ? (
               <rect x="0" y={y} width={W} height={H} rx="2" />
             ) : (
               <>

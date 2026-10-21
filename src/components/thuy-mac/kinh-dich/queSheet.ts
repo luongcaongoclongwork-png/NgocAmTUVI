@@ -8,7 +8,7 @@ const W = 1654, H = 2339; // A4 at 200 dpi
 const C = { paper: "#efe5d5", ink: "#2b1f17", muted: "#6e5a49", line: "#cdb99c", bronze: "#94733a", son: "#a8231f" };
 const DIEM: Record<string, string> = { BOI_QUANG: "Bối quang", NHIEN_DANG: "Nhiên đăng", DO_TY: "Đồ tỳ" };
 
-export type SheetInput = { r: Reading; casts: Cast[]; kham: Kham | undefined; code: string; at: Date; link: string };
+export type SheetInput = { r: Reading; casts: Cast[]; kham: Kham | undefined; code: string; at: Date; link: string; hoi?: string };
 
 const cssVar = (name: string, fallback: string) => {
   const v = getComputedStyle(document.body).getPropertyValue(name).trim();
@@ -56,7 +56,7 @@ function hexLines(g: CanvasRenderingContext2D, lines: number[], moving: number[]
   return y + 6 * h + 5 * gap;
 }
 
-export async function drawSheet({ r, casts, kham, code, at, link }: SheetInput): Promise<HTMLCanvasElement> {
+export async function drawSheet({ r, casts, kham, code, at, link, hoi }: SheetInput): Promise<HTMLCanvasElement> {
   await document.fonts.ready;
   const disp = cssVar("--de-display", "'Cormorant Garamond', Georgia, serif");
   const body = cssVar("--font-body", "'Be Vietnam Pro', system-ui, sans-serif");
@@ -96,6 +96,13 @@ export async function drawSheet({ r, casts, kham, code, at, link }: SheetInput):
   if (kham) {
     y += 46;
     g.fillText(`Khám ${kham.ten_xtd} (${kham.ten_goc}): ${kham.chu_de}`, W / 2, y);
+  }
+  if (hoi?.trim()) {
+    // the visitor's own question, as they wrote it
+    y += 64;
+    g.fillStyle = C.ink;
+    g.font = `italic 400 40px ${disp}`;
+    y = wrap(g, `“${hoi.trim()}”`, W / 2, y, W - 2 * M - 120, 52) - 52;
   }
   y += 60;
   g.strokeStyle = C.bronze;
