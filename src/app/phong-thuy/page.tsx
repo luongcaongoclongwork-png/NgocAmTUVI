@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getServicesByGroup } from "@/lib/services";
 import { getConsultantBySlug } from "@/lib/consultants";
 import { InkClose, InkEngrave, InkHero, InkPage, InkPerson, InkSection, InkServices, InkSteps, Scrolls } from "@/components/thuy-mac/kit";
@@ -49,6 +50,12 @@ export default async function PhongThuyPage() {
 
       <InkSection id="quy-trinh" title="Một buổi tư vấn diễn ra thế nào">
         <InkSteps />
+      </InkSection>
+
+      <InkSection id="ban-do-tinh-hoa" title="Bản Đồ Tịnh Hoá" intro={<p>Trong buổi tư vấn, Thầy Tịnh rút cho mỗi hướng của ngôi nhà một lá bài. Tám lá thành một tấm bản đồ cho thấy từng chỗ trong nhà đang cần gì để được tịnh.</p>}>
+        <p>
+          <Link href="/phong-thuy/lap-ban-do-tinh-hoa" className="ipBtn">Lập Bản Đồ Tịnh Hoá</Link>
+        </p>
       </InkSection>
 
       <InkClose href="/lien-he?topic=phong-thuy" label="Đặt Lịch Tư Vấn Phong Thuỷ" />
