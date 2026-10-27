@@ -21,9 +21,9 @@
   border-bottom: 1px solid transparent; color: var(--ink); transition: box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base), opacity var(--dur-base); }
 .tmHead.is-scrolled { border-bottom-color: var(--line); box-shadow: 0 10px 28px -22px rgba(43, 31, 23, 0.55); }
 
-.tmBrand { min-height: 44px; display: flex; align-items: center; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.tmBrand { flex-shrink: 0; min-height: 44px; display: flex; align-items: center; color: var(--ink); text-decoration: none; white-space: nowrap; }
 /* Logo kit: the horizontal lockup is never narrower than 140px (44px tall), proportions untouched. */
-.tmBrand img { display: block; height: 44px; width: auto; }
+.tmBrand img { display: block; height: 44px; width: auto; max-width: none; aspect-ratio: 811 / 256; object-fit: contain; } /* the logo is never squeezed: the nav gives way, not the mark */
 
 .tmNav { margin-right: auto; }
 .tmNav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(4px, 1vw, 14px); }
@@ -91,7 +91,8 @@
 /* phone: booking and Zalo in the thumb zone */
 .tmBar { display: none; }
 
-@media (max-width: 1279px) { .tmNav li:nth-child(n + 5) { display: none; } }
+/* below 1440px the full nav would push the logo; the nav gives way (the rest is in Khám Phá), the logo never shrinks */
+@media (max-width: 1439px) { .tmNav li:nth-child(n + 5) { display: none; } }
 /* a narrow laptop or a tablet on its side: the three pillars stay in view, the rest is in Khám Phá */
 @media (max-width: 1179px) { .tmNav li:nth-child(n + 4) { display: none; } }
 @media (max-width: 1023px) { .tmNav { display: none; } .tmCompass { margin-left: auto; } }
