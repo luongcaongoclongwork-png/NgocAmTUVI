@@ -59,10 +59,15 @@ function Mirror({ r, hoi }: { r: Reading; hoi: string }) {
     <>
       {hoi && <p className="ctAsked">Bạn hỏi: “{hoi}”</p>}
       <div className="ctMirror">
-        {[{ q: r.hien, role: "Hiện Bích", from: undefined, mv: r.moving }, ...(r.hoa ? [{ q: r.hoa, role: "Hóa Bích", from: r.hien.hao, mv: [] }] : [])].map(({ q, role, from, mv }, i) => (
+        {/* the three quẻ of every reading, as on /kinh-dich: Hiện → Hóa (when a line moves), then Nội Bích */}
+        {[
+          { q: r.hien, role: "Hiện Bích", sub: "quẻ chủ", from: undefined as number[] | undefined, mv: r.moving, arrow: false },
+          ...(r.hoa ? [{ q: r.hoa, role: "Hóa Bích", sub: "quẻ biến", from: r.hien.hao as number[] | undefined, mv: [] as number[], arrow: true }] : []),
+          { q: r.noi, role: "Nội Bích", sub: "quẻ hỗ, điều nằm bên trong việc hỏi", from: undefined as number[] | undefined, mv: [] as number[], arrow: false },
+        ].map(({ q, role, sub, from, mv, arrow }, i) => (
           <figure key={role} className="ctQue" style={{ ["--step" as string]: i }}>
-            {i === 1 && <span className="ctArrow" aria-hidden="true">→</span>}
-            <figcaption className="ctQue-role">{role}</figcaption>
+            {arrow && <span className="ctArrow" aria-hidden="true">→</span>}
+            <figcaption className="ctQue-role">{role}<small>{sub}</small></figcaption>
             <div className="ctQue-lines">
               <HexLines lines={q.hao} moving={mv} from={from} label={`${role}: ${q.ten_xtd}, ${q.ten_goc}`} />
               <div className="ctReflect" aria-hidden="true">
@@ -75,9 +80,6 @@ function Mirror({ r, hoi }: { r: Reading; hoi: string }) {
           </figure>
         ))}
       </div>
-      <p className="ctNoi">
-        Nội Bích, điều nằm bên trong việc hỏi: <b>{r.noi.ten_xtd}</b> (quẻ {r.noi.so}, {r.noi.ten_goc}).
-      </p>
     </>
   );
 }
@@ -91,6 +93,7 @@ export default function CuonThu({ initialCode, initialKham, three = false }: { i
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useState<Phase>("hoi");
   const [listening, setListening] = useState(false);
+  const [gathering, setGathering] = useState(false); // the lamps of the question draw together into one flame
   const [canSpeak, setCanSpeak] = useState(false);
   const [hoi, setHoi] = useState("");
   const [kham, setKham] = useState<number | null>(shared && initialKham && initialKham >= 1 && initialKham <= 12 ? initialKham : null);
@@ -103,6 +106,7 @@ export default function CuonThu({ initialCode, initialKham, three = false }: { i
   const reading = useRef<HTMLElement>(null);
   const done = casts.length === 6;
   const r = done ? lapQue(casts) : null;
+  const words = hoi.trim() ? hoi.trim().split(/\s+/).length : 0;
   const repeat = phase === "hoi" && hoi.trim().length > 3 && askedToday(hoi);
 
   // Esc leaves the ritual; the page under it does not scroll while it is open
@@ -141,6 +145,14 @@ export default function CuonThu({ initialCode, initialKham, three = false }: { i
     setCode(null);
     recRef.current?.stop();
     step("gieo");
+    setGathering(false);
+  };
+  const thinhBich = () => {
+    if (gathering) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return toGieo();
+    layer.current?.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => setGathering(true), 320);
+    setTimeout(toGieo, 1500);
   };
   const speak = () => {
     const C = speechCtor();
@@ -231,9 +243,18 @@ export default function CuonThu({ initialCode, initialKham, three = false }: { i
 
           {phase === "hoi" && (
             <div className="ctBeat ctBeat--hoi" key="hoi">
-              {/* one slow breath while the eye reads; nothing waits on it */}
-              <div className="ctOneBreath" aria-hidden="true" />
-              <p className="ctLead">Thở một hơi thật chậm. Buông những việc khác.</p>
+              {/* Nhiên Đăng Văn (燃燈文): a row of twelve oil lamps; each word of the question lights one.
+                  On Thành Tâm Thỉnh Bích they draw together into the one flame the needles will pierce. */}
+              <div className={`ctLamps ${gathering ? "is-gathering" : ""}`} aria-hidden="true">
+                {Array.from({ length: 12 }, (_, i) => (
+                  <span key={i} className={`ctLamp ${i < words ? "is-lit" : ""}`} style={{ ["--o" as string]: i - 5.5 }}>
+                    <span className="ctLamp-flame" />
+                    <span className="ctLamp-bowl" />
+                  </span>
+                ))}
+                <span className="ctLamps-one" />
+              </div>
+              <p className="ctLead">{gathering ? "Ngọn lửa của câu hỏi đã thành." : words ? `${Math.min(words, 12)} ngọn đèn đã thắp.` : "Thở một hơi thật chậm. Mỗi lời bạn viết thắp một ngọn đèn."}</p>
               <label className="ctAsk">
                 <span className="ctH ctH--small">Điều tôi đang hỏi là…</span>
                 <textarea data-focus className="ctAsk-text" value={hoi} onChange={(e) => setHoi(e.target.value)} maxLength={160} rows={2} placeholder="Ví dụ: Tôi có nên nhận lời mời làm việc ở Đà Nẵng trong năm nay?" />
@@ -267,7 +288,7 @@ export default function CuonThu({ initialCode, initialKham, three = false }: { i
                 ))}
               </div>
               <p className="ctDe" aria-live="polite">{kham ? `${KHAM12.find((x) => x.so === kham)!.ten_xtd}: ${KHAM12.find((x) => x.so === kham)!.chu_de}.` : ""}</p>
-              <button type="button" className="ipBtn" onClick={toGieo} disabled={hoi.trim().length < 4}>Thành Tâm Thỉnh Bích</button>
+              <button type="button" className="ipBtn" onClick={thinhBich} disabled={hoi.trim().length < 4 || gathering}>Thành Tâm Thỉnh Bích</button>
             </div>
           )}
 
