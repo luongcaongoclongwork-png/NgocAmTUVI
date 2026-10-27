@@ -62,7 +62,7 @@ export default async function TuViPage() {
           <Link href="/lap-la-so" className="ipBtn">Lập Lá Số Miễn Phí</Link>
         </p>
         <p>
-          Có một việc cụ thể đang hỏi? <Link href="/kinh-dich" className="ipLink">Tự gieo một quẻ Kinh Dịch</Link>
+          Có một việc cụ thể đang hỏi? <Link href="/kinh-dich" className="ipLink">Tự gieo một quẻ Kinh Dịch</Link>. Cần chọn ngày cho một việc? <Link href="/xuyen-nhat" className="ipLink">Xem Xuyên Nhật</Link>
         </p>
       </InkSection>
 
