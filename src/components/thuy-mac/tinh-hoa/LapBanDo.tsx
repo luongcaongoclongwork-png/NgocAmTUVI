@@ -7,11 +7,13 @@ import {
   type BanDoLuu, type Chat, type Hang, type Huong, type La,
 } from "@/lib/tinh-hoa";
 import LaBai, { ChatIcon } from "./LaBai";
+import { QUAI_TEN } from "./LaBan";
+import { LaBanNoi } from "./LaBan3D";
 import "./tinh-hoa.css";
 
 /**
- * Lập Bản Đồ Tịnh Hoá (owner-approved 2026-10-27): the home's details, then a brass compass of eight directions laid out the
- * owner's way (Đông up, Nam right, Tây down, Bắc left). Tapping a direction turns the needle to it and opens the
+ * Lập Bản Đồ Tịnh Hoá (owner-approved 2026-10-27; la kinh since 2026-10-28): the home's details, then the la bàn Tịnh Hoá laid out the
+ * owner's way (Đông up, Nam right, Tây down, Bắc left). Tapping a cung turns the red thread to it and opens the
  * deck: 13 ranks, 4 suits; a card already placed elsewhere cannot be drawn twice. All eight, then Tịnh Hoá.
  * The last maps stay on this device (Bản đồ gần đây) so Thầy Tịnh can reopen them.
  */
@@ -41,7 +43,7 @@ export default function LapBanDo({ mapPath = "/phong-thuy/ban-do-tinh-hoa" }: { 
   const [diaChi, setDiaChi] = useState("");
   const [la, setLa] = useState<Partial<Record<Huong, La>>>({});
   const [chon, setChon] = useState<Huong | null>(null);
-  const [kim, setKim] = useState(0); // needle angle
+  const [kim, setKim] = useState(0); // the red thread's angle
   const [hang, setHang] = useState<Hang | null>(null);
   const [chat, setChat] = useState<Chat | null>(null);
   const [loi, setLoi] = useState("");
@@ -98,7 +100,7 @@ export default function LapBanDo({ mapPath = "/phong-thuy/ban-do-tinh-hoa" }: { 
 
   const mo = (h: Huong) => {
     const g = HUONG.find((x) => x.id === h)!.goc;
-    // turn the needle the short way round
+    // turn the thread the short way round
     setKim((k) => k + ((((g - k) % 360) + 540) % 360) - 180);
     lastDir.current = h;
     setChon(h);
@@ -180,47 +182,16 @@ export default function LapBanDo({ mapPath = "/phong-thuy/ban-do-tinh-hoa" }: { 
       <section className="thCompassStep" aria-labelledby="th-compass-h">
         <h2 id="th-compass-h" className="thH">Tám hướng</h2>
         <p className="thLead">Chạm từng hướng để đặt lá bài đã rút. Đủ tám hướng, mỗi lá một hướng.</p>
-        <div className="thCompass">
-          {/* the brass luopan: rings, 24 ticks, the eight sectors */}
-          <svg className="thCompass-face" viewBox="0 0 200 200" aria-hidden="true">
-            <defs>
-              <radialGradient id="thBrass" cx="50%" cy="45%" r="60%">
-                <stop offset="0" stopColor="#d9be86" />
-                <stop offset="0.6" stopColor="#b08a4c" />
-                <stop offset="1" stopColor="#7d5f33" />
-              </radialGradient>
-            </defs>
-            <circle cx="100" cy="100" r="98" fill="url(#thBrass)" />
-            <circle cx="100" cy="100" r="92" fill="none" stroke="#5c4524" strokeWidth="0.8" />
-            <circle cx="100" cy="100" r="62" fill="#efe5d5" stroke="#5c4524" strokeWidth="0.8" />
-            <circle cx="100" cy="100" r="40" fill="none" stroke="#b08a4c" strokeWidth="0.6" />
-            {Array.from({ length: 24 }, (_, i) => (
-              <line key={i} x1="100" y1="8" x2="100" y2={i % 3 === 0 ? 20 : 14} stroke="#4a3520" strokeWidth={i % 3 === 0 ? 1.1 : 0.6} transform={`rotate(${i * 15} 100 100)`} />
-            ))}
-            {Array.from({ length: 8 }, (_, i) => (
-              <line key={`s${i}`} x1="100" y1="38" x2="100" y2="62" stroke="#b08a4c" strokeWidth="0.6" transform={`rotate(${i * 45 + 22.5} 100 100)`} />
-            ))}
-          </svg>
-          {/* the needle turns to the direction being set */}
-          <svg className="thNeedle" viewBox="0 0 200 200" style={{ transform: `rotate(${kim}deg)` }} aria-hidden="true">
-            <path d="M100 52 L106 100 L100 106 L94 100 Z" fill="#a8231f" />
-            <path d="M100 148 L106 100 L100 94 L94 100 Z" fill="#2b1f17" />
-            <circle cx="100" cy="100" r="5" fill="#d9be86" stroke="#5c4524" strokeWidth="0.8" />
-          </svg>
-          {HUONG.map((h) => (
-            <button
-              key={h.id}
-              ref={(el) => { if (el) dirRefs.current.set(h.id, el); else dirRefs.current.delete(h.id); }}
-              type="button"
-              className={`thDir ${la[h.id] ? "is-set" : ""} ${chon === h.id ? "is-on" : ""}`}
-              style={{ ["--a" as string]: `${h.goc}deg` }}
-              onClick={() => mo(h.id)}
-              aria-label={`Hướng ${h.ten}: ${la[h.id] ? laTen(la[h.id]!) : "chưa có lá"}`}
-            >
-              <span className="thDir-ten">{h.ten}</span>
-              <LaBai la={la[h.id]} size="sm" />
-            </button>
-          ))}
+        <div className="lb-table">
+          <LaBanNoi
+            la={la}
+            chon={chon}
+            kim={kim}
+            ten={ten.trim()}
+            onCham={mo}
+            cungRef={(h, el) => { if (el) dirRefs.current.set(h, el); else dirRefs.current.delete(h); }}
+            label={(h, l) => `Hướng ${h.ten} (${QUAI_TEN[h.id]}): ${l ? laTen(l) : "chưa có lá"}`}
+          />
         </div>
         <p className="thCount" aria-live="polite">{du ? "Đủ tám hướng." : `${soLa} / 8 hướng đã có lá.`}</p>
       </section>

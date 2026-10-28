@@ -1,0 +1,59 @@
+/* La bàn Tịnh Hoá: the bronze la kinh. Bronze is ornament only; text stays ink on paper. */
+.lb-dial { --lb-ink: #E6E9EE; --lb-line: #A7ADB6; --lb-gold: 220, 228, 240; position: relative; width: min(100vw - 16px, 680px); aspect-ratio: 1; margin-left: 50%; translate: -50% 0; container-type: inline-size; }
+.lb-table { width: 100%; padding: clamp(12px, 4vw, 36px) 0; background: radial-gradient(closest-side, rgba(27, 42, 68, 0.22), transparent 85%); }
+.lb-rings { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 22px 26px rgba(20, 32, 58, 0.4)); }
+.lb-ring line, .lb-ring circle { stroke: var(--lb-line); stroke-width: 0.9; fill: none; }
+.lb-ring text { fill: var(--lb-ink); text-anchor: middle; font-family: "Noto Serif TC", "Noto Serif SC", "Source Han Serif", "Songti SC", "PMingLiU", serif; }
+.lb-ring--son text { font-size: 11.5px; font-weight: 500; opacity: 0.88; }
+.lb-ring--son text.is-chinh { font-size: 13px; opacity: 1; font-weight: 600; }
+.lb-ring--quai text { font-size: 15.5px; font-weight: 700; }
+.lb-engrave { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; fill: #EEF2F7; paint-order: stroke; stroke: #0B1320; stroke-width: 1.2px; stroke-opacity: 0.8; text-anchor: middle; font-family: var(--font-body, "Be Vietnam Pro"), sans-serif; }
+
+.lb-thread { transform-origin: 200px 200px; transform: rotate(var(--n)); transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.lb-dial.is-tinh .lb-thread { transition-duration: 2.2s; }
+.lb-sector { fill: rgba(196, 212, 234, 0.26); stroke: #DCE6F2; stroke-width: 1.1; }
+.lb-blade-tip { fill: #B8432F; }
+
+.lb-light { fill: none; stroke: rgb(var(--lb-gold)); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; opacity: 0; filter: drop-shadow(0 0 4px rgba(var(--lb-gold), 0.9)); }
+.lb-dial.is-tinh .lb-light { animation: lbRun 2.8s linear 1s forwards; }
+@keyframes lbRun { 0% { opacity: 1; stroke-dashoffset: 1; } 92% { opacity: 1; } 100% { opacity: 0.35; stroke-dashoffset: 0; } }
+
+/* eight cung on a circle, Đông at the top, clockwise (Nam right) */
+.lb-cung {
+  position: absolute; left: 50%; top: 50%; z-index: 1;
+  transform: translate(-50%, -50%) translate(calc(sin(var(--a)) * 23.5cqi), calc(cos(var(--a)) * -23.5cqi));
+  display: grid; justify-items: center; gap: 3px; min-width: 60px; min-height: 60px; padding: 4px;
+  border: 1px solid transparent; border-radius: 4px; background: transparent; cursor: pointer; color: var(--lb-ink);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.lb-cung-ten { font-size: 13px; font-weight: 600; white-space: nowrap; padding: 0 4px; border-radius: 2px; background: rgba(14, 24, 40, 0.88); }
+.lb-cung.is-chon { border-color: var(--lb-line); background: rgba(230, 233, 238, 0.14); }
+.lb-cung:focus-visible { outline: 2px solid var(--lb-ink); outline-offset: 2px; }
+.lb-flip { display: block; animation: lbFlip 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes lbFlip { from { transform: rotateY(90deg) translateY(-6px); } to { transform: none; } }
+.lb-dial.is-tinh .lb-cung .thCard { animation: lbGlow 0.8s ease-out both; animation-delay: calc(1s + var(--k) * 0.35s); }
+@keyframes lbGlow { 0% { box-shadow: 0 0 0 1px #94733a; } 45% { box-shadow: 0 0 0 1px #94733a, 0 0 22px 8px rgba(var(--lb-gold), 0.95); } 100% { box-shadow: 0 0 0 1px #94733a, 0 0 9px 2px rgba(var(--lb-gold), 0.55); } }
+
+.lb-heart { position: absolute; left: 50%; top: 50%; width: 24%; aspect-ratio: 1; transform: translate(-50%, -50%); display: grid; place-items: center; border-radius: 50%; pointer-events: none; }
+.lb-heart img { width: 78%; height: auto; position: relative; }
+.lb-dial.is-tinh .lb-heart::before { content: ""; position: absolute; inset: -14%; border-radius: 50%; background: radial-gradient(circle, rgba(var(--lb-gold), 0.75), transparent 70%); animation: lbHalo 1.4s ease-out 3.8s both; }
+@keyframes lbHalo { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+
+/* Thầy Tịnh's own seal is still being made: an empty frame keeps its place */
+.lb-seal { display: flex; align-items: center; gap: 14px; color: var(--muted); margin-top: 28px; }
+.lb-seal p { margin: 0; }
+.lb-seal-mark { width: 56px; height: 56px; flex: none; border: 1.5px dashed var(--th-son); border-radius: 3px; opacity: 0.6; }
+.thRead-item.is-doc { background: var(--raised); box-shadow: inset 2px 0 0 var(--accent); }
+.lb-quai { color: var(--muted); font-family: serif; }
+
+@media (width < 480px) {
+  .lb-cung { min-width: 46px; min-height: 46px; padding: 2px; }
+  .lb-cung-ten { font-size: 11.5px; }
+  .lb-cung .thCard--sm { width: 30px; height: 42px; }
+  .lb-cung .thCard--sm .thCard-pip { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lb-thread, .lb-dial.is-tinh .lb-thread { transition: none; }
+  .lb-dial.is-tinh .lb-light { animation: none; opacity: 0.35; stroke-dashoffset: 0; }
+  .lb-flip, .lb-dial.is-tinh .lb-cung .thCard, .lb-dial.is-tinh .lb-heart::before { animation: none; }
+}
