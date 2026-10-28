@@ -11,8 +11,9 @@ import "./kinh-dich.css";
 import "./cuon-thu.css";
 
 /**
- * "Nghi Thức Thỉnh Bích", level B (demo, 2026-10-21): about forty seconds, in a quiet full-screen space.
- * The site falls away; one slow breath runs while the visitor names the question (typed or spoken);
+ * "Nghi Thức Thỉnh Bích" (on /kinh-dich since 2026-10-28): about forty seconds, in a quiet full-screen space.
+ * The site falls away; each word of the question (typed or spoken) lights one of twelve lamps (Nhiên Đăng Văn),
+ * and on Thành Tâm Thỉnh Bích they gather into one flame;
  * six presses on the flame (Xuyên Hỏa Thành Thê) send three needles through its three tongues, one Nấc Thê each;
  * the mirror and the thanks close it. The reading then stays on the page.
  * The question never leaves the visitor's device: it lives in state, on the printed sheet and in localStorage.

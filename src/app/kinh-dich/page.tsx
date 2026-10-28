@@ -5,9 +5,10 @@ import { nen } from "@/components/thuy-mac/Painting";
 import Link from "next/link";
 import HexLines from "@/components/thuy-mac/kinh-dich/HexLines";
 import { HEXAGRAMS } from "@/lib/kinh-dich";
-import KinhDichTool from "@/components/thuy-mac/kinh-dich/KinhDichTool";
+import CuonThu from "@/components/thuy-mac/kinh-dich/CuonThu";
 
-/* Kinh Dịch Xuyên Tam Diệm: a free casting tool, the 64 hexagrams, and a quiet path to a Xuyên vấn. */
+/* Kinh Dịch Xuyên Tam Diệm: the Nghi Thức Thỉnh Bích (owner-approved 2026-10-28: Nhiên Đăng Văn, Xuyên Hoả Thành Thê),
+   the 64 hexagrams, and a quiet path to a Xuyên vấn. */
 export const metadata: Metadata = {
   title: "Kinh Dịch Xuyên Tam Diệm — Ngọc Âm",
   description: "Tự gieo một quẻ Kinh Dịch bằng ba đồng tiền, xem Hiện Bích, Hóa Bích, Nội Bích và tra cứu 64 quẻ theo cách gọi Xuyên Tam Diệm của Ngọc Âm. Lưu ảnh, xuất PDF hoặc in tờ quẻ.",
@@ -29,9 +30,9 @@ export default async function KinhDichPage({ searchParams }: { searchParams: Pro
           </>
         }
       />
-      <InkSection id="thinh-bich">
-        <KinhDichTool initialCode={q} initialKham={Number(k)} />
-      </InkSection>
+      <div id="thinh-bich">
+        <CuonThu initialCode={q} initialKham={Number(k)} />
+      </div>
       <InkSection id="sau-muoi-tu-que" title="Sáu mươi tư quẻ" tone="raised">
         <ul className="kdIndex">
           {HEXAGRAMS.map((q) => (
