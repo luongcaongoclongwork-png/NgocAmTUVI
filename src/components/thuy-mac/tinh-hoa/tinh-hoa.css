@@ -1,0 +1,158 @@
+/* Bản Đồ Tịnh Hóa Phong Thủy: a brass luopan on dó paper; the cards in vermilion and ink; one octagon for the map. */
+.th { --th-son: #a8231f; --th-brass: #b08a4c; max-width: 1040px; margin: 0 auto; color: var(--ink); display: grid; gap: clamp(32px, 5vw, 56px); }
+.thH { margin: 0 0 12px; font-family: var(--display); font-weight: 600; font-size: clamp(26px, 3.4vw, 36px); }
+.thLead { margin: 0 0 18px; color: var(--muted); line-height: 1.7; max-width: 60ch; }
+
+/* the details */
+.thFields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+@media (width < 640px) { .thFields { grid-template-columns: 1fr; } }
+.thField { display: grid; gap: 6px; }
+.thField--wide:first-child { grid-column: 1 / -1; }
+.thField span { font-size: 15px; color: var(--muted); }
+.thField input { min-height: 48px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--ink); font: inherit; font-size: 17px; }
+.thField input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+
+/* a card of the house: dó paper, a bronze inner frame */
+.thCard { position: relative; display: inline-grid; place-items: center; flex: none; border-radius: 6px; background: #f7f0e4; color: var(--ink); box-shadow: 0 0 0 1px #94733a, inset 0 0 0 4px #f7f0e4, inset 0 0 0 5px rgba(148, 115, 58, 0.55), 0 6px 14px -8px rgba(43, 31, 23, 0.55); font-family: var(--display); }
+.thCard--sm { width: 40px; height: 56px; }
+.thCard--md { width: 58px; height: 82px; }
+.thCard--lg { width: 110px; height: 154px; }
+.thCard.is-son { color: var(--th-son); }
+.thCard-pip { font-family: serif; line-height: 1; }
+.thCard--sm .thCard-pip { font-size: 20px; } .thCard--md .thCard-pip { font-size: 30px; } .thCard--lg .thCard-pip { font-size: 58px; }
+.thCard-corner { position: absolute; top: 4px; left: 5px; display: grid; justify-items: center; line-height: 0.95; }
+.thCard-corner b { font-weight: 600; }
+.thCard-corner i { font-style: normal; font-family: serif; }
+.thCard--sm .thCard-corner { font-size: 11px; } .thCard--md .thCard-corner { font-size: 14px; } .thCard--lg .thCard-corner { font-size: 22px; top: 8px; left: 9px; }
+.thCard-corner--end { top: auto; left: auto; right: 5px; bottom: 4px; transform: rotate(180deg); }
+.thCard--sm .thCard-corner--end { display: none; }
+.thCard--lg .thCard-corner--end { right: 9px; bottom: 8px; }
+/* face down: the back, a quiet lattice */
+.thCard.is-empty { background: repeating-linear-gradient(45deg, #6b4a2f 0 4px, #5a3d26 4px 8px); box-shadow: 0 0 0 1px #4a3520, inset 0 0 0 3px #6b4a2f, inset 0 0 0 4px rgba(217, 190, 134, 0.55); }
+
+/* the luopan */
+.thCompass { position: relative; width: min(100%, 560px); aspect-ratio: 1; margin: 0 auto; }
+.thCompass-face, .thNeedle { position: absolute; inset: 15%; width: 70%; height: 70%; }
+.thCompass-face { filter: drop-shadow(0 18px 26px rgba(43, 31, 23, 0.35)); }
+.thNeedle { transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1); transform-origin: 50% 50%; } /* settles like a real needle, no bounce */
+/* the eight directions sit on a ring around the compass, at their angle */
+.thDir { position: absolute; left: calc(50% + sin(var(--a)) * 43%); top: calc(50% - cos(var(--a)) * 43%); translate: -50% -50%; display: grid; justify-items: center; gap: 4px; padding: 6px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: inherit; cursor: pointer; transition: background-color 200ms; }
+.thDir:hover { background: color-mix(in srgb, var(--raised) 80%, transparent); }
+.thDir:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.thDir.is-on { background: var(--raised); box-shadow: 0 0 0 1px var(--accent); }
+.thDir-ten { font-family: var(--display); font-weight: 600; font-size: clamp(14px, 2.6vw, 18px); white-space: nowrap; }
+.thDir.is-set .thCard { animation: thFlip 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.thCount { margin: 10px 0 0; text-align: center; color: var(--muted); }
+.thSubmit { display: grid; justify-items: center; gap: 10px; }
+.thGo { border: 0; cursor: pointer; font: inherit; min-width: 260px; }
+.thGo[aria-disabled="true"] { opacity: 0.55; }
+.thErr { margin: 0; color: var(--th-son); }
+
+/* the deck */
+.thSheet { position: fixed; inset: 0; z-index: 900; display: grid; align-items: end; }
+@media (width >= 900px) { .thSheet { place-items: center; } }
+.thSheet-backdrop { position: absolute; inset: 0; border: 0; background: rgba(43, 31, 23, 0.45); cursor: pointer; }
+.thSheet-panel { position: relative; width: min(100%, 640px); max-height: 88svh; overflow-y: auto; border-radius: 16px 16px 0 0; background: var(--paper); box-shadow: 0 -18px 40px -20px rgba(43, 31, 23, 0.6); padding-bottom: env(safe-area-inset-bottom, 0px); }
+@media (width >= 900px) { .thSheet-panel { border-radius: 8px; } }
+.thSheet-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 10px; border-bottom: 1px solid var(--line); }
+.thSheet-head h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 26px; }
+.thSheet-close { min-height: 44px; padding: 0 8px; border: 0; background: none; color: var(--accent); font: inherit; cursor: pointer; }
+.thSheet-body { padding: 18px 20px 24px; display: grid; gap: 16px; }
+.thPick { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; }
+@media (width < 480px) { .thPick { grid-template-columns: 1fr; justify-items: center; } }
+.thPick-sets { display: grid; gap: 8px; width: 100%; }
+.thPick-h { margin: 0; color: var(--muted); font-size: 14px; }
+.thRanks { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.thRank, .thSuit { min-height: 44px; border: 1px solid var(--line); border-radius: 4px; background: var(--raised); color: var(--ink); font-family: var(--display); font-weight: 600; font-size: 18px; cursor: pointer; transition: border-color 160ms, background-color 160ms; }
+.thRank.is-on, .thSuit.is-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--raised)); box-shadow: inset 0 0 0 1px var(--accent); }
+.thSuits { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.thSuit { font-size: 16px; }
+.thSuit.is-son span { color: var(--th-son); }
+.thSuit span { font-family: serif; font-size: 18px; }
+.thSheet-act { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.th .ipBtn { border: 0; cursor: pointer; font: inherit; }
+.th .ipBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.thLinkBtn { min-height: 44px; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
+
+/* ---------- the map ---------- */
+.thWait { text-align: center; color: var(--muted); padding: 80px 0; }
+.thMap-head { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.thMap-head .thLinkBtn { justify-self: start; }
+.thMap-kicker { margin: 0; color: var(--muted); }
+.thMap-name { margin: 0; font-family: var(--display); font-weight: 600; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; }
+.thMap-meta { margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 20px; color: var(--muted); }
+/* the octagon: a 3 × 3 grid inside a bronze bát quái frame */
+.thOct { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); width: min(100%, 760px); aspect-ratio: 1; margin: 0 auto; }
+.thOct-frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.thOct-frame polygon { fill: color-mix(in srgb, var(--raised) 75%, transparent); stroke: #94733a; stroke-width: 1.4; }
+.thOct-frame .thOct-inner { fill: none; stroke: rgba(148, 115, 58, 0.6); stroke-width: 0.8; }
+.thOct-frame line { stroke: rgba(148, 115, 58, 0.45); stroke-width: 0.7; }
+.thPetal { position: relative; display: grid; justify-items: center; align-content: center; gap: 6px; padding: 8px; text-align: center; }
+.thPetal-dir { margin: 0; font-family: var(--display); font-weight: 600; font-size: clamp(15px, 2.6vw, 24px); }
+.thPetal-chu { margin: 0; font-family: var(--display); font-style: italic; font-size: clamp(13px, 2.2vw, 19px); color: var(--muted); }
+@media (width < 560px) { .thPetal .thCard--md { width: 42px; height: 59px; } .thPetal .thCard--md .thCard-pip { font-size: 21px; } .thPetal .thCard--md .thCard-corner { font-size: 11px; } .thPetal .thCard-corner--end { display: none; } }
+.thOct-heart { position: relative; display: grid; place-items: center; }
+.thOct-heart img { width: 62%; height: auto; }
+.thExport { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px 14px; padding: 16px 0; border-block: 1px solid var(--line); }
+.thExport p { margin: 0 8px 0 0; color: var(--muted); }
+.thBtn--ghost { background: transparent !important; color: var(--ink) !important; box-shadow: inset 0 0 0 1px var(--accent); }
+.thRead { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; }
+@media (width < 760px) { .thRead { grid-template-columns: 1fr; } }
+.thRead-item { display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 16px 0; border-top: 1px solid var(--line); }
+.thRead-item p { margin: 0 0 4px; line-height: 1.65; }
+.thRead-h { font-family: var(--display); font-size: 21px; }
+.thRead-h b { font-weight: 600; }
+.thTag { display: inline-block; margin-right: 6px; padding: 0 8px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 14%, transparent); font-size: 13px; color: var(--accent); }
+.thTag--tranh { background: color-mix(in srgb, var(--ink) 10%, transparent); color: var(--ink); }
+.thTag--son { background: color-mix(in srgb, var(--th-son) 12%, transparent); color: var(--th-son); }
+.thSign { margin: 0; text-align: center; font-family: var(--display); font-style: italic; font-size: 19px; color: var(--muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the map opens once: the frame draws, the petals open clockwise from Đông, each card turning face up */
+  .thOct-frame polygon:first-child { stroke-dasharray: 1100; animation: thDraw 1200ms cubic-bezier(0.6, 0, 0.2, 1) both; }
+  .thOct-heart { animation: thFade 900ms 200ms ease-out both; }
+  .thPetal { animation: thRise 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(500ms + var(--k) * 140ms); }
+  .thPetal .thCard { animation: thFlip 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(650ms + var(--k) * 140ms); }
+}
+@media (prefers-reduced-motion: reduce) { .thNeedle { transition: none; } .thDir.is-set .thCard { animation: none; } }
+@keyframes thDraw { from { stroke-dashoffset: 1100; } to { stroke-dashoffset: 0; } }
+@keyframes thFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes thRise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes thFlip { from { transform: perspective(400px) rotateY(90deg); opacity: 0.4; } to { transform: none; opacity: 1; } }
+
+/* audit 2026-10-27: on a phone the three rows of petals are taller than the screen is wide, and aspect-ratio
+   then widened the octagon past the screen; the column is held to the screen and the octagon follows its content */
+.th { grid-template-columns: minmax(0, 1fr); }
+@media (width < 560px) {
+  .thOct { aspect-ratio: auto; min-height: 92vw; }
+  .thPetal { padding: 6px 2px; gap: 4px; }
+  .thOct-heart img { width: 72%; }
+}
+.thOct-frame * { vector-effect: non-scaling-stroke; }
+
+/* the suits as paths: same size rules as the old glyphs */
+.thSuitIcon { display: block; fill: currentColor; }
+.thCard .thCard-pip { width: 46%; height: auto; }
+.thCard-corner .thSuitIcon { width: 0.8em; height: 0.8em; margin-top: 1px; }
+.thSuit .thSuitIcon { display: inline-block; width: 16px; height: 16px; vertical-align: -2px; margin-right: 4px; }
+.thSuit.is-son .thSuitIcon { color: var(--th-son); }
+
+/* ngày sinh: three fields, day / month / year, dương lịch */
+.thDate { border: 0; margin: 0; padding: 0; min-width: 0; }
+.thDate legend { padding: 0; margin-bottom: 6px; font-size: 15px; color: var(--muted); }
+.thDate-row { display: grid; grid-template-columns: 1fr 1.4fr 1.1fr; gap: 8px; }
+.thDate select, .thDate input { width: 100%; min-height: 48px; padding: 0 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--ink); font: inherit; font-size: 17px; }
+.thDate select:focus, .thDate input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.thDate small { display: block; margin-top: 6px; font-size: 14px; }
+
+/* bản đồ gần đây: kept on this device */
+.thH--small { font-size: clamp(22px, 2.8vw, 28px); }
+.thRecent-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.thRecent-item { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+@media (width < 560px) { .thRecent-item { grid-template-columns: auto 1fr; } .thRecent-act { grid-column: 1 / -1; } }
+.thRecent-cards { display: flex; }
+.thRecent-cards .thCard + .thCard { margin-left: -22px; }
+.thRecent-name { margin: 0; font-family: var(--display); font-weight: 600; font-size: 20px; }
+.thRecent-meta { margin: 0; color: var(--muted); font-size: 14px; }
+.thRecent-act { display: flex; gap: 18px; }
+.thLinkBtn--muted { color: var(--muted); }

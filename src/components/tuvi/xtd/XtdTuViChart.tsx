@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import XtdTuViChartGrid from "./XtdTuViChartGrid";
 import { XtdMobileTuViExperience } from "./mobile/XtdMobileTuViExperience";
 import { useIsMobile } from "../mobile/useIsMobile";
-import { useChartBaseWidth } from "../useChartBaseWidth";
+import { XTD_CHART_WIDTH, useChartZoom } from "../useChartBaseWidth";
 import { useChartFitGuard } from "./useChartFitGuard";
 import { XtdRevealContext, type RevealPhase } from "./XtdRevealContext";
 import { BRANCH_GRID_POSITION } from "@/lib/tuvi/rules/palaces";
@@ -42,6 +42,7 @@ export default function XtdTuViChart({
   birthInput,
   targetYear,
   reveal = false,
+  mobileSheet = false,
 }: {
   chart: VietnameseChartDTO;
   birthTime?: string;
@@ -49,6 +50,8 @@ export default function XtdTuViChart({
   targetYear?: number;
   /** Arrived from the form: play the one-time "Khai mo" reveal (skipped for reduced motion). */
   reveal?: boolean;
+  /** On phones, a tapped khám opens in a large sheet, and the Mệnh khám first breathes to show it can be touched (owner, 2026-10-22). */
+  mobileSheet?: boolean;
 }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [exporting, setExporting] = useState<"image" | "pdf" | null>(null);
@@ -59,7 +62,9 @@ export default function XtdTuViChart({
   const cellRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
   const printOverflowGuardSettledRef = useRef(false);
   const isMobile = useIsMobile();
-  const baseWidth = useChartBaseWidth();
+  const baseWidth = XTD_CHART_WIDTH;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const zoom = useChartZoom(scrollRef, baseWidth);
 
   function handlePalaceKeyDown(index: number, e: React.KeyboardEvent<HTMLButtonElement>) {
     const deltas: Record<string, [number, number]> = {
@@ -115,7 +120,7 @@ export default function XtdTuViChart({
   }, [revealPhase]);
   useEffect(() => {
     if (revealPhase !== "run") return;
-    const t = setTimeout(() => setRevealPhase("off"), 2000);
+    const t = setTimeout(() => setRevealPhase("off"), 2600);
     return () => clearTimeout(t);
   }, [revealPhase]);
 
@@ -131,6 +136,8 @@ export default function XtdTuViChart({
     if (!exportRef.current || exporting) return;
     setExporting("image");
     try {
+      // the picture is taken at the chart's own size: `exporting` drops the zoom, and two frames let that paint
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       const baseName = exportFileBaseName(chart);
       await exportChartAsImage(exportRef.current, `${baseName}.png`);
     } catch (err) {
@@ -181,7 +188,7 @@ export default function XtdTuViChart({
     <XtdRevealContext.Provider value={revealPhase}>
     <div className="ngoc-am-chart-root flex flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="hidden text-[13px] text-walnut/70 md:block">
+        <p className="ipToolHint hidden text-[13px] text-walnut/70 lg:block">
           Chạm vào một khám để xem {XTD_RELATION_LABELS.tamHop} (viền vàng, nét đứt), {XTD_RELATION_LABELS.xungChieu} (viền đỏ, nét liền) và {XTD_RELATION_LABELS.giapCung} (viền lục, nét chấm).
         </p>
         <div className="flex flex-wrap items-center gap-3">
@@ -191,16 +198,16 @@ export default function XtdTuViChart({
               title="Xuất ảnh"
               onClick={handleExportImage}
               disabled={exporting !== null || revealPhase !== "off"}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
-              {exporting === "image" ? "Đang xuất…" : "Xuất ảnh"}
+              {exporting === "image" ? "Đang xuất…" : "Xuất Ảnh"}
             </button>
             <button
               type="button"
               title="Xuất PDF"
               onClick={handleExportPdf}
               disabled={exporting !== null}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
+              className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:opacity-50"
             >
               {exporting === "pdf" ? "Đang xuất…" : "Xuất PDF"}
             </button>
@@ -208,19 +215,20 @@ export default function XtdTuViChart({
               type="button"
               title="In lá số"
               onClick={handlePrint}
-              className="flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+              className="ipToolAct flex h-10 items-center border border-walnut/30 bg-transparent px-3 uppercase tracking-[0.08em] hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
             >
-              In lá số
+              In Lá Số
             </button>
           </div>
         </div>
       </div>
 
-      {isMobile && <XtdMobileTuViExperience chart={chart} birthTime={birthTime} horoscope={horoscope} />}
+      {isMobile && <XtdMobileTuViExperience chart={chart} birthTime={birthTime} horoscope={horoscope} sheet={mobileSheet} />}
 
       <div aria-hidden="true" className="pointer-events-none fixed left-[-9999px] top-0">
         <div ref={printExportRef}>
           <XtdA4TuViPrintRenderer
+            forPdf
             chart={chart}
             birthTime={birthTime}
             horoscope={horoscope}
@@ -231,9 +239,9 @@ export default function XtdTuViChart({
         </div>
       </div>
 
-      <div className="h-0 overflow-hidden opacity-0 md:h-auto md:overflow-visible md:opacity-100">
-        <div className="ngoc-am-chart-scroll">
-          <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px` }}>
+      <div className="h-0 overflow-hidden opacity-0 lg:h-auto lg:overflow-visible lg:opacity-100">
+        <div ref={scrollRef} className="ngoc-am-chart-scroll">
+          <div ref={exportRef} className="relative mx-auto" style={{ width: `${baseWidth}px`, zoom: exporting === "image" ? 1 : zoom }}>
             <section ref={chartSectionRef} className="ngoc-am-chart" data-reveal={revealPhase === "off" ? undefined : revealPhase}>
               <XtdTuViChartGrid
                 chart={chart}
@@ -251,6 +259,7 @@ export default function XtdTuViChart({
                 }}
                 onKeyDownPalace={handlePalaceKeyDown}
                 useVariableRowHeights
+                centerMinPct={45}
               />
             </section>
 
@@ -286,7 +295,7 @@ export default function XtdTuViChart({
       </div>
 
       {selectedPalace && relationText && (
-        <p aria-live="polite" className="hidden text-[13px] leading-[1.6] text-walnut/75 md:block">
+        <p aria-live="polite" className="hidden text-[13px] leading-[1.6] text-walnut/75 lg:block">
           Khám đang chọn: <strong className="text-ink">{relationText.current}</strong>
           {relationText.tamHop && <> · {XTD_RELATION_LABELS.tamHop}: {relationText.tamHop}</>}
           {relationText.xungChieu && <> · {XTD_RELATION_LABELS.xungChieu}: {relationText.xungChieu}</>}

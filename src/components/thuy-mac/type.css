@@ -1,0 +1,280 @@
+/* Type discipline for the whole site (the best of the reviewed demo, on the
+   v3 layout). Loaded after kit.css. It changes sizes, weights and sharpness
+   only: no layout, no motion.
+
+   What it guarantees:
+   - nothing read is under 14px; reading text is 16px (phone) and 17px (wide);
+   - reading sizes are whole pixels, so text stays crisp on ordinary screens;
+   - a section title is always smaller than the page title;
+   - one heading weight (600); prices at 600, not 700;
+   - no blurred halo behind text; lines of prose stop near 68 characters. */
+
+.ip, .tm {
+  --fs-body: 16px;
+  --fs-small: 15px;
+  --fs-h2: clamp(26px, 1.2rem + 1.75vw, 44px);
+  --fs-h3: clamp(21px, 1.16rem + 0.6vw, 27px);
+  --fs-name: clamp(34px, 1.3rem + 2.6vw, 56px);
+  --fs-price: 22px;
+}
+@media (min-width: 1024px) { .ip, .tm { --fs-body: 17px; } }
+/* whole pixels where the browser can round (all current ones); the clamp above is the fallback */
+@supports (font-size: round(1.5px, 1px)) {
+  .ip, .tm {
+    --fs-h2: round(clamp(26px, 1.2rem + 1.75vw, 44px), 1px);
+    --fs-h3: round(clamp(21px, 1.16rem + 0.6vw, 27px), 1px);
+    --fs-name: round(clamp(34px, 1.3rem + 2.6vw, 56px), 1px);
+  }
+}
+/* an inner page's title scrolls (the home's own sizes are in its opening section below) */
+.ip .ipScrolls { font-size: round(clamp(2.1rem, 4.6vw, 3.75rem), 1px); }
+
+/* ---------- reading text ---------- */
+.ip { font-size: var(--fs-body); }
+.ip :is(.ipIntro, .hAbout p, .mPro-about, .mHero-line) { font-size: 1em; }
+.ip .ipProse { font-size: 18px; }
+.ip :is(.ipHero-lede small) { font-size: 1em; }
+/* the long serif statements: a lead, not a second headline */
+.ip .ipHero-lede { font-size: 21px; }
+/* Cormorant reads small for its size: on a wide screen the lead needs 25px to sit above the 17px text under it */
+@media (min-width: 1024px) { .ip .ipHero-lede { font-size: 25px; } }
+/* a Xuyên giả's own words: the same face and size as the text above them; the bronze rule alone marks the quote */
+.ip :is(.mMaster-view, .mPro-view p) { font-family: var(--font-body), sans-serif; font-size: 1em; line-height: 1.7; }
+.ip .mLine p { font-size: clamp(22px, 1.1rem + 0.9vw, 28px); }
+
+/* ---------- small text: never under 14px ---------- */
+.ip :is(.ipRiver-buy span, .ipNotes-text small, .ipArticle-meta, .ipRiver-text .ipRiver-note, .ipResult .ipToolHint, .mPair a > span:last-child, .hHero-also, .hHero-paths span, .eS4-caption, .ipToolNote),
+.ip :is(.dD-solar, .dD-cc dd, .dD-term, .dD-hours-title, .dD-hours li b, .dD-opt-hint, .dD-offers .dD-offer-note, .dD-who span, .dD-offer-buy span, .dD-prices small, .dD-prices summary span, .dD-caption) { font-size: var(--fs-small); }
+.ip :is(.dD-cc dt, .dD-hours li span) { font-size: 14px; }
+.tmFoot { font-size: 16px; }
+.tmFoot :is(.tmFoot-legal, .tmFoot-notes small, .tmFoot-prices small, .tmFoot-prices summary span) { font-size: 14px; }
+.tmNav a, .tmBook, .tmCompass-btn, .tmBar a, .tmCompass-more { font-size: 16px; }
+
+/* ---------- headings: one weight, a section title below the page title ---------- */
+.ip :is(.ipH2, .ipClose h2, .dD-question, .ipPerson-text h3) { font-size: var(--fs-h2) !important; font-weight: 600 !important; line-height: 1.16; }
+.ip :is(.ipRiver-text h3, .hPath-text h3, .ipHang-item b, .ipSteps b, .ipNotes-text b, .ipItem h3, .hGoods b, .ipProse h2) { font-size: var(--fs-h3) !important; font-weight: 600 !important; line-height: 1.22; }
+.ip .hHero-paths b { font-size: 21px; font-weight: 600; }
+.tmFoot-prices summary { font-size: 22px; }
+/* a person's name: the largest words after the page title, never larger than it */
+.ip :is(.mMaster h2, .mPro h1) { font-size: var(--fs-name) !important; font-weight: 600 !important; line-height: 1.06 !important; }
+/* on the home the page title is the three scrolls (about 49px on a laptop), so a chapter name stops below it */
+.ip .mMaster h2 { font-size: clamp(28px, 1rem + 2.2vw, 46px) !important; }
+@supports (font-size: round(1.5px, 1px)) { .ip .mMaster h2 { font-size: round(clamp(28px, 1rem + 2.2vw, 46px), 1px) !important; } }
+.ip .ipArticle-head h1 { font-size: clamp(32px, 1.15rem + 3.3vw, 60px) !important; font-weight: 600 !important; }
+.ip .ipResult .ipToolH1 { font-weight: 600; }
+
+/* ---------- prices: the number a visitor decides on ---------- */
+.ip :is(.ipRiver-buy b, .dD-offer-buy b) { font-size: var(--fs-price); font-weight: 600; line-height: 1.2; }
+
+/* ---------- sharpness: no halo behind words; the paper wash under them carries the contrast ---------- */
+.ip :is(.ipHero-lede, .ipHero-quote, .ipClose-body) { text-shadow: none; }
+.ip .ipHero-paint::after { background: linear-gradient(100deg, rgba(236, 226, 206, 0.97) 0%, rgba(236, 226, 206, 0.92) 46%, rgba(236, 226, 206, 0.4) 66%, rgba(236, 226, 206, 0) 82%), linear-gradient(0deg, var(--paper) 0%, rgba(236, 226, 206, 0) 22%); }
+.ip .ipClose::before { background: radial-gradient(ellipse 72% 64% at 50% 45%, rgba(31, 23, 18, 0.74), rgba(31, 23, 18, 0.34)); }
+@media (max-width: 860px) {
+  .ip .ipHero-paint::after { background: linear-gradient(180deg, rgba(236, 226, 206, 0.86) 0%, rgba(236, 226, 206, 0.8) 55%, var(--paper) 100%); }
+}
+
+/* ---------- measure: prose stops near 68 characters ---------- */
+.ip :is(.ipIntro, .ipRiver-text p, .ipHero-lede, .ipHero-quote, .ipPerson-text p, .hAbout p, .mMaster-about, .mPro-about, .ipNotes-text > span, .ipArticle-excerpt, .ipToolNote) { max-width: 34em; }
+.ip :is(.mMaster-view, .mPro-view) { max-width: 34em; }
+.ip .ipProse { max-width: 36em; }
+
+/* ---------- forms: labels 15px, what is typed 16px ---------- */
+.ip .ipTool :is([class*="text-[10px]"], [class*="text-[11px]"], [class*="text-[12px]"], [class*="text-[13px]"], [class*="text-[14px]"]):not(.ipToolTitle, .ipToolGroup, .ipToolSubmit) { font-size: 15px; letter-spacing: 0; text-transform: none; }
+.ip .ipTool .ipToolLabel { font-size: 15px; }
+.ip .ipTool :is(input, select) { font-size: 16px; min-height: 46px; }
+.ip .ipToolNote { margin: 20px auto 0; padding: 0 24px; color: var(--muted); max-width: 672px; }
+.ip .lienhe-v2 :is(label, legend) { font-size: 15px; color: var(--ink); }
+.ip .lienhe-v2 label > span { color: var(--muted); }
+.ip .lienhe-v2 :is(input[type="text"], input[type="tel"], textarea) { font-size: 16px; }
+.ip .lienhe-v2 :is([class*="text-[11px]"], [class*="text-[12px]"], [class*="text-[13px]"], [class*="text-[13.5px]"], [class*="text-[14px]"]) { font-size: 15px; }
+.ip .lienhe-v2 .lienhe-field-error { font-size: 15px; font-weight: 500; }
+.ip .lienhe-v2 h2 { font: 600 var(--fs-h3)/1.2 var(--display) !important; color: var(--ink); }
+.ip .lienhe-v2 p.tracking-label { font: 600 17px/1.3 var(--font-body), sans-serif; color: var(--ink); }
+.ip .lienhe-v2 .lienhe-service p.tracking-label { font-size: 15px; font-weight: 500; color: var(--accent); }
+.ip .lienhe-v2 ol { font-size: 16px; }
+.ip .lienhe-v2 a { min-height: 44px; }
+.ip .lienhe-v2 a > span[aria-hidden="true"] { display: none; }
+.ip .lienhe-v2 button[type="submit"] { font-size: 16px; }
+/* Reading aids are opaque ink tones, including placeholders on the paper form. */
+.ip .lienhe-v2 .lienhe-privacy { color: var(--muted); }
+.ip :is(.lienhe-v2, .ipTool) :is(input, textarea)::placeholder { color: var(--muted); opacity: 1; }
+.ip .lienhe-v2 .lienhe-direct-link { display: inline-flex; align-items: center; min-width: 44px; color: var(--accent); }
+@media (width < 640px) { .ip .lienhe-v2 button[type="submit"] { width: 100%; } }
+
+/* ---------- the chart on a phone: the 12-palace overview is a map and stays small; what is read below it is not ---------- */
+@media (max-width: 767px) {
+  .ip.ipResult .mobile-chart-hint { font-size: 15px; color: var(--ink); font-weight: 500; }
+  .ip.ipResult .mobile-palace-navigator select { font-size: 16px; }
+  .ip.ipResult .mobile-detail-kicker, .ip.ipResult .mobile-palace-navigator :is(label, span, button) { font-size: 14px; letter-spacing: 0; text-transform: none; }
+  .ip.ipResult .mobile-palace-detail :is([class*="text-[9px]"], [class*="text-[10px]"], [class*="text-[11px]"], [class*="text-[12px]"], [class*="text-[13px]"]) { font-size: 14px; letter-spacing: 0; text-transform: none; }
+  .ip.ipResult .mobile-palace-detail { font-size: 16px; line-height: 1.6; }
+}
+
+/* footer contact: links that dial and mail */
+.tmFoot a.tmFoot-reach { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-decoration-color: rgba(214, 185, 143, 0.5); text-underline-offset: 5px; }
+.tmFoot nav a { min-height: 44px; }
+
+/* ---------- one left axis: the logo, every section, the hero and the footer start on the same line ----------
+   The page gutter is clamp(20px, 4vw, 48px) and the content is at most 1280px wide (the header uses the same two numbers in chrome.css). */
+.ip .ipSec-inner:not(.ipSec-inner--narrow), .ip .eS5-inner, .ip .mMaster-inner { max-width: 1280px; }
+.ip .mMaster { padding-inline: clamp(20px, 4vw, 48px); }
+.ip .mPro { max-width: calc(1280px + 2 * clamp(20px, 4vw, 48px)); padding-inline: clamp(20px, 4vw, 48px); }
+/* the opening's 1100px is its words' room: the gutters are added on top, so a wide screen never squeezes the text (at 2560px the gutters alone are 1264px) */
+.ip .ipHero-body { padding-inline: max(clamp(20px, 4vw, 48px), calc((100% - 1280px) / 2)); max-width: calc(1100px + 2 * max(clamp(20px, 4vw, 48px), (100% - 1280px) / 2)); }
+
+/* the chart page from a laptop up: its title, tools and chart share the same left line as the logo, and the chart is given the full 1280px to grow into */
+@media (min-width: 1180px) {
+  .ip.ipResult .la-so-result-page { max-width: calc(1280px + 2 * clamp(20px, 4vw, 48px)); padding-inline: clamp(20px, 4vw, 48px); }
+}
+
+/* ---------- phone and tablet only (under 1024px): nothing below changes a desktop screen ---------- */
+@media (max-width: 1023px) {
+  /* an inner page's opening: the lead stays the lead; the sentence under it is ordinary reading text */
+  .ip .ipHero-lede small { font-size: 16px; line-height: 1.65; }
+  /* the opening is as tall as what it says, plus room to breathe; no empty half screen under the words */
+  .ip .ipHero:not(.ipHero--bare) { min-height: 0; }
+  .ip .ipHero:not(.ipHero--bare) .ipHero-body { padding-bottom: clamp(64px, 10vh, 104px); }
+  /* the year stepper's − and + : a full finger's width */
+  :is(.ipResult, .ipTool) .ipToolStep { min-width: 44px; }
+}
+/* a tablet upright: on a Xuyên giả's own page the portrait and the text stand side by side, as in the home chapters */
+@media (min-width: 640px) and (max-width: 899px) {
+  .ip .mPro { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 40px); }
+  .ip .mPro-portrait { max-width: none; }
+}
+
+/* ---------- the home's opening: every rule for it, in one place (consolidated 2026-10-03) ----------
+   One type system on every device. Three voices: the display face (the lineage line, the scrolls), spaced
+   capitals (the reign), reading text (the lead, the buttons). The lineage line is about 78% of the scrolls'
+   size, the lead about a third of it, the reign about 37% of the lineage line. The painting fills the screen;
+   the words sit at its foot. Three ranges, with range syntax so no width falls between them:
+   a phone (under 480px), a large phone or tablet (480-1023px), a laptop or desktop (1024px and up).
+   home.css keeps only the structure (grid areas, the painting, the canvas); sizes and per-device layout are here. */
+
+/* the opening */
+.ip .hHero { min-height: 100svh; }
+.ip .hHero-body { max-width: calc(1280px + 2 * clamp(20px, 4vw, 48px)); padding-inline: clamp(20px, 4vw, 48px); }
+
+/* the lineage (the h1): a line of the display face over a hairline, the reign in small capitals under it */
+.ip .hHero-kicker {
+  position: relative; margin: 0 0 24px; padding: 0;
+  font-family: var(--font-body), sans-serif; font-size: clamp(14px, 4.1vw, 23px); font-weight: 600; line-height: 1.5;
+  letter-spacing: 0; text-transform: none; color: var(--ink);
+}
+.ip .hHero-kicker::before { display: none; }
+.ip .hHero-kicker span { display: block; white-space: nowrap; }
+.ip .hHero-kicker span:first-child {
+  min-width: 100%; width: max-content; max-width: 100%;
+  font-family: var(--display); font-weight: 500; line-height: 1.14; letter-spacing: -0.006em;
+  padding-bottom: 0.26em; margin-bottom: 0.34em;
+  border-bottom: 1px solid color-mix(in srgb, var(--bronze) 70%, transparent);
+}
+.ip .hHero-kicker span + span { font-family: var(--font-body), sans-serif; font-weight: 500; line-height: 1.6; text-transform: uppercase; color: #5a4332; }
+
+/* the three scrolls: they span the lineage's width, the top rod's 7px overhang sits on the left line, and they
+   rise left to right (the first hangs lowest) */
+.ip .hHero-h1 {
+  margin-top: 0; margin-bottom: 24px !important; padding-left: 7px; padding-right: 7px;
+  flex-wrap: nowrap; justify-content: space-between; gap: 0;
+  font-family: var(--display); font-weight: 600; line-height: 1.12; text-wrap: balance;
+}
+.ip .hHero-h1 .ipScroll { padding: 0.5em 0.28em 0.42em; }
+.ip .hHero-h1 .ipScroll:nth-child(1) { margin-top: 1.2em; }
+.ip .hHero-h1 .ipScroll:nth-child(2) { margin-top: 0.6em; }
+.ip .hHero-h1 .ipScroll:nth-child(3) { margin-top: 0; }
+
+/* the lead: three sentences, each its own line, a small pause between them */
+.ip .hHero-lede { font-family: var(--font-body), sans-serif; font-weight: 400; line-height: 1.7; color: #4a392c; max-width: 34em; text-shadow: none; }
+.ip .hHero-lede span { display: block; text-wrap: pretty; }
+.ip .hHero-lede span + span { margin-top: 0.42em; text-wrap: balance; }
+/* the third sentence is the long one: its lines are balanced so it never ends on a short tail */
+.ip .hHero-lede span:last-child { text-wrap: balance; }
+/* from a tablet up it breaks after "thay đổi", where the sense breaks; below 600px it breaks again before "cho những" */
+.ip .hHero-ledeBr { display: none; }
+
+.ip .hHero-cta { margin-top: 32px; }
+
+/* ---- a phone (under 480px) ---- */
+@media (width < 480px) {
+  .ip .hHero-kicker span:first-child { font-size: round(clamp(20px, 6.8vw, 31px), 1px); }
+  .ip .hHero-kicker span + span { font-size: 13px; letter-spacing: 0.2em; }
+  /* the scrolls' size follows the phone's width, so the three always fill the frame with the same small gaps */
+  .ip .hHero-h1 { font-size: round(clamp(26px, 8.7vw, 40px), 1px) !important; }
+  .ip .hHero-lede { font-size: 16px; }
+  .ip .hHero-cta { margin-top: 26px; }
+}
+/* a short phone (iPhone SE, 360x640): the gaps close a little to keep the buttons clear of the bottom edge */
+@media (width < 480px) and (height < 700px) {
+  .ip .hHero-kicker { margin-bottom: 16px; }
+  .ip .hHero-h1 { margin-bottom: 16px !important; }
+  .ip .hHero-cta { margin-top: 20px; }
+}
+/* two buttons share the row on a phone */
+@media (width < 640px) {
+  .ip .hHero-cta .hBtn { flex: 1; padding: 0 14px; }
+}
+
+/* ---- a phone or tablet (under 1024px): the painting is left clear, the paper rises with the words ---- */
+@media (width < 1024px) {
+  .ip .hHero { align-items: flex-end; }
+  .ip .hHero-still { object-position: 80% 42%; }
+  .ip .hHero-paint::after { background: linear-gradient(180deg, rgba(236, 226, 206, 0.3) 0%, rgba(236, 226, 206, 0) 18%); }
+  .ip .hHero-body {
+    max-width: none;
+    padding-top: 112px; padding-bottom: calc(28px + env(safe-area-inset-bottom));
+    grid-template-columns: minmax(0, 1fr); grid-template-areas: "kick" "h1" "lede" "cta";
+    background: linear-gradient(180deg, rgba(236, 226, 206, 0) 0, rgba(236, 226, 206, 0.86) 88px, rgba(236, 226, 206, 0.97) 156px, var(--paper) 100%);
+  }
+}
+
+/* ---- a large phone or tablet (480-1023px): the lineage sets the frame, the scrolls span it ---- */
+@media (480px <= width < 1024px) {
+  .ip .hHero-body { grid-template-columns: max-content minmax(0, 1fr); grid-template-areas: "kick ." "h1 ." "lede lede" "cta cta"; }
+  .ip .hHero-kicker span:first-child { font-size: round(clamp(24px, 5.46vw, 34px), 1px); }
+  .ip .hHero-kicker span + span { font-size: round(clamp(13px, 1.85vw, 14.5px), 0.5px); letter-spacing: 0.24em; }
+  .ip .hHero-h1 { gap: 0 18px; font-size: round(clamp(30px, 7vw, 44px), 1px) !important; }
+  .ip .hHero-lede { font-size: round(clamp(17px, 2.45vw, 19px), 0.5px); }
+  .ip .hHero-cta .hBtn { min-height: 54px; font-size: 17px; }
+}
+/* a phone shows the upright painting drawn for it (pavilion high, water below), so it is no longer shifted sideways */
+@media (width < 640px) {
+  .ip .hHero-still { object-position: 50% 30%; }
+}
+/* a tablet's wider slice of the painting is moved so the pavilion stays in it; its buttons keep their own width */
+@media (640px <= width < 1024px) {
+  .ip .hHero-still { object-position: 97% 42%; }
+  .ip .hHero-body { padding-bottom: 48px; }
+  .ip .hHero-cta .hBtn { flex: none; padding-inline: 30px; }
+}
+@media (width >= 480px) {
+  /* the lead is a grid item: it may shrink below its longest line */
+  .ip .hHero-lede { min-width: 0; }
+  .ip .hHero-lede span + span { text-wrap: pretty; }
+  .ip .hHero-ledeBr { display: inline; }
+}
+/* a large phone held sideways or a small tablet (480-699px): a sentence that still wraps is balanced */
+@media (480px <= width < 700px) { .ip .hHero-lede span:nth-child(n) { text-wrap: balance; } }
+@media (width >= 600px) { .ip .hHero-ledeBr--narrow { display: none; } }
+
+/* ---- a laptop or desktop (1024px and up): sizes follow the screen's height too, so a short laptop keeps the buttons in view ---- */
+@media (width >= 1024px) {
+  .ip .hHero-paint::after {
+    background:
+      linear-gradient(100deg, rgba(236, 226, 206, 0.97) 0%, rgba(236, 226, 206, 0.93) 34%, rgba(236, 226, 206, 0.6) 50%, rgba(236, 226, 206, 0.05) 72%),
+      linear-gradient(0deg, rgba(236, 226, 206, 0.9) 0%, rgba(236, 226, 206, 0) 30%);
+  }
+  .ip .hHero-body { grid-template-columns: max-content minmax(0, 1fr); grid-template-areas: "kick ." "h1 ." "lede lede" "cta cta"; padding-bottom: clamp(40px, 7vh, 108px); }
+  .ip .hHero-kicker { grid-column: auto; margin-bottom: clamp(24px, 3.4vh, 32px); }
+  .ip .hHero-kicker span:first-child { font-size: round(clamp(30px, min(3.08vw, 5.15vh), 61px), 1px); }
+  .ip .hHero-kicker span + span { font-size: round(clamp(14px, min(1.14vw, 1.9vh), 20px), 0.5px); letter-spacing: 0.26em; }
+  .ip .hHero-h1 { gap: 0 clamp(18px, 2vw, 32px); font-size: round(clamp(38px, min(3.95vw, 6.6vh), 78px), 1px) !important; }
+  .ip .hHero-lede { max-width: 36em; font-size: round(clamp(16.5px, min(1.32vw, 2.34vh), 22px), 0.5px); }
+  .ip .hHero-cta { gap: 14px; }
+  .ip .hHero-cta .hBtn { min-height: clamp(50px, 5.2vh, 58px); font-size: round(clamp(15.5px, 0.9vw, 17px), 0.5px); padding-inline: clamp(30px, 2.2vw, 40px); }
+}
+
+/* ---------- phone: the bottom bar's buttons line up with the 20px page margin ---------- */
+@media (width < 640px) {
+  .tmBar { padding-inline: 20px; }
+}

@@ -1,30 +1,42 @@
 import type { Metadata } from "next";
-import PageBanner from "@/components/PageBanner";
 import LapLaSoClient from "@/components/tuvi/LapLaSoClient";
+import { InkClose, InkHero, InkPage } from "@/components/thuy-mac/kit";
+import "@/components/tuvi/lap-la-so-compact.css";
 
 export const metadata: Metadata = {
   title: "Lập Lá Số Tử Vi — Ngọc Âm",
   description:
-    "Lập lá số Tử Vi theo hệ Tử Vi Đẩu Số Tân Biên (Vân Đằng Thái Thứ Lang) — an sao, Miếu Vượng Đắc Bình Hãm, Khôi Việt, Tứ Hóa, Tuần Triệt chuẩn Việt Nam.",
+    "Lập lá số Tử Vi theo hệ Tử Vi Đẩu Số Tân Biên (Vân Đằng Thái Thứ Lang): an sao, Miếu Vượng Đắc Bình Hãm, Khôi Việt, Tứ Hóa, Tuần Triệt chuẩn Việt Nam.",
 };
 
 export default function LapLaSoPage() {
   return (
-    // Single shared background (outer-bg.jpg) spanning the banner AND the
-    // form below it — see .lap-la-so-outer in globals.css: desktop keeps
-    // the full image uncropped (bg-size 100% auto, height clamped to its
-    // own 1920x1400 aspect ratio — if combined content is taller than
-    // that, the excess is plain ivory, deliberate, see the "vẫn giữ trọn
-    // ảnh" decision over cropping via `cover`); under 768px it swaps to a
-    // dedicated portrait image via `cover` instead.
-    <div className="lap-la-so-outer relative w-full">
-      <PageBanner
-        eyebrow="Lập Lá Số"
-        heading="Tử Vi Xuyên Tam Diệm"
-        description="Khai vấn, định hướng, phát triển nội lực, chuyển hoá điều bất như ý"
-        scrim
+    <InkPage>
+      {/* v1's single outer-bg.jpg behind both the title and the form (see .lap-la-so-outer in globals.css) */}
+      <div className="lap-la-so-outer lls relative w-full">
+      <InkHero
+        compact
+        scrolls={["Lập", "Lá Số"]}
+        lede={
+          <>
+            <p>Tử Vi Xuyên Tam Diệm</p>
+            <small>Nhập ngày giờ sinh để xem tấm bản đồ 12 cung. Muốn đọc tấm bản đồ ấy cùng Xuyên giả, hãy đặt một phiên Xuyên vấn.</small>
+          </>
+        }
       />
-      <LapLaSoClient />
-    </div>
+      <div className="ipTool">
+        <LapLaSoClient compactTime />
+        <p className="ipToolNote">
+          Chọn dương lịch hoặc âm lịch; công cụ hiện ngay ngày tương ứng ở lịch còn lại để bạn đối chiếu. Giờ sinh quyết định vị trí các cung, nên lá số chỉ đúng khi giờ sinh đúng. Nếu chưa chắc giờ sinh, hãy xem kết quả như bản tham khảo và nói điều đó khi đặt lịch.
+        </p>
+      </div>
+      </div>
+      <InkClose
+        title="Lá số là tấm bản đồ, Xuyên vấn là cùng đọc nó."
+        text="Muốn hiểu sâu Diệm Bản của mình, hãy đặt một phiên cùng Xuyên giả."
+        href="/lien-he?topic=tu-vi"
+        label="Đặt Phiên Xuyên Vấn"
+      />
+    </InkPage>
   );
 }

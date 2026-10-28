@@ -1,6 +1,6 @@
 /**
- * Mobile-only chart presentation (<768px). Everything here is scoped under
- * .mobile-tuvi-canvas (the 747x1032 virtual canvas TuViChartGrid renders
+ * Mobile-only chart presentation (<1024px: phones and upright tablets). Everything here is scoped under
+ * .mobile-tuvi-canvas (the 747x1240 virtual canvas TuViChartGrid renders
  * into — see MobileTuViOverview.tsx) or under standalone .mobile-* classes
  * that only ever render inside MobileTuViExperience. None of this can leak
  * onto the desktop chart: desktop's wrapper is .ngoc-am-chart, never
@@ -27,7 +27,7 @@
 
 .mobile-chart-placeholder {
   width: 100%;
-  aspect-ratio: 747 / 1032;
+  aspect-ratio: 747 / 1240;
   background: rgba(244, 235, 221, 0.5);
 }
 
@@ -44,7 +44,7 @@
 .mobile-tuvi-canvas {
   position: relative;
   width: 747px;
-  height: 1032px;
+  height: 1240px;
   /* No background-image — outer edge owned solely by StructuralGridSVG's
      frame rect, same as desktop's .ngoc-am-chart. */
   background-color: var(--na-paper);
@@ -331,3 +331,29 @@
   padding-left: max(12px, env(safe-area-inset-left));
   padding-right: max(12px, env(safe-area-inset-right));
 }
+
+
+/* ---------- Every star at one readable size (phones and upright tablets, 2026-10-03) ----------
+   The whole chart is scaled to the screen (about 47% on a 375px phone), so the old steps of 14.5 / 10 / 9.3 /
+   8.8 / 7.5px reached the eye at 3.5-4.7px. Now, as on tuvi.vn, the stars share one size (12.5-13px in the
+   canvas, about 6px on a 375px phone and 12-15px on a tablet) and the hierarchy is carried by weight and
+   colour; the canvas is 1240 units tall instead of 1032 so the larger words still fit a crowded palace. */
+.mobile-tuvi-canvas .tuvi-palace .palace-branch { font-size: 12px; color: var(--na-ink-soft); }
+.mobile-tuvi-canvas .tuvi-palace .palace-name { font-size: 15px; font-weight: 800; }
+.mobile-tuvi-canvas .tuvi-palace .palace-index { font-size: 11px; }
+.mobile-tuvi-canvas .tuvi-palace .palace-than-tag { font-size: 12px; }
+.mobile-tuvi-canvas .tuvi-palace .palace-major-star__name { font-size: calc(16px * var(--pz-scale, 1)); font-weight: 750; }
+.mobile-tuvi-canvas .tuvi-palace :is(.palace-major-star__state, .palace-major-star__mutagen, .palace-major-star__annual-mutagen) { font-size: calc(11.5px * var(--pz-scale, 1)); }
+.mobile-tuvi-canvas .tuvi-palace .palace-minor-star { font-size: calc(13px * var(--pz-scale, 1)); font-weight: 600; line-height: 1.16; color: color-mix(in srgb, var(--star-color, var(--na-ink)) 70%, var(--na-ink) 30%); }
+.mobile-tuvi-canvas .tuvi-palace :is(.palace-minor-star__state, .palace-minor-star__tag) { font-size: calc(11px * var(--pz-scale, 1)); }
+.mobile-tuvi-canvas .tuvi-palace .palace-adjective-star { font-size: calc(12.5px * var(--pz-scale, 1)); line-height: 1.16; color: var(--na-ink-soft); }
+.mobile-tuvi-canvas .tuvi-palace .palace-luu-label { font-size: calc(11px * var(--pz-scale, 1)); }
+.mobile-tuvi-canvas .tuvi-palace .palace-luu-star { font-size: calc(12.5px * var(--pz-scale, 1)); line-height: 1.16; color: var(--na-ink); }
+/* the bottom rows stay on one line: a little smaller, the Tuần/Triệt badge narrower, the row a little wider */
+.mobile-tuvi-canvas .tuvi-palace .palace-footer-zone { padding-inline: 5px; }
+.mobile-tuvi-canvas .tuvi-palace :is(.palace-footer, .palace-footer--horoscope) { font-size: 9.25px; white-space: nowrap; letter-spacing: -0.02em; color: var(--na-ink-soft); }
+.mobile-tuvi-canvas .tuvi-palace .palace-zone-badge { font-size: 7px; width: 5.4em; letter-spacing: 0; }
+.mobile-tuvi-canvas .center-info-label { font-size: 11px; }
+.mobile-tuvi-canvas .center-info-value { font-size: 13px; }
+.mobile-tuvi-canvas .center-info-secondary { font-size: 12px; }
+.mobile-tuvi-canvas .center-info-row { min-height: 23px; }

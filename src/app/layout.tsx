@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Be_Vietnam_Pro } from "next/font/google";
+import { Playfair_Display, Be_Vietnam_Pro, Cormorant_Garamond, Noto_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import HideOnAdmin from "@/components/HideOnAdmin";
 import NavProgress from "@/components/NavProgress";
+import SiteChrome from "@/components/thuy-mac/SiteChrome";
+import InkFooter from "@/components/thuy-mac/InkFooter";
+import { SITE_URL } from "@/lib/site-url";
+import { getSiteSettings, isSafeHttpUrl } from "@/lib/site-settings";
 
+// Playfair stays for /admin and the lá số tool, which keep the v1 look.
 const heading = Playfair_Display({
   variable: "--font-heading",
   subsets: ["latin", "vietnamese"],
@@ -28,18 +31,42 @@ const body = Be_Vietnam_Pro({
   weight: ["300", "400", "500", "600", "700", "900"],
 });
 
+// Thuỷ Mặc design: Cormorant for headings, Noto Serif Display for the calendar numerals.
+const inkDisplay = Cormorant_Garamond({
+  variable: "--de-display",
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const inkNumerals = Noto_Serif_Display({
+  variable: "--dd-num",
+  subsets: ["latin", "vietnamese"],
+  weight: ["300", "500"],
+});
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Ngọc Âm — Tử Vi · Phong Thuỷ",
   description:
-    "Ngọc Âm – Tử Vi, Phong Thuỷ Hậu Nhân Khâm Thiên Giám, Vua Minh Mạng, Triều Nguyễn. Khai vấn Tử Vi, tư vấn Phong Thuỷ, tri thức Phật học và vật phẩm phong thuỷ cao cấp.",
+    "Ngọc Âm – Tử Vi, Phong Thuỷ Hậu Nhân Khâm Thiên Giám, Vua Minh Mạng, Triều Nguyễn. Xuyên vấn Tử Vi, tư vấn Phong Thuỷ, tri thức Phật học và vật phẩm phong thuỷ.",
+  // The share preview for Zalo, Facebook and the like; pages may override the image.
+  openGraph: {
+    siteName: "Ngọc Âm",
+    locale: "vi_VN",
+    type: "website",
+    images: [{ url: "/og/ngoc-am.jpg", width: 1200, height: 630, alt: "Tranh thuỷ mặc sông Hương, Ngọc Âm" }],
+  },
+  twitter: { card: "summary_large_image", images: ["/og/ngoc-am.jpg"] },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSiteSettings();
   return (
     <html
       lang="vi"
       data-scroll-behavior="smooth"
-      className={`${heading.variable} ${body.variable} h-full antialiased`}
+      className={`${heading.variable} ${body.variable} ${inkDisplay.variable} ${inkNumerals.variable} h-full antialiased`}
       // The inline script below adds `js` before first paint; React must not
       // treat that extra class as a hydration mismatch.
       suppressHydrationWarning
@@ -53,13 +80,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense fallback={null}>
           <NavProgress />
         </Suspense>
-        {/* /admin has its own header (app/admin/(protected)/layout.tsx). */}
+        {/* /admin has its own header; the printable chart has none. */}
+        <SiteChrome zalo={{ url: isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : "", phone: settings.phone }} />
+        <main id="noi-dung" className="flex-1">{children}</main>
         <HideOnAdmin>
-          <Header />
-        </HideOnAdmin>
-        <main className="flex-1">{children}</main>
-        <HideOnAdmin>
-          <Footer />
+          <InkFooter />
         </HideOnAdmin>
       </body>
     </html>

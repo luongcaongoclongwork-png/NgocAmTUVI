@@ -9,7 +9,7 @@ import type { BirthInput } from "@/lib/tuvi/types/VietnameseChart";
 
 export type GenerationStatus = "idle" | "validating" | "error";
 
-export default function LapLaSoClient() {
+export default function LapLaSoClient({ resultPath = "/la-so/xuyen-tam-diem", compactTime = false }: { resultPath?: string; compactTime?: boolean } = {}) {
   const router = useRouter();
   const [status, setStatus] = useState<GenerationStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -37,7 +37,7 @@ export default function LapLaSoClient() {
       markReveal();
       setAwake(4);
       // Xuyen Tam Diem is the only naming layer offered (the old "hang ngay" option was removed 2026-09-21).
-      router.push("/la-so/xuyen-tam-diem");
+      router.push(resultPath);
     } catch {
       setErrorMessage("Không thể lưu thông tin lá số trên trình duyệt này. Vui lòng thử lại.");
       setStatus("error");
@@ -51,7 +51,7 @@ export default function LapLaSoClient() {
     <div className="relative mx-auto max-w-[1320px] px-6 py-4 lg:px-10">
       {/* INNER background slot — scoped to just the form card's own box. */}
       <div
-        className="relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
+        className="ipToolCard relative mx-auto max-w-2xl overflow-hidden border border-walnut/15 bg-cover bg-center p-6 sm:p-8"
         style={{ backgroundImage: "url(/images/lap-la-so/inner-bg.jpg)" }}
       >
         {/* Scrim between the background (this card's own inner-bg, or —
@@ -88,6 +88,7 @@ export default function LapLaSoClient() {
             onTargetYearChange={setTargetYearOverride}
             initialValue={savedInput?.birthInput}
             onAwake={setAwake}
+            compactTime={compactTime}
           />
 
           {status === "error" && errorMessage && (

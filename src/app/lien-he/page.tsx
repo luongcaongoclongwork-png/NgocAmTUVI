@@ -3,17 +3,28 @@ import LienHeClient from "@/components/contact/LienHeClient";
 import { resolveTopicFromQuery, topicLabel } from "@/lib/contact-leads-constants";
 import { getServiceById } from "@/lib/services";
 import { getSiteSettings, isSafeHttpUrl, socialLinks, telHref } from "@/lib/site-settings";
+import { InkHero, InkPage } from "@/components/thuy-mac/kit";
+import { nen } from "@/components/thuy-mac/Painting";
 
 export const metadata: Metadata = {
-  title: "Gửi lời nhắn đến Ngọc Âm",
+  title: "Gửi đôi dòng đến Ngọc Âm",
   description:
     "Hãy để lại đôi dòng về điều bạn đang cân nhắc. Ngọc Âm sẽ đọc kỹ những chia sẻ ấy và chuẩn bị một góc nhìn phù hợp với hoàn cảnh của bạn.",
 };
 
+/** Where a picked tea or piece came from, so the form can offer the way back. */
+function itemFrom(topic: string | undefined, raw: string | undefined) {
+  const name = (raw ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+  if (!name) return null;
+  return topic === "tra"
+    ? { name, backHref: "/tra-dao", backLabel: "Chọn trà khác" }
+    : { name, backHref: "/cua-hang", backLabel: "Chọn vật phẩm khác" };
+}
+
 export default async function LienHePage({
   searchParams,
 }: {
-  searchParams: Promise<{ topic?: string; service?: string }>;
+  searchParams: Promise<{ topic?: string; service?: string; item?: string }>;
 }) {
   const params = await searchParams;
   const topicId = resolveTopicFromQuery(params.topic);
@@ -23,29 +34,44 @@ export default async function LienHePage({
   ]);
 
   return (
-    <LienHeClient
-      initialTopicId={topicId}
-      initialInterestText={topicId ? topicLabel(topicId) : ""}
-      selectedService={
-        service
-          ? {
-              title: service.title,
-              price: service.price,
-              // `duration` is a newer, optional service field; older rows
-              // (and older schemas) simply have none.
-              duration: "duration" in service ? String(service.duration ?? "") : "",
-            }
-          : null
-      }
-      zaloUrl={isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : null}
-      messengerUrl={isSafeHttpUrl(settings.messengerUrl) ? settings.messengerUrl : null}
-      contact={{
-        phone: settings.phone,
-        phoneHref: telHref(settings.phone),
-        email: settings.email,
-        // Zalo/Messenger already appear as chat links next to the form.
-        socials: socialLinks(settings).filter((s) => s.label !== "Zalo"),
-      }}
-    />
+    <InkPage>
+      <InkHero
+        compact
+        {...nen("H06")}
+        alt="Tranh thuỷ mặc sông Hương buổi sớm, con thuyền nhỏ giữa dòng"
+        scrolls={["Gửi", "đôi dòng"]}
+        lede={
+          <>
+            <p>Mỗi cuộc trao đổi đều bắt đầu từ sự lắng nghe.</p>
+            <small>Hãy để lại đôi dòng về điều bạn đang cân nhắc. Ngọc Âm sẽ đọc kỹ những chia sẻ ấy và chuẩn bị một góc nhìn phù hợp với hoàn cảnh của bạn.</small>
+          </>
+        }
+      />
+      <LienHeClient
+        initialTopicId={topicId}
+        initialInterestText={topicId ? topicLabel(topicId) : ""}
+        selectedService={
+          service
+            ? {
+                title: service.title,
+                price: service.price,
+                // `duration` is a newer, optional service field; older rows
+                // (and older schemas) simply have none.
+                duration: "duration" in service ? String(service.duration ?? "") : "",
+              }
+            : null
+        }
+        selectedItem={itemFrom(params.topic, params.item)}
+        zaloUrl={isSafeHttpUrl(settings.zaloUrl) ? settings.zaloUrl : null}
+        messengerUrl={isSafeHttpUrl(settings.messengerUrl) ? settings.messengerUrl : null}
+        contact={{
+          phone: settings.phone,
+          phoneHref: telHref(settings.phone),
+          email: settings.email,
+          // Zalo/Messenger already appear as chat links next to the form.
+          socials: socialLinks(settings).filter((s) => s.label !== "Zalo"),
+        }}
+      />
+    </InkPage>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ALL_NAV_ITEMS, isNavItemActive } from "./navItems";
@@ -145,7 +146,7 @@ export default function MobileNav() {
             className="mobile-nav-drawer absolute inset-y-0 right-0 flex w-[86%] max-w-sm flex-col overflow-y-auto border-l border-walnut/15 bg-ivory p-6 shadow-[0_10px_40px_rgba(49,34,21,0.1)]"
           >
             <div className="flex items-center justify-between">
-              <span className="font-heading text-base tracking-[0.2em] text-ink">NGỌC ÂM</span>
+              <Image src="/images/logo/ngoc-am-horizontal-color.svg" alt="Ngọc Âm" width={811} height={256} unoptimized className="h-11 w-auto" />
               <button
                 type="button"
                 aria-label="Đóng menu chính"

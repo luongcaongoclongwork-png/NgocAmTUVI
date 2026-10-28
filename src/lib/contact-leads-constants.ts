@@ -13,6 +13,7 @@ export type TopicId =
   | "moi-quan-he"
   | "khong-gian-song"
   | "thoi-diem-quan-trong"
+  | "tra-dao"
   | "vat-pham-dong-hanh"
   | "chua-ro";
 
@@ -21,6 +22,7 @@ export const CONTACT_TOPICS: { id: TopicId; label: string }[] = [
   { id: "moi-quan-he", label: "Mối quan hệ" },
   { id: "khong-gian-song", label: "Không gian sống hoặc nơi làm việc" },
   { id: "thoi-diem-quan-trong", label: "Một thời điểm quan trọng" },
+  { id: "tra-dao", label: "Trà và trải nghiệm trà" },
   { id: "vat-pham-dong-hanh", label: "Vật phẩm đồng hành" },
   { id: "chua-ro", label: "Tôi chưa muốn gọi tên điều mình đang bận tâm" },
 ];
@@ -36,11 +38,13 @@ export function topicLabel(id: TopicId): string {
 /** Short aliases a CTA link can use without knowing this page's exact topic
  * wording (e.g. a Tu Vi service card just knows it's "tu-vi", not which of
  * the 6 topic phrasings that maps to). Resolves either a real topic id or
- * one of these aliases; anything else resolves to no pre-selection. */
+ * one of these aliases; anything else resolves to no pre-selection.
+ * "tu-vi" is deliberately absent: a Tử Vi session can be about anything in
+ * a life, so the Chủ Sự names the concern themselves. */
 const TOPIC_QUERY_ALIASES: Record<string, TopicId> = {
-  "tu-vi": "su-nghiep-huong-di",
   "phong-thuy": "khong-gian-song",
   "vat-pham": "vat-pham-dong-hanh",
+  tra: "tra-dao",
   "dai-chu-su": "su-nghiep-huong-di",
 };
 

@@ -12,7 +12,7 @@ import { daysInSolarMonth, daysInLunarMonth, convertOnCalendarSwitch } from "@/l
 
 const inputClass =
   "min-h-11 w-full border border-walnut/25 bg-ivory px-3 py-2.5 text-[16px] text-ink outline-none transition-colors focus:border-gold focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory";
-const labelClass = "tracking-label mb-1.5 block text-[10px] font-medium uppercase text-walnut/60";
+const labelClass = "ipToolLabel tracking-label mb-1.5 block text-[10px] font-medium uppercase text-walnut/60";
 
 function CheckIcon() {
   return (
@@ -23,9 +23,9 @@ function CheckIcon() {
 }
 
 const SUBMIT_LABEL: Record<GenerationStatus, string> = {
-  idle: "Lập lá số ngay",
+  idle: "Lập Lá Số Ngay",
   validating: "Đang kiểm tra…",
-  error: "Lập lá số ngay",
+  error: "Lập Lá Số Ngay",
 };
 
 export default function BirthForm({
@@ -35,6 +35,7 @@ export default function BirthForm({
   onTargetYearChange,
   initialValue,
   onAwake,
+  compactTime = false,
 }: {
   onSubmit: (input: BirthInput) => void;
   status: GenerationStatus;
@@ -45,13 +46,16 @@ export default function BirthForm({
   initialValue?: BirthInput;
   /** Called with how many of the 4 groups (name+gender, date, hour, year) the user has touched so far — the painting behind the form wakes up as it grows. */
   onAwake?: (touchedGroups: number) => void;
+  /** The 12 Tử Vi hours come first; the exact hour and minute open only when asked for (owner, 2026-10-22). */
+  compactTime?: boolean;
 }) {
+  const [exactTime, setExactTime] = useState(false);
   const [name, setName] = useState(initialValue?.name ?? "");
   const [gender, setGender] = useState<"Nam" | "Nữ">(initialValue?.gender ?? "Nam");
   const [calendarType, setCalendarType] = useState<CalendarType>(initialValue?.calendarType ?? "solar");
   const [day, setDay] = useState(initialValue?.day ?? 1);
   const [month, setMonth] = useState(initialValue?.month ?? 1);
-  const [year, setYear] = useState(initialValue?.year ?? 2000);
+  const [year, setYear] = useState<number | null>(initialValue?.year ?? null);
   const [isLeapMonth, setIsLeapMonth] = useState(initialValue?.isLeapMonth ?? false);
   const [time, setTime] = useState(initialValue?.time ?? "12:00");
   const [dateError, setDateError] = useState<string | null>(null);
@@ -74,7 +78,8 @@ export default function BirthForm({
 
   // Keep `day` in range whenever the selected month/year/leap-month no longer supports it,
   // rather than letting an invalid combination (e.g. 31/2) sit in state until submit.
-  function clampDay(candidateDay: number, cType: CalendarType, m: number, y: number, leap: boolean) {
+  function clampDay(candidateDay: number, cType: CalendarType, m: number, yearOrNone: number | null, leap: boolean) {
+    const y = yearOrNone ?? 2000;
     const maxDay = cType === "solar" ? daysInSolarMonth(y, m) : daysInLunarMonth(y, m, leap);
     return Math.min(candidateDay, maxDay);
   }
@@ -84,8 +89,9 @@ export default function BirthForm({
     setDay((d) => clampDay(d, calendarType, next, year, isLeapMonth));
   }
 
-  function handleYearChange(next: number) {
+  function handleYearChange(next: number | null) {
     setYear(next);
+    if (next !== null) setDateError(null);
     setDay((d) => clampDay(d, calendarType, month, next, isLeapMonth));
   }
 
@@ -96,7 +102,7 @@ export default function BirthForm({
 
   function handleCalendarTypeChange(next: CalendarType) {
     if (next === calendarType) return;
-    const converted = convertOnCalendarSwitch(next, day, month, year, isLeapMonth);
+    const converted = year === null ? null : convertOnCalendarSwitch(next, day, month, year, isLeapMonth);
     if (converted) {
       setDay(converted.day);
       setMonth(converted.month);
@@ -109,7 +115,12 @@ export default function BirthForm({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (busy) return;
-    if (!day || !month || !year) {
+    if (!year) {
+      setDateError("Vui lòng nhập năm sinh hợp lệ (bốn chữ số, ví dụ 1990).");
+      dateFieldsRef.current?.querySelector<HTMLInputElement>("#tuvi-year")?.focus();
+      return;
+    }
+    if (!day || !month) {
       setDateError("Vui lòng chọn ngày sinh hợp lệ.");
       dateFieldsRef.current?.querySelector("select")?.focus();
       return;
@@ -120,7 +131,7 @@ export default function BirthForm({
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto max-w-[620px] space-y-7">
-      <h2 className="tracking-label text-center text-[13px] font-medium uppercase text-gold">
+      <h2 className="ipToolTitle tracking-label text-center text-[13px] font-medium uppercase text-gold">
         Thông tin lá số
       </h2>
 
@@ -167,7 +178,7 @@ export default function BirthForm({
       </div>
 
       <div className="space-y-3" ref={dateFieldsRef} {...touchProps(1)}>
-        <p className="tracking-label text-[10px] font-medium uppercase text-walnut/60">Ngày sinh</p>
+        <p className="ipToolGroup tracking-label text-[10px] font-medium uppercase text-walnut/60">Ngày sinh</p>
         <BirthDateFields
           calendarType={calendarType}
           day={day}
@@ -189,9 +200,25 @@ export default function BirthForm({
       </div>
 
       <div className="space-y-3" {...touchProps(2)}>
-        <p className="tracking-label text-[10px] font-medium uppercase text-walnut/60">Giờ sinh</p>
-        <TimeSelect time={time} onChange={setTime} />
-        <TuViHourPicker time={time} onChange={setTime} />
+        <p className="ipToolGroup tracking-label text-[10px] font-medium uppercase text-walnut/60">Giờ sinh</p>
+        {compactTime ? (
+          <>
+            <TuViHourPicker time={time} onChange={setTime} />
+            <button type="button" className="llsExact" aria-expanded={exactTime} aria-controls="tuvi-exact-time" onClick={() => setExactTime((v) => !v)}>
+              {exactTime ? "Ẩn giờ phút" : "Biết chính xác giờ phút? Nhập cụ thể"}
+            </button>
+            {exactTime && (
+              <div id="tuvi-exact-time">
+                <TimeSelect time={time} onChange={setTime} />
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <TimeSelect time={time} onChange={setTime} />
+            <TuViHourPicker time={time} onChange={setTime} />
+          </>
+        )}
       </div>
 
       {targetYear !== undefined && onTargetYearChange && (
@@ -203,7 +230,7 @@ export default function BirthForm({
       <button
         type="submit"
         disabled={busy}
-        className="tracking-label flex h-[50px] w-full items-center justify-center gap-2 border border-walnut bg-walnut text-[13px] font-medium uppercase text-ivory transition-[background-color,transform] duration-100 hover:bg-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:scale-[0.98] disabled:cursor-wait disabled:opacity-70"
+        className="ipToolSubmit tracking-label flex h-[50px] w-full items-center justify-center gap-2 border border-walnut bg-walnut text-[13px] font-medium uppercase text-ivory transition-[background-color,transform] duration-100 hover:bg-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:scale-[0.98] disabled:cursor-wait disabled:opacity-70"
       >
         {SUBMIT_LABEL[status]}
         {!busy && <span aria-hidden="true">→</span>}

@@ -93,10 +93,12 @@ Shape: small radii (2–4px) or none. Thin rules and borders instead of heavy sh
 
 ## 6. Logo — immutable
 
-Silver sphere, grey-to-black gradient, swirl stroke (`public/images/logo-mark.png`).
-- Always the original file. Never recolor, redraw, recreate in CSS/SVG, stretch, crop, rotate, add effects, or animate it. Do not use AI logo generators.
-- On brown backgrounds the silver logo is the one cool accent; give it clear space.
-- If the file is missing, leave a clearly marked placeholder and say so.
+Logo Kit v1.2 (10/2026), direction A "Trăng Xoắn": a moon disc holding a golden-ratio spiral, with the wordmark "Ngọc Âm" (Playfair Display SemiBold, already converted to outlines). Files live in `public/images/logo/` (the full kit: symbol, horizontal and stacked lockups, reversed, single-colour, vector PDF/EPS, was supplied by the owner as `Ngoc-Am-Logo-Kit-v1.2.zip`).
+- Always the kit files. Never recolor, redraw, recreate in CSS/SVG, stretch, crop, rotate, add shadows/outlines/effects, retype the wordmark in another font, or animate it. Do not use AI logo generators.
+- Screen: colour version (silver gradient moon, Than Muc #3B3936 wordmark). Dark backgrounds: the reversed version (Anh Trang #F4F3F0). The chart sheet (print and PNG/PDF export, Trung Cung watermark) uses the colour version too, by the owner's choice (2026-10-05). Other one-colour work (stamps, engraving, embroidery): Than Muc (graphite) or black.
+- Sizes: symbol no smaller than 24px / 8mm (below that use the `symbol-small` version); horizontal lockup no narrower than 140px / 32mm. Clear space around it is at least 1/4 of the moon's diameter, nothing placed inside.
+- Browser tab and app icons use the kit's dark tile with the light symbol (`src/app/icon.svg`, `apple-icon.png`, `manifest.webmanifest`), because the kit's transparent dark-grey favicon disappears on dark tab bars.
+- If a file is missing, leave a clearly marked placeholder and say so.
 
 ## 7. Motion
 

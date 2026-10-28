@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
-import LaSoResultClient from "@/components/tuvi/LaSoResultClient";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Lá Số Tử Vi — Ngọc Âm",
-  description: "Lá số Tử Vi đã lập theo hệ Tử Vi Đẩu Số Tân Biên (Vân Đằng Thái Thứ Lang) — an sao, Miếu Vượng Đắc Bình Hãm, Khôi Việt, Tứ Hóa, Tuần Triệt chuẩn Việt Nam.",
-};
-
+/** The site offers one chart, Xuyên Tam Diệm; the classic naming is kept in the code but no longer shown. */
 export default function LaSoPage() {
-  return <LaSoResultClient />;
+  permanentRedirect("/la-so/xuyen-tam-diem");
 }

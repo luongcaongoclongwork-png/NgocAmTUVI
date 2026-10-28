@@ -36,7 +36,7 @@ export const ENTITIES: Record<EntityKey, EntityDef> = {
     sortable: false, // newest first
     scopeCol: null,
     imageCols: ["image"],
-    revalidate: ["/admin", "/admin/bai-viet", "/kien-thuc", "/phat-hoc", "/"],
+    revalidate: ["/admin", "/admin/bai-viet", "/kien-thuc", "/"],
     editPath: (id) => `/admin/bai-viet/${id}`,
   },
   service: {

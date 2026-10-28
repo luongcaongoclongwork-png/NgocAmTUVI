@@ -44,6 +44,7 @@ export function XtdMobileCenterDetail({
       <dl className="space-y-4 pt-3">
         <section>
           <p className="tracking-label mb-1 text-[12px] font-medium uppercase text-walnut/55">Sinh thần</p>
+          <Row label="Giới tính" value={vm.gender} />
           <Row label="Năm" value={vm.solarYear} secondary={vm.yearGanzhi} />
           <Row
             label="Tháng"

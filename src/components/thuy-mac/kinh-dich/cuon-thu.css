@@ -1,0 +1,281 @@
+/* Option 2 "Cuộn Thư": one quiet step per screen, centred like a scroll being unrolled. */
+.ct { --ct-son: #a8231f; --kd-son: #a8231f; max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); color: var(--ink); }
+.ctStep { min-height: calc(100svh - 72px); display: grid; align-content: center; justify-items: center; gap: 18px; padding: clamp(56px, 9vh, 110px) 0; text-align: center; scroll-margin-top: 64px; border-top: 1px solid var(--line); }
+.ctStep:first-child { border-top: 0; }
+.ctNo { margin: 0; font-family: var(--display); font-style: italic; font-size: 20px; color: var(--bronze, #94733a); }
+.ctH { margin: 0; font-family: var(--display); font-weight: 600; font-size: clamp(34px, 5vw, 56px); line-height: 1.1; text-wrap: balance; }
+.ctHint, .ctDe { margin: 0; max-width: 46ch; color: var(--muted); line-height: 1.7; }
+.ctDe { min-height: 3.4em; }
+.ctSkip { background: none; border: 0; cursor: pointer; font: inherit; padding: 10px 4px; }
+
+/* the twelve khám as hanging scrolls: two rods, words stacked */
+.ctKham { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(6px, 1.2vw, 14px); width: 100%; max-width: 1040px; margin-top: 10px; }
+@media (width >= 900px) { .ctKham { grid-template-columns: repeat(12, minmax(0, 1fr)); } }
+.ctScroll { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: clamp(132px, 22vh, 210px); padding: 18px 2px; border: 1px solid var(--line); border-radius: 2px; background: color-mix(in srgb, var(--raised) 75%, transparent); color: var(--ink); font-family: var(--display); font-weight: 600; font-size: clamp(16px, 1.7vw, 21px); line-height: 1.15; cursor: pointer; transition: border-color 220ms, background-color 220ms, transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+.ctScroll::before, .ctScroll::after { content: ""; position: absolute; left: -3px; right: -3px; height: 3px; border-radius: 2px; background: var(--bronze, #94733a); opacity: 0.55; }
+.ctScroll::before { top: -2px; }
+.ctScroll::after { bottom: -2px; }
+.ctScroll:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-3px); }
+.ctScroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.ctScroll.is-on { border-color: var(--accent); background: var(--raised); transform: translateY(-6px); }
+.ctScroll.is-on::before { opacity: 1; background: var(--ct-son); }
+.ctScroll.is-on::after { opacity: 1; }
+.ctScroll:disabled { cursor: default; }
+.ctScroll:disabled:not(.is-on) { opacity: 0.55; }
+
+/* gieo: the coins are the button, the hexagram rises beside them */
+.ctTable { display: grid; grid-template-columns: auto auto; align-items: center; justify-content: center; gap: clamp(28px, 7vw, 96px); margin: 16px 0 8px; }
+@media (width < 560px) { .ctTable { grid-template-columns: 1fr; justify-items: center; gap: 28px; } }
+.ctCoins { display: grid; justify-items: center; gap: 14px; padding: 22px 26px; border: 0; border-radius: 4px; background: transparent; color: inherit; font: inherit; cursor: pointer; transition: background-color 220ms; }
+.ctCoins:hover:not(:disabled) { background: color-mix(in srgb, var(--raised) 80%, transparent); }
+.ctCoins:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ctCoins:disabled { cursor: default; }
+.ctCoins .kdCoins { gap: 16px; margin: 0; }
+.ctCoins .kdCoin { width: clamp(62px, 15vw, 84px); height: clamp(62px, 15vw, 84px); }
+.ctCoins .kdCoin::after { inset: 34%; }
+.ctCoins-label { font-family: var(--display); font-weight: 600; font-size: 22px; }
+.ctColumn { width: clamp(150px, 22vw, 230px); min-height: 150px; display: grid; place-items: end center; }
+.ctColumn .kdLines { max-width: 100%; }
+.ctColumn-empty { color: var(--muted); font-size: 15px; align-self: center; }
+.kdLine-empty { fill: var(--line); }
+
+/* gương soi: Hiện → Hóa side by side on every screen, each over its reflection */
+.ctMirror { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 300px); justify-content: center; gap: clamp(28px, 8vw, 120px); width: 100%; margin-top: 14px; }
+.ctQue { position: relative; margin: 0; display: grid; justify-items: center; gap: 6px; }
+.ctArrow { position: absolute; left: calc(clamp(28px, 8vw, 120px) / -2); top: 70px; translate: -50% 0; font-family: var(--display); font-size: clamp(26px, 4vw, 40px); color: var(--bronze, #94733a); }
+.ctQue-role { color: var(--muted); font-size: 15px; }
+.ctQue-lines { width: clamp(120px, 20vw, 210px); padding-bottom: 0; }
+.ctQue-lines > .kdLines { max-width: 100%; }
+/* the waterline, then the hexagram mirrored in still water, fading downward */
+.ctReflect { margin-top: 10px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--bronze, #94733a) 55%, transparent); max-height: 70px; overflow: hidden; }
+.ctReflect .kdLines { transform: scaleY(-1); opacity: 0.16; -webkit-mask: linear-gradient(to top, #000, transparent 75%); mask: linear-gradient(to top, #000, transparent 75%); }
+.ctQue-name { margin: 8px 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(30px, 4.4vw, 46px); line-height: 1.1; }
+.ctQue-goc { margin: 0; color: var(--muted); font-size: 15px; }
+.ctQue-tuong { margin: 4px 0 0; max-width: 30ch; line-height: 1.65; }
+@media (width < 560px) { .ctQue-tuong { font-size: 15px; } }
+.ctNoi { margin: 18px 0 0; max-width: 52ch; color: var(--muted); }
+.ctNoi b { color: var(--ink); font-weight: 600; }
+
+/* lời đọc: back to the page's reading column */
+.ctStep--loi { justify-items: stretch; text-align: left; min-height: 0; }
+.ctStep--loi .ctNo, .ctStep--loi .ctH { text-align: center; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ctQue { animation: kdRise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--step) * 900ms); }
+  .ctQue .kdLine rect:not(.kdBridge) { animation: kdBrush 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--step) * 900ms + (5 - var(--i)) * 70ms); }
+  .ctArrow { animation: kdRise 600ms ease-out 600ms both; }
+  /* the reflection settles a moment after its hexagram, like water going still */
+  .ctReflect { animation: ctStill 1800ms ease-out both; animation-delay: calc(var(--step) * 900ms + 500ms); }
+}
+@keyframes ctStill { from { opacity: 0; transform: scaleX(1.06) translateY(-4px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+.ctStart { margin-top: 22px; }
+
+/* ---------- Nghi Thức Thỉnh Bích: a quiet space over the whole site ---------- */
+.ctStep--vao { min-height: 70svh; }
+.ctAgain { text-align: center; margin: 28px 0 0; }
+.ctAsked { margin: 0; max-width: 34ch; font-family: var(--display); font-style: italic; font-size: clamp(22px, 3vw, 30px); line-height: 1.35; color: var(--ink); text-wrap: balance; }
+.ctH--small { font-size: clamp(28px, 4vw, 42px); display: block; }
+
+.ctRite { position: fixed; inset: 0; z-index: 1000; overflow-y: auto; overscroll-behavior: contain; display: grid; place-items: center; padding: 72px clamp(16px, 5vw, 56px) max(40px, env(safe-area-inset-bottom)); background: var(--paper); color: var(--ink); text-align: center; }
+/* dó paper, a little warmer at the centre, like lamplight on the table */
+.ctRite::before { content: ""; position: fixed; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--raised) 90%, transparent), transparent 70%); pointer-events: none; }
+.ctRite-bar { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; padding: max(10px, env(safe-area-inset-top)) clamp(10px, 3vw, 28px) 10px; }
+.ctRite-tool { min-height: 44px; padding: 0 12px; border: 0; background: none; color: var(--muted); font: inherit; font-size: 15px; cursor: pointer; }
+.ctRite-tool:hover { color: var(--ink); }
+.ctRite-tool:focus-visible, .ctRite :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.ctBeat { display: grid; justify-items: center; gap: 18px; width: 100%; max-width: 1040px; }
+.ctBeat-text { margin: 0; max-width: 40ch; font-size: 18px; line-height: 1.7; }
+.ctBeat-text:focus { outline: none; }
+.ctBeat-count { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* định tâm: one ink circle breathes, 4 s in, 6 s out, three times */
+.ctBreath { position: relative; width: min(62vw, 300px); aspect-ratio: 1; margin: 10px 0; display: grid; place-items: center; }
+.ctBreath::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 0 40%, color-mix(in srgb, var(--accent) 8%, transparent) 62%, transparent 71%); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bronze, #94733a) 45%, transparent); transform: scale(0.55); }
+.ctBreath span { position: absolute; font-family: var(--display); font-size: 26px; color: var(--accent); opacity: 0; }
+.ctBreath { animation: ctCycle 10s linear 3; } /* drives the beat count and the hand-off to Phát vấn */
+.ctBreath::before { animation: ctBreathe 10s ease-in-out 3; }
+.ctBreath-in { animation: ctWordIn 10s linear 3; }
+.ctBreath-out { animation: ctWordOut 10s linear 3; }
+@keyframes ctCycle { to { opacity: 1; } }
+@keyframes ctBreathe { 0% { transform: scale(0.55); } 40% { transform: scale(1); } 100% { transform: scale(0.55); } }
+@keyframes ctWordIn { 0%, 36% { opacity: 1; } 42%, 100% { opacity: 0; } }
+@keyframes ctWordOut { 0%, 40% { opacity: 0; } 46%, 94% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  /* still three breaths, without the moving circle: the words change, the circle rests */
+  .ctBreath::before { animation: none; transform: scale(0.8); }
+}
+.ctReady { opacity: 0; transition: opacity 900ms; }
+.ctReady.is-on { opacity: 1; }
+
+/* phát vấn: the question written as if in ink on paper */
+.ctBeat--hoi { gap: 14px; }
+.ctAsk { display: grid; gap: 14px; width: 100%; max-width: 680px; }
+.ctAsk textarea { width: 100%; resize: none; padding: 10px 4px 12px; border: 0; border-bottom: 1px solid var(--accent); background: transparent; color: var(--ink); font-family: var(--display); font-style: italic; font-size: clamp(22px, 3.2vw, 30px); line-height: 1.4; text-align: center; }
+.ctAsk textarea::placeholder { color: color-mix(in srgb, var(--muted) 60%, transparent); }
+.ctAsk textarea:focus { outline: none; border-bottom-color: var(--ink); }
+.ctRules { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; color: var(--muted); font-size: 15px; }
+.ctRules li::before { content: "·"; margin-right: 8px; color: var(--bronze, #94733a); }
+.ctMong { margin: 0; max-width: 56ch; padding: 14px 18px; border: 1px solid var(--line); background: var(--raised); font-size: 15px; line-height: 1.7; text-align: left; }
+.ctKham-h { margin: 14px 0 0; font-family: var(--display); font-weight: 600; font-size: 22px; }
+.ctKham-h span { font-family: var(--font-body), sans-serif; font-weight: 400; font-size: 15px; color: var(--muted); }
+.ctBeat--hoi .ctScroll { min-height: clamp(104px, 15vh, 150px); }
+.ctBeat--hoi .ctDe { min-height: 1.7em; }
+
+.ctCoins { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.ctCoins:disabled .kdCoin { opacity: 0.75; }
+@media (prefers-reduced-motion: no-preference) {
+  .ctBeat { animation: ctEnter 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .ctRite { animation: ctFade 700ms ease-out both; }
+}
+@keyframes ctEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes ctFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- level B: one breath, breathing in the cast, voice ---------- */
+.ctOneBreath { width: 120px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 0 38%, color-mix(in srgb, var(--accent) 7%, transparent) 60%, transparent 71%); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bronze, #94733a) 40%, transparent); transform: scale(0.75); }
+.ctLead { margin: -6px 0 6px; color: var(--muted); font-family: var(--display); font-style: italic; font-size: 20px; }
+@media (prefers-reduced-motion: no-preference) {
+  /* in for 4 s, out for 4 s, once: it accompanies the reading of the line above, it does not hold anyone up */
+  .ctOneBreath { animation: ctOne 8s ease-in-out both; }
+}
+@keyframes ctOne { 0% { transform: scale(0.6); opacity: 0.4; } 50% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.75); opacity: 0.85; } }
+
+.ctVoice { display: grid; justify-items: center; gap: 4px; margin: 0; }
+.ctVoice-btn { min-height: 44px; padding: 0 18px; border: 1px solid var(--line); border-radius: 22px; background: transparent; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+.ctVoice-btn.is-on { border-color: var(--kd-son, #a8231f); color: var(--kd-son, #a8231f); }
+.ctVoice small { max-width: 44ch; color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+
+.ctThanks { margin: 10px 0 0; max-width: 40ch; font-family: var(--display); font-style: italic; font-size: 21px; line-height: 1.5; }
+.ctThanks:focus { outline: none; }
+
+/* the question glides from the writing line to its place above the coins and the mirror */
+.ctAsk-text, .ctRite .ctAsked { view-transition-name: ct-hoi; }
+::view-transition-group(ct-hoi) { animation-duration: 650ms; animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+/* thả tiền: one touch releases the coins; each toss spins them up in 3D, they land, ink spreads, a line is drawn */
+.ctToss { position: relative; isolation: isolate; perspective: 700px; touch-action: manipulation; margin-top: 64px; border-radius: 999px; }
+.ctToss:focus-visible { outline-offset: 10px; }
+.ctToss .kdCoins { transform-style: preserve-3d; }
+.ctToss:not(:disabled) .kdCoin { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 30%, transparent); }
+.ctRipple { position: absolute; left: 50%; top: 50%; z-index: -1; width: 220px; aspect-ratio: 3.2; translate: -50% -20%; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); opacity: 0; pointer-events: none; }
+.ctRipple.is-dong { border-color: color-mix(in srgb, var(--kd-son, #a8231f) 70%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  /* waiting coins breathe very slightly: they invite the touch without asking */
+  .ctToss:not(:disabled):not(.is-tossing) .kdCoins { animation: ctWait 3.2s ease-in-out infinite; }
+  .ctToss .kdCoin { animation: ctFlip 560ms cubic-bezier(0.25, 0.6, 0.35, 1) both; }
+  .ctToss .kdCoin:nth-child(2) { animation-delay: 40ms; --dx: 6px; }
+  .ctToss .kdCoin:nth-child(3) { animation-delay: 80ms; --dx: -5px; }
+  .ctToss:not(.is-tossing) .kdCoins:not(:has(.is-lung)) .kdCoin { animation: none; } /* before the first toss: still */
+  .ctRipple { animation: ctRipple 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .ctColumn .kdLine rect { transform-box: fill-box; }
+}
+@keyframes ctWait { 50% { transform: translateY(-3px); } }
+@keyframes ctFlip {
+  0% { transform: translateY(0) rotateX(0); }
+  48% { transform: translate(var(--dx, 0), -72px) rotateX(900deg) scale(1.05); }
+  86% { transform: translateY(2px) rotateX(1780deg); }
+  100% { transform: none; }
+}
+@keyframes ctRipple { 0% { opacity: 0.9; transform: scale(0.35); } 100% { opacity: 0; transform: scale(1.5); } }
+
+
+/* six pips: how far the cast has come */
+.ctPips { list-style: none; display: flex; gap: 10px; margin: 0; padding: 0; }
+.ctPips li { width: 22px; height: 4px; border-radius: 2px; background: var(--line); transition: background-color 250ms; }
+.ctPips li.is-on { background: var(--ink); }
+@media (prefers-reduced-motion: no-preference) { .ctPips li.is-on { animation: ctPip 300ms ease-out both; } }
+@keyframes ctPip { from { transform: scaleX(0.3); } to { transform: none; } }
+
+
+/* ---------- Xuyên Hỏa Thành Thê: an ink-wash flame between the rails of a ladder ---------- */
+.xh { display: grid; justify-items: center; gap: 10px; width: 100%; }
+.xhFire { display: grid; justify-items: center; gap: 4px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.xhFire:disabled { cursor: default; }
+.xhFire:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 8px; }
+.xhStage { position: relative; display: block; width: clamp(190px, 50vw, 260px); aspect-ratio: 200 / 340; }
+.xhStage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.xhFlame { position: absolute; inset: 0; display: block; }
+.xhLayer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.xhLayer { transform-origin: 50% 92%; will-change: transform; }
+.xhCta { font-family: var(--display); font-style: italic; font-size: 20px; color: var(--accent); min-height: 1.5em; }
+
+.xhRails line { stroke: var(--bronze, #94733a); stroke-width: 1.2; stroke-linecap: round; opacity: 0.7; }
+/* the flame quiets as the rungs rise (--calm 0 → 1), then draws back into an ember */
+.xhFlame { transform-origin: 50% 90%; opacity: calc(1 - var(--calm) * 0.3); transition: opacity 800ms, transform 1100ms cubic-bezier(0.6, 0, 0.2, 1); }
+.xhInner { opacity: calc(1 - var(--calm) * 0.25); }
+.xhHalo { opacity: calc(1 - var(--calm) * 0.4); }
+.xhFire.is-done .xhFlame { opacity: 0; transform: scale(0.06); }
+.xhEmber { fill: #f0c47a; opacity: 0; transition: opacity 600ms 700ms; filter: drop-shadow(0 0 4px #e9a94e) drop-shadow(0 0 10px rgba(233, 169, 78, 0.6)); }
+.xhFire.is-done .xhEmber { opacity: 0.95; }
+
+/* a rung is a slit of light cut through the flame; at the end it becomes ink */
+.xhRung rect { fill: var(--ink); fill-opacity: 0.88; }
+.xhSeal { fill: var(--kd-son, #a8231f); }
+
+.xhNeedle path { fill: #b08a45; }
+.xhNeedle { opacity: 0; }
+.xhThread { stroke: #e2c48a; stroke-width: 0.8; opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .xhNeedle.is-through { animation: xhThrough 600ms cubic-bezier(0.55, 0, 0.25, 1) var(--d) both; }
+  .xhNeedle.is-stopped { animation: xhStop 600ms cubic-bezier(0.55, 0, 0.25, 1) var(--d) both; }
+  .xhThread { animation: xhThread 700ms ease-out calc(var(--d) + 260ms) both; }
+  .xhRung:last-of-type rect { animation: kdBrush 380ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms both; }
+  .xhRung:last-of-type .xhSeal { animation: kdSeal 360ms 260ms ease-out both; transform-box: fill-box; transform-origin: center; }
+  .xhFire.is-done .xhEmber { animation: xhEmber 2.4s ease-in-out 1.4s infinite; }
+}
+@media (prefers-reduced-motion: reduce) { .xhFlame { transition: opacity 300ms; } }
+@keyframes xhThrough { 0% { opacity: 0; transform: translateX(0); } 12% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(330px); } }
+@keyframes xhStop { 0% { opacity: 0; transform: translateX(0); } 12% { opacity: 1; } 55% { opacity: 1; transform: translateX(78px); } 100% { opacity: 0; transform: translate(74px, 22px) rotate(14deg); } }
+@keyframes xhThread { 0% { opacity: 0.8; } 100% { opacity: 0; } }
+@keyframes xhEmber { 50% { opacity: 0.6; } }
+@media (prefers-reduced-motion: no-preference) {
+  /* Diệm rises: the bright inner flame stretches upward quickly, the outer envelope sways slowly, the halo breathes.
+     Fixed keyframes only (transform and opacity), so the browser runs them on the compositor. */
+  .xhInner { animation: xhRise 1.9s ease-in-out infinite; }
+  .xhOuter { animation: xhSway 3.3s ease-in-out -1s infinite; }
+  .xhHalo { animation: xhHaloBreath 4.2s ease-in-out infinite; }
+  .xhFire.is-done .xhLayer { animation-play-state: paused; }
+}
+@keyframes xhRise { 0%, 100% { transform: scaleY(1) skewX(0deg); } 35% { transform: scaleY(1.05) skewX(1.2deg); } 70% { transform: scaleY(0.98) skewX(-1deg); } }
+@keyframes xhSway { 0%, 100% { transform: skewX(2deg); } 50% { transform: skewX(-2deg) scaleY(1.02); } }
+@keyframes xhHaloBreath { 50% { transform: scale(1.04); } }
+
+/* ---------- 3D demo: the same ritual drawn by a WebGL shader ---------- */
+.xh3d:focus-visible { outline-offset: 2px; }
+.xh3d-canvas { display: block; width: clamp(240px, 70vw, 340px); aspect-ratio: 240 / 340; }
+
+/* Gương soi holds all three quẻ (Hiện, Hóa, Nội Bích); on a phone they stay in one row, smaller */
+.ctQue-role { display: grid; gap: 1px; text-align: center; }
+.ctQue-role small { font-size: 12.5px; color: var(--muted); opacity: 0.85; }
+@media (width < 560px) {
+  .ctMirror { gap: 14px; grid-auto-columns: minmax(0, 1fr); }
+  .ctQue-lines { width: 100%; max-width: 104px; }
+  .ctQue-name { font-size: 22px; }
+  .ctQue-goc { font-size: 13px; }
+  .ctQue-tuong { display: none; } /* the image line returns in Lời đọc below */
+  .ctArrow { top: 52px; font-size: 22px; }
+}
+
+/* ---------- Nhiên Đăng Văn: each word of the question lights a lamp; they gather into one flame ---------- */
+.ctLamps { position: relative; display: flex; justify-content: center; align-items: end; gap: clamp(6px, 2vw, 16px); height: 64px; margin: 6px 0 2px; }
+.ctLamp { position: relative; display: grid; justify-items: center; width: clamp(16px, 4.4vw, 26px); height: 100%; align-content: end; transition: transform 900ms cubic-bezier(0.6, 0, 0.2, 1), opacity 700ms 300ms; }
+/* the bowl of a small bronze oil lamp, with a dark wick */
+.ctLamp-bowl { width: 100%; height: 9px; border-radius: 0 0 50% 50% / 0 0 100% 100%; background: linear-gradient(#a8844a, #6e5230); box-shadow: inset 0 2px 0 rgba(255, 236, 190, 0.35); }
+.ctLamp-flame { width: 7px; height: 16px; margin-bottom: 1px; border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%; background: #4a382a; transform-origin: 50% 100%; transform: scale(0.35); transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1), background-color 400ms, box-shadow 500ms; }
+.ctLamp.is-lit .ctLamp-flame { transform: none; background: radial-gradient(ellipse at 50% 75%, #fff3cf 0 22%, #f0b955 52%, #c76a24 80%); box-shadow: 0 -2px 10px 2px rgba(240, 185, 85, 0.5); }
+/* the one flame they become */
+.ctLamps-one { position: absolute; left: 50%; bottom: 8px; width: 26px; height: 46px; translate: -50% 0; border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%; background: radial-gradient(ellipse at 50% 75%, #fff6df 0 20%, #f3bb58 48%, #c2541f 78%, transparent 82%); box-shadow: 0 -6px 26px 8px rgba(240, 185, 85, 0.45); opacity: 0; transform: scale(0.2); transform-origin: 50% 100%; transition: opacity 500ms 650ms, transform 700ms 650ms cubic-bezier(0.2, 0.7, 0.2, 1); pointer-events: none; }
+.ctLamps.is-gathering .ctLamp { transform: translateX(calc(var(--o) * -1 * (clamp(16px, 4.4vw, 26px) + clamp(6px, 2vw, 16px)))); opacity: 0; }
+.ctLamps.is-gathering .ctLamps-one { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .ctLamp.is-lit .ctLamp-flame { animation: ctLampLight 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both, ctLampFlicker 2.4s ease-in-out 520ms infinite; }
+  .ctLamp:nth-child(3n + 1).is-lit .ctLamp-flame { animation-duration: 520ms, 2.9s; }
+  .ctLamp:nth-child(3n + 2).is-lit .ctLamp-flame { animation-duration: 520ms, 2.1s; }
+}
+@keyframes ctLampLight { from { transform: scale(0.35); } 60% { transform: scale(1.15, 1.25); } to { transform: none; } }
+@keyframes ctLampFlicker { 50% { transform: scaleY(1.1) skewX(2deg); } }
+/* the flame of the cast rises from where the lamps gathered */
+@media (prefers-reduced-motion: no-preference) {
+  .ctRite--gieo .xhFlame { animation: ctFlameBorn 900ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards; } /* backwards: it must not hold the end state, or the ember at the end could not shrink it */
+}
+@keyframes ctFlameBorn { from { opacity: 0; transform: scale(0.25); } to { opacity: 1; transform: none; } }

@@ -13,11 +13,9 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 site-header border-b border-walnut/10">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-6 px-6 py-4 lg:px-10">
-        <Link href="/" className="flex min-h-11 min-w-11 items-center gap-3" aria-label="Ngọc Âm — Trang chủ">
-          <Image src="/images/logo-mark.png" alt="" width={32} height={32} className="h-8 w-8 shrink-0" />
-          <span className="hidden whitespace-nowrap font-heading text-lg tracking-[0.2em] text-ink sm:inline">
-            NGỌC ÂM
-          </span>
+        <Link href="/" className="flex min-h-11 min-w-11 items-center" aria-label="Ngọc Âm — Trang chủ">
+          <Image src="/images/logo/ngoc-am-symbol-color.svg" alt="" width={256} height={256} unoptimized className="h-9 w-9 shrink-0 sm:hidden" />
+          <Image src="/images/logo/ngoc-am-horizontal-color.svg" alt="" width={811} height={256} unoptimized priority className="hidden h-11 w-auto shrink-0 sm:block" />
         </Link>
 
         <nav aria-label="Chính" className="hidden flex-1 items-center justify-center gap-5 xl:flex">

@@ -1,0 +1,144 @@
+/* Xuyên Nhật · Vách Khám. Each diệm has one colour: the lamp of Nhiên đăng, the gold of Bối quang, the ember of Đồ tỳ. */
+.xn {
+  --xn-nd: #b9772e; --xn-bq: #c9a25a; --xn-dt: #9c3a24; --xn-son: #a8231f;
+  --xn-c: var(--accent, #6b4a2f);
+  max-width: 1120px; margin: 0 auto; color: var(--ink);
+}
+.xn[data-diem="nhien-dang"], .xnDiem[data-diem="nhien-dang"] { --xn-c: var(--xn-nd); }
+.xn[data-diem="boi-quang"], .xnDiem[data-diem="boi-quang"] { --xn-c: var(--xn-bq); }
+.xn[data-diem="do-ty"], .xnDiem[data-diem="do-ty"] { --xn-c: var(--xn-dt); }
+
+.xnStep { display: grid; gap: 18px; padding: clamp(36px, 6vw, 64px) 0; border-top: 1px solid var(--line); }
+.xnStep:first-child { border-top: 0; padding-top: 0; }
+.xnH { margin: 0; font-family: var(--display); font-weight: 600; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15; }
+.xnLead { margin: 0; max-width: 60ch; color: var(--muted); line-height: 1.7; }
+.xnHint { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* 1 · the three flames */
+.xnDiems { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 24px); }
+@media (width < 860px) { .xnDiems { grid-template-columns: 1fr; } }
+.xnDiem { margin: 0; padding: 18px 18px 20px; border: 1px solid var(--line); border-top: 3px solid var(--xn-c); border-radius: 3px; background: color-mix(in srgb, var(--raised) 70%, transparent); min-width: 0; }
+.xnDiem legend { display: flex; align-items: center; gap: 10px; padding: 0 6px; margin-left: -6px; font-family: var(--display); font-weight: 600; font-size: 22px; }
+.xnDiem-flame { width: 12px; height: 18px; border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%; background: radial-gradient(ellipse at 50% 70%, #fff1c9 0 18%, var(--xn-c) 55%, transparent 72%); }
+.xnDiem-y { margin: 6px 0 14px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.xnChips { display: flex; flex-wrap: wrap; gap: 8px; }
+.xnChip { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 22px; background: var(--paper); font-size: 15px; cursor: pointer; transition: border-color 200ms, background-color 200ms, color 200ms; }
+.xnChip:hover { border-color: var(--xn-c); }
+.xnChip input { position: absolute; opacity: 0; pointer-events: none; }
+.xnChip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.xnChip.is-on { border-color: var(--xn-c); background: color-mix(in srgb, var(--xn-c) 16%, var(--paper)); font-weight: 600; }
+
+/* 2 · who and when */
+.xnFields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px 20px; max-width: 920px; }
+.xnField { display: grid; gap: 6px; }
+.xnField span { font-size: 15px; color: var(--muted); }
+.xnField input { min-height: 48px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--ink); font: inherit; font-size: 17px; }
+.xnField input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.xnField small { color: var(--muted); font-size: 14px; line-height: 1.5; min-height: 1.5em; }
+.xnOpen { justify-self: start; border: 0; cursor: pointer; font: inherit; }
+.xnOpen:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* 3 · the wall of khám */
+.xnPhase { margin: 0; min-height: 1.7em; color: var(--muted); font-style: italic; font-family: var(--display); font-size: 19px; }
+.xnWall { display: grid; gap: clamp(6px, 1vw, 10px); padding: clamp(14px, 2.4vw, 28px); border-radius: 6px;
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, #f3e6cf 80%, transparent), transparent 70%), linear-gradient(#d9c6a6, #cbb592);
+  box-shadow: inset 0 2px 14px rgba(43, 31, 23, 0.22); }
+.xnWall-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(6px, 1vw, 10px); }
+.xnWall-head span { text-align: center; font-size: 13px; color: color-mix(in srgb, var(--ink) 70%, transparent); letter-spacing: 0.04em; }
+/* a khám: an arched niche carved into the wall */
+.xnKham { position: relative; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; align-items: start; min-height: clamp(78px, 11vw, 112px); padding: 22px 2px 8px; border: 0; border-radius: 999px 999px 6px 6px / 46% 46% 6px 6px;
+  background: linear-gradient(#3b2c21, #4a382a 60%, #574332); color: #efe3d1; font: inherit; cursor: pointer; overflow: hidden;
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 245, 225, 0.35); transition: transform 300ms, box-shadow 400ms, opacity 400ms, filter 400ms; }
+.xnKham:hover { transform: translateY(-2px); }
+.xnKham:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.xnKham.is-out { background: transparent; box-shadow: none; cursor: default; }
+.xnKham-d { font-family: var(--display); font-weight: 600; font-size: clamp(18px, 2.4vw, 24px); line-height: 1; }
+.xnKham-am { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+.xnKham-truc { font-size: clamp(10.5px, 1.2vw, 12.5px); opacity: 0.85; text-align: center; line-height: 1.2; }
+@media (width < 560px) { .xnKham-truc { display: none; } .xnKham { min-height: 66px; padding-top: 18px; } }
+/* the lamp: lit for Minh Khám, a dark wick for Ám Khám */
+.xnKham-lamp { position: absolute; top: 7px; left: 50%; translate: -50% 0; width: 8px; height: 11px; border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%; background: #6d5843; }
+[data-phase="1"] .xnKham.is-minh .xnKham-lamp, [data-phase="2"] .xnKham.is-minh .xnKham-lamp, [data-phase="3"] .xnKham.is-minh .xnKham-lamp, [data-phase="4"] .xnKham.is-minh .xnKham-lamp { background: radial-gradient(ellipse at 50% 72%, #fff3cf 0 22%, #f0b955 50%, #c76a24 78%); box-shadow: 0 0 10px 3px rgba(240, 185, 85, 0.55); }
+/* layer 2: the hard filters crack the khám and set it back into the wall */
+[data-phase="2"] .xnKham.is-loai, [data-phase="3"] .xnKham.is-loai, [data-phase="4"] .xnKham.is-loai { filter: saturate(0.4) brightness(0.72); }
+.xnKham-crack { position: absolute; inset: 0; opacity: 0; pointer-events: none; background:
+  linear-gradient(118deg, transparent 47%, rgba(239, 227, 209, 0.55) 47.6%, transparent 48.6%),
+  linear-gradient(64deg, transparent 58%, rgba(239, 227, 209, 0.35) 58.6%, transparent 59.4%); transition: opacity 500ms; }
+[data-phase="2"] .xnKham-crack, [data-phase="3"] .xnKham-crack, [data-phase="4"] .xnKham-crack { opacity: 1; }
+/* layer 3: the trực that fits the work glows in the work's diệm */
+[data-phase="3"] .xnKham.is-hop, [data-phase="4"] .xnKham.is-hop { box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.35), inset 0 0 0 2px var(--xn-c), 0 0 18px -2px color-mix(in srgb, var(--xn-c) 70%, transparent); }
+/* layer 4: the options are sealed */
+.xnKham-seal { position: absolute; right: 4px; bottom: 4px; display: grid; place-items: center; min-width: 26px; height: 26px; padding: 0 3px; border-radius: 3px; background: var(--xn-son); color: #f6efe2; font-family: var(--display); font-weight: 600; font-size: 12px; opacity: 0; transform: scale(1.4); }
+[data-phase="4"] .xnKham-seal { opacity: 1; transform: none; transition: opacity 360ms, transform 420ms cubic-bezier(0.3, 0, 0.1, 1); }
+[data-phase="4"] .xnKham.is-chon { transform: translateY(-3px); }
+@media (prefers-reduced-motion: no-preference) {
+  [data-phase="0"] .xnKham:not(.is-out), [data-phase="1"] .xnKham:not(.is-out) { animation: xnCarve 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i) * 12ms); }
+  .xnKham.is-minh .xnKham-lamp { animation: xnFlicker 2.8s ease-in-out infinite; animation-delay: calc(var(--i) * -170ms); }
+}
+@keyframes xnCarve { from { opacity: 0; transform: translateY(6px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes xnFlicker { 50% { transform: scaleY(1.12) translateY(-1px); opacity: 0.88; } }
+
+.xnLegend { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0; padding: 0; color: var(--muted); font-size: 14px; }
+.xnLegend li { display: inline-flex; align-items: center; gap: 8px; }
+.xnLegend li > span { width: 14px; height: 14px; border-radius: 3px; }
+.xnLegend-lamp { background: radial-gradient(ellipse at 50% 72%, #fff3cf 0 22%, #f0b955 50%, #c76a24 78%); border-radius: 50% 50% 45% 45% / 62% 62% 38% 38% !important; width: 10px !important; }
+.xnLegend-hop { box-shadow: inset 0 0 0 2px var(--xn-c); background: #4a382a; }
+.xnLegend-crack { background: linear-gradient(118deg, #4a382a 46%, #efe3d1 47%, #4a382a 50%); filter: saturate(0.5); }
+.xnLegend-seal { background: var(--xn-son); }
+
+/* 4 · the options */
+.xnPicks { list-style: none; display: grid; gap: 14px; margin: 0; padding: 0; }
+.xnPick { display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 18px; border: 1px solid var(--line); border-left: 0; border-radius: 3px; background: var(--raised); }
+.xnPick-seal { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 4px; background: var(--xn-son); color: #f6efe2; font-family: var(--display); font-weight: 600; font-size: 18px; }
+.xnPick-body { display: grid; gap: 4px; min-width: 0; }
+.xnPick-date { margin: 0; font-family: var(--display); font-weight: 600; font-size: 24px; }
+.xnPick-sub, .xnPick-hours { margin: 0; color: var(--muted); font-size: 15px; }
+.xnPick-why { margin: 4px 0; line-height: 1.6; }
+.xnPick-act { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 4px; }
+.xnLinkBtn { min-height: 44px; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
+.xnSay { margin: 0; max-width: 66ch; padding-left: 16px; border-left: 2px solid var(--xn-c); font-family: var(--display); font-style: italic; font-size: 20px; line-height: 1.55; }
+.xnNien { display: grid; gap: 6px; max-width: 70ch; padding: 16px 18px; border: 1px solid var(--line); border-radius: 3px; }
+.xnNien h3 { margin: 0 0 4px; font-family: var(--display); font-weight: 600; font-size: 20px; }
+.xnNien p { margin: 0; line-height: 1.6; }
+.xnNien small { color: var(--muted); font-size: 14px; }
+.xnLimit { margin: 0; max-width: 70ch; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.xnNext { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 26px clamp(20px, 3vw, 34px); background: var(--raised); border: 1px solid var(--line); }
+.xnNext p { flex: 1 1 100%; margin: 0; max-width: 64ch; line-height: 1.7; }
+.xn .ipBtn { border: 0; cursor: pointer; font: inherit; }
+.xnBtn--ghost { background: transparent !important; color: var(--ink) !important; box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* the tờ ngày: a sheet from the bottom on phones, a panel on the right on wide screens */
+.xnSheet { position: fixed; inset: 0; z-index: 900; display: grid; align-items: end; }
+@media (width >= 900px) { .xnSheet { justify-items: end; align-items: stretch; } }
+.xnSheet-backdrop { position: absolute; inset: 0; border: 0; background: rgba(43, 31, 23, 0.42); cursor: pointer; }
+.xnSheet-panel { position: relative; display: grid; grid-template-rows: auto 1fr; max-height: 86svh; border-radius: 16px 16px 0 0; background: var(--paper); box-shadow: 0 -18px 40px -20px rgba(43, 31, 23, 0.6); padding-bottom: env(safe-area-inset-bottom, 0px); }
+@media (width >= 900px) { .xnSheet-panel { width: min(520px, 92vw); max-height: none; border-radius: 0; } }
+.xnSheet-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding: 20px 20px 12px; border-bottom: 1px solid var(--line); }
+.xnSheet-kicker { margin: 0; color: var(--muted); font-size: 14px; }
+.xnSheet-title { margin: 2px 0 0; font-family: var(--display); font-weight: 600; font-size: 26px; }
+.xnSheet-close { min-height: 44px; padding: 0 10px; border: 0; background: none; color: var(--accent); font: inherit; cursor: pointer; }
+.xnSheet-body { overflow-y: auto; overscroll-behavior: contain; padding: 16px 20px 28px; display: grid; gap: 14px; align-content: start; }
+.xnSet { margin: 0; padding: 10px 12px; border-left: 3px solid var(--xn-son); background: color-mix(in srgb, var(--xn-son) 7%, transparent); }
+.xnLayers { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.xnLayers li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+.xnLayers li:first-child { border-top: 0; }
+.xnLayers-mark { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); font-size: 15px; color: var(--muted); }
+.xnLayers li[data-dau="+"] .xnLayers-mark { border-color: var(--xn-c); color: var(--xn-c); }
+.xnLayers li[data-dau="−"] .xnLayers-mark { color: var(--ink); }
+.xnLayers li[data-dau="loại"] .xnLayers-mark { border-color: var(--xn-son); background: var(--xn-son); color: #f6efe2; }
+.xnLayers p { margin: 2px 0 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+.xnGoc { color: var(--muted); font-size: 14px; }
+.xnSheet-h { margin: 6px 0 0; font-family: var(--display); font-weight: 600; font-size: 20px; }
+.xnHours { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.xnHours li { display: grid; justify-items: center; gap: 2px; padding: 16px 2px 6px; position: relative; border-radius: 999px 999px 4px 4px / 40% 40% 4px 4px; background: #4a382a; color: #efe3d1; }
+.xnHours li small { font-size: 11px; opacity: 0.75; }
+.xnHours-lamp { position: absolute; top: 4px; width: 6px; height: 9px; border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%; background: #6d5843; }
+.xnHours li.is-minh .xnHours-lamp { background: radial-gradient(ellipse at 50% 72%, #fff3cf 0 22%, #f0b955 50%, #c76a24 78%); box-shadow: 0 0 8px 2px rgba(240, 185, 85, 0.55); }
+.xnSheet-note { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.xnIcs { justify-self: start; }
+@media (prefers-reduced-motion: no-preference) {
+  .xnSheet-panel { animation: xnUp 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  @media (width >= 900px) { .xnSheet-panel { animation-name: xnLeft; } }
+}
+@keyframes xnUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes xnLeft { from { transform: translateX(100%); } to { transform: none; } }

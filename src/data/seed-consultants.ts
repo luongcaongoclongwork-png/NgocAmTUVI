@@ -22,16 +22,16 @@ export const seedConsultants: SeedConsultant[] = [
   {
     slug: "co-minh-trang",
     name: "Cô Nguyễn Minh Trang",
-    field: "Khai vấn Tử Vi",
+    field: "Xuyên Giả Tử Vi",
     initials: "MT",
-    bio: "Là truyền nhân của Khâm Thiên Giám dưới triều vua Minh Mạng, cô Nguyễn Minh Trang có cơ duyên tiếp cận và kế thừa những tri thức phương Đông được lưu truyền qua nhiều thế hệ. Với hơn 10 năm nghiên cứu và thực hành Tử Vi – Phong Thuỷ, cô đồng hành cùng nhiều quý hữu tìm ra con đường phát triển phù hợp với bản thân, chuyển hoá những điều bất như ý trong lá số thành cơ hội để trưởng thành và an nhiên hơn.",
+    bio: "Cô Nguyễn Minh Trang là truyền nhân của vị quan kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng. Từ cơ duyên ấy, cô được tiếp cận và kế thừa những tri thức phương Đông lưu truyền qua nhiều thế hệ. Hơn 10 năm nghiên cứu và thực hành Tử Vi, Phong Thủy đã giúp cô hình thành cách tiếp cận cẩn trọng, chú trọng việc ứng dụng tri thức vào những vấn đề cụ thể trong đời sống.\n\nTrong quá trình đồng hành cùng quý hữu, cô vận dụng Tử Vi và Phong Thủy để giúp mỗi người hiểu rõ bản thân, nhìn nhận hoàn cảnh thấu đáo và tìm hướng phát triển phù hợp. Qua việc đọc Diệm Bản và Xuyên vấn, cô hỗ trợ quý hữu nhận diện những vướng mắc, từng bước chuyển hóa điều bất như ý thành cơ hội học hỏi và trưởng thành.\n\nVới cô Trang, giá trị của tri thức cổ còn nằm ở khả năng hỗ trợ con người đưa ra quyết định trong hiện tại. Sự điềm tĩnh và cẩn trọng được bồi đắp qua nhiều năm thực hành là nền tảng cho những định hướng cô chia sẻ. Cô mong mỗi người có thể chủ động tháo gỡ khó khăn, vững tâm trước biến động và nuôi dưỡng sự bình an trên hành trình tu dưỡng nội tâm.",
   },
   {
     slug: "thay-tinh",
     name: "Thầy Tịnh",
-    field: "Tư vấn Phong Thuỷ",
+    field: "Phong Thuỷ Sư",
     initials: "T",
-    bio: "Là hậu nhân của một vị Thượng thư Bộ Hộ, từng kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng, Thầy Tịnh sinh trưởng trong một gia đình có truyền thống gắn với địa lý và Phong Thuỷ. Thầy dành nhiều tâm sức nghiên cứu Phong Thuỷ Dương Trạch và Âm Trạch — nhà ở, đất đai, không gian sống và việc lựa chọn vị trí an táng — như một nghệ thuật quan sát mối quan hệ giữa con người, không gian và môi trường sống.",
+    bio: "Thầy Tịnh là hậu nhân của một vị Thượng thư Bộ Hộ từng kiêm quản Khâm Thiên Giám dưới triều vua Minh Mạng. Sinh trưởng trong gia đình có truyền thống về Phong Thủy, thầy tiếp nối việc nghiên cứu những tri thức được lưu truyền qua nhiều thế hệ, dành nhiều tâm sức cho Phong Thủy Dương Trạch và Âm Trạch.\n\nTrong cách tiếp cận của thầy, việc nghiên cứu Phong Thủy bắt đầu từ sự quan sát mối quan hệ giữa con người với đất đai, nhà ở và môi trường sống. Mỗi không gian cần được xem xét trong hoàn cảnh cụ thể để hiểu những yếu tố tác động đến đời sống của người sử dụng.\n\nThầy chú trọng việc đối chiếu nguyên lý truyền thống với điều kiện thực tế. Từ đó, những tri thức của người xưa trở thành cơ sở để đưa ra gợi ý phù hợp, giúp người tìm đến thầy có thêm căn cứ khi cân nhắc về đất đai và không gian sống của mình.",
   },
   {
     slug: "khuong",

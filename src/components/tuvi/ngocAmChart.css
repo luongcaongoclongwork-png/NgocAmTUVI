@@ -698,6 +698,12 @@ div.center-palace.center-palace--xtd > .center-scroll-bg {
   display: none;
 }
 
+/* --cz is set by xtd/useChartFitGuard.ts when the Trung Cung's rows are taller
+   than its box (unset = 1): every in-flow child shrinks by the same factor. */
+.center-palace > :is(.chart-center-header, .center-divider, .center-info-group, .center-tagline) {
+  zoom: var(--cz, 1);
+}
+
 .center-watermark {
   position: absolute;
   inset: 0;

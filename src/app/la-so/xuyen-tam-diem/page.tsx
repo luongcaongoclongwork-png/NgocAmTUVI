@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { InkClose } from "@/components/thuy-mac/kit";
 import XtdLaSoResultClient from "@/components/tuvi/xtd/XtdLaSoResultClient";
+import "@/components/tuvi/lap-la-so-compact.css";
 
 export const metadata: Metadata = {
   title: "Lá Số Xuyên Tam Diệm — Ngọc Âm",
@@ -7,5 +9,16 @@ export const metadata: Metadata = {
 };
 
 export default function LaSoXuyenTamDiemPage() {
-  return <XtdLaSoResultClient />;
+  // paper under the fixed header; the chart, then an invitation to read it with a Xuyên giả
+  return (
+    <div className="ip ipResult">
+      <XtdLaSoResultClient mobileSheet />
+      <InkClose
+        title="Tấm bản đồ đã có, cùng đọc nó với Xuyên giả."
+        text="Một phiên Xuyên vấn luận Diệm Bản này theo câu hỏi và hoàn cảnh của bạn."
+        href="/lien-he?topic=tu-vi"
+        label="Đặt Lịch Xuyên Vấn"
+      />
+    </div>
+  );
 }

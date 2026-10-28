@@ -95,7 +95,7 @@ function countsFor(
 export function computeRowLayout(
   chart: VietnameseChartDTO,
   horoscope: VietnameseHoroscopeDTO | null,
-  options: { zoneBadge?: boolean } = {},
+  options: { zoneBadge?: boolean; centerMinPct?: number } = {},
 ): RowLayout {
   const rowMaxScore = [0, 0, 0, 0]; // index 0..3 = row 1..4
   for (const palace of chart.palaces) {
@@ -116,6 +116,20 @@ export function computeRowLayout(
     const remaining = 100 - flooredIdx.size * MIN_ROW_PCT;
     const freeTotal = heights.reduce((sum, h, i) => (flooredIdx.has(i) ? sum : sum + h), 0);
     heights = heights.map((h, i) => (flooredIdx.has(i) ? MIN_ROW_PCT : freeTotal > 0 ? (h / freeTotal) * remaining : remaining / (4 - flooredIdx.size)));
+  }
+
+  // The Trung Cung spans rows 2 and 3 and its list of rows is the same length on
+  // every chart: when the outer rows are crowded enough to squeeze the middle
+  // under what that list needs, the outer rows hand the difference back, each in
+  // proportion to its size (the web chart's per-cell fit guard then tightens the
+  // crowded cells). Opt-in, so print keeps its own measured split.
+  const centerMin = options.centerMinPct;
+  if (centerMin !== undefined && heights[1] + heights[2] < centerMin) {
+    const middle = heights[1] + heights[2];
+    const outer = heights[0] + heights[3];
+    const grow = centerMin / middle;
+    const shrink = (100 - centerMin) / outer;
+    heights = [heights[0] * shrink, heights[1] * grow, heights[2] * grow, heights[3] * shrink];
   }
 
   const [h1, h2, h3, h4] = heights as [number, number, number, number];

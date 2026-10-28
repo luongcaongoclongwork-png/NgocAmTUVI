@@ -6,9 +6,12 @@ import { MOBILE_TUVI_CANVAS } from "./tuviMobileConstants";
 /**
  * Renders `children` at the fixed MOBILE_TUVI_CANVAS size, then CSS-scales
  * the whole layer down (via transform: scale, never a redraw) to fit the
- * viewport's actual width. Scale is a runtime-only presentation value —
+ * viewport's actual width — or up, to at most MAX_SCALE, on an upright tablet
+ * wider than the canvas. Scale is a runtime-only presentation value —
  * never persisted, never fed back into the chart data.
  */
+const MAX_SCALE = 1.25;
+
 export function MobileScaleViewport({ children }: { children: ReactNode }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState<number | null>(null);
@@ -22,7 +25,7 @@ export function MobileScaleViewport({ children }: { children: ReactNode }) {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
         const availableWidth = element.clientWidth;
-        setScale(Math.min(1, availableWidth / MOBILE_TUVI_CANVAS.width));
+        setScale(Math.min(MAX_SCALE, availableWidth / MOBILE_TUVI_CANVAS.width));
       });
     };
 

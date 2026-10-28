@@ -17,9 +17,9 @@ export default function Philosophy() {
       />
       <div className="relative z-10 mx-auto max-w-[1280px] px-6 text-center lg:px-10">
         <Reveal>
-          <p className="tracking-label text-[12px] font-medium uppercase text-gold-deep">
+          <h2 className="hSpirit-title">
             Tinh thần Ngọc Âm
-          </p>
+          </h2>
         </Reveal>
 
         <div className="mx-auto mt-16 grid max-w-4xl gap-16 sm:grid-cols-3">
