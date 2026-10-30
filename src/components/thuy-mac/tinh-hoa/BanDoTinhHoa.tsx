@@ -2,21 +2,26 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { docBanDo, GHI_CHU_CHAT, HUONG, laKey, laTen, NGHIA, type BanDo } from "@/lib/tinh-hoa";
+import { docBanDo, GHI_CHU_CHAT, HUONG, laKey, laTen, NGHIA, type BanDo, type Huong } from "@/lib/tinh-hoa";
 import { printSheet, saveBlob, sheetToPdf } from "../kinh-dich/queSheet";
 import LaBai from "./LaBai";
+import { QUAI, QUAI_TEN } from "./LaBan";
+import { LaBanNoi } from "./LaBan3D";
 import { drawBanDo } from "./banDoSheet";
 import "./tinh-hoa.css";
 
 /**
- * Bản Đồ Tịnh Hoá (owner-approved 2026-10-27): an octagon like a bát quái, the Ngọc Âm logo at its heart (the original file,
- * never moved or recoloured), the eight directions around it the owner's way. The petals open once, clockwise from
- * Đông; below, each direction's reading in full. Kept as an A4 sheet: image, PDF, print.
+ * Bản Đồ Tịnh Hoá (owner-approved 2026-10-27; la kinh since 2026-10-28): the la bàn Tịnh Hoá with the household's
+ * name engraved on its rim. On arrival the red thread turns once to Đông and the light runs round the eight cung; a cung
+ * on the dial opens its reading below. Thầy Tịnh's own seal is still being made, so its frame stays empty.
+ * Kept as an A4 sheet: image, PDF, print.
  */
 export default function BanDoTinhHoa({ formPath = "/phong-thuy/lap-ban-do-tinh-hoa" }: { formPath?: string }) {
   const router = useRouter();
   const [b, setB] = useState<BanDo | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const [doc, setDoc] = useState<Huong | null>(null);
+  const [kim, setKim] = useState(0);
   const [at] = useState(() => new Date());
 
   useEffect(() => {
@@ -27,6 +32,12 @@ export default function BanDoTinhHoa({ formPath = "/phong-thuy/lap-ban-do-tinh-h
     }
     queueMicrotask(() => setB(saved));
   }, [router, formPath]);
+  // one slow turn of the thread once the dial is on screen
+  useEffect(() => {
+    if (!b) return;
+    const id = requestAnimationFrame(() => setKim(360));
+    return () => cancelAnimationFrame(id);
+  }, [b]);
 
   if (!b) return <p className="thWait">Đang dựng bản đồ…</p>;
 
@@ -43,6 +54,11 @@ export default function BanDoTinhHoa({ formPath = "/phong-thuy/lap-ban-do-tinh-h
       setBusy(null);
     }
   };
+  const cham = (h: Huong) => {
+    setDoc(h);
+    setKim(360 + HUONG.find((x) => x.id === h)!.goc);
+    document.getElementById(`th-doc-${h}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   return (
     <div className="th thMap">
@@ -56,30 +72,16 @@ export default function BanDoTinhHoa({ formPath = "/phong-thuy/lap-ban-do-tinh-h
         </p>
       </header>
 
-      {/* the octagon: eight petals around the logo, opening clockwise from Đông */}
-      <div className="thOct" role="list" aria-label="Tám hướng của ngôi nhà">
-        <svg className="thOct-frame" viewBox="0 0 300 300" preserveAspectRatio="none" aria-hidden="true">
-          <polygon points="88,4 212,4 296,88 296,212 212,296 88,296 4,212 4,88" />
-          <polygon className="thOct-inner" points="118,96 182,96 204,118 204,182 182,204 118,204 96,182 96,118" />
-          {[[150, 4, 150, 96], [296, 150, 204, 150], [150, 296, 150, 204], [4, 150, 96, 150], [254, 46, 193, 107], [254, 254, 193, 193], [46, 254, 107, 193], [46, 46, 107, 107]].map(([x1, y1, x2, y2], i) => (
-            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
-          ))}
-        </svg>
-        {HUONG.map((h, i) => {
-          const l = b.la[h.id];
-          const n = NGHIA[l.hang];
-          return (
-            <div key={h.id} role="listitem" className="thPetal" style={{ gridColumn: h.o[0], gridRow: h.o[1], ["--k" as string]: i }}>
-              <p className="thPetal-dir">{h.ten}</p>
-              <LaBai la={l} size="md" />
-              <p className="thPetal-chu">{n.chu}</p>
-            </div>
-          );
-        })}
-        <div className="thOct-heart" style={{ gridColumn: 2, gridRow: 2 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- the logo's own SVG file, shown as it is */}
-          <img src="/images/logo/ngoc-am-symbol-color.svg" alt="Ngọc Âm" width={120} height={120} />
-        </div>
+      <div className="lb-table">
+        <LaBanNoi
+          la={b.la}
+          chon={doc}
+          kim={kim}
+          tinh
+          ten={b.ten}
+          onCham={cham}
+          label={(h, l) => `${h.ten} (${QUAI_TEN[h.id]}): ${l ? `${laTen(l)}, ${NGHIA[l.hang].chu}` : ""}. Đọc lời của hướng này`}
+        />
       </div>
 
       <div className="thExport" role="group" aria-label="Giữ lại bản đồ">
@@ -90,18 +92,18 @@ export default function BanDoTinhHoa({ formPath = "/phong-thuy/lap-ban-do-tinh-h
       </div>
 
       <section aria-labelledby="th-read-h">
-        <h2 id="th-read-h" className="thH">Tám hướng, từng hướng</h2>
+        <h2 id="th-read-h" className="thH">Tám cung, từng cung</h2>
         <ol className="thRead">
           {HUONG.map((h) => {
             const l = b.la[h.id];
             const n = NGHIA[l.hang];
             const note = GHI_CHU_CHAT[laKey(l)];
             return (
-              <li key={h.id} className="thRead-item">
+              <li key={h.id} id={`th-doc-${h.id}`} className={`thRead-item ${doc === h.id ? "is-doc" : ""}`}>
                 <LaBai la={l} size="sm" />
                 <div>
                   <p className="thRead-h">
-                    <b>{h.ten}</b> · {laTen(l)} · {n.chu}
+                    <b>{h.ten}</b> <span className="lb-quai">{QUAI[h.id]} {QUAI_TEN[h.id]}</span> · {laTen(l)} · {n.chu}
                   </p>
                   <p>{n.tinhChat}</p>
                   <p><span className="thTag">Nên</span> {n.nen}</p>
@@ -113,7 +115,10 @@ export default function BanDoTinhHoa({ formPath = "/phong-thuy/lap-ban-do-tinh-h
           })}
         </ol>
       </section>
-      <p className="thSign">Thầy Tịnh · Phong Thuỷ Là Tịnh · lập ngày {at.toLocaleDateString("vi-VN")}</p>
+      <div className="lb-seal">
+        <span className="lb-seal-mark" aria-hidden="true" />
+        <p className="thSign">Thầy Tịnh · Phong Thuỷ Là Tịnh · lập ngày {at.toLocaleDateString("vi-VN")}</p>
+      </div>
     </div>
   );
 }

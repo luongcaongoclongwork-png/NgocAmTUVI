@@ -1,7 +1,8 @@
 import { CHAT_PATH } from "./LaBai";
 import { CHAT, GHI_CHU_CHAT, HUONG, laKey, laTen, NGHIA, type BanDo, type La } from "@/lib/tinh-hoa";
+import { QUAI, SON } from "./LaBan";
 
-/** The A4 sheet of a Bản Đồ Tịnh Hoá (200 dpi), shared by the image, the PDF and the print: dó paper, bronze frame, the octagon with the logo at its heart, then the eight readings. */
+/** The A4 sheet of a Bản Đồ Tịnh Hoá (200 dpi), shared by the image, the PDF and the print: dó paper, bronze frame, the la bàn Tịnh Hoá with the logo at its heart, then the eight readings. */
 const W = 1654, H = 2339;
 const C = { paper: "#efe5d5", ink: "#2b1f17", muted: "#6e5a49", line: "#cdb99c", bronze: "#94733a", son: "#a8231f", raised: "#f7f0e4" };
 
@@ -73,48 +74,63 @@ export async function drawBanDo(b: BanDo, at: Date): Promise<HTMLCanvasElement> 
   const meta = [b.ngaySinh ? `Sinh ngày ${b.ngaySinh.split("-").reverse().join("/")}` : "", b.diaChi].filter(Boolean).join("   ·   ");
   if (meta) wrap(g, meta, W / 2, 316, W - 2 * M, 38);
 
-  // the octagon
-  const S = 1020, ox = (W - S) / 2, oy = 370, cell = S / 3, cut = S * 0.29;
-  g.strokeStyle = C.bronze;
-  g.lineWidth = 3;
-  g.beginPath();
-  const oct = [[cut, 0], [S - cut, 0], [S, cut], [S, S - cut], [S - cut, S], [cut, S], [0, S - cut], [0, cut]];
-  oct.forEach(([x, y], i) => (i ? g.lineTo(ox + x, oy + y) : g.moveTo(ox + x, oy + y)));
-  g.closePath();
-  g.fillStyle = "rgba(247, 240, 228, 0.7)";
-  g.fill();
-  g.stroke();
-  g.lineWidth = 1.2;
-  g.strokeStyle = C.line;
-  for (const k of [1, 2]) {
-    g.beginPath(); g.moveTo(ox + cell * k, oy + 30); g.lineTo(ox + cell * k, oy + S - 30); g.stroke();
-    g.beginPath(); g.moveTo(ox + 30, oy + cell * k); g.lineTo(ox + S - 30, oy + cell * k); g.stroke();
+  // the la bàn: the same bands as the web dial (viewBox 400 → R px), Đông at the top, every character upright
+  const S = 1020, R = S / 2, cx = W / 2, cy = 370 + R, u = R / 200;
+  const at0 = (deg: number, r: number) => [cx + Math.sin((deg * Math.PI) / 180) * r * u, cy - Math.cos((deg * Math.PI) / 180) * r * u] as const;
+  const ring = (r: number, fill?: string | CanvasGradient) => { g.beginPath(); g.arc(cx, cy, r * u, 0, Math.PI * 2); if (fill) { g.fillStyle = fill; g.fill(); } else g.stroke(); };
+  const ray = (deg: number, r1: number, r2: number) => { const [x1, y1] = at0(deg, r1), [x2, y2] = at0(deg, r2); g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); };
+  // blued steel, as on the page: hard light bands on the rim, a deep cold face
+  const steel = g.createLinearGradient(cx - R, cy - R, cx + R, cy + R);
+  [[0, "#7C8EA6"], [0.18, "#23344C"], [0.42, "#4A5E7A"], [0.6, "#141F31"], [0.82, "#3A4C66"], [1, "#0B1320"]].forEach(([o, c]) => steel.addColorStop(o as number, c as string));
+  ring(199, steel);
+  const face = g.createRadialGradient(cx - R * 0.24, cy - R * 0.4, 0, cx, cy, R * 1.1);
+  face.addColorStop(0, "#2C4060"); face.addColorStop(0.55, "#18263C"); face.addColorStop(1, "#0E1828");
+  ring(186, face);
+  g.strokeStyle = "#A7ADB6";
+  g.lineWidth = 1.6;
+  for (let i = 0; i < 120; i++) ray(i * 3, 186, i % 5 === 0 ? 178 : 182);
+  [178, 156, 134, 54].forEach((r) => ring(r));
+  for (let i = 0; i < 24; i++) ray(255 + i * 15 + 7.5, 178, 156);
+  for (const h of HUONG) { ray(h.goc + 22.5, 156, 134); ray(h.goc + 22.5, 134, 54); }
+  g.textAlign = "center";
+  g.textBaseline = "middle";
+  const han = "'Noto Serif TC', 'Noto Serif SC', 'PMingLiU', serif";
+  g.fillStyle = "#E6E9EE";
+  SON.forEach((s, i) => { const [x, y] = at0(255 + i * 15, 167); g.font = `${i % 3 === 1 ? 600 : 500} ${(i % 3 === 1 ? 13 : 11.5) * u}px ${han}`; g.fillText(s, x, y); });
+  g.font = `700 ${15.5 * u}px ${han}`;
+  for (const h of HUONG) { const [x, y] = at0(h.goc, 145); g.fillText(QUAI[h.id], x, y); }
+  // the rim engraving, along the top
+  const rim = `Bản Đồ Tịnh Hoá · Gia chủ ${b.ten} · Phong Thuỷ Là Tịnh`;
+  g.font = `600 ${9 * u}px ${body}`;
+  g.fillStyle = "#EEF2F7";
+  // each character takes its own width along the arc, with a little tracking
+  const rr = 190 * u, gap = 1.2 * u, wOf = (ch: string) => (g.measureText(ch).width + gap) / rr;
+  let a0 = -[...rim].reduce((s, ch) => s + wOf(ch), 0) / 2;
+  for (const ch of rim) {
+    const w = wOf(ch);
+    a0 += w / 2;
+    g.save(); g.translate(cx + Math.sin(a0) * 190 * u, cy - Math.cos(a0) * 190 * u); g.rotate(a0); g.fillText(ch, 0, 0); g.restore();
+    a0 += w / 2;
   }
+  // the vermilion mark on the rim, resting on Đông
+  g.fillStyle = C.son;
+  { const [x1, y1] = at0(0, 177), [x2, y2] = at0(-1.7, 186), [x3, y3] = at0(1.7, 186); g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.lineTo(x3, y3); g.fill(); }
+  // the eight cung
   for (const h of HUONG) {
     const l = b.la[h.id];
-    const n = NGHIA[l.hang];
-    const cx = ox + cell * (h.o[0] - 0.5), top = oy + cell * (h.o[1] - 1);
+    const [x, y] = at0(h.goc, 94);
     g.textAlign = "center";
-    g.fillStyle = C.ink;
-    g.font = `600 40px ${disp}`;
-    g.fillText(h.ten, cx, top + 64);
-    card(g, l, cx - 62, top + 88, 124, disp);
-    g.fillStyle = C.ink;
-    g.font = `600 32px ${disp}`;
-    g.fillText(n.chu, cx, top + 88 + 124 * 1.4 + 52);
-    g.fillStyle = C.muted;
-    g.font = `400 22px ${body}`;
-    g.fillText(laTen(l), cx, top + 88 + 124 * 1.4 + 86);
+    g.textBaseline = "middle";
+    g.fillStyle = "#E6E9EE";
+    g.font = `600 28px ${body}`;
+    g.fillText(h.ten, x, y - 86);
+    g.textBaseline = "alphabetic";
+    card(g, l, x - 46, y - 66, 92, disp);
   }
+  g.textBaseline = "alphabetic";
   // the heart: the logo, as it is
   const logo = await loadImg("/images/logo/ngoc-am-symbol-color-512.png");
-  g.fillStyle = C.paper;
-  g.beginPath();
-  g.arc(ox + S / 2, oy + S / 2, cell * 0.36, 0, Math.PI * 2);
-  g.fill();
-  g.strokeStyle = C.bronze;
-  g.lineWidth = 2;
-  g.stroke();
+  const oy = 370, cell = S / 3, ox = (W - S) / 2;
   if (logo) g.drawImage(logo, ox + S / 2 - cell * 0.28, oy + S / 2 - cell * 0.28, cell * 0.56, cell * 0.56);
 
   // the eight readings, two columns
@@ -126,8 +142,8 @@ export async function drawBanDo(b: BanDo, at: Date): Promise<HTMLCanvasElement> 
     let y = ys[col];
     const l = b.la[h.id], n = NGHIA[l.hang], note = GHI_CHU_CHAT[laKey(l)];
     g.textAlign = "left";
-    g.fillStyle = C.ink;
-    g.font = `600 30px ${disp}`;
+    g.fillStyle = "#E6E9EE";
+    g.font = `600 28px ${body}`;
     g.fillText(`${h.ten} · ${laTen(l)} · ${n.chu}`, x, y);
     y += 34;
     g.font = `400 21px ${body}`;

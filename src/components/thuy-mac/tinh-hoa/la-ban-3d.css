@@ -1,0 +1,29 @@
+/* La bàn 3D: a still object with depth. No tilt, sway or scroll motion (owner, 2026-10-28). */
+.lb3d-stage { --rx: 9deg; --ry: 0deg; --lx: 38%; --ly: 30%; position: relative; perspective: 1400px; perspective-origin: 50% 30%; padding: 40px 0 70px; }
+.lb3d-lift { transform-style: preserve-3d; }
+.lb3d-tilt { position: relative; width: min(100vw - 16px, 680px); margin-left: 50%; translate: -50% 0; transform-style: preserve-3d; transform: rotateX(var(--rx)) rotateY(var(--ry)); }
+.lb3d-tilt .lb-dial { transform-style: preserve-3d; width: 100%; margin-left: 0; translate: none; }
+.lb3d-tilt .lb-rings { filter: none; }
+
+/* the steel has a body: three discs below the face make its edge */
+.lb3d-edge, .lb3d-edge::before, .lb3d-edge::after { position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(135deg, #5d6f88, #101a2a 45%, #3a4c66 70%, #0a111c); }
+.lb3d-edge { transform: translateZ(-6px); }
+.lb3d-edge::before { content: ""; transform: translateZ(-6px); }
+.lb3d-edge::after { content: ""; transform: translateZ(-12px); filter: brightness(0.6); }
+
+/* the parts lift off the face at their own depth */
+.lb3d-tilt .lb-cung { translate: 0 0 26px; transition: translate 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s, border-color 0.3s; }
+.lb3d-tilt .lb-cung:hover, .lb3d-tilt .lb-cung.is-chon { translate: 0 0 42px; }
+.lb3d-tilt .lb-cung .thCard { box-shadow: 0 10px 14px -6px rgba(5, 10, 20, 0.7); }
+.lb3d-tilt .lb-heart { transform: translate(-50%, -50%) translateZ(54px); }
+.lb3d-tilt .lb-heart img { filter: drop-shadow(0 16px 14px rgba(5, 10, 20, 0.65)); }
+
+/* light catching the steel, where the tilt puts it */
+.lb3d-spec { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; transform: translateZ(1px); mix-blend-mode: screen;
+  background: radial-gradient(circle at var(--lx) var(--ly), rgba(214, 228, 245, 0.32), rgba(214, 228, 245, 0.06) 28%, transparent 55%); }
+
+.lb3d-shadow { position: absolute; left: 50%; bottom: 18px; width: min(80%, 470px); height: 46px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(12, 20, 34, 0.45), transparent); filter: blur(6px); pointer-events: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lb3d-tilt .lb-cung { transition: none; }
+}
