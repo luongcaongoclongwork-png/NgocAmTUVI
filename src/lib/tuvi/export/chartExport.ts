@@ -60,5 +60,8 @@ export async function exportChartAsPdf(printPageNode: HTMLElement, filename: str
 
   const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 210, 297);
+  // Ask PDF readers to print at actual size, not "fit to printable area" (which shrinks the sheet a few percent and
+  // makes the printed PDF smaller than the same chart printed straight from /la-so/print).
+  pdf.viewerPreferences({ PrintScaling: "None" });
   pdf.save(filename);
 }
