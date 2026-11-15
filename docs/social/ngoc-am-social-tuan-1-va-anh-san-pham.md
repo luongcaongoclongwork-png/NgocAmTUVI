@@ -101,3 +101,54 @@ Kết video: "Mỗi vòng Ngọc Âm đều có giấy kiểm định *(chỉ n�
 - https://www.canva.com/d/Bcfig8q3ARRd_97
 
 Chọn 1 phương án làm mẫu chung: thay chữ tiêu đề và ảnh vòng theo từng mệnh. Logo Ngọc Âm cần tự chèn đúng file gốc.
+
+---
+
+# PHẦN 2: Soát page Facebook thật (theo ảnh chụp màn hình ngày 15/11/2026)
+
+## 1. Hồ sơ page: 6 việc cần sửa ngay
+| Vấn đề | Sửa thành |
+|---|---|
+| Ảnh bìa nền đỏ hồng tím, logo bạc: lệch hẳn tông nâu–be của web | Bìa tông nâu–be có ảnh vòng thật trên khay bát quái gỗ, kèm câu "Vòng chọn theo bản mệnh" |
+| Facebook liên kết Instagram **@trangsucngocam**, trong khi tài khoản đưa cho tôi là **@ngocam_tuviphongthuy** | Chọn 1 tài khoản chính, sửa liên kết, tài khoản còn lại chuyển hướng người xem sang tài khoản chính |
+| Đang hiện "Chuyển sang Trang để bắt đầu quản lý": đang dùng bằng hồ sơ cá nhân | Chuyển sang Trang để dùng Meta Business Suite, xem Insights, chạy quảng cáo và cài trả lời tự động |
+| Chỉ có 1 đánh giá | Xin đánh giá từ khách cũ: những khách đã nhắn ảnh cảm ơn chính là nguồn |
+| Phần giới thiệu ghi "Sáng tạo nội dung", nghe như cá nhân làm nội dung | Đổi danh mục thành "Cửa hàng trang sức". Phần giới thiệu ghi: "Ngọc & vòng phong thuỷ chọn theo bản mệnh · Tư vấn tử vi miễn phí · Cửa hàng tại Thái Nguyên" |
+| Dùng chung một trang cho cả trà, tháp năng lượng, vòng và tranh AI | Ghim 3 bài lên đầu: bài bán vòng chủ lực, bài feedback khách, bài hướng dẫn chọn theo mệnh |
+
+## 2. Ảnh: cái gì đang tốt, cái gì nên bỏ
+**Đang tốt, giữ và làm nhiều hơn:**
+- Ảnh tay cầm vòng thật, ảnh khách đeo vòng ngoài trời có hoa giấy hồng: chân thật, có cảm xúc.
+- **Khay gỗ bát quái**: đạo cụ rất riêng, nên biến thành "dấu hiệu nhận diện" của Ngọc Âm.
+- Ảnh chụp tin nhắn khách khen: bằng chứng niềm tin mạnh nhất, hiện chưa được khai thác.
+- Ảnh soi đèn pin vào ngọc: chứng minh hàng thật.
+- Ảnh cầm vòng trước mặt tiền cửa hàng: cho thấy có cửa hàng thật.
+
+**Nên bỏ, hoặc dùng ChatGPT đổi nền:**
+- Nền vải đỏ chói, nền đen bóng, tường gạch, táp-lô ô tô: lưới ảnh trông lộn xộn và rẻ hơn giá trị thật của hàng.
+- Thẻ thông tin nửa trên ảnh, nửa dưới chữ nhỏ trên nền trắng (chỉ đỏ, charm hồ lô…): chữ không đọc được trên điện thoại. Nên chuyển phần chữ xuống caption hoặc thành carousel.
+- Tranh AI đầy chữ (Mừng Trung Thu, 8/3, "Nhất mệnh nhì vận"): đẹp nhưng không bán được hàng. Mỗi tuần tối đa 1 tranh, và trong tranh phải có sản phẩm.
+- Tháp năng lượng và trà ủ lạnh: nên để sang Instagram hoặc Story, hoặc gom thành một chuyên mục riêng, để page tập trung vào vòng.
+
+## 3. Hàng đang có trong ảnh: gom thành 6 dòng để bán hàng tồn
+| Dòng | Sản phẩm nhìn thấy trong ảnh | Tên gợi ý | Khách hướng tới |
+|---|---|---|---|
+| A | Vòng ngọc bản tròn: xanh hoa nổi, tím lavender, trắng băng, xanh lam ngọc | **Ngọc Âm Bản Mệnh** | Nữ 30–50, mua cho mình hoặc biếu mẹ |
+| B | Vòng chỉ đỏ hoặc chỉ đen có ngọc bình an khấu, charm đồng xu, hồ lô | **Vòng Bình An / Vòng Khởi Tài** | Quà tặng giá mềm, người trẻ |
+| C | Vòng hạt ngọc trắng, chuỗi hạt xanh đậm | **Chuỗi Tịnh Tâm** | Nam và nữ, đeo hằng ngày |
+| D | Chuỗi thạch anh vàng quấn nhiều vòng, có hạt xanh | **Chuỗi Chiêu Tài** | Người buôn bán |
+| E | Vòng cáp thép có ống đá xanh hoặc xám | **Dòng Hiện Đại** | Dân văn phòng, nam giới |
+| F | Nhẫn bạc và vàng mặt đá xanh, mặt vàng | **Nhẫn Bản Mệnh** | Quà cưới, quà kỷ niệm |
+
+## 4. Prompt ChatGPT cho từng dòng (dán sau đoạn "GIỮ NGUYÊN 100%" ở mục B)
+- **A, vòng ngọc bản:** "Đặt vòng trên khay gỗ bát quái màu sáng, khay đặt trên khăn lụa nâu, nắng sớm chiếu xuyên qua ngọc thấy rõ vân hoa. Ảnh thứ hai: cổ tay phụ nữ áo dài lụa be đeo đúng chiếc vòng này, tay cầm chén trà men trắng. Khung 4:5."
+- **B, vòng chỉ đỏ bình an khấu:** "Vòng đặt trên giấy dó màu be cạnh bao lì xì đỏ và cành đào nhỏ, chụp từ trên xuống, không khí Tết 2027 ấm áp. Ảnh thứ hai: vòng đeo trên tay đang mở hộp quà gỗ."
+- **C, chuỗi hạt:** "Chuỗi hạt quấn quanh khay bát quái, bên cạnh có nén trầm đang toả khói mảnh, nền gỗ tối, ánh sáng một bên mềm, không khí tĩnh lặng."
+- **D, chuỗi thạch anh vàng:** "Chuỗi đặt cạnh bàn tính gỗ cổ và sổ thu chi, ánh nắng vàng chiều, tạo cảm giác may mắn trong buôn bán."
+- **E, vòng cáp thép:** "Cổ tay nam áo sơ mi trắng, đồng hồ dây da, đặt trên bàn làm việc gỗ có laptop mờ phía sau, tông nâu–be trung tính."
+- **F, nhẫn:** "Nhẫn trong hộp gỗ óc chó mở nắp, lót nhung nâu, thêm một cánh hoa giấy hồng, macro thật cận vào viên đá."
+
+**Kiểm tra trước khi đăng:** đặt ảnh ChatGPT cạnh ảnh gốc, so màu ngọc, số hạt và kiểu charm. Sai một chi tiết là không đăng. Ghi rõ trên caption: "Ảnh minh hoạ bối cảnh, sản phẩm thật như video kèm theo". Mỗi ảnh AI đi kèm 1 video quay thật.
+
+## 5. Lưới Instagram mới (xoay vòng mỗi 3 bài)
+Ảnh sản phẩm trên khay bát quái → ảnh vòng đeo trên tay → carousel kiến thức hoặc feedback. Cả 3 dùng chung tông nâu–be, logo nhỏ ở cùng một góc.
