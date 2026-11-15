@@ -1,0 +1,103 @@
+# Ngọc Âm: Bài tuần 1 và cách làm lại ảnh hàng tồn
+
+## A. Hàng đang có trên web
+
+Danh mục sản phẩm lấy từ `src/data/seed-products.ts`:
+
+| Nhóm | Sản phẩm | Ảnh hiện có |
+|---|---|---|
+| Ngọc Phỉ Thuý | Mặt tròn, Vòng tay, Mặt khắc chữ | 1 ảnh chung (`24-homepage-jade-still-life.webp`) |
+| Ngọc Hoà Điền | Mặt hình Như Ý, Vòng tay hạt | **Chưa có ảnh** |
+| Đá Phong Thuỷ | Vòng Thạch Anh, Trụ đá, Đá lăn | **Chưa có ảnh** |
+| Đồ Phong Thuỷ | Tỳ Hưu gỗ, Chuông gió đồng, Bình phong mini | **Chưa có ảnh** |
+
+**Nhận xét về ảnh hiện có:** ảnh đẹp, đúng tông nâu và be, trông sang. Nhưng đây là ảnh tĩnh vật kiểu banner: vòng nhỏ, đặt xa và nằm chung với 2 sản phẩm khác.
+Trên mạng xã hội, ảnh này có 3 điểm yếu:
+1. Không thấy vân và độ trong của ngọc, trong khi đó là thứ khách cần xem.
+2. Không có ảnh vòng trên tay người, nên khách không hình dung được size và cảm giác khi đeo.
+3. Khung ngang 16:9 bị cắt khi đăng Instagram (khung đúng là 4:5) và Story (9:16).
+
+## B. Nguyên tắc dùng ChatGPT làm ảnh từ hàng thật
+
+> **Quy tắc vàng:** luôn đưa **ảnh chụp thật** của chiếc vòng cho ChatGPT, rồi yêu cầu nó **giữ nguyên sản phẩm, chỉ đổi bối cảnh, ánh sáng và người mẫu**. Không để AI vẽ ra chiếc vòng mới: khách nhận hàng thấy khác ảnh sẽ mất uy tín, dễ bị báo cáo, và Meta có thể gỡ quảng cáo.
+
+Cách chụp ảnh gốc bằng điện thoại để đưa cho ChatGPT:
+- Chụp cạnh cửa sổ có nắng, nền giấy trắng, chụp 3 góc (chính diện, nghiêng 45°, cận vân)
+- Chụp thêm 1 ảnh soi đèn pin để thấy độ trong của ngọc
+- Kèm thước dây hoặc đồng xu để làm mốc kích thước
+
+Đoạn mở đầu dán vào **mọi** prompt:
+```
+Đây là ảnh thật sản phẩm của tôi. GIỮ NGUYÊN 100% hình dáng, màu sắc, vân,
+độ trong, kích thước của sản phẩm — không vẽ lại, không làm đẹp hơn thật.
+Chỉ thay bối cảnh, ánh sáng, đạo cụ theo mô tả. Ảnh chân thật như chụp
+máy ảnh full-frame, ống 85mm, không có chữ, không có logo.
+```
+
+## C. 6 kiểu ảnh làm mới cho từng sản phẩm
+
+| # | Kiểu ảnh | Prompt (dán sau đoạn mở đầu) | Dùng cho |
+|---|---|---|---|
+| 1 | Cận vân ngọc | "Macro cận cảnh sản phẩm trên khay gỗ óc chó, nắng sớm xiên từ trái xuyên qua ngọc thấy rõ vân, nền mờ, khung 4:5" | Bài mở bán, ảnh bìa carousel |
+| 2 | Đeo trên tay | "Cổ tay người phụ nữ Việt khoảng 30 tuổi, áo lụa màu be, đang cầm chén trà, sản phẩm đeo tự nhiên trên tay, ánh sáng cửa sổ chiều, 4:5" | Bán vòng: kiểu ảnh **quan trọng nhất** |
+| 3 | Bàn trà cung đình | "Đặt trên khăn lụa nâu, cạnh ấm trà men lam Huế và cành mai, phong cách cung đình Nguyễn, tông nâu–be ấm" | Bài kể chuyện, ngày lễ |
+| 4 | Theo ngũ hành | Mệnh Kim: "đĩa đồng, ánh trắng bạc". Mệnh Mộc: "lá xanh, gỗ". Thủy: "mặt nước gợn, đá cuội đen". Hỏa: "nến, ánh đỏ cam". Thổ: "đất nung, gốm" | Chuỗi bài "Mệnh X hợp đá gì" |
+| 5 | Hộp quà | "Hộp gỗ mở nắp lót lụa đỏ đô, thiệp viết tay, dây gai, góc nhìn từ trên xuống" | Quà tặng, Tết 2027 |
+| 6 | Dọc 9:16 cho Story/Reels | Prompt kiểu 1 hoặc 2, đổi khung thành "9:16, để trống 1/3 phía trên để chèn chữ" | Story, ảnh mở đầu Reels |
+
+**Gợi ý cho từng nhóm hàng tồn:**
+- **Vòng Phỉ Thuý:** kiểu 1, 2 và 4. Giữ màu thật của vòng, không để AI tô xanh đậm hơn.
+- **Vòng Hoà Điền:** kiểu 2 (tay nam) và 5. Ý chính: "vật truyền đời".
+- **Vòng Thạch Anh:** kiểu 4. Mỗi màu đá ứng với một mệnh, đủ cho 5 bài.
+- **Mặt khắc chữ:** kiểu 1 thật cận vào nét khắc, kèm 1 bài "Bạn sẽ khắc chữ gì?"
+- **Tỳ Hưu, chuông gió, bình phong:** đặt vào góc phòng khách hoặc cửa chính thật, kèm hướng dẫn vị trí đặt.
+
+**Để lô hàng tồn bán chạy hơn:** gom thành bộ có tên, ví dụ "Bộ Bình An" (vòng và thẻ ý nghĩa), "Bộ Khai Xuân 2027" (vòng và Tỳ Hưu mini). Thêm tư vấn mệnh miễn phí. Ưu đãi có hạn theo ngày rằm hoặc mùng 1.
+
+## D. Bài viết tuần 1 (sẵn sàng đăng)
+
+### Ngày 1: Ra mắt (Reels quay tay chọn vòng, đặt lên lá số)
+Mỗi chiếc vòng ở Ngọc Âm không bắt đầu từ kệ hàng, mà từ lá số của bạn.
+Trước khi trao vòng, Ngọc Âm xem bản mệnh và điều bạn đang cần lúc này (bình an, công danh hay gia đạo) rồi mới chọn chất ngọc, màu đá cho hợp.
+Bình luận **năm sinh** của bạn, Ngọc Âm gửi gợi ý màu đá hợp mệnh qua tin nhắn.
+#ngocam #vongphongthuy #ngocphithuy #tuviphongthuy
+
+### Ngày 2: 5 sai lầm khi chọn vòng (carousel 6 trang)
+1. Chọn theo màu mình thích mà không xét bản mệnh
+2. Đeo vòng quá chật hoặc quá lỏng
+3. Đeo khi tắm hoặc xịt nước hoa trực tiếp lên vòng
+4. Mua đá nhuộm màu vì giá rẻ
+5. Nghĩ rằng đeo vòng là thay được mọi nỗ lực
+
+Trang cuối: "Vòng là điểm tựa tinh thần, còn con đường là của bạn. Inbox để được xem mệnh miễn phí."
+
+### Ngày 3: Mệnh Kim hợp đá gì? (carousel, dùng mẫu Canva)
+**Hợp:** trắng, bạc, xám (bản mệnh); vàng, nâu đất (Thổ sinh Kim).
+**Nên tránh:** đỏ, hồng, tím (Hỏa khắc Kim).
+**Gợi ý:** Thạch Anh trắng, Phỉ Thuý tông sáng, Hoà Điền trắng.
+Bạn mệnh Kim? Thả "Kim" xuống bình luận để nhận ảnh thật 3 mẫu hợp mệnh.
+
+### Ngày 4: Câu chuyện khách hàng (chỉ dùng chuyện có thật, phải xin phép khách)
+"Chị H. tìm đến Ngọc Âm vào một năm nhiều xáo trộn…" Kể theo 3 phần: vấn đề, quá trình tư vấn, cảm nhận. Kèm ảnh tay khách đeo vòng.
+
+### Ngày 5: Mệnh Mộc (Reels 20 giây)
+Câu móc: "Sinh năm 1980, 1981, 1988, 1989? Đây là màu đá của bạn."
+**Hợp:** xanh lá (bản mệnh), xanh dương và đen (Thủy sinh Mộc).
+**Nên tránh:** trắng, bạc (Kim khắc Mộc). Gợi ý: Phỉ Thuý xanh.
+*Lưu ý: trước khi đăng, nhờ thầy soát lại danh sách năm sinh theo mệnh.*
+
+### Ngày 6: Đá thật hay giả? (Reels)
+Ba cách thử tại nhà: soi đèn xem vân tự nhiên không đều, cầm thấy mát tay lâu, gõ nhẹ nghe tiếng trong.
+Kết video: "Mỗi vòng Ngọc Âm đều có giấy kiểm định *(chỉ nói câu này nếu Ngọc Âm có giấy thật)*."
+
+### Ngày 7: Livestream (bài báo trước, đăng từ ngày 5)
+"20h tối Chủ nhật: Thầy Tịnh xem mệnh trực tiếp. 10 người bình luận đầu được chọn vòng hợp mệnh, kèm ưu đãi riêng cho người xem live."
+
+## E. Mẫu thiết kế trên Canva
+Đã tạo 4 phương án cho bìa carousel "Mệnh … hợp đá gì?" (khung 4:5, tông nâu–be–vàng đồng, mây Đôn Hoàng):
+- https://www.canva.com/d/GGFdm7cvmoSOYtZ
+- https://www.canva.com/d/daeIFCNqOg0bw7T
+- https://www.canva.com/d/J39bJmUM8ueueno
+- https://www.canva.com/d/Bcfig8q3ARRd_97
+
+Chọn 1 phương án làm mẫu chung: thay chữ tiêu đề và ảnh vòng theo từng mệnh. Logo Ngọc Âm cần tự chèn đúng file gốc.
