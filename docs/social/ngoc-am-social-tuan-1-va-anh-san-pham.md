@@ -152,3 +152,68 @@ Chọn 1 phương án làm mẫu chung: thay chữ tiêu đề và ảnh vòng t
 
 ## 5. Lưới Instagram mới (xoay vòng mỗi 3 bài)
 Ảnh sản phẩm trên khay bát quái → ảnh vòng đeo trên tay → carousel kiến thức hoặc feedback. Cả 3 dùng chung tông nâu–be, logo nhỏ ở cùng một góc.
+
+---
+
+# PHẦN 3: 5 ảnh vòng gốc (gửi ngày 16/11/2026)
+
+## Đặt mã từng vòng
+| Mã | Ảnh gốc | Đặc điểm nhìn thấy | Tên bán hàng gợi ý |
+|---|---|---|---|
+| V1 | Ảnh 1 và 3 (có thể cùng 1 vòng, cần kiểm tra lại) | Nền xanh xám hơi trong, đốm xanh rêu đậm rải rác, có vệt nâu nhỏ, bản dày | **"Sơn Thuỷ Mặc"**: vân như tranh thuỷ mặc |
+| V2 | Ảnh 2 | Nền trắng sữa xen xanh xám, vân rêu đen xanh đậm và rõ nét | **"Tuyết Tùng"**: tuyết trắng, cành tùng xanh |
+| V3 | Ảnh 4 | Xanh lam ngả xám đều màu, hơi trong, có nhãn mã bên trong | **"Thanh Thuỷ"**: nước xanh lặng |
+| V4 | Ảnh 5 | Trắng ngà ánh lavender nhạt, bản tròn, mịn | **"Nguyệt Bạch"**: ánh trăng |
+
+**Tài sản lớn nhất nằm ngay trong ảnh 2:** góc trái có **phiếu kiểm định ghi "A货"**, tức ngọc tự nhiên loại A, không tẩm không nhuộm. Hãy chụp riêng phiếu đó cạnh từng vòng. Chỉ ghi "ngọc A, có kiểm định" cho vòng nào có phiếu khớp **đúng mã**.
+
+## Vì sao ảnh gốc chưa bán được hàng
+- **Túi nilon bóng loáng:** loá sáng chồng lên ngọc và che mất vân. Nên lấy vòng ra khỏi túi khi chụp.
+- **Bàn bừa bộn:** khay charm vàng, dao, giấy tờ, lọ hạt khiến người xem không biết nhìn vào đâu.
+- **Ánh sáng đèn trần hơi xanh:** ngọc trông xám và "đục" hơn thực tế.
+- **Chưa có ảnh đeo trên tay:** khách không biết vòng to nhỏ thế nào.
+
+## Chụp lại trong 10 phút (ảnh tốt để đưa ChatGPT)
+1. Lấy vòng ra khỏi túi, lau sạch, **gỡ nhãn mã** dán bên trong (hoặc xoay nhãn ra phía sau).
+2. Đặt lên **khay gỗ bát quái**, gần cửa sổ có nắng, tắt đèn trần.
+3. Chụp 4 ảnh cho mỗi vòng:
+   - Chụp từ trên xuống
+   - Chụp nghiêng 45°
+   - **Soi đèn pin từ dưới lên** để thấy độ trong
+   - Đeo trên tay
+4. Quay thêm 10 giây xoay vòng dưới nắng (dùng làm Reels).
+5. Đo và ghi lại **ni tay** (đường kính trong), bản rộng, độ dày.
+
+## Prompt ChatGPT
+
+**Bước bắt buộc:** dùng chế độ **sửa ảnh**: đưa ảnh vào, rồi dùng công cụ chọn vùng (Select) tô phần **nền**, không tô lên vòng. Viết prompt để AI chỉ thay nền. Nếu để ChatGPT vẽ lại cả ảnh, nó sẽ **vẽ sai vân ngọc**. Mỗi chiếc ngọc chỉ có một kiểu vân, sai vân là khách nhận thấy ngay.
+
+**Đoạn mở đầu cho mọi prompt:**
+```
+Chỉnh sửa ảnh này. GIỮ NGUYÊN TUYỆT ĐỐI chiếc vòng ngọc: hình dáng, độ dày,
+màu, từng đốm vân, độ trong, sợi chỉ đỏ. Không làm vòng xanh hơn, không làm
+mịn vân. Chỉ thay toàn bộ phần nền và ánh sáng xung quanh. Bỏ túi nilon.
+Ảnh chân thật như chụp máy ảnh, khung 4:5, không chữ, không logo.
+```
+
+**V1 "Sơn Thuỷ Mặc":** `…Đặt vòng trên giấy dó màu ngà, bên cạnh có nghiên mực, cây bút lông và một góc tranh thuỷ mặc núi mờ. Nắng sớm xiên từ trái, bóng đổ mềm. Tông nâu–be ấm.`
+
+**V2 "Tuyết Tùng":** `…Đặt vòng trên phiến đá xám nhạt, cạnh một nhánh tùng nhỏ và chén trà men trắng, ánh sáng trắng dịu như sáng mùa đông, nền gỗ tối mờ phía sau.`
+
+**V3 "Thanh Thuỷ":** `…Đặt vòng trên khay gỗ bát quái màu sáng, khay đặt trên khăn lụa màu be, có vài viên sỏi trắng và một bát nước nhỏ phản chiếu ánh sáng. Ánh sáng tự nhiên mát.`
+
+**V4 "Nguyệt Bạch":** `…Đặt vòng trên khăn lụa màu kem, ánh sáng chiều vàng dịu, bên cạnh có một cành hoa sen trắng và chiếc quạt giấy. Giữ đúng ánh lavender rất nhạt của vòng, không thêm màu.`
+
+**Ảnh đeo trên tay (dùng cho mọi vòng):** nên **chụp tay thật** rồi nhờ ChatGPT chỉ thay nền:
+`…Giữ nguyên bàn tay và chiếc vòng. Thay nền thành người phụ nữ mặc áo dài lụa màu be ngồi bên bàn trà gỗ, nền mờ, ánh sáng cửa sổ.`
+Không để AI tạo tay đeo vòng từ đầu: nó sẽ đổi kích cỡ và vân của vòng.
+
+## Caption mẫu (V2, các vòng khác thay tên và ý nghĩa tương ứng)
+> **TUYẾT TÙNG**: tuyết trắng giữ dáng tùng xanh.
+> Nền ngọc trắng sữa, vân rêu xanh đậm chạy như cành tùng giữa tuyết. Chỉ có **duy nhất một chiếc**, không có chiếc thứ hai cùng vân.
+> 🔹 Ngọc Phỉ Thuý loại A (kèm phiếu kiểm định) · Ni [__] · Bản [__] mm
+> 🔹 Màu trắng–xanh hợp mệnh Kim và mệnh Mộc *(thầy kiểm tra lại)*
+> 🔹 Tặng kèm hộp gỗ, túi lụa và tư vấn bản mệnh miễn phí
+> Bình luận **"TÙNG"** hoặc nhắn tin để xem video thật dưới nắng và giá ưu đãi tháng này.
+
+**Bán hàng tồn:** mỗi vòng đăng thành một bài có chữ "chỉ một chiếc" (đúng sự thật vì vân ngọc không lặp lại). Đăng cách nhau 2 ngày. Bán xong chiếc nào thì đăng thêm 1 bài "Đã tìm được chủ", vừa tạo cảm giác khan hiếm vừa là bằng chứng có người mua.
